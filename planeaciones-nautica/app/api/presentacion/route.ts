@@ -1,16 +1,16 @@
 // Route Handler (servidor) — genera bajo demanda el guion de una presentación
-// premium con Gemini y lo devuelve como PresentacionV2 lista para el renderer.
+// premium con Claude (Anthropic) y lo devuelve como PresentacionV2 lista para
+// el renderer.
 //
 // La API key vive SOLO aquí (servidor); nunca llega al navegador. Si falla la
 // IA o falta la key, devuelve un error con código y el cliente cae al generador
 // determinista existente (construirPresentacionV2).
 //
-// Proveedor único: Gemini. El temario SIEMPRE proviene del programa oficial
-// (app/data/contenidos); la IA desarrolla, NUNCA inventa temas. La salida se
-// fuerza a JSON (responseMimeType) y se valida con Zod TOLERANTE: los bloques
-// inválidos se descartan y se conservan los válidos.
+// Proveedor: Claude (ANTHROPIC_API_KEY). El temario SIEMPRE proviene del
+// programa oficial (app/data/contenidos); la IA desarrolla, NUNCA inventa temas.
+// La salida se valida con Zod TOLERANTE: los bloques inválidos se descartan y
+// se conservan los válidos.
 
-import { GoogleGenAI } from "@google/genai";
 import {
   contenidosMaterias,
   contenidosMateriasMN,
@@ -30,19 +30,23 @@ import {
   leerCache,
   escribirCache,
 } from "../../lib/cachePresentacion";
+import {
+  MODELO_CLAUDE,
+  tieneClaveAnthropic,
+  generarTextoClaude,
+  extraerJSON,
+} from "../../lib/claudeIA";
 import type { DiapositivaV2, PresentacionV2 } from "../../data/presentaciones/tiposV2";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-// gemini-2.5-pro puede tardar en generar un deck completo. Damos holgura
+// Claude puede tardar en generar un deck completo. Damos holgura
 // (requiere plan Pro en Vercel; en Hobby se limita a 60).
 export const maxDuration = 300;
 
-// Modelo dedicado a presentaciones (máxima calidad). Planeaciones F-32 usa
-// GEMINI_MODEL (flash) por separado; aquí preferimos pro.
-const MODELO =
-  process.env.GEMINI_MODEL_PRESENTACIONES || "gemini-2.5-pro";
-const TIMEOUT_MS = 120000;
+// Modelo dedicado a presentaciones. Se resuelve en app/lib/claudeIA.ts.
+const MODELO = MODELO_CLAUDE;
+const TIMEOUT_MS = 180000;
 
 type Cuerpo = {
   carrera?: "PN" | "MN";
@@ -73,25 +77,6 @@ function conTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
       },
     );
   });
-}
-
-/** Llama a Gemini forzando salida JSON. Devuelve el texto crudo. */
-async function generarTexto(
-  client: GoogleGenAI,
-  system: string,
-  mensaje: string,
-): Promise<string> {
-  const resp = await client.models.generateContent({
-    model: MODELO,
-    contents: mensaje,
-    config: {
-      systemInstruction: system,
-      responseMimeType: "application/json",
-      temperature: 0.4,
-      maxOutputTokens: 32000,
-    },
-  });
-  return resp.text ?? "";
 }
 
 export async function POST(request: Request) {
@@ -134,8 +119,8 @@ export async function POST(request: Request) {
   }
 
   // A partir de aquí hay que generar con IA: se requiere la API key.
-  if (!process.env.GEMINI_API_KEY) {
-    return error("sin_api_key", "GEMINI_API_KEY no está configurada.", 503);
+  if (!tieneClaveAnthropic()) {
+    return error("sin_api_key", "ANTHROPIC_API_KEY no está configurada.", 503);
   }
 
   const fuente = carrera === "MN" ? contenidosMateriasMN : contenidosMaterias;
@@ -157,8 +142,6 @@ export async function POST(request: Request) {
     tema: temaCompleto,
   });
 
-  const client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
   // Hasta 2 intentos: timeout + reintento. La validación es tolerante: descarta
   // bloques inválidos y conserva los válidos (el renderer nunca recibe basura).
   let validado: PresentacionIA | null = null;
@@ -166,7 +149,7 @@ export async function POST(request: Request) {
   for (let intento = 1; intento <= 2 && !validado; intento++) {
     try {
       const texto = await conTimeout(
-        generarTexto(client, SYSTEM_PROMPT, mensajeUsuario),
+        generarTextoClaude(SYSTEM_PROMPT, mensajeUsuario),
         TIMEOUT_MS,
       );
       if (!texto.trim()) {
@@ -175,7 +158,7 @@ export async function POST(request: Request) {
       }
       let datos: unknown;
       try {
-        datos = JSON.parse(texto);
+        datos = JSON.parse(extraerJSON(texto));
       } catch {
         motivo = "json_invalido";
         continue;

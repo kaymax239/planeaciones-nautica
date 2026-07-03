@@ -1,12 +1,11 @@
-// Endpoint AISLADO — genera con Gemini el guion de una PRESENTACIÓN de clase de
-// Inglés (por nivel), espejeando las planeaciones históricas reales del nivel
-// (BibliotecaIngles.leerIndice()) + enfoque iDiscover. NUNCA usa STCW ni los
-// programas oficiales PN/MN.
+// Endpoint AISLADO — genera con Claude (Anthropic) el guion de una PRESENTACIÓN
+// de clase de Inglés (por nivel), espejeando las planeaciones históricas reales
+// del nivel (BibliotecaIngles.leerIndice()) + enfoque iDiscover. NUNCA usa STCW
+// ni los programas oficiales PN/MN.
 //
 // Devuelve una PresentacionV2 lista para el renderer cliente (pptxOficialV2).
 // La key vive SOLO aquí. No guarda archivos: se genera al hacer clic.
 
-import { GoogleGenAI } from "@google/genai";
 import {
   BibliotecaIngles,
   type EntradaIndiceIngles,
@@ -16,6 +15,11 @@ import {
   validarPresentacionTolerante,
   type PresentacionIA,
 } from "../../lib/esquemaPresentacion";
+import {
+  tieneClaveAnthropic,
+  generarTextoClaude,
+  extraerJSON,
+} from "../../lib/claudeIA";
 import type {
   DiapositivaV2,
   PresentacionV2,
@@ -25,13 +29,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
-// Modelo de presentaciones de Inglés. Por defecto flash (cuota gratuita); se
-// puede subir a pro con GEMINI_MODEL_PRESENTACIONES_INGLES si el plan lo permite.
-const MODELO =
-  process.env.GEMINI_MODEL_PRESENTACIONES_INGLES ||
-  process.env.GEMINI_MODEL_INGLES ||
-  "gemini-2.5-flash";
-const TIMEOUT_MS = 120000;
+const TIMEOUT_MS = 180000;
 
 const MAX_REFERENCIAS = 3;
 const MAX_CHARS_CABECERA = 12000;
@@ -174,24 +172,6 @@ ${bloques || "(sin referencias disponibles)"}
 Convierte ese contenido en diapositivas didácticas en el JSON solicitado. NO uses STCW. NO inventes temas fuera de las históricas.`;
 }
 
-async function generarTexto(
-  client: GoogleGenAI,
-  system: string,
-  mensaje: string,
-): Promise<string> {
-  const resp = await client.models.generateContent({
-    model: MODELO,
-    contents: mensaje,
-    config: {
-      systemInstruction: system,
-      responseMimeType: "application/json",
-      temperature: 0.6,
-      maxOutputTokens: 32000,
-    },
-  });
-  return resp.text ?? "";
-}
-
 export async function POST(request: Request) {
   let cuerpo: Cuerpo;
   try {
@@ -224,19 +204,18 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!process.env.GEMINI_API_KEY) {
-    return error("sin_api_key", "GEMINI_API_KEY no está configurada.", 503);
+  if (!tieneClaveAnthropic()) {
+    return error("sin_api_key", "ANTHROPIC_API_KEY no está configurada.", 503);
   }
 
   const mensajeUsuario = construirMensajeUsuario(nivel, tema, referencias);
-  const client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
   let validado: PresentacionIA | null = null;
   let motivo = "fallo_ia";
   for (let intento = 1; intento <= 2 && !validado; intento++) {
     try {
       const texto = await conTimeout(
-        generarTexto(client, SYSTEM_PROMPT, mensajeUsuario),
+        generarTextoClaude(SYSTEM_PROMPT, mensajeUsuario),
         TIMEOUT_MS,
       );
       if (!texto.trim()) {
@@ -245,7 +224,7 @@ export async function POST(request: Request) {
       }
       let datos: unknown;
       try {
-        datos = JSON.parse(texto);
+        datos = JSON.parse(extraerJSON(texto));
       } catch {
         motivo = "json_invalido";
         continue;

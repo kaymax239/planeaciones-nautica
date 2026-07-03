@@ -17,6 +17,12 @@ import { saveAs } from "file-saver";
 import { construirDatosF32DesdeIngles } from "../lib/planeacionInglesF32.js";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "../lib/avanceF51";
 import { generarPresentacionOficialV2 } from "../lib/pptxOficialV2";
+import {
+  construirDatosExamen,
+  nombreArchivoSeguro,
+  type SemanaMateria,
+} from "../lib/examen";
+import { textoPonderacionEvaluacion } from "../data/evaluacion";
 import type { PresentacionV2 } from "../data/presentaciones/tiposV2";
 
 type Props = {
@@ -141,6 +147,7 @@ export function SeccionIngles({ onVolver }: Props) {
 
   // Estado de la generación.
   const [generando, setGenerando] = useState(false);
+  const [generandoExamen, setGenerandoExamen] = useState(false);
   const [mensaje, setMensaje] = useState<{
     tipo: "exito" | "error";
     texto: string;
@@ -396,6 +403,123 @@ export function SeccionIngles({ onVolver }: Props) {
     }
   };
 
+  // Genera un EXAMEN (Parcial 1, Parcial 2 u Ordinario) para el nivel usando el
+  // MISMO motor de la FASE 1 (construirDatosExamen), alimentado con el índice
+  // académico de Inglés del nivel: la secuencia semanal espejada de las
+  // planeaciones históricas (igual fuente que el Avance y la Presentación).
+  // Ponderación por defecto: teórica + nuevo ingreso (uno de los 4 esquemas de
+  // puntaje de la FASE 1); Inglés es una materia teórica.
+  const generarExamenIngles = async (
+    tipo: string,
+    templatePath: string,
+    rango: { inicio: number; fin: number },
+  ) => {
+    if (!nivel) return;
+    setGenerandoExamen(true);
+    setMensaje(null);
+    try {
+      // 1. Índice académico del nivel (temario espejado de las históricas).
+      const res = await fetch("/api/planeacion-ingles", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nivel,
+          grupo,
+          semanas,
+          horasPorSemana,
+          observaciones,
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.planeacion) {
+        setMensaje({ tipo: "error", texto: mensajeAmigable(data?.error) });
+        return;
+      }
+      const secuencia = Array.isArray(data.planeacion.secuenciaSemanal)
+        ? (data.planeacion.secuenciaSemanal as Record<string, unknown>[])
+        : [];
+      const semanasExamen: SemanaMateria[] = secuencia.map((s, i) => ({
+        semana: `Semana ${Number(s?.semana) || i + 1}`,
+        tema:
+          typeof s?.contenido === "string" && s.contenido.trim()
+            ? s.contenido.trim()
+            : `Semana ${Number(s?.semana) || i + 1}`,
+      }));
+      if (semanasExamen.length === 0) {
+        setMensaje({ tipo: "error", texto: MENSAJE_BIBLIOTECA_NO_DISPONIBLE });
+        return;
+      }
+
+      const materia = `Inglés Nivel ${nivel}`;
+      const objetivoGeneral =
+        typeof data.planeacion.objetivoGeneral === "string"
+          ? data.planeacion.objetivoGeneral
+          : "";
+      // Uno de los 4 esquemas de puntaje de la FASE 1 (ver data/evaluacion.ts).
+      const ponderacion = textoPonderacionEvaluacion("teorica", "nuevo-ingreso");
+
+      // 2. Cargar la plantilla del examen. Red de seguridad: si la elegida no
+      // tiene placeholders (caso del ordinario), usa la de parcial.
+      let response = await fetch(templatePath);
+      if (!response.ok) {
+        setMensaje({ tipo: "error", texto: MENSAJE_ERROR_GENERICO });
+        return;
+      }
+      let content = await response.arrayBuffer();
+      let zip = new PizZip(content);
+      const documentXml = zip.file("word/document.xml")?.asText() || "";
+      if (!/\{[^{}]+\}/.test(documentXml)) {
+        response = await fetch("/templates/examen-parcial.docx");
+        if (!response.ok) {
+          setMensaje({ tipo: "error", texto: MENSAJE_ERROR_GENERICO });
+          return;
+        }
+        content = await response.arrayBuffer();
+        zip = new PizZip(content);
+      }
+
+      const doc = new Docxtemplater(zip, {
+        paragraphLoop: true,
+        linebreaks: true,
+      });
+      doc.render(
+        construirDatosExamen({
+          tipo,
+          materia,
+          datosMateria: {
+            semanas: semanasExamen,
+            objetivoGeneral,
+            unidad: "I",
+          },
+          docente: "",
+          grupo,
+          semestre: `Nivel ${nivel}`,
+          fecha: "",
+          periodoEscolar: "Julio-Diciembre 2026",
+          rango,
+          ponderacion,
+        }),
+      );
+
+      const blob = doc.getZip().generate({
+        type: "blob",
+        mimeType:
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      });
+      const nombreArchivo = `${nombreArchivoSeguro(tipo)}_ingles_nivel${nivel}.docx`;
+      saveAs(blob, nombreArchivo);
+
+      setMensaje({
+        tipo: "exito",
+        texto: `${tipo} generado y descargado: ${nombreArchivo}`,
+      });
+    } catch {
+      setMensaje({ tipo: "error", texto: MENSAJE_ERROR_GENERICO });
+    } finally {
+      setGenerandoExamen(false);
+    }
+  };
+
   // Abre el flujo de presentación: obtiene los temas/semanas del nivel (secuencia
   // espejada de las históricas, igual que el Avance) para ofrecerlos como
   // casillas. Sin JSON ni errores técnicos a la vista.
@@ -499,6 +623,15 @@ export function SeccionIngles({ onVolver }: Props) {
       setGenerandoPres(false);
     }
   };
+
+  // Verdadero mientras cualquier generación está en curso: bloquea los botones
+  // para evitar solicitudes simultáneas.
+  const ocupado =
+    generando ||
+    cargandoAvance ||
+    generandoPres ||
+    cargandoPresPool ||
+    generandoExamen;
 
   // ── Pantalla 1: tarjetas de niveles (como los semestres en PN/MN) ──────────
   if (!nivel) {
@@ -987,6 +1120,68 @@ export function SeccionIngles({ onVolver }: Props) {
               ? "Preparando presentación…"
               : "Generar Presentación (PowerPoint)"}
           </button>
+
+          {/* Exámenes — mismo motor de la FASE 1 (Parcial 1, Parcial 2 y
+              Ordinario), alimentado con el índice académico del nivel. */}
+          <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
+              Exámenes
+            </p>
+            <p className="mt-2 text-sm text-slate-600">
+              Genera los exámenes del nivel (Parcial 1, Parcial 2 y Ordinario)
+              con las plantillas institucionales.
+            </p>
+            <div className="mt-4 grid gap-3">
+              <button
+                type="button"
+                onClick={() =>
+                  generarExamenIngles(
+                    "Examen Parcial 1",
+                    "/templates/examen-parcial.docx",
+                    { inicio: 0, fin: 10 },
+                  )
+                }
+                disabled={ocupado}
+                className="rounded-2xl border border-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#071a33] hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Generar Examen Parcial 1
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  generarExamenIngles(
+                    "Examen Parcial 2",
+                    "/templates/examen-parcial.docx",
+                    { inicio: 10, fin: 18 },
+                  )
+                }
+                disabled={ocupado}
+                className="rounded-2xl border border-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#071a33] hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Generar Examen Parcial 2
+              </button>
+              <button
+                type="button"
+                onClick={() =>
+                  generarExamenIngles(
+                    "Examen Ordinario",
+                    "/templates/examen-ordinario.docx",
+                    { inicio: 0, fin: 18 },
+                  )
+                }
+                disabled={ocupado}
+                className="rounded-2xl border border-[#c8a45d] bg-[#fffaf0] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#c8a45d] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Generar Examen Ordinario
+              </button>
+            </div>
+            {generandoExamen && (
+              <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
+                Generando el examen… puede tardar hasta ~1 minuto. No cierres la
+                página.
+              </div>
+            )}
+          </div>
 
           {(generando || cargandoAvance || generandoPres || cargandoPresPool) && (
             <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
