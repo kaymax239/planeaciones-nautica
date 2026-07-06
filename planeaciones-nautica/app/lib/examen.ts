@@ -12,11 +12,12 @@ import {
   componerPreguntasExamen,
   fmtPuntos,
   type PreguntasExamen,
+  type PuntajeExamen,
   type SeccionesCrudas,
 } from "./puntajeExamen";
 
-// Re-exporta el tipo para que el resto del código lo siga importando desde aquí.
-export type { PreguntasExamen };
+// Re-exporta los tipos para que el resto del código los siga importando de aquí.
+export type { PreguntasExamen, PuntajeExamen };
 
 export type SemanaMateria = {
   semana: string;
@@ -139,7 +140,7 @@ export const obtenerContextoDidactico = (materia: string, tema: string) => {
 export const construirPreguntasExamen = (
   materia: string,
   temas: SemanaMateria[],
-  total?: number,
+  puntaje?: PuntajeExamen,
 ): PreguntasExamen => {
   const temasLimpios = temas.map((semana) => limpiarTema(semana.tema));
   const temasBase =
@@ -172,7 +173,7 @@ export const construirPreguntasExamen = (
     ),
   };
 
-  return componerPreguntasExamen(crudas, total);
+  return componerPreguntasExamen(crudas, puntaje);
 };
 
 export const construirDatosExamen = ({
@@ -187,7 +188,7 @@ export const construirDatosExamen = ({
   rango,
   ponderacion,
   preguntas,
-  total,
+  puntaje,
 }: {
   tipo: string;
   materia: string;
@@ -206,12 +207,11 @@ export const construirDatosExamen = ({
    */
   preguntas?: PreguntasExamen;
   /**
-   * Valor total del examen en puntos (= % de "Conocimiento" del esquema FASE 1,
-   * o el provisional de Inglés). Si se provee: agrega "Este examen vale N puntos"
-   * y reparte el total entre las 4 secciones. Si es undefined (materia sin
-   * clasificación teórica/práctica), el examen sale sin puntos.
+   * Puntaje del examen (total + puntos por sección). Si se provee: agrega
+   * "Este examen vale N puntos" y reparte el total entre las 4 secciones. Si es
+   * undefined (materia sin clasificación), el examen sale sin puntos.
    */
-  total?: number;
+  puntaje?: PuntajeExamen;
 }) => {
   const semanas = datosMateria?.semanas?.slice(rango.inicio, rango.fin) || [];
   const temasTexto = semanas
@@ -233,7 +233,7 @@ export const construirDatosExamen = ({
     preguntasFinales = preguntas;
   } else {
     try {
-      preguntasFinales = construirPreguntasExamen(materia, semanas, total);
+      preguntasFinales = construirPreguntasExamen(materia, semanas, puntaje);
     } catch (e) {
       console.warn("Puntaje de examen inválido; se genera sin puntos:", e);
       preguntasFinales = construirPreguntasExamen(materia, semanas);
@@ -262,7 +262,7 @@ export const construirDatosExamen = ({
     temasMateria: temasTexto,
     temasEvaluar: [
       temasTexto,
-      typeof total === "number" ? `Este examen vale ${fmtPuntos(total)} puntos.` : "",
+      puntaje ? `Este examen vale ${fmtPuntos(puntaje.total)} puntos.` : "",
       ponderacion,
     ]
       .filter((s) => s && s.trim().length > 0)

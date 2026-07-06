@@ -14,6 +14,7 @@ import { Type } from "@google/genai";
 import {
   componerPreguntasExamen,
   type PreguntasExamen,
+  type PuntajeExamen,
   type SeccionesCrudas,
 } from "./puntajeExamen";
 
@@ -65,7 +66,7 @@ export function tienePreguntas(datos: ExamenIA): boolean {
  */
 export function formatearPreguntasIA(
   datos: ExamenIA,
-  total?: number,
+  puntaje?: PuntajeExamen,
 ): PreguntasExamen {
   const crudas: SeccionesCrudas = {
     opcionMultiple: datos.opcionMultiple.map((r) => {
@@ -85,7 +86,7 @@ export function formatearPreguntasIA(
     preguntasAbiertas: [...datos.preguntasAbiertas],
   };
 
-  return componerPreguntasExamen(crudas, total);
+  return componerPreguntasExamen(crudas, puntaje);
 }
 
 /* ------------------------ responseSchema (Gemini) ------------------------ */

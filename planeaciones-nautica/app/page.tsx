@@ -37,7 +37,7 @@ import { SeccionIngles } from "./components/SeccionIngles";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
 import { pedirPreguntasExamenIA } from "./lib/pedirPreguntasExamen";
-import { totalExamenDesdeEsquema } from "./lib/puntajeExamen";
+import { totalExamenDesdeEsquema, resolverPuntaje } from "./lib/puntajeExamen";
 
 type SemanaMateria = {
   semana: string;
@@ -787,6 +787,12 @@ export default function Home() {
             generacionPorSemestre(semestreSeleccionado),
           )
         : undefined;
+      // Puntaje completo (total + puntos por sección) para el motor determinista.
+      const puntajeExamen = resolverPuntaje({
+        total: totalExamen,
+        ambito: carrera,
+        tipo,
+      });
 
       // Preguntas REALES por tema con IA (Gemini). Se acotan al mismo rango que
       // usa el motor y se piden al servidor; si la IA no está disponible/falla,
@@ -817,7 +823,7 @@ export default function Home() {
           rango,
           ponderacion: ponderacionExamen,
           preguntas: preguntasIA,
-          total: totalExamen,
+          puntaje: puntajeExamen,
         }),
       );
 

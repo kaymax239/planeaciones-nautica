@@ -24,6 +24,7 @@ import {
   tienePreguntas,
 } from "../../lib/esquemaExamen";
 import type { PreguntasExamen } from "../../lib/examen";
+import { resolverPuntaje } from "../../lib/puntajeExamen";
 import { claveCache, leerCache, escribirCache } from "../../lib/cacheExamen";
 
 export const runtime = "nodejs";
@@ -231,10 +232,12 @@ export async function POST(request: Request) {
         motivo = "sin_preguntas";
         continue;
       }
-      // Aplica el puntaje por sección (baked-in). Si el reparto fuera inválido
-      // (p. ej. IA devolvió una sección vacía), lanza → se reintenta/cae a
-      // fallback determinista, que sí completa las 4 secciones.
-      preguntas = formatearPreguntasIA(parsed.data, total);
+      // Aplica el puntaje por sección (baked-in). El reparto se resuelve por
+      // ámbito+tipo (Inglés usa su esquema por habilidades; PN/MN 40/20/20/20).
+      // Si fuera inválido (p. ej. IA devolvió una sección vacía), lanza → se
+      // reintenta/cae a fallback determinista, que sí completa las 4 secciones.
+      const puntaje = resolverPuntaje({ total, ambito, tipo });
+      preguntas = formatearPreguntasIA(parsed.data, puntaje);
     } catch (e) {
       motivo =
         e instanceof Error && e.message === "timeout" ? "timeout" : "fallo_ia";

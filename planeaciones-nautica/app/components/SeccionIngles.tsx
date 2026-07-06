@@ -24,8 +24,11 @@ import {
   type SemanaMateria,
 } from "../lib/examen";
 import { pedirPreguntasExamenIA } from "../lib/pedirPreguntasExamen";
-import { TOTAL_EXAMEN_INGLES_PROVISIONAL } from "../lib/puntajeExamen";
-import { textoPonderacionEvaluacion } from "../data/evaluacion";
+import {
+  totalExamenIngles,
+  esquemaInglesTexto,
+  resolverPuntaje,
+} from "../lib/puntajeExamen";
 import type { PresentacionV2 } from "../data/presentaciones/tiposV2";
 
 type Props = {
@@ -458,8 +461,10 @@ export function SeccionIngles({ onVolver }: Props) {
         typeof data.planeacion.objetivoGeneral === "string"
           ? data.planeacion.objetivoGeneral
           : "";
-      // Uno de los 4 esquemas de puntaje de la FASE 1 (ver data/evaluacion.ts).
-      const ponderacion = textoPonderacionEvaluacion("teorica", "nuevo-ingreso");
+      // Esquema oficial de Inglés por habilidades (muestra dónde encaja este
+      // examen de Gram/Vocab: 17 pts en parcial / 20 en ordinario, dentro de las
+      // 5 habilidades). Ver lib/puntajeExamen.ts → INGLES_EVALUACION.
+      const ponderacion = esquemaInglesTexto(tipo);
 
       // 2. Cargar la plantilla del examen. Red de seguridad: si la elegida no
       // tiene placeholders (caso del ordinario), usa la de parcial.
@@ -490,8 +495,13 @@ export function SeccionIngles({ onVolver }: Props) {
       // Se acotan al mismo rango que usa el motor; si la IA no está
       // disponible/falla, `preguntasIA` es undefined y se cae al banco
       // determinista. Formato Word idéntico en ambos casos.
-      // Total PROVISIONAL de Inglés (sus valores oficiales se definirán después).
-      const totalExamen = TOTAL_EXAMEN_INGLES_PROVISIONAL;
+      // Total oficial del examen Gram/Vocab: 17 (parcial) / 20 (ordinario).
+      const totalExamen = totalExamenIngles(tipo);
+      const puntajeExamen = resolverPuntaje({
+        total: totalExamen,
+        ambito: "INGLES",
+        tipo,
+      });
       const temasExamen = semanasExamen
         .slice(rango.inicio, rango.fin)
         .map((s) => limpiarTema(s.tema))
@@ -521,7 +531,7 @@ export function SeccionIngles({ onVolver }: Props) {
           rango,
           ponderacion,
           preguntas: preguntasIA,
-          total: totalExamen,
+          puntaje: puntajeExamen,
         }),
       );
 
