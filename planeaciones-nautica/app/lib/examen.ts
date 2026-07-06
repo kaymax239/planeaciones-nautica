@@ -28,6 +28,17 @@ export type RangoSemanas = {
   fin: number;
 };
 
+// Los 4 bloques de preguntas que rellenan la plantilla Word. Los produce el
+// motor determinista (construirPreguntasExamen) o, cuando hay IA disponible, el
+// formateador del banco de reactivos de Gemini (lib/esquemaExamen.ts). En ambos
+// casos son strings con el MISMO formato: la plantilla no distingue el origen.
+export type PreguntasExamen = {
+  opcionMultiple: string;
+  verdaderoFalso: string;
+  relacionarColumnas: string;
+  preguntasAbiertas: string;
+};
+
 export const limpiarTema = (tema: string) => tema.trim().replace(/\.$/, "");
 
 // Convierte los subtemas oficiales del programa en "semanas" (un subtema por
@@ -129,7 +140,7 @@ export const obtenerContextoDidactico = (materia: string, tema: string) => {
 export const construirPreguntasExamen = (
   materia: string,
   temas: SemanaMateria[],
-) => {
+): PreguntasExamen => {
   const temasLimpios = temas.map((semana) => limpiarTema(semana.tema));
   const temasBase =
     temasLimpios.length > 0
@@ -196,6 +207,7 @@ export const construirDatosExamen = ({
   periodoEscolar,
   rango,
   ponderacion,
+  preguntas,
 }: {
   tipo: string;
   materia: string;
@@ -207,6 +219,12 @@ export const construirDatosExamen = ({
   periodoEscolar: string;
   rango: RangoSemanas;
   ponderacion?: string;
+  /**
+   * Preguntas generadas por IA (Gemini). Si se proveen, se usan tal cual; si no,
+   * se cae al banco determinista (construirPreguntasExamen). El resto de los
+   * campos (temas, objetivo, ponderación) siempre es determinista.
+   */
+  preguntas?: PreguntasExamen;
 }) => {
   const semanas = datosMateria?.semanas?.slice(rango.inicio, rango.fin) || [];
   const temasTexto = semanas
@@ -221,7 +239,8 @@ export const construirDatosExamen = ({
     datosMateria?.objetivoEspecifico ||
     datosMateria?.objetivoGeneral ||
     `Evaluar los aprendizajes de ${materia}.`;
-  const preguntas = construirPreguntasExamen(materia, semanas);
+  // IA si viene; determinista si no (fallback). El formato es idéntico.
+  const preguntasFinales = preguntas ?? construirPreguntasExamen(materia, semanas);
 
   return {
     tipoExamen: tipo,
@@ -244,10 +263,10 @@ export const construirDatosExamen = ({
     temas: temasTexto,
     temasMateria: temasTexto,
     temasEvaluar: ponderacion ? `${temasTexto}\n\n${ponderacion}` : temasTexto,
-    opcionMultiple: preguntas.opcionMultiple,
-    verdaderoFalso: preguntas.verdaderoFalso,
-    relacionarColumnas: preguntas.relacionarColumnas,
-    preguntasAbiertas: preguntas.preguntasAbiertas,
+    opcionMultiple: preguntasFinales.opcionMultiple,
+    verdaderoFalso: preguntasFinales.verdaderoFalso,
+    relacionarColumnas: preguntasFinales.relacionarColumnas,
+    preguntasAbiertas: preguntasFinales.preguntasAbiertas,
     tema1: temas[0] || "",
     tema2: temas[1] || "",
     tema3: temas[2] || "",

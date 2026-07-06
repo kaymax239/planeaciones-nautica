@@ -48,6 +48,9 @@ next-env.d.ts
 # cache de guiones de presentaciones generados por IA (se regeneran)
 .presentaciones-cache
 
+# cache de bancos de preguntas de examen generados por IA (se regeneran)
+.examenes-cache
+
 # Importaciones crudas de planeaciones históricas (datos personales, ~57MB).
 # El corpus REDACTADO y derivado vive en app/data/planeaciones-historicas/.
 /importacines

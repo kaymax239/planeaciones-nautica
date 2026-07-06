@@ -36,6 +36,7 @@ import { saveAs } from "file-saver";
 import { SeccionIngles } from "./components/SeccionIngles";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
+import { pedirPreguntasExamenIA } from "./lib/pedirPreguntasExamen";
 
 type SemanaMateria = {
   semana: string;
@@ -775,6 +776,21 @@ export default function Home() {
           )
         : "";
 
+      // Preguntas REALES por tema con IA (Gemini). Se acotan al mismo rango que
+      // usa el motor y se piden al servidor; si la IA no está disponible/falla,
+      // `preguntasIA` es undefined y construirDatosExamen cae al banco
+      // determinista. El resto del examen (temas, objetivo, ponderación) es igual.
+      const temasExamen = (datosMateria?.semanas ?? [])
+        .slice(rango.inicio, rango.fin)
+        .map((s) => limpiarTema(s.tema))
+        .filter((t) => t.length > 0);
+      const preguntasIA = await pedirPreguntasExamenIA({
+        ambito: carrera,
+        materia: materiaSeleccionada,
+        tipo,
+        temas: temasExamen,
+      });
+
       doc.render(
         construirDatosExamen({
           tipo,
@@ -787,6 +803,7 @@ export default function Home() {
           periodoEscolar: periodo,
           rango,
           ponderacion: ponderacionExamen,
+          preguntas: preguntasIA,
         }),
       );
 

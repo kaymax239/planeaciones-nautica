@@ -19,9 +19,11 @@ import { construirDatosAvanceF51, periodoDesdeSemanas } from "../lib/avanceF51";
 import { generarPresentacionOficialV2 } from "../lib/pptxOficialV2";
 import {
   construirDatosExamen,
+  limpiarTema,
   nombreArchivoSeguro,
   type SemanaMateria,
 } from "../lib/examen";
+import { pedirPreguntasExamenIA } from "../lib/pedirPreguntasExamen";
 import { textoPonderacionEvaluacion } from "../data/evaluacion";
 import type { PresentacionV2 } from "../data/presentaciones/tiposV2";
 
@@ -482,6 +484,22 @@ export function SeccionIngles({ onVolver }: Props) {
         paragraphLoop: true,
         linebreaks: true,
       });
+
+      // Preguntas REALES por tema con IA (Gemini), en inglés (ámbito INGLES).
+      // Se acotan al mismo rango que usa el motor; si la IA no está
+      // disponible/falla, `preguntasIA` es undefined y se cae al banco
+      // determinista. Formato Word idéntico en ambos casos.
+      const temasExamen = semanasExamen
+        .slice(rango.inicio, rango.fin)
+        .map((s) => limpiarTema(s.tema))
+        .filter((t) => t.length > 0);
+      const preguntasIA = await pedirPreguntasExamenIA({
+        ambito: "INGLES",
+        materia,
+        tipo,
+        temas: temasExamen,
+      });
+
       doc.render(
         construirDatosExamen({
           tipo,
@@ -498,6 +516,7 @@ export function SeccionIngles({ onVolver }: Props) {
           periodoEscolar: "Julio-Diciembre 2026",
           rango,
           ponderacion,
+          preguntas: preguntasIA,
         }),
       );
 
