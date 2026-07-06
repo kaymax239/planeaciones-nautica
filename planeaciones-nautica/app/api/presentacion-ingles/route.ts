@@ -115,7 +115,8 @@ const SYSTEM_PROMPT = `Eres el MISMO docente de inglés de una escuela náutica 
 REGLAS:
 - Trabajas POR NIVEL y por ESPEJEO: temas, contenidos, actividades y orden salen de las históricas del nivel. No inventes contenido fuera de ellas.
 - Enfoque comunicativo + libro iDiscover (te doy la referencia). NO uses STCW ni programas oficiales de Piloto Naval / Máquinas Navales.
-- Explicaciones e instrucciones en español; los ejemplos del idioma en inglés (vocabulario, frases, mini-diálogos).
+- IDIOMA (regla dura): TODO el contenido visible de las diapositivas va en INGLÉS, sin excepción. Esto incluye kicker, subtítulo de portada, TÍTULOS de cada diapositiva, ENCABEZADOS/ETIQUETAS de sección (usa "AGENDA", "VOCABULARY", "GRAMMAR", "PRACTICE", "ASSESSMENT", "REVIEW", "EXAMPLES", etc., NUNCA "VOCABULARIO"/"GRAMÁTICA"/"AGENDA" en español), las EXPLICACIONES gramaticales, las DEFINICIONES, las INSTRUCCIONES de actividades y ejercicios, las notas y los ejemplos. NO escribas NADA en español: es una clase de inglés impartida íntegramente en inglés (English-only / immersion). Los nombres de campo del JSON ("titulo", "bloques", "tipo", etc.) permanecen igual; lo que va en inglés es su CONTENIDO de texto.
+- COMPLEJIDAD POR NIVEL: adapta la dificultad del inglés al nivel indicado. Nivel 1 = principiante (vocabulario básico, oraciones cortas y simples, presente simple, instrucciones muy claras y breves). Niveles intermedios = más estructuras gramaticales y vocabulario. Niveles altos = avanzado (tiempos y estructuras complejas, vocabulario rico, consignas y textos más largos). Mantén siempre la gramática correcta y natural para un hablante nativo.
 - Nada de muros de texto: prefiere tablas de vocabulario/gramática, comparaciones, mapas conceptuales, ejemplos y ejercicios.
 
 ESTRUCTURA (en orden):
@@ -169,7 +170,9 @@ Los temas, vocabulario, gramática, actividades y secuencia se TOMAN de estas pl
 
 ${bloques || "(sin referencias disponibles)"}
 
-Convierte ese contenido en diapositivas didácticas en el JSON solicitado. NO uses STCW. NO inventes temas fuera de las históricas.`;
+Convierte ese contenido en diapositivas didácticas en el JSON solicitado. NO uses STCW. NO inventes temas fuera de las históricas.
+
+RECUERDA: TODO el texto visible de las diapositivas debe estar en INGLÉS — títulos, encabezados de sección (AGENDA, VOCABULARY, GRAMMAR, PRACTICE, ASSESSMENT…), explicaciones gramaticales, instrucciones y ejemplos — con la dificultad del inglés adaptada al Nivel ${nivel}. No dejes nada en español.`;
 }
 
 export async function POST(request: Request) {
