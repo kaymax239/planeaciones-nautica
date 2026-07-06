@@ -16,10 +16,16 @@ import {
   type PresentacionIA,
 } from "../../lib/esquemaPresentacion";
 import {
+  MODELO_CLAUDE,
   tieneClaveAnthropic,
   generarTextoClaude,
   extraerJSON,
 } from "../../lib/claudeIA";
+import {
+  claveCache,
+  leerCache,
+  escribirCache,
+} from "../../lib/cachePresentacionIngles";
 import type {
   DiapositivaV2,
   PresentacionV2,
@@ -39,6 +45,8 @@ type Cuerpo = {
   nivel?: string;
   /** Opcional: enfoca la presentación en un tema/semana del nivel. */
   tema?: string;
+  /** Si es true, ignora el cache y regenera con IA. */
+  forzar?: boolean;
 };
 
 function error(
@@ -187,6 +195,20 @@ export async function POST(request: Request) {
   const tema = (cuerpo.tema ?? "").toString().trim();
   if (!nivel) return error("faltan_datos", "Se requiere el nivel.", 400);
 
+  // El temario por nivel es estable: si ya generamos este nivel/tema, lo
+  // servimos del cache (gratis, incluso sin API key). `forzar` lo regenera.
+  const claveCacheIngles = claveCache({
+    modelo: MODELO_CLAUDE,
+    nivel,
+    tema: tema || undefined,
+  });
+  if (!cuerpo.forzar) {
+    const cacheado = await leerCache(claveCacheIngles);
+    if (cacheado) {
+      return Response.json({ presentacion: cacheado, cacheado: true });
+    }
+  }
+
   const indice = await BibliotecaIngles.leerIndice();
   if (!indice || indice.documentos.length === 0) {
     return error(
@@ -263,5 +285,8 @@ export async function POST(request: Request) {
     diapositivas: validado.diapositivas as DiapositivaV2[],
   };
 
-  return Response.json({ presentacion });
+  // Guarda el guion para que este nivel/tema no se vuelva a pagar.
+  await escribirCache(claveCacheIngles, presentacion);
+
+  return Response.json({ presentacion, cacheado: false });
 }
