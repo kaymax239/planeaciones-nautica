@@ -15,6 +15,8 @@ export async function pedirPreguntasExamenIA(params: {
   materia: string;
   tipo: string;
   temas: string[];
+  /** Valor total del examen en puntos (para el puntaje por sección). */
+  total?: number;
 }): Promise<PreguntasExamen | undefined> {
   // Sin temas no hay nada que pedir: fallback directo al determinista.
   if (!params.materia || params.temas.length === 0) return undefined;

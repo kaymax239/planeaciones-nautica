@@ -37,6 +37,7 @@ import { SeccionIngles } from "./components/SeccionIngles";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
 import { pedirPreguntasExamenIA } from "./lib/pedirPreguntasExamen";
+import { totalExamenDesdeEsquema } from "./lib/puntajeExamen";
 
 type SemanaMateria = {
   semana: string;
@@ -776,6 +777,17 @@ export default function Home() {
           )
         : "";
 
+      // Valor total del examen = % de "Conocimiento" del esquema FASE 1 de la
+      // materia (mismo mapeo tipo×generación que la ponderación). Si la materia
+      // no tiene programa oficial (sin clasificación teórica/práctica), queda
+      // undefined y el examen sale sin puntos.
+      const totalExamen = esProgramaOficial(programa)
+        ? totalExamenDesdeEsquema(
+            tipoMateriaDesdePrograma(programa),
+            generacionPorSemestre(semestreSeleccionado),
+          )
+        : undefined;
+
       // Preguntas REALES por tema con IA (Gemini). Se acotan al mismo rango que
       // usa el motor y se piden al servidor; si la IA no está disponible/falla,
       // `preguntasIA` es undefined y construirDatosExamen cae al banco
@@ -789,6 +801,7 @@ export default function Home() {
         materia: materiaSeleccionada,
         tipo,
         temas: temasExamen,
+        total: totalExamen,
       });
 
       doc.render(
@@ -804,6 +817,7 @@ export default function Home() {
           rango,
           ponderacion: ponderacionExamen,
           preguntas: preguntasIA,
+          total: totalExamen,
         }),
       );
 

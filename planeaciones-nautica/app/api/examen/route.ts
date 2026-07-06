@@ -46,6 +46,8 @@ type Cuerpo = {
   tipo?: string;
   /** Temas EXACTOS a evaluar (ya acotados al rango del examen por el cliente). */
   temas?: string[];
+  /** Valor total del examen en puntos (lo calcula el cliente según el esquema). */
+  total?: number;
   forzar?: boolean;
 };
 
@@ -173,14 +175,18 @@ export async function POST(request: Request) {
         .map((t) => (typeof t === "string" ? t.trim() : ""))
         .filter((t) => t.length > 0)
     : [];
+  const total =
+    typeof cuerpo.total === "number" && cuerpo.total > 0
+      ? cuerpo.total
+      : undefined;
 
   // Sin temas o sin materia no hay nada que generar → fallback determinista.
   if (!materia || temas.length === 0) {
     return respuesta(null, { motivo: "sin_temas" });
   }
 
-  // Cache: mismo alcance (mismos temas) = mismo examen; se paga con IA una vez.
-  const clave = claveCache({ modelo: MODELO, ambito, materia, tipo, temas });
+  // Cache: mismo alcance (mismos temas) + mismo total = mismo examen.
+  const clave = claveCache({ modelo: MODELO, ambito, materia, tipo, temas, total });
   if (!cuerpo.forzar) {
     const cacheado = await leerCache(clave);
     if (cacheado) {
@@ -225,7 +231,10 @@ export async function POST(request: Request) {
         motivo = "sin_preguntas";
         continue;
       }
-      preguntas = formatearPreguntasIA(parsed.data);
+      // Aplica el puntaje por sección (baked-in). Si el reparto fuera inválido
+      // (p. ej. IA devolvió una sección vacía), lanza → se reintenta/cae a
+      // fallback determinista, que sí completa las 4 secciones.
+      preguntas = formatearPreguntasIA(parsed.data, total);
     } catch (e) {
       motivo =
         e instanceof Error && e.message === "timeout" ? "timeout" : "fallo_ia";

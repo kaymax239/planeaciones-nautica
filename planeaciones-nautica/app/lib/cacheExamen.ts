@@ -34,6 +34,8 @@ export interface DatosClaveExamen {
   tipo: string;
   /** Temas exactos a evaluar (definen el alcance real del examen). */
   temas: string[];
+  /** Valor total en puntos (define el puntaje por sección/pregunta baked-in). */
+  total?: number;
 }
 
 export function claveCache(d: DatosClaveExamen): string {
@@ -44,6 +46,7 @@ export function claveCache(d: DatosClaveExamen): string {
     d.materia,
     d.tipo,
     d.temas.map((t) => t.trim()).join("¬"),
+    d.total ?? "sin-total",
   ].join("|");
 }
 

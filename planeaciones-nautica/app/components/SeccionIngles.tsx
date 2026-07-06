@@ -24,6 +24,7 @@ import {
   type SemanaMateria,
 } from "../lib/examen";
 import { pedirPreguntasExamenIA } from "../lib/pedirPreguntasExamen";
+import { TOTAL_EXAMEN_INGLES_PROVISIONAL } from "../lib/puntajeExamen";
 import { textoPonderacionEvaluacion } from "../data/evaluacion";
 import type { PresentacionV2 } from "../data/presentaciones/tiposV2";
 
@@ -489,6 +490,8 @@ export function SeccionIngles({ onVolver }: Props) {
       // Se acotan al mismo rango que usa el motor; si la IA no está
       // disponible/falla, `preguntasIA` es undefined y se cae al banco
       // determinista. Formato Word idéntico en ambos casos.
+      // Total PROVISIONAL de Inglés (sus valores oficiales se definirán después).
+      const totalExamen = TOTAL_EXAMEN_INGLES_PROVISIONAL;
       const temasExamen = semanasExamen
         .slice(rango.inicio, rango.fin)
         .map((s) => limpiarTema(s.tema))
@@ -498,6 +501,7 @@ export function SeccionIngles({ onVolver }: Props) {
         materia,
         tipo,
         temas: temasExamen,
+        total: totalExamen,
       });
 
       doc.render(
@@ -517,6 +521,7 @@ export function SeccionIngles({ onVolver }: Props) {
           rango,
           ponderacion,
           preguntas: preguntasIA,
+          total: totalExamen,
         }),
       );
 

@@ -11,7 +11,11 @@
 
 import * as z from "zod/v4";
 import { Type } from "@google/genai";
-import type { PreguntasExamen } from "./examen";
+import {
+  componerPreguntasExamen,
+  type PreguntasExamen,
+  type SeccionesCrudas,
+} from "./puntajeExamen";
 
 /* ------------------------------ Zod (validación) ------------------------------ */
 
@@ -43,12 +47,6 @@ export const examenIASchema = z.object({
 
 export type ExamenIA = z.infer<typeof examenIASchema>;
 
-// Topes: mismos que el motor determinista para no desbordar la plantilla.
-const MAX_OM = 10;
-const MAX_VF = 8;
-const MAX_REL = 6;
-const MAX_ABIERTAS = 5;
-
 /** true si el banco trae al menos algo de contenido usable. */
 export function tienePreguntas(datos: ExamenIA): boolean {
   return (
@@ -61,53 +59,33 @@ export function tienePreguntas(datos: ExamenIA): boolean {
 
 /**
  * Convierte el banco de reactivos de la IA a los 4 strings que la plantilla Word
- * espera, con EXACTAMENTE el mismo formato que construirPreguntasExamen (para
- * que el documento salga idéntico salvo por el contenido real).
+ * espera. Arma las preguntas "crudas" y delega en componerPreguntasExamen, que
+ * numera, recorta y —si se da `total`— antepone el puntaje por sección con el
+ * MISMO formato y las MISMAS reglas que el motor determinista.
  */
-export function formatearPreguntasIA(datos: ExamenIA): PreguntasExamen {
-  const opcionMultiple = datos.opcionMultiple
-    .slice(0, MAX_OM)
-    .map((r, index) => {
+export function formatearPreguntasIA(
+  datos: ExamenIA,
+  total?: number,
+): PreguntasExamen {
+  const crudas: SeccionesCrudas = {
+    opcionMultiple: datos.opcionMultiple.map((r) => {
       const opciones = r.opciones.slice(0, 4);
-      // Rellena hasta 4 opciones si la IA devolvió menos (raro).
-      while (opciones.length < 4) opciones.push("—");
+      while (opciones.length < 4) opciones.push("—"); // rellena si vinieron <4
       const letras = ["A", "B", "C", "D"];
       const lineasOpciones = opciones
         .map((op, i) => `${letras[i]}) ${op}`)
         .join("\n");
-      return `${index + 1}. ${r.pregunta}\n${lineasOpciones}`;
-    })
-    .join("\n\n");
-
-  const verdaderoFalso = datos.verdaderoFalso
-    .slice(0, MAX_VF)
-    .map((r, index) => `${index + 1}. ${r.afirmacion} (V/F)`)
-    .join("\n");
-
-  const pares = datos.relacionarColumnas.slice(0, MAX_REL);
-  const relacionarColumnas = pares.length
-    ? [
-        "Columna A",
-        ...pares.map((p, index) => `${index + 1}. ${p.concepto}`),
-        "",
-        "Columna B",
-        ...pares.map(
-          (p, index) => `${String.fromCharCode(65 + index)}. ${p.descripcion}`,
-        ),
-      ].join("\n")
-    : "";
-
-  const preguntasAbiertas = datos.preguntasAbiertas
-    .slice(0, MAX_ABIERTAS)
-    .map((p, index) => `${index + 1}. ${p}`)
-    .join("\n");
-
-  return {
-    opcionMultiple,
-    verdaderoFalso,
-    relacionarColumnas,
-    preguntasAbiertas,
+      return `${r.pregunta}\n${lineasOpciones}`;
+    }),
+    verdaderoFalso: datos.verdaderoFalso.map((r) => `${r.afirmacion} (V/F)`),
+    relacionarColumnas: datos.relacionarColumnas.map((p) => ({
+      concepto: p.concepto,
+      descripcion: p.descripcion,
+    })),
+    preguntasAbiertas: [...datos.preguntasAbiertas],
   };
+
+  return componerPreguntasExamen(crudas, total);
 }
 
 /* ------------------------ responseSchema (Gemini) ------------------------ */

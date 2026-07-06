@@ -8,6 +8,15 @@
 // decide el esquema, solo lo coloca en la celda de temas a evaluar.
 
 import type { ProgramaOficial } from "../data/tipos";
+import {
+  componerPreguntasExamen,
+  fmtPuntos,
+  type PreguntasExamen,
+  type SeccionesCrudas,
+} from "./puntajeExamen";
+
+// Re-exporta el tipo para que el resto del código lo siga importando desde aquí.
+export type { PreguntasExamen };
 
 export type SemanaMateria = {
   semana: string;
@@ -28,16 +37,6 @@ export type RangoSemanas = {
   fin: number;
 };
 
-// Los 4 bloques de preguntas que rellenan la plantilla Word. Los produce el
-// motor determinista (construirPreguntasExamen) o, cuando hay IA disponible, el
-// formateador del banco de reactivos de Gemini (lib/esquemaExamen.ts). En ambos
-// casos son strings con el MISMO formato: la plantilla no distingue el origen.
-export type PreguntasExamen = {
-  opcionMultiple: string;
-  verdaderoFalso: string;
-  relacionarColumnas: string;
-  preguntasAbiertas: string;
-};
 
 export const limpiarTema = (tema: string) => tema.trim().replace(/\.$/, "");
 
@@ -140,6 +139,7 @@ export const obtenerContextoDidactico = (materia: string, tema: string) => {
 export const construirPreguntasExamen = (
   materia: string,
   temas: SemanaMateria[],
+  total?: number,
 ): PreguntasExamen => {
   const temasLimpios = temas.map((semana) => limpiarTema(semana.tema));
   const temasBase =
@@ -147,53 +147,32 @@ export const construirPreguntasExamen = (
       ? temasLimpios
       : [`contenidos esenciales de ${materia}`];
 
-  const opcionMultiple = temasBase
-    .slice(0, 10)
-    .map(
-      (tema, index) =>
-        `${index + 1}. ¿Cuál es la importancia de ${tema} dentro de ${materia}?\n` +
+  // Preguntas "crudas" (sin numerar); el compositor numera, recorta y —si hay
+  // total— antepone el puntaje de cada sección. Mismo texto genérico de antes.
+  const crudas: SeccionesCrudas = {
+    opcionMultiple: temasBase.map(
+      (tema) =>
+        `¿Cuál es la importancia de ${tema} dentro de ${materia}?\n` +
         `A) Permite aplicar el contenido en situaciones académicas o náuticas.\n` +
         `B) Sustituye todos los demás temas de la asignatura.\n` +
         `C) No tiene relación con la formación profesional.\n` +
         `D) Solo se utiliza para actividades administrativas.`,
-    )
-    .join("\n\n");
-
-  const verdaderoFalso = temasBase
-    .slice(0, 8)
-    .map(
-      (tema, index) =>
-        `${index + 1}. ${tema} debe analizarse considerando conceptos, procedimientos y aplicaciones propias de ${materia}. (V/F)`,
-    )
-    .join("\n");
-
-  const relacionarColumnas = [
-    "Columna A",
-    ...temasBase.slice(0, 6).map((tema, index) => `${index + 1}. ${tema}`),
-    "",
-    "Columna B",
-    ...temasBase
-      .slice(0, 6)
-      .map(
-        (tema, index) =>
-          `${String.fromCharCode(65 + index)}. Aplicación, concepto o procedimiento relacionado con ${tema}.`,
-      ),
-  ].join("\n");
-
-  const preguntasAbiertas = temasBase
-    .slice(0, 5)
-    .map(
-      (tema, index) =>
-        `${index + 1}. Explica cómo se aplica ${tema} en el contexto académico o profesional de ${materia}.`,
-    )
-    .join("\n");
-
-  return {
-    opcionMultiple,
-    verdaderoFalso,
-    relacionarColumnas,
-    preguntasAbiertas,
+    ),
+    verdaderoFalso: temasBase.map(
+      (tema) =>
+        `${tema} debe analizarse considerando conceptos, procedimientos y aplicaciones propias de ${materia}. (V/F)`,
+    ),
+    relacionarColumnas: temasBase.map((tema) => ({
+      concepto: tema,
+      descripcion: `Aplicación, concepto o procedimiento relacionado con ${tema}.`,
+    })),
+    preguntasAbiertas: temasBase.map(
+      (tema) =>
+        `Explica cómo se aplica ${tema} en el contexto académico o profesional de ${materia}.`,
+    ),
   };
+
+  return componerPreguntasExamen(crudas, total);
 };
 
 export const construirDatosExamen = ({
@@ -208,6 +187,7 @@ export const construirDatosExamen = ({
   rango,
   ponderacion,
   preguntas,
+  total,
 }: {
   tipo: string;
   materia: string;
@@ -220,11 +200,18 @@ export const construirDatosExamen = ({
   rango: RangoSemanas;
   ponderacion?: string;
   /**
-   * Preguntas generadas por IA (Gemini). Si se proveen, se usan tal cual; si no,
-   * se cae al banco determinista (construirPreguntasExamen). El resto de los
-   * campos (temas, objetivo, ponderación) siempre es determinista.
+   * Preguntas generadas por IA (Gemini). Si se proveen, se usan tal cual (ya
+   * traen el puntaje por sección); si no, se cae al banco determinista
+   * (construirPreguntasExamen), que aplica el mismo puntaje.
    */
   preguntas?: PreguntasExamen;
+  /**
+   * Valor total del examen en puntos (= % de "Conocimiento" del esquema FASE 1,
+   * o el provisional de Inglés). Si se provee: agrega "Este examen vale N puntos"
+   * y reparte el total entre las 4 secciones. Si es undefined (materia sin
+   * clasificación teórica/práctica), el examen sale sin puntos.
+   */
+  total?: number;
 }) => {
   const semanas = datosMateria?.semanas?.slice(rango.inicio, rango.fin) || [];
   const temasTexto = semanas
@@ -239,8 +226,19 @@ export const construirDatosExamen = ({
     datosMateria?.objetivoEspecifico ||
     datosMateria?.objetivoGeneral ||
     `Evaluar los aprendizajes de ${materia}.`;
-  // IA si viene; determinista si no (fallback). El formato es idéntico.
-  const preguntasFinales = preguntas ?? construirPreguntasExamen(materia, semanas);
+  // IA si viene (ya trae puntaje); determinista si no (mismo puntaje). Defensivo:
+  // si el reparto de puntos fuera inválido, se genera sin puntos antes que fallar.
+  let preguntasFinales: PreguntasExamen;
+  if (preguntas) {
+    preguntasFinales = preguntas;
+  } else {
+    try {
+      preguntasFinales = construirPreguntasExamen(materia, semanas, total);
+    } catch (e) {
+      console.warn("Puntaje de examen inválido; se genera sin puntos:", e);
+      preguntasFinales = construirPreguntasExamen(materia, semanas);
+    }
+  }
 
   return {
     tipoExamen: tipo,
@@ -262,7 +260,13 @@ export const construirDatosExamen = ({
     objetivosCompetencias: objetivo,
     temas: temasTexto,
     temasMateria: temasTexto,
-    temasEvaluar: ponderacion ? `${temasTexto}\n\n${ponderacion}` : temasTexto,
+    temasEvaluar: [
+      temasTexto,
+      typeof total === "number" ? `Este examen vale ${fmtPuntos(total)} puntos.` : "",
+      ponderacion,
+    ]
+      .filter((s) => s && s.trim().length > 0)
+      .join("\n\n"),
     opcionMultiple: preguntasFinales.opcionMultiple,
     verdaderoFalso: preguntasFinales.verdaderoFalso,
     relacionarColumnas: preguntasFinales.relacionarColumnas,
