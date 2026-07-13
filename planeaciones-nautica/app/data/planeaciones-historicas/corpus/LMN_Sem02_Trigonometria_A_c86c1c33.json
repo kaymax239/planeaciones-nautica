@@ -1,0 +1,29 @@
+{
+  "id": "Trigonometria_c86c1c33",
+  "clave": "",
+  "materia": "Trigonometria",
+  "carrera": "MN",
+  "semestre": 2,
+  "grupo": "A",
+  "periodo": "Enero-Junio 2026",
+  "lote": "enero-junio-2026",
+  "area": "basica",
+  "contenidoExtraible": false,
+  "claveCoincideConProgramaOficial": false,
+  "origen": {
+    "archivo": "plan_trigonometria8plana8y8esferica_ii_a_mn_enmt TRIGONOMETRIA II A MN.pdf",
+    "formato": "pdf",
+    "sha1": "c86c1c33da7127abfef0b8294e740447c3d4023f"
+  },
+  "datosGenerales": {},
+  "pedagogia": {
+    "competencias": [],
+    "estrategiasEnsenanza": [],
+    "tecnicasEnsenanza": [],
+    "secuenciaDidactica": "",
+    "productosEvidencias": [],
+    "instrumentosEvaluacion": []
+  },
+  "textoReferenciaRedactado": "",
+  "textoCompletoRedactado": ""
+}

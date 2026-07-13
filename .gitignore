@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Fuentes crudas de planeaciones (PII, no versionar) — el corpus derivado sí se versiona
+planeaciones-nautica/planeaciones enerojunio26/

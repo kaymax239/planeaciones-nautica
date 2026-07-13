@@ -1,0 +1,29 @@
+{
+  "id": "Resitencia-Materiales_233fdafe",
+  "clave": "",
+  "materia": "Resitencia Materiales",
+  "carrera": "PN",
+  "semestre": 4,
+  "grupo": "A",
+  "periodo": "Enero-Junio 2026",
+  "lote": "enero-junio-2026",
+  "area": "otra",
+  "contenidoExtraible": false,
+  "claveCoincideConProgramaOficial": false,
+  "origen": {
+    "archivo": "plan_resistencia8de8materiales_iv_a_pn_enmt RESITENCIA MATERIALES GRUPO IV A PN.pdf",
+    "formato": "pdf",
+    "sha1": "233fdafe9fabf89b65b395057324dd43ed9f0a67"
+  },
+  "datosGenerales": {},
+  "pedagogia": {
+    "competencias": [],
+    "estrategiasEnsenanza": [],
+    "tecnicasEnsenanza": [],
+    "secuenciaDidactica": "",
+    "productosEvidencias": [],
+    "instrumentosEvaluacion": []
+  },
+  "textoReferenciaRedactado": "",
+  "textoCompletoRedactado": ""
+}

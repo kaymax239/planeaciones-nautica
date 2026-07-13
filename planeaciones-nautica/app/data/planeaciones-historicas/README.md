@@ -4,6 +4,18 @@ Corpus **derivado y redactado** de las planeaciones didácticas reales del ciclo
 **Julio–Diciembre 2025**, para usarse **más adelante** como *referencia de estilo*
 por la integración de IA (Gemini) del botón "Generar Planeación F-32".
 
+> 🔵 **Lote adicional "enero-junio-2026" (semestres PARES 2,4,6,8).** El manifest
+> ahora incluye 112 planeaciones F-32 del ciclo **Enero–Junio 2026** (campo
+> `lote: "enero-junio-2026"`), extraídas de PDFs por
+> [`scripts/ingestar-enero-jun-2026.mjs`](../../../scripts/ingestar-enero-jun-2026.mjs).
+> Sirven de **ESPEJO** para generar el ciclo **Enero–Junio 2027**. Cada entrada
+> añade `grupo`, `periodo`, `contenidoExtraible` y un `programaEspejo` (estructura
+> tipo `ProgramaOficial`, best-effort) además de `pedagogia` y el texto redactado.
+> 7 son PDFs escaneados sin texto → solo metadatos (ver `PENDIENTES.md`).
+> Servicio de acceso: [`app/lib/bibliotecaEspejo.ts`](../../lib/bibliotecaEspejo.ts).
+> Los programas oficiales de semestres pares se generan (para revisión) con
+> [`scripts/generar-programas-pares.mjs`](../../../scripts/generar-programas-pares.mjs).
+
 > ⚠️ **Fase 0 = solo construcción de datos.** Nada de esto se consume todavía en
 > la app. No se modificó `generarWord()`, ni los programas oficiales, ni
 > `F-32.docx`, ni el flujo actual.

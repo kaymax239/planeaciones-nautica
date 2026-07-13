@@ -1,0 +1,29 @@
+{
+  "id": "Trigonmetria_5959ccbc",
+  "clave": "",
+  "materia": "Trigonmetria",
+  "carrera": "PN",
+  "semestre": 2,
+  "grupo": "A",
+  "periodo": "Enero-Junio 2026",
+  "lote": "enero-junio-2026",
+  "area": "otra",
+  "contenidoExtraible": false,
+  "claveCoincideConProgramaOficial": false,
+  "origen": {
+    "archivo": "plan_4 TRIGONMETRIA II A PN.pdf",
+    "formato": "pdf",
+    "sha1": "5959ccbcef25ec5715bab543b98f15c132800979"
+  },
+  "datosGenerales": {},
+  "pedagogia": {
+    "competencias": [],
+    "estrategiasEnsenanza": [],
+    "tecnicasEnsenanza": [],
+    "secuenciaDidactica": "",
+    "productosEvidencias": [],
+    "instrumentosEvaluacion": []
+  },
+  "textoReferenciaRedactado": "",
+  "textoCompletoRedactado": ""
+}
