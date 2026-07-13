@@ -205,6 +205,11 @@ export default function Home() {
     tipo: "exito" | "error";
     texto: string;
   } | null>(null);
+  // Pestaña activa dentro de la materia seleccionada. El formulario de datos
+  // generales queda arriba y es común a todas las pestañas.
+  const [tabMateria, setTabMateria] = useState<
+    "f32" | "f51" | "examenes" | "presentaciones"
+  >("f32");
 
   const periodo = "Julio-Diciembre 2026";
   const escuelaNautica =
@@ -258,6 +263,7 @@ export default function Home() {
     setMensajePresOficial(null);
     setAvancePaso("no");
     setSemanasAvance([]);
+    setTabMateria("f32");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [materiaSeleccionada, carrera]);
 
@@ -1013,222 +1019,41 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-            ) : avancePaso !== "no" ? (
+            ) : (
               <div className="px-6 py-8 sm:px-10">
-                <div className="mb-6 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
-                      Avance Programático F-51
-                    </p>
-                    <h2 className="mt-2 text-2xl font-black text-[#071a33]">
-                      {materiaSeleccionada}
-                    </h2>
-                    <p className="mt-1 text-sm text-slate-600">
-                      {avancePaso === "semanas"
-                        ? "Paso 1 · Selecciona las semanas (hasta 4). Los temas se toman automáticamente del programa."
-                        : "Paso 2 · Vista previa antes de generar el Word."}
-                    </p>
+                {/* Navegación entre semestres/materias */}
+                <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap gap-3">
+                    <button
+                      type="button"
+                      onClick={regresarASemestres}
+                      className="rounded-xl border border-[#071a33] px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#071a33] transition hover:bg-[#071a33] hover:text-white"
+                    >
+                      Regresar a semestres
+                    </button>
+                    <button
+                      type="button"
+                      onClick={regresarAMaterias}
+                      className="rounded-xl border border-[#c8a45d] px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#071a33] transition hover:bg-[#c8a45d]"
+                    >
+                      Regresar a materias
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={cerrarAvance}
-                    className="shrink-0 rounded-2xl border border-[#071a33] px-4 py-3 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] transition hover:bg-[#071a33] hover:text-white"
-                  >
-                    Cancelar
-                  </button>
+                  <div className="hidden rounded-2xl bg-[#071a33] px-4 py-3 text-right text-xs font-bold uppercase tracking-[0.16em] text-white sm:block">
+                    {semestreSeleccionado}
+                  </div>
                 </div>
 
-                {avancePaso === "semanas" ? (
-                  <>
-                    <div className="mb-4 flex items-center justify-between">
-                      <p className="text-sm font-bold text-[#071a33]">
-                        Semanas seleccionadas
-                      </p>
-                      <span className="rounded-full bg-[#071a33] px-3 py-1 text-xs font-black text-white">
-                        {semanasAvance.length}/4
-                      </span>
-                    </div>
-                    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-                      {semanasDisponibles.map((s) => {
-                        const activa = semanasAvance.includes(s.numero);
-                        const bloqueada = !activa && semanasAvance.length >= 4;
-                        return (
-                          <button
-                            key={s.numero}
-                            type="button"
-                            onClick={() => alternarSemanaAvance(s.numero)}
-                            disabled={bloqueada}
-                            className={`rounded-2xl border p-4 text-left shadow-sm transition disabled:cursor-not-allowed disabled:opacity-50 ${
-                              activa
-                                ? "border-[#c8a45d] bg-[#071a33] text-white"
-                                : "border-slate-200 bg-white text-[#071a33] hover:border-[#c8a45d]"
-                            }`}
-                          >
-                            <span
-                              className={`text-xs font-bold uppercase tracking-[0.16em] ${
-                                activa ? "text-[#d7bd7a]" : "text-[#c8a45d]"
-                              }`}
-                            >
-                              {activa ? "✓ Seleccionada" : "Semana"}
-                            </span>
-                            <span className="mt-1 block whitespace-pre-line text-sm font-black">
-                              {s.etiqueta}
-                            </span>
-                            <span
-                              className={`mt-2 block whitespace-pre-line text-xs ${
-                                activa ? "text-slate-200" : "text-slate-500"
-                              }`}
-                            >
-                              {s.tema}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                    <div className="mt-6 flex flex-wrap gap-3">
-                      <button
-                        type="button"
-                        onClick={() => setAvancePaso("preview")}
-                        disabled={semanasAvance.length === 0}
-                        className="rounded-2xl bg-[#c8a45d] px-6 py-3 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#d7bd7a] disabled:cursor-not-allowed disabled:opacity-60"
-                      >
-                        Continuar a vista previa
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <div className="grid gap-6 lg:grid-cols-[1fr_0.8fr]">
-                    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                      <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
-                        Temas y semanas del avance
-                      </p>
-                      <ol className="mt-4 space-y-3">
-                        {semanasDisponibles
-                          .filter((s) => semanasAvance.includes(s.numero))
-                          .sort((a, b) => a.numero - b.numero)
-                          .map((s) => (
-                            <li
-                              key={s.numero}
-                              className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
-                            >
-                              <p className="whitespace-pre-line text-sm font-black text-[#071a33]">
-                                {s.etiqueta}
-                              </p>
-                              <p className="mt-1 whitespace-pre-line text-xs text-slate-600">
-                                {s.tema}
-                              </p>
-                            </li>
-                          ))}
-                      </ol>
-                    </div>
-
-                    <div className="flex flex-col gap-6">
-                      <div className="rounded-3xl bg-[#071a33] p-6 text-white shadow-xl shadow-slate-300/60">
-                        <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7bd7a]">
-                          Datos del avance
-                        </p>
-                        <div className="mt-5 space-y-3 text-sm">
-                          <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
-                            <span className="text-slate-300">Carrera</span>
-                            <span className="text-right font-bold">
-                              {licenciatura}
-                            </span>
-                          </div>
-                          <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
-                            <span className="text-slate-300">Semestre</span>
-                            <span className="font-bold">
-                              {semestreSeleccionado}
-                            </span>
-                          </div>
-                          <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
-                            <span className="text-slate-300">Docente</span>
-                            <span className="text-right font-bold">
-                              {docente || "Por definir"}
-                            </span>
-                          </div>
-                          <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
-                            <span className="text-slate-300">Grupo</span>
-                            <span className="font-bold">
-                              {grupo || "Por definir"}
-                            </span>
-                          </div>
-                          <div className="flex justify-between gap-4">
-                            <span className="text-slate-300">Periodo</span>
-                            <span className="text-right font-bold">
-                              {periodoDesdeSemanas(semanasAvance)
-                                .periodoReportado || "—"}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-wrap gap-3">
-                        <button
-                          type="button"
-                          onClick={() => setAvancePaso("semanas")}
-                          className="rounded-2xl border border-[#071a33] px-5 py-3 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] transition hover:bg-[#071a33] hover:text-white"
-                        >
-                          Regresar a semanas
-                        </button>
-                        <button
-                          type="button"
-                          onClick={generarAvanceProgramatico}
-                          className="rounded-2xl bg-[#c8a45d] px-6 py-3 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a]"
-                        >
-                          Generar avance en Word
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {mensajePlaneacion && (
-                  <div
-                    role="alert"
-                    className={`mt-6 rounded-2xl border px-5 py-4 text-sm font-semibold ${
-                      mensajePlaneacion.tipo === "exito"
-                        ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                        : "border-red-200 bg-red-50 text-red-800"
-                    }`}
-                  >
-                    {mensajePlaneacion.texto}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="grid gap-8 px-6 py-8 sm:px-10 lg:grid-cols-[1.05fr_0.95fr]">
+                {/* Datos generales de la portada — comunes a todas las pestañas */}
                 <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-                  <div className="mb-6 flex items-start justify-between gap-4 border-b border-slate-200 pb-5">
-                    <div>
-                      <div className="mb-4 flex flex-wrap gap-3">
-                        <button
-                          type="button"
-                          onClick={regresarASemestres}
-                          className="rounded-xl border border-[#071a33] px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#071a33] transition hover:bg-[#071a33] hover:text-white"
-                        >
-                          Regresar a semestres
-                        </button>
-                        <button
-                          type="button"
-                          onClick={regresarAMaterias}
-                          className="rounded-xl border border-[#c8a45d] px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-[#071a33] transition hover:bg-[#c8a45d]"
-                        >
-                          Regresar a materias
-                        </button>
-                      </div>
-                      <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
-                        Paso 3 · Formato F-32
-                      </p>
-                      <h2 className="mt-2 text-2xl font-black text-[#071a33]">
-                        Datos generales de la portada
-                      </h2>
-                    </div>
-                    <div className="hidden rounded-2xl bg-[#071a33] px-4 py-3 text-right text-xs font-bold uppercase tracking-[0.16em] text-white sm:block">
-                      {semestreSeleccionado}
-                    </div>
-                  </div>
+                  <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
+                    Formato F-32 · {materiaSeleccionada}
+                  </p>
+                  <h2 className="mt-2 text-2xl font-black text-[#071a33]">
+                    Datos generales de la portada
+                  </h2>
 
-                  <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                  <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
                     <label className="md:col-span-2">
                       <span className={labelClass}>Nombre del docente</span>
                       <input
@@ -1270,11 +1095,7 @@ export default function Home() {
 
                     <label>
                       <span className={labelClass}>Periodo escolar</span>
-                      <input
-                        className={readOnlyClass}
-                        value={periodo}
-                        readOnly
-                      />
+                      <input className={readOnlyClass} value={periodo} readOnly />
                     </label>
 
                     <label>
@@ -1298,256 +1119,472 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-6">
-                  <div className="rounded-3xl bg-[#071a33] p-6 text-white shadow-xl shadow-slate-300/60">
-                    <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7bd7a]">
-                      Vista institucional
-                    </p>
-                    <h3 className="mt-3 text-2xl font-black leading-tight">
-                      {materiaSeleccionada}
-                    </h3>
-                    <div className="mt-6 space-y-4 rounded-2xl border border-white/15 bg-white/10 p-5">
-                      <div className="flex justify-between gap-4 border-b border-white/10 pb-3 text-sm">
-                        <span className="text-slate-300">Docente</span>
-                        <span className="font-bold text-right">
-                          {docente || "Por definir"}
-                        </span>
-                      </div>
-                      <div className="flex justify-between gap-4 border-b border-white/10 pb-3 text-sm">
-                        <span className="text-slate-300">Grupo</span>
-                        <span className="font-bold">{grupo || "Por definir"}</span>
-                      </div>
-                      <div className="flex justify-between gap-4 border-b border-white/10 pb-3 text-sm">
-                        <span className="text-slate-300">Cadetes</span>
-                        <span className="font-bold">
-                          {cadetes || "Por definir"}
-                        </span>
-                      </div>
-                      <div className="flex justify-between gap-4 text-sm">
-                        <span className="text-slate-300">Periodo</span>
-                        <span className="font-bold">{periodo}</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <input
-                      className={readOnlyClass}
-                      value={`Horas/semana: ${horasMateria?.porSemana ?? horasPorSemana}`}
-                      readOnly
-                    />
-
-                    <input
-                      className={readOnlyClass}
-                      value={`Horas totales: ${horasMateria?.total ?? horasTotales}`}
-                      readOnly
-                    />
-
-                    <input
-                      className={readOnlyClass}
-                      value={`Horas teóricas: ${horasMateria?.teoricas ?? horasTeoricas}`}
-                      readOnly
-                    />
-
-                    <input
-                      className={readOnlyClass}
-                      value={`Horas prácticas: ${horasMateria?.practicas ?? "0"}`}
-                      readOnly
-                    />
-                  </div>
-
-                  <div className="grid gap-3 sm:grid-cols-2">
+                {/* Pestañas de documentos */}
+                <div className="mt-6 flex flex-wrap gap-1 border-b border-slate-200">
+                  {(
+                    [
+                      ["f32", "Planeación F-32"],
+                      ["f51", "Avance F-51"],
+                      ["examenes", "Exámenes"],
+                      ["presentaciones", "Presentaciones"],
+                    ] as const
+                  ).map(([id, etiqueta]) => (
                     <button
+                      key={id}
                       type="button"
-                      onClick={generarWord}
-                      disabled={generandoPlaneacion}
-                      className="rounded-2xl bg-[#c8a45d] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a] disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      {generandoPlaneacion
-                        ? "Generando planeación..."
-                        : "Generar planeación F-32"}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={abrirAvance}
-                      disabled={!materiaTienePrograma}
-                      className="rounded-2xl bg-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-white shadow-lg shadow-slate-300/70 transition hover:bg-[#0b2a52] disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      Generar Avance Programático
-                    </button>
-                  </div>
-
-                  {mensajePlaneacion && (
-                    <div
-                      role="alert"
-                      className={`rounded-2xl border px-5 py-4 text-sm font-semibold ${
-                        mensajePlaneacion.tipo === "exito"
-                          ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                          : "border-red-200 bg-red-50 text-red-800"
+                      onClick={() => {
+                        setTabMateria(id);
+                        if (
+                          id === "f51" &&
+                          materiaTienePrograma &&
+                          avancePaso === "no"
+                        ) {
+                          abrirAvance();
+                        }
+                      }}
+                      aria-current={tabMateria === id ? "page" : undefined}
+                      className={`-mb-px rounded-t-xl border-b-2 px-4 py-3 text-xs font-black uppercase tracking-[0.12em] transition sm:text-sm ${
+                        tabMateria === id
+                          ? "border-[#c8a45d] text-[#071a33]"
+                          : "border-transparent text-slate-400 hover:text-[#071a33]"
                       }`}
                     >
-                      {mensajePlaneacion.texto}
-                    </div>
-                  )}
+                      {etiqueta}
+                    </button>
+                  ))}
+                </div>
 
-                  <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                    <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
-                      Exámenes
-                    </p>
-                    <p className="mt-2 text-sm text-slate-600">
-                      Genera documentos de evaluación usando las plantillas
-                      institucionales existentes.
-                    </p>
+                <div className="mt-6">
+                  {/* ── Pestaña: Planeación F-32 ─────────────────────────── */}
+                  {tabMateria === "f32" && (
+                    <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+                      <div className="flex flex-col gap-6">
+                        <div className="rounded-3xl bg-[#071a33] p-6 text-white shadow-xl shadow-slate-300/60">
+                          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7bd7a]">
+                            Vista institucional
+                          </p>
+                          <h3 className="mt-3 text-2xl font-black leading-tight">
+                            {materiaSeleccionada}
+                          </h3>
+                          <div className="mt-6 space-y-4 rounded-2xl border border-white/15 bg-white/10 p-5">
+                            <div className="flex justify-between gap-4 border-b border-white/10 pb-3 text-sm">
+                              <span className="text-slate-300">Docente</span>
+                              <span className="font-bold text-right">
+                                {docente || "Por definir"}
+                              </span>
+                            </div>
+                            <div className="flex justify-between gap-4 border-b border-white/10 pb-3 text-sm">
+                              <span className="text-slate-300">Grupo</span>
+                              <span className="font-bold">
+                                {grupo || "Por definir"}
+                              </span>
+                            </div>
+                            <div className="flex justify-between gap-4 border-b border-white/10 pb-3 text-sm">
+                              <span className="text-slate-300">Cadetes</span>
+                              <span className="font-bold">
+                                {cadetes || "Por definir"}
+                              </span>
+                            </div>
+                            <div className="flex justify-between gap-4 text-sm">
+                              <span className="text-slate-300">Periodo</span>
+                              <span className="font-bold">{periodo}</span>
+                            </div>
+                          </div>
+                        </div>
 
-                    <div className="mt-4 grid gap-3">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          generarExamen(
-                            "Examen Parcial 1",
-                            "/templates/examen-parcial.docx",
-                            { inicio: 0, fin: 10 },
-                          )
-                        }
-                        className="rounded-2xl border border-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#071a33] hover:text-white"
-                      >
-                        Generar Examen Parcial 1
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          generarExamen(
-                            "Examen Parcial 2",
-                            "/templates/examen-parcial.docx",
-                            { inicio: 10, fin: 18 },
-                          )
-                        }
-                        className="rounded-2xl border border-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#071a33] hover:text-white"
-                      >
-                        Generar Examen Parcial 2
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          generarExamen(
-                            "Examen Ordinario",
-                            "/templates/examen-ordinario.docx",
-                            { inicio: 0, fin: 18 },
-                          )
-                        }
-                        className="rounded-2xl border border-[#c8a45d] bg-[#fffaf0] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#c8a45d]"
-                      >
-                        Generar Examen Ordinario
-                      </button>
-                    </div>
-
-                    {mensajeExamen && (
-                      <div
-                        role="alert"
-                        className={`mt-4 rounded-2xl border px-4 py-3 text-sm font-semibold ${
-                          mensajeExamen.tipo === "exito"
-                            ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                            : "border-red-200 bg-red-50 text-red-800"
-                        }`}
-                      >
-                        {mensajeExamen.texto}
+                        <div className="grid grid-cols-2 gap-3">
+                          <input
+                            className={readOnlyClass}
+                            value={`Horas/semana: ${horasMateria?.porSemana ?? horasPorSemana}`}
+                            readOnly
+                          />
+                          <input
+                            className={readOnlyClass}
+                            value={`Horas totales: ${horasMateria?.total ?? horasTotales}`}
+                            readOnly
+                          />
+                          <input
+                            className={readOnlyClass}
+                            value={`Horas teóricas: ${horasMateria?.teoricas ?? horasTeoricas}`}
+                            readOnly
+                          />
+                          <input
+                            className={readOnlyClass}
+                            value={`Horas prácticas: ${horasMateria?.practicas ?? "0"}`}
+                            readOnly
+                          />
+                        </div>
                       </div>
-                    )}
-                  </div>
 
-                  <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
-                    <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
-                      Presentaciones
-                    </p>
-                    <p className="mt-2 text-sm text-slate-600">
-                      Genera una presentación profesional con IA (Claude Opus),
-                      elaborada a partir del programa oficial de estudios. La
-                      primera vez puede tardar hasta ~1 minuto.
-                    </p>
-
-                    {/* Unidades a generar — casillas (multi-selección). Cada unidad
-                        marcada se genera COMPLETA y como un PPTX independiente. */}
-                    <label className="mt-4 block text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
-                      Unidades a generar
-                    </label>
-                    <div className="mt-2 space-y-2">
-                      {unidadesMateria.map((u) => {
-                        const marcada = unidadesSeleccionadas.includes(u.numero);
-                        return (
-                          <label
-                            key={u.numero}
-                            className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-sm transition ${
-                              marcada
-                                ? "border-[#c8a45d] bg-[#fffaf0]"
-                                : "border-slate-200 bg-white hover:border-[#c8a45d]"
-                            }`}
-                          >
-                            <input
-                              type="checkbox"
-                              checked={marcada}
-                              onChange={() => alternarUnidad(u.numero)}
-                              className="mt-0.5 h-4 w-4 accent-[#c8a45d]"
-                            />
-                            <span className="font-semibold text-[#071a33]">
-                              {`Unidad ${u.numero} — ${u.tema}`}
-                            </span>
-                          </label>
-                        );
-                      })}
-                    </div>
-
-                    {/* Paso 6 — Generar: visible para toda materia con programa oficial. */}
-                    {materiaTienePrograma ? (
-                      <>
+                      <div className="flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                        <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
+                          Planeación F-32
+                        </p>
+                        <p className="text-sm text-slate-600">
+                          Genera la planeación didáctica F-32 de la asignatura con
+                          los datos capturados arriba.
+                        </p>
                         <button
                           type="button"
-                          onClick={generarPresentacionUnidad}
-                          disabled={
-                            generandoPresOficial ||
-                            unidadesSeleccionadas.length === 0
-                          }
-                          className="mt-4 w-full rounded-2xl bg-[#c8a45d] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a] disabled:cursor-not-allowed disabled:opacity-60"
+                          onClick={generarWord}
+                          disabled={generandoPlaneacion}
+                          className="rounded-2xl bg-[#c8a45d] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a] disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                          {generandoPresOficial
-                            ? "Generando presentación..."
-                            : unidadesSeleccionadas.length > 1
-                              ? `Generar ${unidadesSeleccionadas.length} presentaciones`
-                              : "Generar Presentación"}
+                          {generandoPlaneacion
+                            ? "Generando planeación..."
+                            : "Generar planeación F-32"}
                         </button>
-                        {unidadesSeleccionadas.length === 0 &&
-                          !generandoPresOficial && (
-                            <p className="mt-2 text-xs font-semibold text-slate-500">
-                              Selecciona al menos una unidad.
-                            </p>
-                          )}
-                        {generandoPresOficial && (
-                          <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
-                            Generando con IA… cada unidad puede tardar ~1 minuto.
-                            No cierres la página.
-                          </div>
-                        )}
-                        {mensajePresOficial && (
+                        {mensajePlaneacion && (
                           <div
                             role="alert"
-                            className={`mt-3 rounded-2xl border px-4 py-3 text-sm font-semibold ${
-                              mensajePresOficial.tipo === "exito"
+                            className={`rounded-2xl border px-5 py-4 text-sm font-semibold ${
+                              mensajePlaneacion.tipo === "exito"
                                 ? "border-emerald-200 bg-emerald-50 text-emerald-800"
                                 : "border-red-200 bg-red-50 text-red-800"
                             }`}
                           >
-                            {mensajePresOficial.texto}
+                            {mensajePlaneacion.texto}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* ── Pestaña: Avance F-51 ─────────────────────────────── */}
+                  {tabMateria === "f51" &&
+                    (!materiaTienePrograma ? (
+                      <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-6 text-center text-sm font-semibold text-slate-500">
+                        El Avance Programático F-51 solo está disponible para
+                        materias con programa oficial.
+                      </div>
+                    ) : avancePaso === "preview" ? (
+                      <div className="grid gap-6 lg:grid-cols-[1fr_0.8fr]">
+                        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
+                            Temas y semanas del avance
+                          </p>
+                          <ol className="mt-4 space-y-3">
+                            {semanasDisponibles
+                              .filter((s) => semanasAvance.includes(s.numero))
+                              .sort((a, b) => a.numero - b.numero)
+                              .map((s) => (
+                                <li
+                                  key={s.numero}
+                                  className="rounded-2xl border border-slate-200 bg-slate-50 p-4"
+                                >
+                                  <p className="whitespace-pre-line text-sm font-black text-[#071a33]">
+                                    {s.etiqueta}
+                                  </p>
+                                  <p className="mt-1 whitespace-pre-line text-xs text-slate-600">
+                                    {s.tema}
+                                  </p>
+                                </li>
+                              ))}
+                          </ol>
+                        </div>
+
+                        <div className="flex flex-col gap-6">
+                          <div className="rounded-3xl bg-[#071a33] p-6 text-white shadow-xl shadow-slate-300/60">
+                            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7bd7a]">
+                              Datos del avance
+                            </p>
+                            <div className="mt-5 space-y-3 text-sm">
+                              <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
+                                <span className="text-slate-300">Carrera</span>
+                                <span className="text-right font-bold">
+                                  {licenciatura}
+                                </span>
+                              </div>
+                              <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
+                                <span className="text-slate-300">Semestre</span>
+                                <span className="font-bold">
+                                  {semestreSeleccionado}
+                                </span>
+                              </div>
+                              <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
+                                <span className="text-slate-300">Docente</span>
+                                <span className="text-right font-bold">
+                                  {docente || "Por definir"}
+                                </span>
+                              </div>
+                              <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
+                                <span className="text-slate-300">Grupo</span>
+                                <span className="font-bold">
+                                  {grupo || "Por definir"}
+                                </span>
+                              </div>
+                              <div className="flex justify-between gap-4">
+                                <span className="text-slate-300">Periodo</span>
+                                <span className="text-right font-bold">
+                                  {periodoDesdeSemanas(semanasAvance)
+                                    .periodoReportado || "—"}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex flex-wrap gap-3">
+                            <button
+                              type="button"
+                              onClick={() => setAvancePaso("semanas")}
+                              className="rounded-2xl border border-[#071a33] px-5 py-3 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] transition hover:bg-[#071a33] hover:text-white"
+                            >
+                              Regresar a semanas
+                            </button>
+                            <button
+                              type="button"
+                              onClick={generarAvanceProgramatico}
+                              className="rounded-2xl bg-[#c8a45d] px-6 py-3 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a]"
+                            >
+                              Generar avance en Word
+                            </button>
+                          </div>
+
+                          {mensajePlaneacion && (
+                            <div
+                              role="alert"
+                              className={`rounded-2xl border px-5 py-4 text-sm font-semibold ${
+                                mensajePlaneacion.tipo === "exito"
+                                  ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                                  : "border-red-200 bg-red-50 text-red-800"
+                              }`}
+                            >
+                              {mensajePlaneacion.texto}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="mb-4 flex items-center justify-between gap-4">
+                          <p className="text-sm font-bold text-[#071a33]">
+                            Selecciona las semanas (hasta 4). Los temas se toman
+                            automáticamente del programa.
+                          </p>
+                          <span className="shrink-0 rounded-full bg-[#071a33] px-3 py-1 text-xs font-black text-white">
+                            {semanasAvance.length}/4
+                          </span>
+                        </div>
+                        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                          {semanasDisponibles.map((s) => {
+                            const activa = semanasAvance.includes(s.numero);
+                            const bloqueada =
+                              !activa && semanasAvance.length >= 4;
+                            return (
+                              <button
+                                key={s.numero}
+                                type="button"
+                                onClick={() => alternarSemanaAvance(s.numero)}
+                                disabled={bloqueada}
+                                className={`rounded-2xl border p-4 text-left shadow-sm transition disabled:cursor-not-allowed disabled:opacity-50 ${
+                                  activa
+                                    ? "border-[#c8a45d] bg-[#071a33] text-white"
+                                    : "border-slate-200 bg-white text-[#071a33] hover:border-[#c8a45d]"
+                                }`}
+                              >
+                                <span
+                                  className={`text-xs font-bold uppercase tracking-[0.16em] ${
+                                    activa ? "text-[#d7bd7a]" : "text-[#c8a45d]"
+                                  }`}
+                                >
+                                  {activa ? "✓ Seleccionada" : "Semana"}
+                                </span>
+                                <span className="mt-1 block whitespace-pre-line text-sm font-black">
+                                  {s.etiqueta}
+                                </span>
+                                <span
+                                  className={`mt-2 block whitespace-pre-line text-xs ${
+                                    activa ? "text-slate-200" : "text-slate-500"
+                                  }`}
+                                >
+                                  {s.tema}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                        <div className="mt-6 flex flex-wrap gap-3">
+                          <button
+                            type="button"
+                            onClick={() => setAvancePaso("preview")}
+                            disabled={semanasAvance.length === 0}
+                            className="rounded-2xl bg-[#c8a45d] px-6 py-3 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#d7bd7a] disabled:cursor-not-allowed disabled:opacity-60"
+                          >
+                            Continuar a vista previa
+                          </button>
+                        </div>
+                        {mensajePlaneacion && (
+                          <div
+                            role="alert"
+                            className={`mt-6 rounded-2xl border px-5 py-4 text-sm font-semibold ${
+                              mensajePlaneacion.tipo === "exito"
+                                ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                                : "border-red-200 bg-red-50 text-red-800"
+                            }`}
+                          >
+                            {mensajePlaneacion.texto}
                           </div>
                         )}
                       </>
-                    ) : (
-                      <div className="mt-4 w-full rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-4 text-center text-sm font-semibold text-slate-500">
-                        Selecciona una materia con programa oficial
+                    ))}
+
+                  {/* ── Pestaña: Exámenes ────────────────────────────────── */}
+                  {tabMateria === "examenes" && (
+                    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                      <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
+                        Exámenes
+                      </p>
+                      <p className="mt-2 text-sm text-slate-600">
+                        Genera documentos de evaluación usando las plantillas
+                        institucionales existentes.
+                      </p>
+                      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            generarExamen(
+                              "Examen Parcial 1",
+                              "/templates/examen-parcial.docx",
+                              { inicio: 0, fin: 10 },
+                            )
+                          }
+                          className="rounded-2xl border border-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#071a33] hover:text-white"
+                        >
+                          Generar Examen Parcial 1
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            generarExamen(
+                              "Examen Parcial 2",
+                              "/templates/examen-parcial.docx",
+                              { inicio: 10, fin: 18 },
+                            )
+                          }
+                          className="rounded-2xl border border-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#071a33] hover:text-white"
+                        >
+                          Generar Examen Parcial 2
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            generarExamen(
+                              "Examen Ordinario",
+                              "/templates/examen-ordinario.docx",
+                              { inicio: 0, fin: 18 },
+                            )
+                          }
+                          className="rounded-2xl border border-[#c8a45d] bg-[#fffaf0] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#c8a45d]"
+                        >
+                          Generar Examen Ordinario
+                        </button>
                       </div>
-                    )}
-                  </div>
+                      {mensajeExamen && (
+                        <div
+                          role="alert"
+                          className={`mt-4 rounded-2xl border px-4 py-3 text-sm font-semibold ${
+                            mensajeExamen.tipo === "exito"
+                              ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                              : "border-red-200 bg-red-50 text-red-800"
+                          }`}
+                        >
+                          {mensajeExamen.texto}
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* ── Pestaña: Presentaciones ──────────────────────────── */}
+                  {tabMateria === "presentaciones" && (
+                    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                      <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
+                        Presentaciones
+                      </p>
+                      <p className="mt-2 text-sm text-slate-600">
+                        Genera una presentación profesional con IA (Claude Opus),
+                        elaborada a partir del programa oficial de estudios. La
+                        primera vez puede tardar hasta ~1 minuto.
+                      </p>
+
+                      <label className="mt-4 block text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                        Unidades a generar
+                      </label>
+                      <div className="mt-2 space-y-2">
+                        {unidadesMateria.map((u) => {
+                          const marcada =
+                            unidadesSeleccionadas.includes(u.numero);
+                          return (
+                            <label
+                              key={u.numero}
+                              className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-sm transition ${
+                                marcada
+                                  ? "border-[#c8a45d] bg-[#fffaf0]"
+                                  : "border-slate-200 bg-white hover:border-[#c8a45d]"
+                              }`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={marcada}
+                                onChange={() => alternarUnidad(u.numero)}
+                                className="mt-0.5 h-4 w-4 accent-[#c8a45d]"
+                              />
+                              <span className="font-semibold text-[#071a33]">
+                                {`Unidad ${u.numero} — ${u.tema}`}
+                              </span>
+                            </label>
+                          );
+                        })}
+                      </div>
+
+                      {materiaTienePrograma ? (
+                        <>
+                          <button
+                            type="button"
+                            onClick={generarPresentacionUnidad}
+                            disabled={
+                              generandoPresOficial ||
+                              unidadesSeleccionadas.length === 0
+                            }
+                            className="mt-4 w-full rounded-2xl bg-[#c8a45d] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a] disabled:cursor-not-allowed disabled:opacity-60"
+                          >
+                            {generandoPresOficial
+                              ? "Generando presentación..."
+                              : unidadesSeleccionadas.length > 1
+                                ? `Generar ${unidadesSeleccionadas.length} presentaciones`
+                                : "Generar Presentación"}
+                          </button>
+                          {unidadesSeleccionadas.length === 0 &&
+                            !generandoPresOficial && (
+                              <p className="mt-2 text-xs font-semibold text-slate-500">
+                                Selecciona al menos una unidad.
+                              </p>
+                            )}
+                          {generandoPresOficial && (
+                            <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
+                              Generando con IA… cada unidad puede tardar ~1
+                              minuto. No cierres la página.
+                            </div>
+                          )}
+                          {mensajePresOficial && (
+                            <div
+                              role="alert"
+                              className={`mt-3 rounded-2xl border px-4 py-3 text-sm font-semibold ${
+                                mensajePresOficial.tipo === "exito"
+                                  ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                                  : "border-red-200 bg-red-50 text-red-800"
+                              }`}
+                            >
+                              {mensajePresOficial.texto}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <div className="mt-4 w-full rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-4 text-center text-sm font-semibold text-slate-500">
+                          Selecciona una materia con programa oficial
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               </div>
             )}
