@@ -35,6 +35,7 @@ import Docxtemplater from "docxtemplater";
 import { saveAs } from "file-saver";
 import { SeccionIngles } from "./components/SeccionIngles";
 import { Monograma } from "./components/Monograma";
+import { Stepper, type PasoStepper } from "./components/Stepper";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
 import { pedirPreguntasExamenIA } from "./lib/pedirPreguntasExamen";
@@ -854,6 +855,35 @@ export default function Home() {
     }
   };
 
+  // Pasos del stepper del flujo general (PN/MN): Carrera → Semestre → Materia →
+  // Documentos. El estado se deriva de la selección actual; los pasos ya
+  // completados son clicables para regresar.
+  const pasosGeneral: PasoStepper[] = [
+    {
+      etiqueta: "Carrera",
+      estado: "completado",
+      onClick: regresarASemestres,
+    },
+    {
+      etiqueta: "Semestre",
+      estado: semestreSeleccionado ? "completado" : "activo",
+      onClick: semestreSeleccionado ? regresarASemestres : undefined,
+    },
+    {
+      etiqueta: "Materia",
+      estado: !semestreSeleccionado
+        ? "pendiente"
+        : materiaSeleccionada
+          ? "completado"
+          : "activo",
+      onClick: materiaSeleccionada ? regresarAMaterias : undefined,
+    },
+    {
+      etiqueta: "Documentos",
+      estado: materiaSeleccionada ? "activo" : "pendiente",
+    },
+  ];
+
   return (
     <main className="min-h-screen bg-[#eef2f7] text-slate-900">
       {/* Barra superior delgada: monograma + identidad institucional. */}
@@ -873,6 +903,11 @@ export default function Home() {
 
         <section className="p-4 sm:p-8">
           <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl shadow-slate-300/60">
+            {seccion === "general" && (
+              <div className="px-6 pt-6 sm:px-10">
+                <Stepper pasos={pasosGeneral} />
+              </div>
+            )}
 
             {seccion === "ingles" ? (
               <SeccionIngles onVolver={() => setSeccion("general")} />

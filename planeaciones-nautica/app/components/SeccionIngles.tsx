@@ -30,6 +30,7 @@ import {
   resolverPuntaje,
 } from "../lib/puntajeExamen";
 import type { PresentacionV2 } from "../data/presentaciones/tiposV2";
+import { Stepper, type PasoStepper } from "./Stepper";
 
 type Props = {
   onVolver: () => void;
@@ -667,10 +668,22 @@ export function SeccionIngles({ onVolver }: Props) {
     cargandoPresPool ||
     generandoExamen;
 
+  // Pasos del stepper de la sección de Inglés: Inglés → Nivel → Documentos.
+  const pasosIngles: PasoStepper[] = [
+    { etiqueta: "Inglés", estado: "completado", onClick: onVolver },
+    {
+      etiqueta: "Nivel",
+      estado: nivel ? "completado" : "activo",
+      onClick: nivel ? regresarANiveles : undefined,
+    },
+    { etiqueta: "Documentos", estado: nivel ? "activo" : "pendiente" },
+  ];
+
   // ── Pantalla 1: tarjetas de niveles (como los semestres en PN/MN) ──────────
   if (!nivel) {
     return (
       <div className="px-6 py-10 sm:px-10">
+        <Stepper pasos={pasosIngles} />
         <div className="rounded-3xl border border-dashed border-[#c8a45d] bg-[#fffaf0] p-6 text-center sm:p-8">
           <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-[#071a33] text-xs font-black uppercase tracking-[0.18em] text-[#d7bd7a]">
             ENG
@@ -721,6 +734,7 @@ export function SeccionIngles({ onVolver }: Props) {
       .sort((a, b) => a.numero - b.numero);
     return (
       <div className="px-6 py-8 sm:px-10">
+        <Stepper pasos={pasosIngles} />
         <div className="mb-6 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
@@ -893,6 +907,7 @@ export function SeccionIngles({ onVolver }: Props) {
   if (presentacionPaso !== "no") {
     return (
       <div className="px-6 py-8 sm:px-10">
+        <Stepper pasos={pasosIngles} />
         <div className="mb-6 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
@@ -998,6 +1013,7 @@ export function SeccionIngles({ onVolver }: Props) {
   // ── Pantalla 2: generación de la planeación del nivel elegido ──────────────
   return (
     <div className="px-6 py-8 sm:px-10">
+      <Stepper pasos={pasosIngles} />
       <div className="mb-6 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="mb-4 flex flex-wrap gap-3">
