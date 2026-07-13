@@ -34,6 +34,7 @@ import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
 import { saveAs } from "file-saver";
 import { SeccionIngles } from "./components/SeccionIngles";
+import { Monograma } from "./components/Monograma";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
 import { pedirPreguntasExamenIA } from "./lib/pedirPreguntasExamen";
@@ -860,11 +861,7 @@ export default function Home() {
           <div className="sticky top-0 flex h-full flex-col gap-8 overflow-y-auto p-6">
             <div className="rounded-3xl border border-white/15 bg-white/10 p-5 shadow-2xl shadow-black/20">
               <div className="mb-5 flex items-center gap-4">
-                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl border-2 border-[#c8a45d] bg-white/95 text-center text-[10px] font-black uppercase leading-tight text-[#071a33] shadow-lg">
-                  Logo
-                  <br />
-                  UMPM
-                </div>
+                <Monograma className="h-16 w-16" textClassName="text-sm" />
                 <div>
                   <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#d7bd7a]">
                     Sistema académico
@@ -905,17 +902,11 @@ export default function Home() {
                   <div className="mt-6 h-1 w-28 rounded-full bg-[#c8a45d]" />
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 sm:w-72">
-                  <div className="flex aspect-square items-center justify-center rounded-3xl border-2 border-[#c8a45d] bg-white text-center text-xs font-black uppercase tracking-[0.18em] text-[#071a33] shadow-xl">
-                    Escudo
-                    <br />
-                    institucional
-                  </div>
-                  <div className="flex aspect-square items-center justify-center rounded-3xl border-2 border-white/40 bg-white/10 text-center text-xs font-black uppercase tracking-[0.18em] text-white shadow-xl">
-                    Logo
-                    <br />
-                    escuela
-                  </div>
+                <div className="flex justify-center lg:justify-end">
+                  <Monograma
+                    className="h-28 w-28 sm:h-32 sm:w-32"
+                    textClassName="text-xl sm:text-2xl"
+                  />
                 </div>
               </div>
             </header>
