@@ -33,6 +33,7 @@ import type { PresentacionV2 } from "../data/presentaciones/tiposV2";
 import { Stepper, type PasoStepper } from "./Stepper";
 import { LoadingIA } from "./LoadingIA";
 import { authFetch } from "../lib/authFetch";
+import { lanzarSiLimite, LimiteError } from "../lib/limiteCliente";
 
 type Props = {
   onVolver: () => void;
@@ -254,8 +255,10 @@ export function SeccionIngles({ onVolver }: Props) {
           semanas,
           horasPorSemana,
           observaciones,
+          contarComo: "planeaciones",
         }),
       });
+      await lanzarSiLimite(res);
       const data = await res.json().catch(() => null);
       if (!res.ok || !data?.planeacion) {
         setMensaje({ tipo: "error", texto: mensajeAmigable(data?.error) });
@@ -288,7 +291,11 @@ export function SeccionIngles({ onVolver }: Props) {
             : "",
       });
       setAvancePaso("semanas");
-    } catch {
+    } catch (e) {
+      if (e instanceof LimiteError) {
+        setMensaje({ tipo: "error", texto: e.message });
+        return;
+      }
       setMensaje({ tipo: "error", texto: MENSAJE_ERROR_GENERICO });
     } finally {
       setCargandoAvance(false);
@@ -360,8 +367,10 @@ export function SeccionIngles({ onVolver }: Props) {
           semanas,
           horasPorSemana,
           observaciones,
+          contarComo: "planeaciones",
         }),
       });
+      await lanzarSiLimite(res);
       const data = await res.json().catch(() => null);
 
       if (!res.ok || !data?.planeacion) {
@@ -405,7 +414,11 @@ export function SeccionIngles({ onVolver }: Props) {
         tipo: "exito",
         texto: `Planeación generada y descargada: ${nombreArchivo}`,
       });
-    } catch {
+    } catch (e) {
+      if (e instanceof LimiteError) {
+        setMensaje({ tipo: "error", texto: e.message });
+        return;
+      }
       setMensaje({ tipo: "error", texto: MENSAJE_ERROR_GENERICO });
     } finally {
       setGenerando(false);
@@ -550,7 +563,11 @@ export function SeccionIngles({ onVolver }: Props) {
         tipo: "exito",
         texto: `${tipo} generado y descargado: ${nombreArchivo}`,
       });
-    } catch {
+    } catch (e) {
+      if (e instanceof LimiteError) {
+        setMensaje({ tipo: "error", texto: e.message });
+        return;
+      }
       setMensaje({ tipo: "error", texto: MENSAJE_ERROR_GENERICO });
     } finally {
       setGenerandoExamen(false);
@@ -625,6 +642,7 @@ export function SeccionIngles({ onVolver }: Props) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ nivel, tema: t.tema }),
           });
+          await lanzarSiLimite(res);
           const data = await res.json().catch(() => null);
           if (!res.ok || !data?.presentacion) {
             huboError = true;
@@ -639,7 +657,8 @@ export function SeccionIngles({ onVolver }: Props) {
             },
           );
           generadas.push(archivo);
-        } catch {
+        } catch (e) {
+          if (e instanceof LimiteError) throw e;
           huboError = true;
         }
       }
@@ -656,6 +675,12 @@ export function SeccionIngles({ onVolver }: Props) {
         tipo: "exito",
         texto: huboError ? `${base} Algunas no se pudieron generar.` : base,
       });
+    } catch (e) {
+      if (e instanceof LimiteError) {
+        setMensaje({ tipo: "error", texto: e.message });
+        return;
+      }
+      throw e;
     } finally {
       setGenerandoPres(false);
     }

@@ -27,6 +27,7 @@ import type { PreguntasExamen } from "../../lib/examen";
 import { resolverPuntaje } from "../../lib/puntajeExamen";
 import { claveCache, leerCache, escribirCache } from "../../lib/cacheExamen";
 import { verificarAuth } from "../../lib/server/auth";
+import { verificarLimite, contarUso } from "../../lib/server/limites";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -164,6 +165,9 @@ export async function POST(request: Request) {
   const sesionAuth = await verificarAuth(request);
   if (!sesionAuth.ok) return sesionAuth.respuesta;
 
+  const limite = await verificarLimite(sesionAuth.sesion, "examenes");
+  if (!limite.ok) return limite.respuesta;
+
   let cuerpo: Cuerpo;
   try {
     cuerpo = await request.json();
@@ -195,6 +199,7 @@ export async function POST(request: Request) {
   if (!cuerpo.forzar) {
     const cacheado = await leerCache(clave);
     if (cacheado) {
+      await contarUso(sesionAuth.sesion, "examenes");
       return respuesta(cacheado, { cacheado: true });
     }
   }
@@ -255,5 +260,6 @@ export async function POST(request: Request) {
   }
 
   await escribirCache(clave, preguntas);
+  await contarUso(sesionAuth.sesion, "examenes");
   return respuesta(preguntas, { cacheado: false, modelo: MODELO });
 }

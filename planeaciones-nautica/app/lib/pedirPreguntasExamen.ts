@@ -8,6 +8,7 @@
 
 import type { PreguntasExamen } from "./examen";
 import { authFetch } from "./authFetch";
+import { lanzarSiLimite, LimiteError } from "./limiteCliente";
 
 export type AmbitoExamen = "PN" | "MN" | "INGLES";
 
@@ -31,6 +32,9 @@ export async function pedirPreguntasExamenIA(params: {
         body: JSON.stringify(params),
         signal: controlador.signal,
       });
+      // Límite mensual alcanzado: propaga el mensaje al llamador (no cae al
+      // banco determinista).
+      await lanzarSiLimite(res);
       if (!res.ok) return undefined;
       const data = (await res.json().catch(() => null)) as {
         preguntas?: PreguntasExamen | null;
@@ -39,7 +43,8 @@ export async function pedirPreguntasExamenIA(params: {
     } finally {
       clearTimeout(limite);
     }
-  } catch {
+  } catch (e) {
+    if (e instanceof LimiteError) throw e;
     return undefined;
   }
 }

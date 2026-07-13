@@ -31,6 +31,7 @@ import type {
   PresentacionV2,
 } from "../../data/presentaciones/tiposV2";
 import { verificarAuth } from "../../lib/server/auth";
+import { verificarLimite, contarUso } from "../../lib/server/limites";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -188,6 +189,9 @@ export async function POST(request: Request) {
   const sesionAuth = await verificarAuth(request);
   if (!sesionAuth.ok) return sesionAuth.respuesta;
 
+  const limite = await verificarLimite(sesionAuth.sesion, "presentaciones");
+  if (!limite.ok) return limite.respuesta;
+
   let cuerpo: Cuerpo;
   try {
     cuerpo = await request.json();
@@ -209,6 +213,7 @@ export async function POST(request: Request) {
   if (!cuerpo.forzar) {
     const cacheado = await leerCache(claveCacheIngles);
     if (cacheado) {
+      await contarUso(sesionAuth.sesion, "presentaciones");
       return Response.json({ presentacion: cacheado, cacheado: true });
     }
   }
@@ -292,5 +297,6 @@ export async function POST(request: Request) {
   // Guarda el guion para que este nivel/tema no se vuelva a pagar.
   await escribirCache(claveCacheIngles, presentacion);
 
+  await contarUso(sesionAuth.sesion, "presentaciones");
   return Response.json({ presentacion, cacheado: false });
 }

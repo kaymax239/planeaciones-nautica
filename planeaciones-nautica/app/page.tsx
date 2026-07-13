@@ -40,6 +40,7 @@ import { LoadingIA } from "./components/LoadingIA";
 import { LoginScreen } from "./components/LoginScreen";
 import { useAuth } from "./lib/authContext";
 import { authFetch } from "./lib/authFetch";
+import { lanzarSiLimite, LimiteError } from "./lib/limiteCliente";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
 import { pedirPreguntasExamenIA } from "./lib/pedirPreguntasExamen";
@@ -318,6 +319,8 @@ export default function Home() {
         }),
         signal: controlador.signal,
       });
+      // Límite mensual alcanzado: propaga el mensaje (no cae al generador).
+      await lanzarSiLimite(res);
       if (!res.ok) {
         const detalle = await res.json().catch(() => null);
         console.warn("IA no disponible, usando generador oficial:", detalle);
@@ -331,6 +334,7 @@ export default function Home() {
         ? { pres: data.presentacion, cacheado: !!data.cacheado }
         : null;
     } catch (e) {
+      if (e instanceof LimiteError) throw e;
       console.warn("Error consultando la IA, usando generador oficial:", e);
       return null;
     } finally {
@@ -398,6 +402,7 @@ export default function Home() {
           if (archivo) generadas.push(archivo);
           else fallidas.push(n);
         } catch (error) {
+          if (error instanceof LimiteError) throw error;
           console.error("Error generando presentación de la unidad", n, error);
           fallidas.push(n);
         }
@@ -421,6 +426,12 @@ export default function Home() {
           ? ` No se pudieron generar las unidades: ${fallidas.join(", ")}.`
           : "";
       setMensajePresOficial({ tipo: "exito", texto: base + aviso });
+    } catch (error) {
+      if (error instanceof LimiteError) {
+        setMensajePresOficial({ tipo: "error", texto: error.message });
+        return;
+      }
+      throw error;
     } finally {
       setGenerandoPresOficial(false);
     }
@@ -858,6 +869,10 @@ export default function Home() {
         texto: `${tipo} generado y descargado para ${materiaSeleccionada}.`,
       });
     } catch (error) {
+      if (error instanceof LimiteError) {
+        setMensajeExamen({ tipo: "error", texto: error.message });
+        return;
+      }
       console.error(`Error generando ${tipo}:`, error);
       const detalle =
         error instanceof Error ? error.message : "Error desconocido.";

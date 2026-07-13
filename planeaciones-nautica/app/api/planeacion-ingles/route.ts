@@ -15,6 +15,7 @@ import {
 } from "../../lib/bibliotecaIngles";
 import { bibliografiaIDiscover } from "../../lib/planeacionInglesF32.js";
 import { verificarAuth } from "../../lib/server/auth";
+import { verificarLimite, contarUso } from "../../lib/server/limites";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -52,6 +53,9 @@ type Cuerpo = {
   semanas?: number | string;
   horasPorSemana?: number | string;
   observaciones?: string;
+  /** "planeaciones" cuando la llamada genera una planeación o un avance (cuenta
+   *  cuota). Ausente en las llamadas de preparación de examen/presentación. */
+  contarComo?: string;
 };
 
 function error(
@@ -299,6 +303,15 @@ export async function POST(request: Request) {
     return error("faltan_datos", "Se requiere el nivel.", 400);
   }
 
+  // Solo cuenta cuota de "planeaciones/avances" cuando el cliente lo declara
+  // (generar la planeación o abrir el avance de Inglés); las llamadas de
+  // preparación para examen/presentación NO consumen cuota aquí.
+  const cuentaComoPlaneacion = cuerpo.contarComo === "planeaciones";
+  if (cuentaComoPlaneacion) {
+    const limite = await verificarLimite(sesionAuth.sesion, "planeaciones");
+    if (!limite.ok) return limite.respuesta;
+  }
+
   // 1. Leer el índice del corpus histórico.
   const indice = await BibliotecaIngles.leerIndice();
   if (!indice || indice.documentos.length === 0) {
@@ -379,6 +392,9 @@ export async function POST(request: Request) {
   sanearDisciplinares(planeacion);
 
   // 10. Devolver JSON a la UI (no se guardan archivos).
+  if (cuentaComoPlaneacion) {
+    await contarUso(sesionAuth.sesion, "planeaciones");
+  }
   return Response.json({
     planeacion,
     referenciasUsadas: referencias.map((r) => ({
