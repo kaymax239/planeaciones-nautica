@@ -37,6 +37,8 @@ import { lanzarSiLimite, LimiteError } from "../lib/limiteCliente";
 
 type Props = {
   onVolver: () => void;
+  /** Se llama tras cada generación que consume cuota, para refrescar el uso. */
+  onUsoActualizado?: () => void;
 };
 
 // Estilos alineados al diseño institucional actual (navy #071a33, dorado #c8a45d).
@@ -121,7 +123,7 @@ function mensajeAmigable(codigo?: string): string {
   }
 }
 
-export function SeccionIngles({ onVolver }: Props) {
+export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
   // Nivel elegido (null = pantalla de tarjetas de niveles).
   const [nivel, setNivel] = useState<string | null>(null);
 
@@ -299,6 +301,7 @@ export function SeccionIngles({ onVolver }: Props) {
       setMensaje({ tipo: "error", texto: MENSAJE_ERROR_GENERICO });
     } finally {
       setCargandoAvance(false);
+      onUsoActualizado?.();
     }
   };
 
@@ -422,6 +425,7 @@ export function SeccionIngles({ onVolver }: Props) {
       setMensaje({ tipo: "error", texto: MENSAJE_ERROR_GENERICO });
     } finally {
       setGenerando(false);
+      onUsoActualizado?.();
     }
   };
 
@@ -571,6 +575,7 @@ export function SeccionIngles({ onVolver }: Props) {
       setMensaje({ tipo: "error", texto: MENSAJE_ERROR_GENERICO });
     } finally {
       setGenerandoExamen(false);
+      onUsoActualizado?.();
     }
   };
 
@@ -683,6 +688,7 @@ export function SeccionIngles({ onVolver }: Props) {
       throw e;
     } finally {
       setGenerandoPres(false);
+      onUsoActualizado?.();
     }
   };
 

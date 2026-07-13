@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { materiasPorSemestre, materiasPorSemestreMN } from "./data/materias";
 import {
   contenidosMaterias,
@@ -40,6 +40,7 @@ import { LoadingIA } from "./components/LoadingIA";
 import { LoginScreen } from "./components/LoginScreen";
 import { useAuth } from "./lib/authContext";
 import { authFetch } from "./lib/authFetch";
+import { LIMITES } from "./lib/config";
 import { lanzarSiLimite, LimiteError } from "./lib/limiteCliente";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
@@ -174,7 +175,12 @@ const generarSecuenciaDidactica = (
 
 
 export default function Home() {
-  const { usuario, cargando: cargandoSesion } = useAuth();
+  const { usuario, cargando: cargandoSesion, salir, esAdmin } = useAuth();
+  const [uso, setUso] = useState<{
+    presentaciones: number;
+    examenes: number;
+    planeaciones: number;
+  } | null>(null);
   const [carrera, setCarrera] = useState<"PN" | "MN">("PN");
   // Sección activa. "general" = flujo PN/MN actual (sin cambios); "ingles" =
   // sección independiente de Inglés. No afecta al estado `carrera`.
@@ -262,6 +268,37 @@ export default function Home() {
           tema: s.tema,
         }))
     : [];
+
+  // Consumo del mes del docente (para "Presentaciones: 3 de 10").
+  const refrescarUso = useCallback(async () => {
+    try {
+      const res = await authFetch("/api/uso");
+      if (!res.ok) return;
+      const d = await res.json();
+      if (d?.uso) setUso(d.uso);
+    } catch {
+      // El uso es informativo: si falla, no interrumpe nada.
+    }
+  }, []);
+
+  // Carga el uso al iniciar sesión y lo refresca al terminar cada generación
+  // local (PN/MN). Las generaciones de Inglés lo refrescan vía onUsoActualizado.
+  useEffect(() => {
+    if (
+      usuario &&
+      !generandoPlaneacion &&
+      !generandoPresOficial &&
+      !generandoExamen
+    ) {
+      refrescarUso();
+    }
+  }, [
+    usuario,
+    generandoPlaneacion,
+    generandoPresOficial,
+    generandoExamen,
+    refrescarUso,
+  ]);
 
   // Al cambiar de materia o carrera, limpiar la selección de unidades de la
   // presentación y los mensajes/estados del flujo.
@@ -953,6 +990,39 @@ export default function Home() {
               Escuela Náutica Mercante de Tampico
             </p>
           </div>
+
+          <div className="ml-auto flex items-center gap-3 sm:gap-4">
+            {esAdmin ? (
+              <span className="hidden rounded-full border border-[#c8a45d]/50 px-3 py-1 text-[11px] font-bold text-[#d7bd7a] sm:inline-block">
+                Administrador · sin límites
+              </span>
+            ) : (
+              uso && (
+                <div className="hidden flex-col items-end text-[11px] leading-tight text-slate-300 sm:flex">
+                  <span>
+                    Presentaciones: {uso.presentaciones} de{" "}
+                    {LIMITES.presentaciones}
+                  </span>
+                  <span>
+                    Exámenes: {uso.examenes} de {LIMITES.examenes} · Planeaciones:{" "}
+                    {uso.planeaciones} de {LIMITES.planeaciones}
+                  </span>
+                </div>
+              )
+            )}
+            <div className="text-right leading-tight">
+              <p className="max-w-[9rem] truncate text-xs font-bold text-white sm:max-w-[14rem]">
+                {usuario.displayName || usuario.email}
+              </p>
+              <button
+                type="button"
+                onClick={salir}
+                className="text-[11px] font-semibold text-[#d7bd7a] underline underline-offset-2 transition hover:text-white"
+              >
+                Salir
+              </button>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -965,7 +1035,10 @@ export default function Home() {
             )}
 
             {seccion === "ingles" ? (
-              <SeccionIngles onVolver={() => setSeccion("general")} />
+              <SeccionIngles
+                onVolver={() => setSeccion("general")}
+                onUsoActualizado={refrescarUso}
+              />
             ) : !semestreSeleccionado ? (
               <div className="px-6 py-10 sm:px-10">
                 <div className="rounded-3xl border border-dashed border-[#c8a45d] bg-[#fffaf0] p-6 text-center sm:p-8">
