@@ -31,6 +31,7 @@ import {
 } from "../lib/puntajeExamen";
 import type { PresentacionV2 } from "../data/presentaciones/tiposV2";
 import { Stepper, type PasoStepper } from "./Stepper";
+import { LoadingIA } from "./LoadingIA";
 
 type Props = {
   onVolver: () => void;
@@ -988,10 +989,10 @@ export function SeccionIngles({ onVolver }: Props) {
         </div>
 
         {generandoPres && (
-          <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
-            Generando con IA… cada tema puede tardar ~1 minuto. No cierres la
-            página.
-          </div>
+          <LoadingIA
+            className="mt-4"
+            nota="Cada tema puede tardar ~1 minuto. No cierres la página."
+          />
         )}
 
         {mensaje && (
@@ -1135,9 +1136,7 @@ export function SeccionIngles({ onVolver }: Props) {
             <button
               type="button"
               onClick={generarWord}
-              disabled={
-                generando || cargandoAvance || generandoPres || cargandoPresPool
-              }
+              disabled={ocupado}
               className="rounded-2xl bg-[#c8a45d] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {generando
@@ -1147,9 +1146,7 @@ export function SeccionIngles({ onVolver }: Props) {
             <button
               type="button"
               onClick={abrirAvance}
-              disabled={
-                generando || cargandoAvance || generandoPres || cargandoPresPool
-              }
+              disabled={ocupado}
               className="rounded-2xl bg-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-white shadow-lg shadow-slate-300/70 transition hover:bg-[#0b2a52] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {cargandoAvance
@@ -1226,24 +1223,15 @@ export function SeccionIngles({ onVolver }: Props) {
               </button>
             </div>
             {generandoExamen && (
-              <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
-                Generando el examen… puede tardar hasta ~1 minuto. No cierres la
-                página.
-              </div>
+              <LoadingIA
+                className="mt-4"
+                nota="Puede tardar hasta ~1 minuto. No cierres la página."
+              />
             )}
           </div>
 
           {(generando || cargandoAvance || generandoPres || cargandoPresPool) && (
-            <div className="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
-              {generando
-                ? "Generando la planeación"
-                : cargandoPresPool
-                  ? "Preparando la presentación"
-                  : generandoPres
-                    ? "Generando la presentación con IA"
-                    : "Preparando el avance"}
-              … puede tardar hasta ~1 minuto. No cierres la página.
-            </div>
+            <LoadingIA nota="Puede tardar hasta ~1 minuto. No cierres la página." />
           )}
 
           {mensaje && (

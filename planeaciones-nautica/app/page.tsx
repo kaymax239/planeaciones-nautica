@@ -36,6 +36,7 @@ import { saveAs } from "file-saver";
 import { SeccionIngles } from "./components/SeccionIngles";
 import { Monograma } from "./components/Monograma";
 import { Stepper, type PasoStepper } from "./components/Stepper";
+import { LoadingIA } from "./components/LoadingIA";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
 import { pedirPreguntasExamenIA } from "./lib/pedirPreguntasExamen";
@@ -205,6 +206,7 @@ export default function Home() {
     tipo: "exito" | "error";
     texto: string;
   } | null>(null);
+  const [generandoExamen, setGenerandoExamen] = useState(false);
   // Pestaña activa dentro de la materia seleccionada. El formulario de datos
   // generales queda arriba y es común a todas las pestañas.
   const [tabMateria, setTabMateria] = useState<
@@ -735,6 +737,7 @@ export default function Home() {
     rango: RangoSemanas,
   ) => {
     setMensajeExamen(null);
+    setGenerandoExamen(true);
     try {
       if (!materiaSeleccionada) {
         throw new Error("Selecciona una asignatura antes de generar el examen.");
@@ -858,8 +861,15 @@ export default function Home() {
         tipo: "error",
         texto: `No se pudo generar el ${tipo}. ${detalle}`,
       });
+    } finally {
+      setGenerandoExamen(false);
     }
   };
+
+  // Verdadero mientras cualquier generación está en curso: se usa para
+  // deshabilitar los demás botones y evitar solicitudes simultáneas.
+  const ocupado =
+    generandoPlaneacion || generandoPresOficial || generandoExamen;
 
   // Pasos del stepper del flujo general (PN/MN): Carrera → Semestre → Materia →
   // Documentos. El estado se deriva de la selección actual; los pasos ya
@@ -1227,13 +1237,14 @@ export default function Home() {
                         <button
                           type="button"
                           onClick={generarWord}
-                          disabled={generandoPlaneacion}
+                          disabled={ocupado}
                           className="rounded-2xl bg-[#c8a45d] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a] disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           {generandoPlaneacion
                             ? "Generando planeación..."
                             : "Generar planeación F-32"}
                         </button>
+                        {generandoPlaneacion && <LoadingIA />}
                         {mensajePlaneacion && (
                           <div
                             role="alert"
@@ -1334,7 +1345,8 @@ export default function Home() {
                             <button
                               type="button"
                               onClick={generarAvanceProgramatico}
-                              className="rounded-2xl bg-[#c8a45d] px-6 py-3 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a]"
+                              disabled={ocupado}
+                              className="rounded-2xl bg-[#c8a45d] px-6 py-3 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a] disabled:cursor-not-allowed disabled:opacity-60"
                             >
                               Generar avance en Word
                             </button>
@@ -1448,7 +1460,8 @@ export default function Home() {
                               { inicio: 0, fin: 10 },
                             )
                           }
-                          className="rounded-2xl border border-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#071a33] hover:text-white"
+                          disabled={ocupado}
+                          className="rounded-2xl border border-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#071a33] hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           Generar Examen Parcial 1
                         </button>
@@ -1461,7 +1474,8 @@ export default function Home() {
                               { inicio: 10, fin: 18 },
                             )
                           }
-                          className="rounded-2xl border border-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#071a33] hover:text-white"
+                          disabled={ocupado}
+                          className="rounded-2xl border border-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#071a33] hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           Generar Examen Parcial 2
                         </button>
@@ -1474,11 +1488,18 @@ export default function Home() {
                               { inicio: 0, fin: 18 },
                             )
                           }
-                          className="rounded-2xl border border-[#c8a45d] bg-[#fffaf0] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#c8a45d]"
+                          disabled={ocupado}
+                          className="rounded-2xl border border-[#c8a45d] bg-[#fffaf0] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-[#c8a45d] disabled:cursor-not-allowed disabled:opacity-60"
                         >
                           Generar Examen Ordinario
                         </button>
                       </div>
+                      {generandoExamen && (
+                        <LoadingIA
+                          className="mt-4"
+                          nota="Puede tardar hasta ~1 minuto. No cierres la página."
+                        />
+                      )}
                       {mensajeExamen && (
                         <div
                           role="alert"
@@ -1542,8 +1563,7 @@ export default function Home() {
                             type="button"
                             onClick={generarPresentacionUnidad}
                             disabled={
-                              generandoPresOficial ||
-                              unidadesSeleccionadas.length === 0
+                              ocupado || unidadesSeleccionadas.length === 0
                             }
                             className="mt-4 w-full rounded-2xl bg-[#c8a45d] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a] disabled:cursor-not-allowed disabled:opacity-60"
                           >
@@ -1560,10 +1580,10 @@ export default function Home() {
                               </p>
                             )}
                           {generandoPresOficial && (
-                            <div className="mt-3 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
-                              Generando con IA… cada unidad puede tardar ~1
-                              minuto. No cierres la página.
-                            </div>
+                            <LoadingIA
+                              className="mt-3"
+                              nota="Cada unidad puede tardar ~1 minuto. No cierres la página."
+                            />
                           )}
                           {mensajePresOficial && (
                             <div
