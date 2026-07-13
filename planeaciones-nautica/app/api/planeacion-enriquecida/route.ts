@@ -31,6 +31,7 @@ import {
   rutaCorpus,
   type Carrera,
 } from "../../lib/seleccionHistoricas";
+import { verificarAuth } from "../../lib/server/auth";
 import {
   SYSTEM_PROMPT,
   construirMensajeUsuario,
@@ -143,6 +144,9 @@ async function generarTexto(
 }
 
 export async function POST(request: Request) {
+  const sesionAuth = await verificarAuth(request);
+  if (!sesionAuth.ok) return sesionAuth.respuesta;
+
   let cuerpo: Cuerpo;
   try {
     cuerpo = await request.json();

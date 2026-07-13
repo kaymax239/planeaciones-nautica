@@ -7,6 +7,7 @@
 // Gemini al bundle del navegador.
 
 import type { PreguntasExamen } from "./examen";
+import { authFetch } from "./authFetch";
 
 export type AmbitoExamen = "PN" | "MN" | "INGLES";
 
@@ -24,7 +25,7 @@ export async function pedirPreguntasExamenIA(params: {
     const controlador = new AbortController();
     const limite = setTimeout(() => controlador.abort(), 120000);
     try {
-      const res = await fetch("/api/examen", {
+      const res = await authFetch("/api/examen", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),

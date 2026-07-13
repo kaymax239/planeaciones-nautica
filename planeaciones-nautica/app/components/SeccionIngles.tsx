@@ -32,6 +32,7 @@ import {
 import type { PresentacionV2 } from "../data/presentaciones/tiposV2";
 import { Stepper, type PasoStepper } from "./Stepper";
 import { LoadingIA } from "./LoadingIA";
+import { authFetch } from "../lib/authFetch";
 
 type Props = {
   onVolver: () => void;
@@ -130,7 +131,7 @@ export function SeccionIngles({ onVolver }: Props) {
   // Carga los niveles reales del corpus. Si falla, se queda con el respaldo.
   useEffect(() => {
     let activo = true;
-    fetch("/api/biblioteca-ingles")
+    authFetch("/api/biblioteca-ingles")
       .then((r) => r.json())
       .then((d) => {
         if (
@@ -244,7 +245,7 @@ export function SeccionIngles({ onVolver }: Props) {
     setMensaje(null);
     setCargandoAvance(true);
     try {
-      const res = await fetch("/api/planeacion-ingles", {
+      const res = await authFetch("/api/planeacion-ingles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -350,7 +351,7 @@ export function SeccionIngles({ onVolver }: Props) {
     setGenerando(true);
     setMensaje(null);
     try {
-      const res = await fetch("/api/planeacion-ingles", {
+      const res = await authFetch("/api/planeacion-ingles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -427,7 +428,7 @@ export function SeccionIngles({ onVolver }: Props) {
     setMensaje(null);
     try {
       // 1. Índice académico del nivel (temario espejado de las históricas).
-      const res = await fetch("/api/planeacion-ingles", {
+      const res = await authFetch("/api/planeacion-ingles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -564,7 +565,7 @@ export function SeccionIngles({ onVolver }: Props) {
     setMensaje(null);
     setCargandoPresPool(true);
     try {
-      const res = await fetch("/api/planeacion-ingles", {
+      const res = await authFetch("/api/planeacion-ingles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -619,7 +620,7 @@ export function SeccionIngles({ onVolver }: Props) {
     try {
       for (const t of seleccionados) {
         try {
-          const res = await fetch("/api/presentacion-ingles", {
+          const res = await authFetch("/api/presentacion-ingles", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ nivel, tema: t.tema }),

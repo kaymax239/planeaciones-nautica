@@ -37,6 +37,7 @@ import {
   extraerJSON,
 } from "../../lib/claudeIA";
 import type { DiapositivaV2, PresentacionV2 } from "../../data/presentaciones/tiposV2";
+import { verificarAuth } from "../../lib/server/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -80,6 +81,9 @@ function conTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
 }
 
 export async function POST(request: Request) {
+  const sesionAuth = await verificarAuth(request);
+  if (!sesionAuth.ok) return sesionAuth.respuesta;
+
   let cuerpo: Cuerpo;
   try {
     cuerpo = await request.json();

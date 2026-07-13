@@ -5,11 +5,15 @@
 // Aislado del flujo PN/MN y de las presentaciones (Gemini). No genera nada.
 
 import { BibliotecaIngles } from "../../lib/bibliotecaIngles";
+import { verificarAuth } from "../../lib/server/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(request: Request) {
+  const sesionAuth = await verificarAuth(request);
+  if (!sesionAuth.ok) return sesionAuth.respuesta;
+
   try {
     const resumen = await BibliotecaIngles.leer();
     // Niveles realmente disponibles en el índice (los que tienen planeaciones

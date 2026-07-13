@@ -26,6 +26,7 @@ import {
 import type { PreguntasExamen } from "../../lib/examen";
 import { resolverPuntaje } from "../../lib/puntajeExamen";
 import { claveCache, leerCache, escribirCache } from "../../lib/cacheExamen";
+import { verificarAuth } from "../../lib/server/auth";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -160,6 +161,9 @@ async function generarTexto(
 }
 
 export async function POST(request: Request) {
+  const sesionAuth = await verificarAuth(request);
+  if (!sesionAuth.ok) return sesionAuth.respuesta;
+
   let cuerpo: Cuerpo;
   try {
     cuerpo = await request.json();

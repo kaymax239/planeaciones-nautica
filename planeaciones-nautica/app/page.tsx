@@ -39,6 +39,7 @@ import { Stepper, type PasoStepper } from "./components/Stepper";
 import { LoadingIA } from "./components/LoadingIA";
 import { LoginScreen } from "./components/LoginScreen";
 import { useAuth } from "./lib/authContext";
+import { authFetch } from "./lib/authFetch";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
 import { pedirPreguntasExamenIA } from "./lib/pedirPreguntasExamen";
@@ -304,7 +305,7 @@ export default function Home() {
     const controlador = new AbortController();
     const limite = setTimeout(() => controlador.abort(), 120000);
     try {
-      const res = await fetch("/api/presentacion", {
+      const res = await authFetch("/api/presentacion", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
