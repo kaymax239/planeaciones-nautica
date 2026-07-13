@@ -36,6 +36,9 @@ yarn-error.log*
 # generated presentations (PPTX se generan bajo demanda, no se versionan)
 *.pptx
 
+# ajustes locales de Claude Code (permisos por máquina; no versionar)
+.claude/
+
 # vercel
 .vercel
 
