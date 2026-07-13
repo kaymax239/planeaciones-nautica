@@ -856,89 +856,23 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#eef2f7] text-slate-900">
-      <div className="flex min-h-screen flex-col xl:flex-row">
-        <aside className="bg-[#071a33] text-white xl:w-88 xl:min-h-screen">
-          <div className="sticky top-0 flex h-full flex-col gap-8 overflow-y-auto p-6">
-            <div className="rounded-3xl border border-white/15 bg-white/10 p-5 shadow-2xl shadow-black/20">
-              <div className="mb-5 flex items-center gap-4">
-                <Monograma className="h-16 w-16" textClassName="text-sm" />
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#d7bd7a]">
-                    Sistema académico
-                  </p>
-                  <h1 className="mt-1 text-2xl font-black leading-tight">
-                    Planeación F-32
-                  </h1>
-                </div>
-              </div>
-
-              <div className="space-y-2 border-t border-white/15 pt-5">
-                <p className="text-sm font-bold text-white">
-                  Universidad Marítima y Portuaria de México
-                </p>
-                <p className="text-sm text-slate-200">
-                  Escuela Náutica Mercante de Tampico
-                </p>
-                <p className="text-xs leading-relaxed text-slate-300">
-                  Cap. de Altura Luis Gonzaga Priego González
-                </p>
-              </div>
-            </div>
+      {/* Barra superior delgada: monograma + identidad institucional. */}
+      <header className="sticky top-0 z-20 border-b-2 border-[#c8a45d] bg-[#071a33] text-white shadow-lg shadow-black/10">
+        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3 sm:px-8">
+          <Monograma className="h-11 w-11" textClassName="text-[11px]" />
+          <div className="leading-tight">
+            <p className="text-base font-black sm:text-lg">
+              Planeaciones Náuticas
+            </p>
+            <p className="text-[11px] text-slate-300 sm:text-xs">
+              Escuela Náutica Mercante de Tampico
+            </p>
           </div>
-        </aside>
+        </div>
+      </header>
 
-        <section className="flex-1 p-4 sm:p-8">
+        <section className="p-4 sm:p-8">
           <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-2xl shadow-slate-300/60">
-            <header className="relative bg-[#071a33] px-6 py-8 text-white sm:px-10">
-              <div className="absolute inset-x-0 top-0 h-2 bg-[#c8a45d]" />
-              <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-                <div>
-                  <p className="mb-3 text-xs font-bold uppercase tracking-[0.32em] text-[#d7bd7a]">
-                    Universidad Marítima y Portuaria de México
-                  </p>
-                  <h1 className="max-w-3xl text-3xl font-black leading-tight sm:text-5xl">
-                    Portada institucional de planeación académica
-                  </h1>
-                  <div className="mt-6 h-1 w-28 rounded-full bg-[#c8a45d]" />
-                </div>
-
-                <div className="flex justify-center lg:justify-end">
-                  <Monograma
-                    className="h-28 w-28 sm:h-32 sm:w-32"
-                    textClassName="text-xl sm:text-2xl"
-                  />
-                </div>
-              </div>
-            </header>
-
-            <div className="border-b border-slate-200 bg-[#f8fafc] px-6 py-5 sm:px-10">
-              <div className="grid gap-4 md:grid-cols-3">
-                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#c8a45d]">
-                    Institución
-                  </p>
-                  <p className="mt-2 font-bold text-[#071a33]">
-                    Universidad Marítima y Portuaria de México
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#c8a45d]">
-                    Plantel
-                  </p>
-                  <p className="mt-2 font-bold text-[#071a33]">
-                    Escuela Náutica Mercante de Tampico
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-slate-200 bg-white p-4">
-                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#c8a45d]">
-                    Nombre oficial
-                  </p>
-                  <p className="mt-2 font-bold text-[#071a33]">
-                    Cap. de Altura Luis Gonzaga Priego González
-                  </p>
-                </div>
-              </div>
-            </div>
 
             {seccion === "ingles" ? (
               <SeccionIngles onVolver={() => setSeccion("general")} />
@@ -1584,7 +1518,6 @@ export default function Home() {
             )}
           </div>
         </section>
-      </div>
     </main>
   );
 }
