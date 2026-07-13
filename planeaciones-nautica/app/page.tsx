@@ -993,9 +993,12 @@ export default function Home() {
 
           <div className="ml-auto flex items-center gap-3 sm:gap-4">
             {esAdmin ? (
-              <span className="hidden rounded-full border border-[#c8a45d]/50 px-3 py-1 text-[11px] font-bold text-[#d7bd7a] sm:inline-block">
-                Administrador · sin límites
-              </span>
+              <a
+                href="/admin"
+                className="hidden rounded-full border border-[#c8a45d]/50 px-3 py-1 text-[11px] font-bold text-[#d7bd7a] transition hover:bg-white/10 sm:inline-block"
+              >
+                Administrador · ver panel
+              </a>
             ) : (
               uso && (
                 <div className="hidden flex-col items-end text-[11px] leading-tight text-slate-300 sm:flex">
