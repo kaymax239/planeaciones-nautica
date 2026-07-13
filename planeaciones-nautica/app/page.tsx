@@ -37,6 +37,8 @@ import { SeccionIngles } from "./components/SeccionIngles";
 import { Monograma } from "./components/Monograma";
 import { Stepper, type PasoStepper } from "./components/Stepper";
 import { LoadingIA } from "./components/LoadingIA";
+import { LoginScreen } from "./components/LoginScreen";
+import { useAuth } from "./lib/authContext";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
 import { pedirPreguntasExamenIA } from "./lib/pedirPreguntasExamen";
@@ -170,6 +172,7 @@ const generarSecuenciaDidactica = (
 
 
 export default function Home() {
+  const { usuario, cargando: cargandoSesion } = useAuth();
   const [carrera, setCarrera] = useState<"PN" | "MN">("PN");
   // Sección activa. "general" = flujo PN/MN actual (sin cambios); "ingles" =
   // sección independiente de Inglés. No afecta al estado `carrera`.
@@ -899,6 +902,26 @@ export default function Home() {
       estado: materiaSeleccionada ? "activo" : "pendiente",
     },
   ];
+
+  // Puerta de acceso: mientras se resuelve la sesión, un estado de carga; sin
+  // sesión válida, la pantalla de login; con sesión, la aplicación.
+  if (cargandoSesion) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#071a33] text-white">
+        <div className="flex items-center gap-3">
+          <span
+            aria-hidden="true"
+            className="h-6 w-6 animate-spin rounded-full border-2 border-white/30 border-t-white"
+          />
+          <p className="text-sm font-semibold">Cargando…</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (!usuario) {
+    return <LoginScreen />;
+  }
 
   return (
     <main className="min-h-screen bg-[#eef2f7] text-slate-900">
