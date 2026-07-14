@@ -95,17 +95,26 @@ function secuencia(unidad: UnidadOficial, subtemas: string[]): string {
 export function distribuirPrograma(
   programa: ProgramaOficial,
   puntuaciones: string,
+  // Etiqueta de la celda "Semana" (1-indexada). Por defecto, calendario
+  // Ago–Dic 2026. El generador pasa la del periodo elegido (ver app/config/calendario).
+  etiquetaSemana?: (numero: number) => string,
 ): BloqueRender[] {
   const total = programa.horas.semanas;
   const fechas = distribuirFechas(total);
+  const etiqueta =
+    etiquetaSemana ??
+    ((n: number) => {
+      const f = fechas[n - 1];
+      return f ? etiquetaSemanaF32(f) : `Semana ${n}`;
+    });
   const wpu = semanasPorUnidad(programa.unidades, total);
 
   let slot = 0;
   return programa.unidades.map((u, ui) => {
     const grupos = repartirContiguo(u.subtemas, wpu[ui]);
     const semanas: SemanaRender[] = grupos.map((g, k) => {
-      const f = fechas[slot];
       slot++;
+      const numeroSemana = slot;
       const titulo =
         k === 0 ? `Unidad ${u.numero}: ${u.tema}` : `Unidad ${u.numero} (cont.)`;
       const contenido = g.length
@@ -114,7 +123,7 @@ export function distribuirPrograma(
           ? "Contenidos de actualidad del sector marítimo portuario (selección a cargo del docente)."
           : u.tema;
       return {
-        semana: f ? etiquetaSemanaF32(f) : `Semana ${slot}`,
+        semana: etiqueta(numeroSemana),
         tema: `${titulo}\n${contenido}`,
         secuencia: secuencia(u, g),
         recursos: RECURSOS,

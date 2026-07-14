@@ -139,6 +139,50 @@ export const tipoMateriaDesdePrograma = (
   return porHoras(); // tipo desconocido => por horas
 };
 
+/**
+ * Porcentajes y mínima aprobatoria para el PLAN DE EVALUACIÓN del F-32.
+ * PRIORIZA `programa.evaluacion` (biblioteca oficial 2026→2027, ya normalizada a
+ * DEN-526-2025 / DEN-065-2026 por semestre/tipo). Solo si el programa NO trae ese
+ * campo (materias legacy) usa la lógica por semestre/generación.
+ */
+export const porcentajesDocx = (
+  programa: ProgramaOficial | undefined,
+  tipo: TipoMateria,
+  generacion: Generacion,
+): {
+  pctConocimiento: string;
+  pctActividades: string;
+  pctParticipacion: string;
+  calificacionMinima: string;
+} => {
+  const norm = (s: string) =>
+    s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+  const ev = programa?.evaluacion;
+  if (ev && ev.esquema === "oficial" && ev.parciales[0]?.categorias) {
+    const cats = ev.parciales[0].categorias;
+    const pct = (frag: string) => {
+      const c = cats.find((x) => norm(x.categoria).includes(frag));
+      return c ? String(c.porcentaje) : "";
+    };
+    return {
+      pctConocimiento: pct("conocimiento"),
+      pctActividades: pct("practic") || pct("actividad"),
+      pctParticipacion: pct("participac"),
+      calificacionMinima: ev.calificacionMinima.toFixed(1),
+    };
+  }
+  // Legacy (semestres impares sin campo evaluacion).
+  const criterios = criteriosEvaluacion(tipo, generacion);
+  const p = (incluye: string) =>
+    String(criterios.find((c) => c.nombre.includes(incluye))?.porcentaje ?? "");
+  return {
+    pctConocimiento: p("Conocimiento"),
+    pctActividades: p("Actividades"),
+    pctParticipacion: p("Participaciones"),
+    calificacionMinima: ESCALA[generacion].minimaAprobatoria.toFixed(1),
+  };
+};
+
 /** Línea compacta de ponderación para meter como TEXTO en F-51 y exámenes
  *  (sin tocar las plantillas .docx). */
 export const textoPonderacionEvaluacion = (

@@ -9,17 +9,16 @@ import {
 import {
   distribuirFechas,
   etiquetaSemanaF32,
-  EXAMENES,
-  formatearRango,
 } from "./data/calendario";
 import {
-  criteriosEvaluacion,
   generacionPorSemestre,
+  porcentajesDocx,
   textoPonderacionEvaluacion,
   textoPuntuacionesF32,
   tipoMateriaDesdePrograma,
 } from "./data/evaluacion";
 import { distribuirPrograma } from "./data/distribucion";
+import { calendarioDe } from "./config/calendario";
 import { esProgramaOficial } from "./data/tipos";
 // V1 conservada como respaldo en ./data/presentaciones/algebra-u1.ts y ./lib/pptxOficial.ts.
 // El botón usa la versión visual V2, resuelta bajo demanda desde el registro.
@@ -229,7 +228,10 @@ export default function Home() {
     "f32" | "f51" | "examenes" | "presentaciones"
   >("f32");
 
-  const periodo = "Julio-Diciembre 2026";
+  // Periodo de impartición para los documentos: derivado del periodo escolar
+  // elegido (Ago–Dic 2026 impares / Ene–Jun 2027 pares). Fuente: config/calendario.
+  const calendarioActivo = calendarioDe(periodoEscolar);
+  const periodo = calendarioActivo.etiqueta;
   const escuelaNautica =
     'Escuela Náutica Mercante de Tampico "Cap. de Altura Luis Gonzaga Priego González"';
 
@@ -265,6 +267,7 @@ export default function Home() {
           "teorico-practica",
           generacionPorSemestre(semestreSeleccionado),
         ),
+        calendarioActivo.etiquetaSemana,
       )
         .flatMap((bloque) => bloque.semanas)
         .map((s, i) => ({
@@ -547,11 +550,9 @@ export default function Home() {
         ? tipoMateriaDesdePrograma(programaMateria)
         : "teorica";
       const puntuaciones = textoPuntuacionesF32(tipoMateria, generacion);
-      const criterios = criteriosEvaluacion(tipoMateria, generacion);
-      const porcentaje = (incluye: string) =>
-        String(
-          criterios.find((c) => c.nombre.includes(incluye))?.porcentaje ?? "",
-        );
+      // Plan de evaluación: prioriza el campo `evaluacion` de la biblioteca
+      // (oficial DEN por semestre/tipo); cae a la lógica legacy si no existe.
+      const evalDocx = porcentajesDocx(programaMateria, tipoMateria, generacion);
 
       type DatosRender = {
         asignatura: string;
@@ -588,7 +589,11 @@ export default function Home() {
           horasSemana: String(p.horas.porSemana),
           horasXSemana: String(p.horas.porSemana),
           objetivoGeneral: p.objetivoGeneral,
-          unidadBloques: distribuirPrograma(p, puntuaciones),
+          unidadBloques: distribuirPrograma(
+            p,
+            puntuaciones,
+            calendarioActivo.etiquetaSemana,
+          ),
           fuentes: p.bibliografia.length
             ? p.bibliografia.join("\n")
             : "Pendiente de revisión.",
@@ -659,12 +664,17 @@ export default function Home() {
         numeroCadetes: cadetes,
         fecha: fechaInicio,
 
-        // Plan de evaluación (hoja de fechas de exámenes del F-32)
-        fechaParcial1: formatearRango(EXAMENES.parcial1),
-        fechaParcial2: formatearRango(EXAMENES.parcial2),
-        pctConocimiento: porcentaje("Conocimiento"),
-        pctActividades: porcentaje("Actividades"),
-        pctParticipacion: porcentaje("Participaciones"),
+        // Plan de evaluación: fechas del calendario del periodo activo y
+        // porcentajes/mínima desde la biblioteca (campo evaluacion) según
+        // semestre/tipo. Ene–Jun 2027 aún sin oficio → "(fechas por publicar)".
+        fechaParcial1: calendarioActivo.fechaParcial1,
+        fechaParcial2: calendarioActivo.fechaParcial2,
+        pctConocimiento: evalDocx.pctConocimiento,
+        pctActividades: evalDocx.pctActividades,
+        pctParticipacion: evalDocx.pctParticipacion,
+        // Nota: la plantilla F-32 aún no tiene placeholder {calificacionMinima};
+        // se pasa listo para cuando se agregue a la plantilla.
+        calificacionMinima: evalDocx.calificacionMinima,
       });
 
       const blob = doc.getZip().generate({
