@@ -102,5 +102,102 @@
       "bibliografia": 0
     },
     "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "práctica",
+    "calificacionMinima": 7,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 20,
+            "desglose": [
+              {
+                "criterio": "EXAMEN",
+                "instrumento": "Evaluación sumativa"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 70,
+            "desglose": [
+              {
+                "criterio": "Ejecución correcta de circuitos motores",
+                "instrumento": "Lista de cotejo y registro anecdótico (Diagnóstica y formativa)"
+              },
+              {
+                "criterio": "Investigar sobre los nadadores con problemas psicomotores en la historia de México",
+                "instrumento": "Lista de cotejo y registro anecdótico (Diagnóstica y formativa)"
+              },
+              {
+                "criterio": "Cumplimiento de rutina física con técnica adecuada",
+                "instrumento": "Lista de cotejo (formativa)"
+              },
+              {
+                "criterio": "Investigación (investigar la historia del voleibol en México)",
+                "instrumento": "Lista de cotejo (Evaluación formativa)"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 10,
+            "desglose": [
+              {
+                "criterio": "Participación y aplicación de tácticas básicas",
+                "instrumento": "Rúbrica de participación"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 20,
+            "desglose": [
+              {
+                "criterio": "Examen Segundo parcial",
+                "instrumento": "Examen (evaluación sumativa)"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 70,
+            "desglose": [
+              {
+                "criterio": "Mejora observable en condición física",
+                "instrumento": "Lista de cotejo (formativa)"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 10,
+            "desglose": [
+              {
+                "criterio": "Ejecución correcta de simulaciones, dominio de técnicas básicas y participación",
+                "instrumento": "Lista de cotejo (Formativa)"
+              },
+              {
+                "criterio": "Participación reflexiva y práctica",
+                "instrumento": "Lista de cotejo (formativa)"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
   }
 }

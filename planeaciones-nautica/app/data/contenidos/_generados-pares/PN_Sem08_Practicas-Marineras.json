@@ -113,70 +113,98 @@
     "revisar": true
   },
   "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "práctica",
+    "calificacionMinima": 6,
     "parciales": [
       {
-        "nombre": "1er parcial",
-        "criterios": [
+        "nombre": "1er Parcial",
+        "categorias": [
           {
-            "criterio": "Práctica (Unidad I)",
-            "peso": 25,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "1era evaluación parcial (Unidad III)",
+                "instrumento": "Examen"
+              }
+            ]
           },
           {
-            "criterio": "Práctica (Unidad II)",
-            "peso": 25,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Práctica (Unidad I)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Práctica (Unidad II)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Síntesis (Unidad II)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Ejercicio (Unidad III)",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           },
           {
-            "criterio": "Síntesis (Unidad II)",
-            "peso": 12.5,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Ejercicio (Unidad III)",
-            "peso": 12.5,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "1era evaluación parcial (Unidad III)",
-            "peso": 25,
-            "instrumento": "Examen"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
           }
         ],
-        "suma": 100
+        "sinClasificar": []
       },
       {
-        "nombre": "2do parcial",
-        "criterios": [
+        "nombre": "2do Parcial",
+        "categorias": [
           {
-            "criterio": "Prácticas (Unidad IV)",
-            "peso": 25,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Cuestionario (Unidad IV)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "2da evaluación parcial (Unidad VI)",
+                "instrumento": "Examen"
+              }
+            ]
           },
           {
-            "criterio": "Prácticas (Unidad IV)",
-            "peso": 25,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Prácticas (Unidad IV)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Prácticas (Unidad IV)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Trabajo en clase (Unidad V)",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           },
           {
-            "criterio": "Cuestionario (Unidad IV)",
-            "peso": 12.5,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Trabajo en clase (Unidad V)",
-            "peso": 12.5,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "2da evaluación parcial (Unidad VI)",
-            "peso": 25,
-            "instrumento": "Examen"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
           }
         ],
-        "suma": 100
+        "sinClasificar": []
       }
     ],
-    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
   }
 }

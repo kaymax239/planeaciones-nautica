@@ -119,39 +119,76 @@
     "revisar": true
   },
   "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 7,
     "parciales": [
       {
-        "nombre": "Primera evaluación parcial",
-        "criterios": [
+        "nombre": "1er Parcial",
+        "categorias": [
           {
-            "criterio": "Actividad 1: Organizador gráfico sobre la división de la Geografía y su aplicación al ámbito marítimo. Incluye geografía física, humana y económica, relacionándolas con el comercio y transporte marítimo",
-            "peso": 7,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Conocimiento",
+            "porcentaje": 70,
+            "desglose": [
+              {
+                "criterio": "Evaluación Parcial",
+                "instrumento": "Examen"
+              }
+            ]
           },
           {
-            "criterio": "Actividad 2: Diagrama de la Tierra señalando las líneas principales (Ecuador, trópicos, círculos polares y eje terrestre) y su aplicación para la determinación de la situación geográfica en navegación",
-            "peso": 7,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 20,
+            "desglose": [
+              {
+                "criterio": "Actividad 1: Organizador gráfico sobre la división de la Geografía y su aplicación al ámbito marítimo. Incluye geografía física, humana y económica, relacionándolas con el comercio y transporte marítimo",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Actividad 2: Diagrama de la Tierra señalando las líneas principales (Ecuador, trópicos, círculos polares y eje terrestre) y su aplicación para la determinación de la situación geográfica en navegación",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Actividad 3: Ensayo corto sobre la importancia geográfica de los continentes y su influencia en el transporte marítimo internacional",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Presentación digital sobre fundamentos geográficos aplicados al transporte marítimo",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           },
           {
-            "criterio": "Actividad 3: Ensayo corto sobre la importancia geográfica de los continentes y su influencia en el transporte marítimo internacional",
-            "peso": 6,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Presentación digital sobre fundamentos geográficos aplicados al transporte marítimo",
-            "peso": 10,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Evaluación Parcial",
-            "peso": 70,
-            "instrumento": "Examen"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 10,
+            "desglose": []
           }
         ],
-        "suma": 100
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 70,
+            "desglose": []
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 20,
+            "desglose": []
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 10,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
       }
     ],
-    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
   }
 }

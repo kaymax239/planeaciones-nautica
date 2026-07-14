@@ -128,85 +128,111 @@
     "revisar": true
   },
   "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 6,
     "parciales": [
       {
-        "nombre": "1er PARCIAL",
-        "criterios": [
+        "nombre": "1er Parcial",
+        "categorias": [
           {
-            "criterio": "Utilizar datos de posicionamiento en aplicaciones reales.",
-            "peso": 12.5,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Estimar la velocidad horaria del buque",
+                "instrumento": "EXAMEN"
+              },
+              {
+                "criterio": "1RA. Evaluación Parcial",
+                "instrumento": "EXAMEN"
+              }
+            ]
           },
           {
-            "criterio": "Conocer la navegación hiperbólica",
-            "peso": 12.5,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Utilizar datos de posicionamiento en aplicaciones reales.",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Conocer la navegación hiperbólica",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Usar el ecosonda para la navegación segura",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Participar en prácticas",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Participar en prácticas",
+                "instrumento": "Rúbrica"
+              }
+            ]
           },
           {
-            "criterio": "Usar el ecosonda para la navegación segura",
-            "peso": 12.5,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Estimar la velocidad horaria del buque",
-            "peso": 12.5,
-            "instrumento": "EXAMEN"
-          },
-          {
-            "criterio": "Participar en prácticas",
-            "peso": 12.5,
-            "instrumento": "Rúbrica"
-          },
-          {
-            "criterio": "Participar en prácticas",
-            "peso": 12.5,
-            "instrumento": "Rúbrica"
-          },
-          {
-            "criterio": "1RA. Evaluación Parcial",
-            "peso": 25,
-            "instrumento": "EXAMEN"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
           }
         ],
-        "suma": 100
+        "sinClasificar": []
       },
       {
-        "nombre": "2do PARCIAL",
-        "criterios": [
+        "nombre": "2do Parcial",
+        "categorias": [
           {
-            "criterio": "Conocer los datos estáticos y dinámicos del AIS",
-            "peso": 9,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "2DA Evaluación Parcial",
+                "instrumento": "EXAMEN"
+              }
+            ]
           },
           {
-            "criterio": "Prácticas del manual navi trainer",
-            "peso": 8,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Conocer los datos estáticos y dinámicos del AIS",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Prácticas del manual navi trainer",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Temas de actualidad del sector marítimo",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           },
           {
-            "criterio": "Temas de actualidad del sector marítimo",
-            "peso": 8,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Participación del AIS",
-            "peso": 12.5,
-            "instrumento": "Rúbrica"
-          },
-          {
-            "criterio": "Participación del ECDIS",
-            "peso": 12.5,
-            "instrumento": "Rúbrica"
-          },
-          {
-            "criterio": "2DA Evaluación Parcial",
-            "peso": 50,
-            "instrumento": "EXAMEN"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participación del AIS",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Participación del ECDIS",
+                "instrumento": "Rúbrica"
+              }
+            ]
           }
         ],
-        "suma": 100
+        "sinClasificar": []
       }
     ],
-    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
   }
 }

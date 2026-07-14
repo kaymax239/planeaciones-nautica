@@ -130,80 +130,107 @@
     "revisar": true
   },
   "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "práctica",
+    "calificacionMinima": 6,
     "parciales": [
       {
-        "nombre": "1er PARCIAL",
-        "criterios": [
+        "nombre": "1er Parcial",
+        "categorias": [
           {
-            "criterio": "Elabora un Organizador Gráfico",
-            "peso": 20,
-            "instrumento": "Lista de Cotejo"
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Examen Primer Parcial",
+                "instrumento": "Examen Sumativo"
+              }
+            ]
           },
           {
-            "criterio": "Prácticas Radar Convencional",
-            "peso": 15,
-            "instrumento": "Guía de Observación"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Elabora un Organizador Gráfico",
+                "instrumento": "Lista de Cotejo"
+              },
+              {
+                "criterio": "Prácticas Radar Convencional",
+                "instrumento": "Guía de Observación"
+              },
+              {
+                "criterio": "Prácticas de Radar ARPA en Simulador Navitrainer",
+                "instrumento": "Guía de Observación"
+              },
+              {
+                "criterio": "Trabajo Comparativo de Investigación sobre Radar ARPA y Convencional",
+                "instrumento": "Lista de Cotejo"
+              }
+            ]
           },
           {
-            "criterio": "Prácticas de Radar ARPA en Simulador Navitrainer",
-            "peso": 15,
-            "instrumento": "Guía de Observación"
-          },
-          {
-            "criterio": "Participación Oral",
-            "peso": 5,
-            "instrumento": "Lista de Cotejo"
-          },
-          {
-            "criterio": "Trabajo Comparativo de Investigación sobre Radar ARPA y Convencional",
-            "peso": 20,
-            "instrumento": "Lista de Cotejo"
-          },
-          {
-            "criterio": "Examen Primer Parcial",
-            "peso": 25,
-            "instrumento": "Examen Sumativo"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participación Oral",
+                "instrumento": "Lista de Cotejo"
+              }
+            ]
           }
         ],
-        "suma": 100
+        "sinClasificar": []
       },
       {
-        "nombre": "2do PARCIAL",
-        "criterios": [
+        "nombre": "2do Parcial",
+        "categorias": [
           {
-            "criterio": "Prácticas G.P.S en Simulador Navitrainer",
-            "peso": 15,
-            "instrumento": "Guía de Observación"
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Examen Segundo Parcial",
+                "instrumento": "Examen Sumativo"
+              }
+            ]
           },
           {
-            "criterio": "Elabora Lista de Verificación para Actualizar A.I.S",
-            "peso": 20,
-            "instrumento": "Lista de Cotejo"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Prácticas G.P.S en Simulador Navitrainer",
+                "instrumento": "Guía de Observación"
+              },
+              {
+                "criterio": "Elabora Lista de Verificación para Actualizar A.I.S",
+                "instrumento": "Lista de Cotejo"
+              },
+              {
+                "criterio": "Prácticas en E.C.D.I.S en Simulador Navitrainer",
+                "instrumento": "Guía de Observación"
+              },
+              {
+                "criterio": "Síntesis de la utilidad de los Controles del GPS",
+                "instrumento": "Lista de Cotejo"
+              },
+              {
+                "criterio": "Elabora Plan de Viaje para seguimiento en ECDIS",
+                "instrumento": "Lista de Cotejo"
+              }
+            ]
           },
           {
-            "criterio": "Prácticas en E.C.D.I.S en Simulador Navitrainer",
-            "peso": 15,
-            "instrumento": "Guía de Observación"
-          },
-          {
-            "criterio": "Síntesis de la utilidad de los Controles del GPS",
-            "peso": 5,
-            "instrumento": "Lista de Cotejo"
-          },
-          {
-            "criterio": "Elabora Plan de Viaje para seguimiento en ECDIS",
-            "peso": 20,
-            "instrumento": "Lista de Cotejo"
-          },
-          {
-            "criterio": "Examen Segundo Parcial",
-            "peso": 25,
-            "instrumento": "Examen Sumativo"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
           }
         ],
-        "suma": 100
+        "sinClasificar": []
       }
     ],
-    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
   }
 }

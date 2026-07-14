@@ -79,34 +79,74 @@
     "revisar": true
   },
   "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "práctica",
+    "calificacionMinima": 6,
     "parciales": [
       {
         "nombre": "1er Parcial",
-        "criterios": [
+        "categorias": [
           {
-            "criterio": "Unidad 1. Percepción y coordinación motriz",
-            "peso": 15,
-            "instrumento": "Evaluación diagnóstica"
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Examen parcial",
+                "instrumento": "Examen parcial"
+              }
+            ]
           },
           {
-            "criterio": "Unidad 2. Desarrollo físico integral",
-            "peso": 15,
-            "instrumento": "Lista de cotejo Evaluación sumativa"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Unidad 2. Desarrollo físico integral",
+                "instrumento": "Lista de cotejo Evaluación sumativa"
+              }
+            ]
           },
           {
-            "criterio": "Participación del estudiante. Ejercicios actividad física",
-            "peso": 20,
-            "instrumento": "Lista de cotejo (Evaluación formativa)"
-          },
-          {
-            "criterio": "Examen parcial",
-            "peso": 50,
-            "instrumento": "Examen parcial"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participación del estudiante. Ejercicios actividad física",
+                "instrumento": "Lista de cotejo (Evaluación formativa)"
+              }
+            ]
           }
         ],
-        "suma": 100
+        "sinClasificar": [
+          {
+            "criterio": "Unidad 1. Percepción y coordinación motriz",
+            "instrumento": "Evaluación diagnóstica"
+          }
+        ]
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": []
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": []
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
       }
     ],
-    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
   }
 }

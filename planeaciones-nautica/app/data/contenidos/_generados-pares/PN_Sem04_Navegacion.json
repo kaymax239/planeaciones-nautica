@@ -162,64 +162,96 @@
     "revisar": true
   },
   "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 6,
     "parciales": [
       {
-        "nombre": "1era evaluación parcial",
-        "criterios": [
+        "nombre": "1er Parcial",
+        "categorias": [
           {
-            "criterio": "Examen diagnóstico en Investigaciones y sesión de preguntas y respuestas",
-            "peso": 7.1,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Examen diagnóstico en Investigaciones y sesión de preguntas y respuestas",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Cuestionario",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Examen",
+                "instrumento": "Examen"
+              }
+            ]
           },
           {
-            "criterio": "Cuestionario",
-            "peso": 7.1,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Lectura del sextante y sus errores",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Uso del Sextante",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Obtener altura del sol con el sextante",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Conocer los diferentes tipos de tiempo",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Manejo del almanaque náutico",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Conocer distintas constelaciones",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Identificar salida y ocultamiento de los astros",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           },
           {
-            "criterio": "Lectura del sextante y sus errores",
-            "peso": 7.1,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Uso del Sextante",
-            "peso": 12.5,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Obtener altura del sol con el sextante",
-            "peso": 12.5,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Conocer los diferentes tipos de tiempo",
-            "peso": 7.1,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Manejo del almanaque náutico",
-            "peso": 7.1,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Conocer distintas constelaciones",
-            "peso": 7.1,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Identificar salida y ocultamiento de los astros",
-            "peso": 7.4,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Examen",
-            "peso": 25,
-            "instrumento": "Examen"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
           }
         ],
-        "suma": 100
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": []
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": []
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
       }
     ],
-    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
   }
 }

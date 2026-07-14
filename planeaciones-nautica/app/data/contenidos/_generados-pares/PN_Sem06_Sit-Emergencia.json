@@ -80,70 +80,99 @@
     "revisar": true
   },
   "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 6,
     "parciales": [
       {
         "nombre": "1er Parcial",
-        "criterios": [
+        "categorias": [
           {
-            "criterio": "Plan de Contingencia para Protección de Pasajeros",
-            "peso": 5,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Examen 1er parcial",
+                "instrumento": "Examen escrito"
+              }
+            ]
           },
           {
-            "criterio": "Lista de Verificación para Emergencias Iniciales",
-            "peso": 5,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Plan de Contingencia para Protección de Pasajeros",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Lista de Verificación para Emergencias Iniciales",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Simulacro de Emergencia Temprana",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Podcast \"voz de emergencia\"",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           },
           {
-            "criterio": "Simulacro de Emergencia Temprana",
-            "peso": 15,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Podcast \"voz de emergencia\"",
-            "peso": 25,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Examen 1er parcial",
-            "peso": 50,
-            "instrumento": "Examen escrito"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
           }
         ],
-        "suma": 100
+        "sinClasificar": []
       },
       {
         "nombre": "2do Parcial",
-        "criterios": [
+        "categorias": [
           {
-            "criterio": "Plan de Rescate SAR y Asistencia a Terceros",
-            "peso": 5,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Segunda evaluación parcial",
+                "instrumento": "Examen escrito"
+              }
+            ]
           },
           {
-            "criterio": "Análisis de Caso Complejo con Emergencias Múltiples",
-            "peso": 5,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Análisis de Caso Complejo con Emergencias Múltiples",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Propuesta de Innovación en Seguridad Marítima",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Video tutorial \"protocolo paso a paso\"",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           },
           {
-            "criterio": "Propuesta de Innovación en Seguridad Marítima",
-            "peso": 15,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Video tutorial \"protocolo paso a paso\"",
-            "peso": 25,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Segunda evaluación parcial",
-            "peso": 50,
-            "instrumento": "Examen escrito"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Plan de Rescate SAR y Asistencia a Terceros",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           }
         ],
-        "suma": 100
+        "sinClasificar": []
       }
     ],
-    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
   }
 }

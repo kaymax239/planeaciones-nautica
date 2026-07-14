@@ -144,5 +144,142 @@
       "bibliografia": 0
     },
     "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "práctica",
+    "calificacionMinima": 7,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 20,
+            "desglose": [
+              {
+                "criterio": "Examen primer parcial",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 70,
+            "desglose": [
+              {
+                "criterio": "Prácticas",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Discusión guiada",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Mapa conceptual",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Discusión guiada",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Práctica (estudio de casos)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Síntesis",
+                "instrumento": "Rubrica"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 10,
+            "desglose": [
+              {
+                "criterio": "Participación",
+                "instrumento": "Guía de observación"
+              },
+              {
+                "criterio": "Participación",
+                "instrumento": "Guía de observación"
+              },
+              {
+                "criterio": "Participación",
+                "instrumento": "Guía de observación"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 20,
+            "desglose": [
+              {
+                "criterio": "Debate / Conocimiento (examen)",
+                "instrumento": "Rúbrica"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 70,
+            "desglose": [
+              {
+                "criterio": "Debate",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Práctica",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Debate",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Práctica",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Discusión guiada",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Practica",
+                "instrumento": null
+              },
+              {
+                "criterio": "Practica",
+                "instrumento": null
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 10,
+            "desglose": [
+              {
+                "criterio": "Participación",
+                "instrumento": null
+              },
+              {
+                "criterio": "Participación",
+                "instrumento": null
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
   }
 }

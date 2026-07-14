@@ -13,7 +13,7 @@
       "archivo": "MN_Sem02_Educacion-Fisica.json",
       "estado": "generado",
       "unidades": 6,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Electricidad II",
@@ -22,7 +22,7 @@
       "archivo": "MN_Sem02_Electricidad.json",
       "estado": "generado",
       "unidades": 5,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Estática",
@@ -31,7 +31,7 @@
       "archivo": "MN_Sem02_Estatica.json",
       "estado": "generado",
       "unidades": 10,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Formación Básica al STCW",
@@ -40,7 +40,7 @@
       "archivo": "MN_Sem02_Formacion-Basica.json",
       "estado": "generado",
       "unidades": 5,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Metodología de la investigación",
@@ -49,7 +49,7 @@
       "archivo": "MN_Sem02_Metodologia-De-La-Investigacion.json",
       "estado": "generado",
       "unidades": 10,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Prácticas Marineras II",
@@ -58,7 +58,7 @@
       "archivo": "MN_Sem02_Practicas-Marineras.json",
       "estado": "generado",
       "unidades": 12,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Taller I",
@@ -67,7 +67,7 @@
       "archivo": "MN_Sem02_Ii-Taller.json",
       "estado": "generado",
       "unidades": 9,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Electrónica",
@@ -76,7 +76,7 @@
       "archivo": "MN_Sem06_Electronica.json",
       "estado": "generado",
       "unidades": 7,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Generadores y máquinas de vapor",
@@ -85,7 +85,7 @@
       "archivo": "MN_Sem06_Generadores-Y-Maquinaria.json",
       "estado": "generado",
       "unidades": 7,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Motores II",
@@ -94,7 +94,7 @@
       "archivo": "MN_Sem06_Motores.json",
       "estado": "generado",
       "unidades": 6,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Pensamiento Crítico",
@@ -103,7 +103,7 @@
       "archivo": "MN_Sem06_Pensamiento-Critico.json",
       "estado": "generado",
       "unidades": 4,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Practicas Marineras VI",
@@ -112,7 +112,7 @@
       "archivo": "MN_Sem06_Practicas-Marineras.json",
       "estado": "generado",
       "unidades": 7,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Primeros Auxilios Médicos",
@@ -121,7 +121,7 @@
       "archivo": "MN_Sem06_Primeros-Auxilios-Medicos.json",
       "estado": "generado",
       "unidades": 10,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Refrigeración I",
@@ -130,7 +130,7 @@
       "archivo": "MN_Sem06_Refrigeracion.json",
       "estado": "generado",
       "unidades": 5,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Taller V",
@@ -139,7 +139,7 @@
       "archivo": "MN_Sem06_Taller.json",
       "estado": "generado",
       "unidades": 9,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Administración Naviera y Portuaria",
@@ -148,7 +148,7 @@
       "archivo": "MN_Sem08_Administracion-Naviera.json",
       "estado": "generado",
       "unidades": 9,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Convenios Organización Marítima Internacional II",
@@ -157,7 +157,7 @@
       "archivo": "MN_Sem08_Convenios-Omi.json",
       "estado": "generado",
       "unidades": 3,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Economía Marítima",
@@ -166,7 +166,7 @@
       "archivo": "MN_Sem08_Economia-Maritima.json",
       "estado": "generado",
       "unidades": 5,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Educación Física VIII A MN",
@@ -175,7 +175,7 @@
       "archivo": "MN_Sem08_Educacion-Fisica.json",
       "estado": "generado",
       "unidades": 4,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Laboratorio Diesel",
@@ -184,7 +184,7 @@
       "archivo": "MN_Sem08_Laboratorio-Diesel.json",
       "estado": "generado",
       "unidades": 3,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Legislación Marítima y Laboral",
@@ -193,7 +193,7 @@
       "archivo": "MN_Sem08_Legislacion-Maritima.json",
       "estado": "generado",
       "unidades": 9,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Metodología de la investigación",
@@ -202,7 +202,7 @@
       "archivo": "MN_Sem08_Metodologia-Investigacion.json",
       "estado": "generado",
       "unidades": 10,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Practicas marineras VIII",
@@ -211,7 +211,7 @@
       "archivo": "MN_Sem08_Practicas-Marineras.json",
       "estado": "generado",
       "unidades": 6,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Simulador de Máquinas",
@@ -220,7 +220,7 @@
       "archivo": "MN_Sem08_Simulador-De-Maquinas.json",
       "estado": "generado",
       "unidades": 5,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Turbinas de Combustión",
@@ -229,7 +229,7 @@
       "archivo": "MN_Sem08_Turbinas-De-Combustion.json",
       "estado": "generado",
       "unidades": 6,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Educación Física II",
@@ -238,7 +238,7 @@
       "archivo": "PN_Sem02_Educacion-Fisica.json",
       "estado": "generado",
       "unidades": 6,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Estática",
@@ -247,7 +247,7 @@
       "archivo": "PN_Sem02_Estatica.json",
       "estado": "generado",
       "unidades": 10,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Formación Básica al STCW",
@@ -256,7 +256,7 @@
       "archivo": "PN_Sem02_Formacion-Basica-Stcw.json",
       "estado": "generado",
       "unidades": 5,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Geografía",
@@ -265,7 +265,7 @@
       "archivo": "PN_Sem02_Geografia.json",
       "estado": "generado",
       "unidades": 7,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Metodología de la investigación",
@@ -274,7 +274,7 @@
       "archivo": "PN_Sem02_Metodologia-De-La-Investigacion.json",
       "estado": "generado",
       "unidades": 10,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Practicas Marineras II",
@@ -283,7 +283,7 @@
       "archivo": "PN_Sem02_Practicas-Marineras.json",
       "estado": "generado",
       "unidades": 11,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Taller",
@@ -292,7 +292,7 @@
       "archivo": "PN_Sem02_Taller.json",
       "estado": "generado",
       "unidades": 9,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Topografía",
@@ -301,7 +301,7 @@
       "archivo": "PN_Sem02_Topografia.json",
       "estado": "generado",
       "unidades": 7,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Cálculo Diferencial e Integral",
@@ -310,7 +310,7 @@
       "archivo": "PN_Sem04_Calculo.json",
       "estado": "generado",
       "unidades": 5,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Educación Física",
@@ -319,7 +319,7 @@
       "archivo": "PN_Sem04_Educacion-Fisica.json",
       "estado": "generado",
       "unidades": 4,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Manejo de embarcaciones de supervivencia y botes de rescate que no sean botes de rescate rápidos",
@@ -328,7 +328,7 @@
       "archivo": "PN_Sem04_Manejo-Embarcaciones.json",
       "estado": "generado",
       "unidades": 11,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Maquinaria Marítima Auxiliar",
@@ -337,7 +337,7 @@
       "archivo": "PN_Sem04_Maquinaria-Maritima.json",
       "estado": "generado",
       "unidades": 10,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Meteorología I",
@@ -346,7 +346,7 @@
       "archivo": "PN_Sem04_Meteorologia.json",
       "estado": "generado",
       "unidades": 12,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Navegación II",
@@ -355,7 +355,7 @@
       "archivo": "PN_Sem04_Navegacion.json",
       "estado": "generado",
       "unidades": 10,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Practicas Marineras IV",
@@ -364,7 +364,7 @@
       "archivo": "PN_Sem04_Practicas-Marineras.json",
       "estado": "generado",
       "unidades": 8,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Técnicas de argumentación",
@@ -373,7 +373,7 @@
       "archivo": "PN_Sem04_Tecnicas-Argumentacion.json",
       "estado": "generado",
       "unidades": 5,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Educación Física",
@@ -382,7 +382,7 @@
       "archivo": "PN_Sem06_Educacion-Fisica.json",
       "estado": "generado",
       "unidades": 4,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Electrónica",
@@ -391,7 +391,7 @@
       "archivo": "PN_Sem06_Electronica.json",
       "estado": "generado",
       "unidades": 8,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Laboratorio de Navegación",
@@ -400,7 +400,7 @@
       "archivo": "PN_Sem06_Laboratorio-Navegacion.json",
       "estado": "generado",
       "unidades": 7,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Maniobras II",
@@ -409,7 +409,7 @@
       "archivo": "PN_Sem06_Maniobras.json",
       "estado": "generado",
       "unidades": 10,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Navegación IV",
@@ -418,7 +418,7 @@
       "archivo": "PN_Sem06_Navegacion.json",
       "estado": "generado",
       "unidades": 7,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Pensamiento Crítico",
@@ -427,7 +427,7 @@
       "archivo": "PN_Sem06_Pensamiento-Critico.json",
       "estado": "generado",
       "unidades": 4,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Prácticas Marineras VI",
@@ -436,7 +436,7 @@
       "archivo": "PN_Sem06_Practicas-Marineras-Vi.json",
       "estado": "generado",
       "unidades": 8,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Primeros Auxilios Médicos",
@@ -445,7 +445,7 @@
       "archivo": "PN_Sem06_Primeros-Auxilios.json",
       "estado": "generado",
       "unidades": 10,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Situaciones de emergencia",
@@ -454,7 +454,7 @@
       "archivo": "PN_Sem06_Sit-Emergencia.json",
       "estado": "generado",
       "unidades": 4,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Teoría del Buque I",
@@ -463,7 +463,7 @@
       "archivo": "PN_Sem06_Teoria-Del-Buque.json",
       "estado": "generado",
       "unidades": 9,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Administración Naviera y Portuaria",
@@ -472,7 +472,7 @@
       "archivo": "PN_Sem08_Administracion-Naviera.json",
       "estado": "generado",
       "unidades": 9,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Carga y Estiba II",
@@ -481,7 +481,7 @@
       "archivo": "PN_Sem08_Carga-Y-Estiba-B.json",
       "estado": "generado",
       "unidades": 5,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Convenios Organización Marítima Internacional II",
@@ -490,7 +490,7 @@
       "archivo": "PN_Sem08_Convenios.json",
       "estado": "generado",
       "unidades": 3,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Economía Marítima",
@@ -499,7 +499,7 @@
       "archivo": "PN_Sem08_Economia-Maritima.json",
       "estado": "generado",
       "unidades": 5,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Educación Física",
@@ -508,7 +508,7 @@
       "archivo": "PN_Sem08_Eduacion-Fisica.json",
       "estado": "generado",
       "unidades": 4,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Inglés Marítimo VIII (Maritime English 2)",
@@ -517,7 +517,7 @@
       "archivo": "PN_Sem08_Ingles-Maritimo.json",
       "estado": "generado",
       "unidades": 4,
-      "eval": "pendiente"
+      "eval": "oficial-ingles"
     },
     {
       "materia": "Legislación Marítima y Laboral",
@@ -526,7 +526,7 @@
       "archivo": "PN_Sem08_Legislacion-Maritima.json",
       "estado": "generado",
       "unidades": 9,
-      "eval": "pendiente"
+      "eval": "oficial"
     },
     {
       "materia": "Practicas marineras VIII",
@@ -535,7 +535,7 @@
       "archivo": "PN_Sem08_Practicas-Marineras.json",
       "estado": "generado",
       "unidades": 6,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Simuladores de Navegación II",
@@ -544,7 +544,7 @@
       "archivo": "PN_Sem08_Simulador-Navegacion.json",
       "estado": "generado",
       "unidades": 6,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Sistema de posicionamiento dinámico",
@@ -553,7 +553,7 @@
       "archivo": "PN_Sem08_Sistema-Posicionamiento-Dinamico.json",
       "estado": "generado",
       "unidades": 10,
-      "eval": "valida"
+      "eval": "oficial"
     },
     {
       "materia": "Sistema Mundial de Socorro y Salvamento Marítimo",
@@ -562,12 +562,14 @@
       "archivo": "PN_Sem08_Gmdss.json",
       "estado": "generado",
       "unidades": 5,
-      "eval": "pendiente"
+      "eval": "oficial"
     }
   ],
   "evalResumen": {
-    "validas": 35,
-    "pendientes": 27,
-    "sinTabla": 0
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "teoricas": 41,
+    "practicas": 20,
+    "ingles": 1
   }
 }

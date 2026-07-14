@@ -92,55 +92,88 @@
     "revisar": true
   },
   "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 7,
     "parciales": [
       {
         "nombre": "1er Parcial",
-        "criterios": [
+        "categorias": [
           {
-            "criterio": "Prácticas y Actividades de Aprendizaje - Uso de multímetro y medición de diferentes parámetros eléctricos",
-            "peso": 10,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Conocimiento",
+            "porcentaje": 70,
+            "desglose": [
+              {
+                "criterio": "Conocimiento - 1era evaluación parcial",
+                "instrumento": "Examen"
+              }
+            ]
           },
           {
-            "criterio": "Prácticas y Actividades de Aprendizaje - Medición de potencia, factor de potencia",
-            "peso": 10,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 20,
+            "desglose": [
+              {
+                "criterio": "Prácticas y Actividades de Aprendizaje - Uso de multímetro y medición de diferentes parámetros eléctricos",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Prácticas y Actividades de Aprendizaje - Medición de potencia, factor de potencia",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           },
           {
-            "criterio": "Participaciones y Uso de TICS - Exposición de uso de diferentes equipos de medición de parámetros eléctricos",
-            "peso": 10,
-            "instrumento": "Lista de cotejo"
-          },
-          {
-            "criterio": "Conocimiento - 1era evaluación parcial",
-            "peso": 70,
-            "instrumento": "Examen"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 10,
+            "desglose": [
+              {
+                "criterio": "Participaciones y Uso de TICS - Exposición de uso de diferentes equipos de medición de parámetros eléctricos",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           }
         ],
-        "suma": 100
+        "sinClasificar": []
       },
       {
         "nombre": "2do Parcial",
-        "criterios": [
+        "categorias": [
           {
-            "criterio": "Prácticas y Actividades de Aprendizaje - Uso de secuencímetro y megger en pruebas de motores",
-            "peso": 20,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Conocimiento",
+            "porcentaje": 70,
+            "desglose": [
+              {
+                "criterio": "Conocimiento - 2da evaluación parcial",
+                "instrumento": "Examen"
+              }
+            ]
           },
           {
-            "criterio": "Participaciones y Uso de TICS - Exposición de proyectos final de semestre",
-            "peso": 10,
-            "instrumento": "Lista de cotejo"
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 20,
+            "desglose": [
+              {
+                "criterio": "Prácticas y Actividades de Aprendizaje - Uso de secuencímetro y megger en pruebas de motores",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           },
           {
-            "criterio": "Conocimiento - 2da evaluación parcial",
-            "peso": 70,
-            "instrumento": "Examen"
+            "categoria": "Participación y TIC's",
+            "porcentaje": 10,
+            "desglose": [
+              {
+                "criterio": "Participaciones y Uso de TICS - Exposición de proyectos final de semestre",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
           }
         ],
-        "suma": 100
+        "sinClasificar": []
       }
     ],
-    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
   }
 }
