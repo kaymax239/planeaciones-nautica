@@ -1,0 +1,188 @@
+{
+  "clave": "ELA641",
+  "nombre": "Electrónica",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 20,
+    "porSemana": 4,
+    "teoricas": 52,
+    "practicas": 20,
+    "independientes": 8,
+    "total": 80
+  },
+  "objetivoGeneral": "Comprender el funcionamiento de los semiconductores en diodos y transistores, analizando su aplicación en rectificadores, reguladores de voltaje, amplificadores, osciladores y circuitos integrados, para identificar averías y fallas.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Medición y error",
+      "objetivoEspecifico": "Comprender los conceptos de exactitud y precisión para obtener mediciones correctas y minimizar errores. Identificar los sistemas de unidades y aplica las equivalencias para realizar conversiones adecuadas de acuerdo al caso.",
+      "subtemas": [
+        "1.1. Definiciones.",
+        "1.2. Exactitud y precisión.",
+        "1.3. Cifras significativas.",
+        "1.4. Probabilidad de errores.",
+        "1.5. Sistemas de unidades.",
+        "1.6. Unidades eléctricas y magnéticas.",
+        "1.7. Conversión de unidades."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Instrumentos indicadores electromecánicos",
+      "objetivoEspecifico": "Utilizar los instrumentos de medición para obtener lectura correcta y determinar si están dentro de los parámetros correspondientes.",
+      "subtemas": [
+        "2.1. Galvanómetro de suspensión.",
+        "2.2. Termoinstrumentos.",
+        "2.3. Electrodinamómetro en mediciones de potencia.",
+        "2.4. Medidores de factor de potencia.",
+        "2.5. Instrumentos transformadores."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Instrumentos electrónicos para medición de parámetros",
+      "objetivoEspecifico": "Emplear los multímetro y voltímetro explicando su diferencia, funcionamiento y aplicación para tener parámetros correctos.",
+      "subtemas": [
+        "3.1. Medidor con amplificador.",
+        "3.2. Voltímetro con rectificadores.",
+        "3.3. Multímetro electrónico.",
+        "3.4. Medidor de vector impedancia.",
+        "3.5. Mediciones de voltaje y potencia.",
+        "3.6. Realizar, declinar y aceptar ofrecimientos."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Componentes electrónicos",
+      "objetivoEspecifico": "Conocer los componentes básicos electrónicos y su función mediante diagramas y prácticas, para determinar su estado.",
+      "subtemas": [
+        "4.1. Las resistencias (de hilo y químicas).",
+        "4.2. Condensadores.",
+        "4.3. Transistores."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Diodos",
+      "objetivoEspecifico": "Conocer la constitución de los diodos, su función y armar circuitos rectificadores con regulación de voltaje, a fin de mantener los circuitos operacionales.",
+      "subtemas": [
+        "5.1. Diodo Zener.",
+        "5.2. LED´s",
+        "5.3. Diodos fotoeléctricos.",
+        "5.4. Diodo Schottky."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Circuitos Integrados",
+      "objetivoEspecifico": "Identificar correctamente los Circuitos Integrados, verificar sus condiciones de funcionamiento, para determinar su estado de operatividad y realizar los cambios necesarios.",
+      "subtemas": [
+        "6.1. Composición de un Circuito Integrado.",
+        "6.2. Clasificación de los CI según su función.",
+        "6.3. Clasificación de los CI según la cantidad de compuertas.",
+        "6.4. Identificación de los CI."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "Contenidos de actualidad del sector marítimo portuario."
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "García T, J (2002) Electrotecnia, Madrid España; PARANINFO",
+    "Martínez F. (2009). Apuntes de electricidad aplicada a los buques. México Club Universitario",
+    "Mileaf, H. (2014). Electricidad Serie 1-7. México: Limusa",
+    "Martínez F. & Martin, J. (s.f) Apuntes de Electricidad Aplicada a los Buques, fm; Editorial Club Universitario (Libro Virtual)"
+  ],
+  "fuente": "plan_195 ELECTRONICA GRUPO VI A MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_195 ELECTRONICA GRUPO VI A MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1er PARCIAL",
+        "criterios": [
+          {
+            "criterio": "PRACTICAS Y ACTIVIDADES DE APRENDIZAJE - Diseño de un sistema de medición electrónica",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "PRACTICAS Y ACTIVIDADES DE APRENDIZAJE - Diseño de un control industrial de nivel y temperatura",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "PRACTICAS Y ACTIVIDADES DE APRENDIZAJE - Programación y configuración de un controlador industrial para control de temperatura",
+            "peso": 5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "PARTICIPACIONES Y USO DE TICS - Exposición de proyectos final de semestre",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "CONOCIMIENTO - 1ERA EVALUACION PARCIAL",
+            "peso": 50,
+            "instrumento": "EXAMEN"
+          }
+        ],
+        "suma": 100
+      },
+      {
+        "nombre": "2do PARCIAL",
+        "criterios": [
+          {
+            "criterio": "PRACTICAS Y ACTIVIDADES DE APRENDIZAJE - PRACTICA",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "PRACTICAS Y ACTIVIDADES DE APRENDIZAJE - PRACTICA",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "PRACTICAS Y ACTIVIDADES DE APRENDIZAJE - PRACTICA",
+            "peso": 5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "PARTICIPACIONES Y USO DE TICS - Exposición de proyectos final de semestre",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "CONOCIMIENTO - 2DA EVALUACION PARCIAL",
+            "peso": 50,
+            "instrumento": "EXAMEN"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

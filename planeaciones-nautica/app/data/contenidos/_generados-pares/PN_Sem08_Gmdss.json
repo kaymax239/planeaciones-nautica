@@ -1,0 +1,111 @@
+{
+  "clave": "SMS857",
+  "nombre": "Sistema Mundial de Socorro y Salvamento Marítimo",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 4,
+    "teoricas": 36,
+    "practicas": 36,
+    "independientes": 12,
+    "total": 72
+  },
+  "objetivoGeneral": "Comunica mensajes a través del sistema mundial de socorro y salvamento marítimo, aplicando las normas y regulaciones dispuesta en este fin, para responder eficazmente a situaciones de emergencia.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Principios generales y características básicas del servicio móvil",
+      "objetivoEspecifico": "Conoce las bases del sistema de comunicación radioeléctrica, por medio de diapositivas, para operar un equipo de radiocomunicaciones marítimo.",
+      "subtemas": [
+        "1. Principios generales y características básicas del servicio móvil marítimo.",
+        "1.1. Tipos de comunicación.",
+        "1.2. Tipos de estaciones en el servicio móvil marítimo.",
+        "1.3. Conocimientos básicos de frecuencias y [DOCENTE]s.",
+        "1.4. Características de las frecuencias.",
+        "1.5. Conocimiento de diferentes tipos de comunicación.",
+        "1.6. Conocimientos básicos de diferentes tipos de modulación y clases de emisión.",
+        "1.7. Frecuencias asignadas al servicio móvil marítimo.",
+        "1.8. Principios generales y características básicas del servicio móvil marítimo satelital."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Operación de los equipos básicos de una estación terrena de buque (SES)",
+      "objetivoEspecifico": "Conoce los componentes e instalaciones de una estación terrena del buque, a través de gráficos, para una operación eficiente del equipo.",
+      "subtemas": [
+        "2.1. Receptores de alertas de socorro.",
+        "2.2. Instalación del equipo VHF.",
+        "2.3. Antenas.",
+        "2.4. Baterías.",
+        "2.5. Equipo de radiocomunicación para embarcaciones de supervivencia.",
+        "2.6. Llamada selectiva digital (DSC).",
+        "2.7. Selección de dirección de llamada con el sistema de número MMSI.",
+        "2.8. Categorización de llamadas.",
+        "2.9. Principios generales del sistema NBDP y TOR.",
+        "2.10. Uso de los sistemas INMARSAT."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Sistema Mundial de Socorro y Salvamento Marítimo",
+      "objetivoEspecifico": "Conoce el sistema mundial de socorro y salvamento marítimo, a través del análisis de manuales y reglamentos, para su apropiada aplicación.",
+      "subtemas": [
+        "3.1. Áreas marítimas y plan maestro del SMSSM.",
+        "3.2. Guardia de frecuencias de socorro.",
+        "3.3. Requerimientos funcionales de una SES.",
+        "3.4. Fuentes de energía.",
+        "3.5. Licencias, certificados e inspecciones.",
+        "3.6. SES en INMARSATC.",
+        "3.7. EGC en INMARSAT.",
+        "3.8. NAVTEX.",
+        "3.9. SART.",
+        "3.10. Procedimiento en comunicaciones de socorro y seguridad.",
+        "3.11. Seguridad.",
+        "3.12. Comunicaciones de urgencia y seguridad.",
+        "3.13. Comunicaciones con el sistema anterior al SMSSM.",
+        "3.14. Recepción de información marítima de seguridad",
+        "3.15. MSI.",
+        "3.16. Operaciones SAR."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Conocimientos generales y procedimientos operacionales para las comunicaciones",
+      "objetivoEspecifico": "Reconoce los diferentes procedimientos operacionales de comunicación, a través de normas y regulaciones, para una comunicación eficaz.",
+      "subtemas": [
+        "4. Conocimientos generales y procedimientos operacionales para las comunicaciones"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Factores humanos y toma de decisiones en situaciones de emergencia marítima",
+      "objetivoEspecifico": "Que el alumnado desarrolle habilidades para actuar de manera eficiente y coordinada en situaciones reales de emergencia, complementando el uso de los sistemas tecnológicos del SMSSM.",
+      "subtemas": [
+        "5. Factores humanos y toma de decisiones en situaciones de emergencia marítima"
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Manual Práctico del Sistema Mundial de Socorro y Seguridad Marítima - Meana Díaz, Elías Noray 2006",
+    "Manual IAMSAR Medios móviles OMI OMI 2010",
+    "Código IDS Dispositivos de Salvamento OMI OMI 2010"
+  ],
+  "fuente": "planeaci8n8didactica_3 GMDSS GRUPO VIII A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "planeaci8n8didactica_3 GMDSS GRUPO VIII A PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

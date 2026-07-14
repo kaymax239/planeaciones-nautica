@@ -1,0 +1,147 @@
+{
+  "clave": "ECM860",
+  "nombre": "Economía Marítima",
+  "tipo": "Teórica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 3,
+    "teoricas": 54,
+    "practicas": 0,
+    "independientes": 6,
+    "total": 54
+  },
+  "objetivoGeneral": "Utiliza conceptos de la teoría económica, evaluando las relaciones macroeconómicas con el ambiente marino empleando las variables como instrumentos de análisis.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "La industria del transporte marítimo y los ciclos económicos",
+      "objetivoEspecifico": "Identifica la evolución de los ciclos económicos del medio marítimo, analizando las condiciones y variantes del transporte de mercancías para entender sus implicaciones.",
+      "subtemas": [
+        "1.1. Características de la industria de transporte marítimo.",
+        "1.2. El transporte marítimo en el mundo.",
+        "1.2.1. El modo acuático y los tipos de mercancía transportadas.",
+        "1.2.2. Los tráficos.",
+        "1.2.3. El ciclo económico.",
+        "1.2.4. El ciclo marítimo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Crecimiento económico y productividad de la flota",
+      "objetivoEspecifico": "Reconoce que la productividad de la flota depende de la contribución de las tecnologías de la información y el conocimiento (TIC), entre otros factores, para que haya un crecimiento económico.",
+      "subtemas": [
+        "2.1. La productividad y su importancia.",
+        "2.2. La productividad del factor capital.",
+        "2.3. La productividad del factor trabajo.",
+        "2.4. La productividad de los recursos naturales.",
+        "2.5. La contribución de las tecnologías de la información y el conocimiento.",
+        "2.6. La productividad y el crecimiento económico.",
+        "2.7. Análisis agregado de la productividad del tráfico marítimo.",
+        "2.8. Los factores de la producción:",
+        "2.8.1. El factor capital: La flota mundial por tipo de buque.",
+        "2.8.2. El concepto de producción.",
+        "2.8.3. El concepto de producción en el tráfico marítimo.",
+        "2.8.4. La productividad de la flota mundial.",
+        "2.8.5. El concepto costes de producción.",
+        "2.8.6. Estimación de los costes totales de los fletes."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Transporte marítimo costes de transporte y conectividad en el comercio exterior",
+      "objetivoEspecifico": "Identifica los elementos de variables del transporte marítimo internacional mediante el análisis de conectividad y estimación de ecuaciones para determinar los costes con el comercio exterior.",
+      "subtemas": [
+        "3.1. Costes de transporte y comercio internacional.",
+        "3.2. Discusión de los datos utilizados y construcción de las variables en el modelo de costes de transporte marítimo.",
+        "3.3. Datos, fuentes y variables.",
+        "3.4. Construcción de medidas de conectividad.",
+        "3.5. Análisis empírico:",
+        "3.5.1. Estimación de los costes de transporte.",
+        "3.5.2. Estimación de una ecuación de comercio."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "La integración del transporte marítimo en el proceso de globalización económica",
+      "objetivoEspecifico": "Comprende que el nuevo urbanismo industrial y la revolución en los medios de transporte, de manera consciente e inconsciente han integrado al transporte marítimo en el proceso de globalización económica.",
+      "subtemas": [
+        "4.1. Globalización económica: Hacia un nuevo urbanismo industrial.",
+        "4.2. Causas de la globalización.",
+        "4.3. La globalización consciente versus globalización inconsciente.",
+        "4.4. La revolución en los medios de transporte:",
+        "4.5. El transporte marítimo y los sistemas hub-and-spoke.",
+        "4.6. Aspectos no resueltos de la globalización económica."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "La contaduría y administración de organizaciones navieras",
+      "objetivoEspecifico": "Establece la importancia de la Contaduría, que mediante el cálculo y control de sus elementos, permite la administración de las organizaciones navieras.",
+      "subtemas": [
+        "5.1. Importancia de la contaduría en la economía.",
+        "5.2. Relación entre economía, contaduría, y administración naviera.",
+        "5.3. Pasivos, activos, y capital.",
+        "5.4. Clasificación de costes, presupuestos, inventarios, abastecimientos y proveedores."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Lecciones de Economía Marítima. González Laxe, F.; José Sánchez, R. Netbible, 2007.",
+    "Economía del Transporte Marítimo. Freire Seoane, M. J.; González Laxe, F. Netbible, 2003.",
+    "MARPOL Anexo VI & NTC 2008 con directrices para su implementación. Freire Seoane, M. J.; González Laxe, F. Netbible, 2009."
+  ],
+  "fuente": "plan_economia8maritima_viii_grupo_a8pn_enmt ECONOMIA MARITIMA VIII A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_economia8maritima_viii_grupo_a8pn_enmt ECONOMIA MARITIMA VIII A PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "Primera evaluación parcial",
+        "criterios": [
+          {
+            "criterio": "Actividad 1: Informe de ruta y tipo de carga (Simulación de viaje)",
+            "peso": 8,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Actividad 2: Cálculo de productividad del buque (Ejercicio de tripulación y combustible)",
+            "peso": 8,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Actividad 3: Análisis de costos de transporte (Caso práctico de flete)",
+            "peso": 9,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Mapa conceptual sobre ciclos económicos marítimos",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Evaluación Parcial",
+            "peso": 50,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

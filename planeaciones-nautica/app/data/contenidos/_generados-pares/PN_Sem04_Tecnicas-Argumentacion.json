@@ -1,0 +1,156 @@
+{
+  "clave": "C0102",
+  "nombre": "Técnicas de argumentación",
+  "tipo": "Teórica",
+  "horas": {
+    "semanas": 0,
+    "porSemana": 4,
+    "teoricas": 98,
+    "practicas": 0,
+    "independientes": 0,
+    "total": 98
+  },
+  "objetivoGeneral": "Comunicar ideas de forma consistente, a través de la formulación y fundamentación adecuada de la expresión, para sostener posiciones argumentativas válidas.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "La Argumentación",
+      "objetivoEspecifico": "Conocer los antecedentes de la teoría de la argumentación, reconociendo sus principales aportes, para valorar su importancia en la expresión de ideas.",
+      "subtemas": [
+        "1.1 Nociones y conocimientos básicos.",
+        "1.2 Antecedentes de la teoría de la argumentación.",
+        "1.3 Argumentación"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Características del texto argumentativo.",
+      "objetivoEspecifico": "Comprender las estructuras, los tipos y las técnicas para argumentar correctamente una idea o tesis, a través de ejercicios prácticos, para favorecer el desarrollo de ideas.",
+      "subtemas": [
+        "2.1 Conexión de la exposición verbal o escrita.",
+        "2.2 Tipos de argumentos.",
+        "2.3 Estructuras argumentativas.",
+        "2.4 Técnicas y estrategias argumentativas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Preparación de la argumentación.",
+      "objetivoEspecifico": "Elaborar argumentos claros y sencillos, a través de la información obtenida de diversas fuentes, para favorecer el desarrollo de ideas claras.",
+      "subtemas": [
+        "3.1 Conocimiento del tema.",
+        "3.2 Redacción de la tesis, desarrollo de argumentos, conclusión y organización del párrafo.",
+        "3.3 Manejo de un objetivo claro.",
+        "3.4 Expansión de vías argumentales, amenidad y. calidad de la argumentación.",
+        "3.5 Manejo de la idea principal: estilo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Beneficios de la argumentación.",
+      "objetivoEspecifico": "Desarrollar ideas con diferentes tipos de argumentos, identificando validez y falacias de los mismos, para reconocer mensajes provenientes de distintas fuentes.",
+      "subtemas": [
+        "4.1 Construcción de argumentos con ejemplos.",
+        "4.2 Argumentar identificando las causas y los efectos.",
+        "4.3 Argumentar mediante analogías.",
+        "4.4 Argumentos de autoridad.",
+        "4.5 Argumentación sobre la naturaleza de las cosas y su definición.",
+        "4.6 Argumentar apoyándose en datos.",
+        "4.7 Falsos argumentos o falacias.",
+        "4.8 Tipos de falacias."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "5. Contenidos de actualidad en el sector marítimo portuario"
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Aristóteles. Retórica.",
+    "Weston, Anthony. Las claves de la argumentación.",
+    "Perelman, Chaim y Olbrechts-Tyteca, Lucie. Tratado de la argumentación.",
+    "STCW (Convenio Internacional sobre Normas de Formación, Titulación y Guardia para la Gente de Mar).",
+    "COLREG (Reglamento Internacional para Prevenir Abordajes).",
+    "Manuales de Seguridad Marítima de la OMI (Organización Marítima Internacional).",
+    "Reportes técnicos de accidentes marítimos (OMI, MAIB, NTSB)."
+  ],
+  "fuente": "plan-tecnicas8de8argu-8ivapn8enmt8ok TECNICAS ARGUMENTACION IV A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan-tecnicas8de8argu-8ivapn8enmt8ok TECNICAS ARGUMENTACION IV A PN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 5,
+      "subtemas": 15,
+      "conObjetivo": 3,
+      "bibliografia": 5
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "criterios": [
+          {
+            "criterio": "Prácticas y actividades de aprendizaje - Trabajo en clase",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Prácticas y actividades de aprendizaje - Trabajo en clase en clase",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Participaciones y uso de TICs - Proyecto final",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Conocimiento - Examen",
+            "peso": 50,
+            "instrumento": "Evaluación sumativa"
+          }
+        ],
+        "suma": 100
+      },
+      {
+        "nombre": "2do Parcial",
+        "criterios": [
+          {
+            "criterio": "Prácticas y actividades de aprendizaje - Proyecto final",
+            "peso": 25,
+            "instrumento": "Rúbrica"
+          },
+          {
+            "criterio": "Participaciones y uso de TICs - Organizador gráfico",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Participaciones y uso de TICs - Organizador gráfico",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Conocimiento",
+            "peso": 50,
+            "instrumento": "Evaluación sumativa"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

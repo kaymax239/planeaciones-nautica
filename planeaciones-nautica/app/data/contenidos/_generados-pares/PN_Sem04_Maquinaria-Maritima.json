@@ -1,0 +1,188 @@
+{
+  "clave": "MMA428",
+  "nombre": "Maquinaria Marítima Auxiliar",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 0,
+    "porSemana": 5,
+    "teoricas": 56,
+    "practicas": 36,
+    "independientes": 10,
+    "total": 102
+  },
+  "objetivoGeneral": "Explicar el aspecto relacionado con la aplicación, funcionamiento y operación de la maquinaria auxiliar existente abordo.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Maquinaria Marítima Auxiliar.",
+      "objetivoEspecifico": "Definir el concepto de maquinaria auxiliar, identificando el servicio que ofrece, para su ubicación a bordo.",
+      "subtemas": [
+        "1.1 Definición.",
+        "1.2 Ubicación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Sistemas de bombas.",
+      "objetivoEspecifico": "Conocer los diferentes tipos de bombas, identificando su función, para reconocer el servicio que brinda.",
+      "subtemas": [
+        "2.1 Sistema de sentinas.",
+        "2.2 Sistema de servicios generales.",
+        "2.3 Sistema de contraincendio."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Purificadores.",
+      "objetivoEspecifico": "Conocer el funcionamiento de los purificadores, a través de su uso, para su adecuada aplicación.",
+      "subtemas": [
+        "3.1 Tipos.",
+        "3.2 Funcionamiento."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Sistema de aire comprimido",
+      "objetivoEspecifico": "Conocer la producción del aire comprimido, por medio del uso, para una adecuada identificación",
+      "subtemas": [
+        "4.1 Compresores.",
+        "4.2 Botellas de almacenamiento.",
+        "4.3 Accesorios."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Grúas",
+      "objetivoEspecifico": "Conocer la puesta en servicio de una grúa, identificando sus tipos, para su adecuada operación.",
+      "subtemas": [
+        "5.1 Eléctrica, hidráulica y electrohidráulica.",
+        "5.2 Puesta en servicio."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Hidrósforo",
+      "objetivoEspecifico": "Reconocer la correcta operación del hidrósforo, clasificando sus tipos, para la adecuada puesta en servicio.",
+      "subtemas": [
+        "6.1 Tipos.",
+        "6.2 Funcionamiento."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Generador de agua dulce",
+      "objetivoEspecifico": "Identificar las distintas formas para generar agua dulce en una embarcación, por medio de los diferentes sistemas, para una eficaz obtención",
+      "subtemas": [
+        "7.1 Desalinizadora.",
+        "7.2 Evaporadora.",
+        "7.3 Funcionamiento."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Sistemas de refrigeración",
+      "objetivoEspecifico": "Pendiente de revisión",
+      "subtemas": [
+        "8.1 Sistema frigorífico.",
+        "8.2 Aire acondicionado."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Funcionamiento de los Winches",
+      "objetivoEspecifico": "Pendiente de revisión",
+      "subtemas": [
+        "9.1 Hidráulicos.",
+        "9.2 Electrohidráulicos.",
+        "9.3 Vapor.",
+        "9.4 Autotensión."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 10,
+      "tema": "Sistema de apertura y cierre de tapaescotillas",
+      "objetivoEspecifico": "Pendiente de revisión",
+      "subtemas": [
+        "10.1 Funcionamiento.",
+        "10.2 Componentes."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Taylor, D. A. (2019). Introduction to marine engineering (2nd ed.). Butterworth-Heinemann. https://www.elsevier.com/books/introduction-to-marine-engineering/taylor/978-0-08-102452-4",
+    "McGeorge, D. (2017). Marine auxiliary machinery (8th ed.). Butterworth-Heinemann. https://www.elsevier.com/books/marine-auxiliary-machinery/mcgeorge/978-0-08-101950-6",
+    "International Maritime Organization. (2018). SOLAS consolidated edition. https://www.imo.org",
+    "Alfa Laval. (2020). Marine separators and purifiers handbook. https://www.alfalaval.com/marine",
+    "MAN Energy Solutions. (2021). Fuel oil treatment systems for marine engines. https://www.man-es.com/marine",
+    "Atlas Copco. (2019). Compressed air systems in marine applications. https://www.atlascopco.com",
+    "Liebherr Group. (2021). Marine cranes: operation and safety. https://www.liebherr.com/en/int/products/maritime-cranes",
+    "DNV. (2020). Shipboard water production systems. https://www.dnv.com",
+    "MacGregor. (2019). Hatch cover systems: operation and maintenance. https://www.macgregor.com",
+    "Rolls-Royce. (2020). Marine propulsion and maneuvering systems. https://www.rolls-royce.com/products-and-services/marine",
+    "International Maritime Organization. (2023). Maritime safety and environmental protection news. https://www.imo.org"
+  ],
+  "fuente": "plan_mma_ivapn8enmtoki MAQUINARIA MARITIMA GRUPO IV A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_mma_ivapn8enmtoki MAQUINARIA MARITIMA GRUPO IV A PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 10,
+      "subtemas": 15,
+      "conObjetivo": 10,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1ra Evaluación Parcial",
+        "criterios": [
+          {
+            "criterio": "Cuadro comparativo entre maquinaria principal y auxiliar",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Esquema de ubicación de maquinaria auxiliar a bordo",
+            "peso": 5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Infografía o esquema explicativo del funcionamiento del purificador",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Cuadro comparativo de tipos de purificadores",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Mapa conceptual de compresores y accesorios",
+            "peso": 12.5,
+            "instrumento": null
+          },
+          {
+            "criterio": "Examen",
+            "peso": 50,
+            "instrumento": null
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

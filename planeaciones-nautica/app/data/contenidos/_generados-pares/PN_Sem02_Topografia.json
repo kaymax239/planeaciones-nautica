@@ -1,0 +1,199 @@
+{
+  "clave": "TOP210",
+  "nombre": "Topografía",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 20,
+    "porSemana": 3,
+    "teoricas": 36,
+    "practicas": 18,
+    "independientes": 6,
+    "total": 60
+  },
+  "objetivoGeneral": "Realizar un levantamiento topográfico, utilizando el equipo y método adecuados, para determinar los límites y dimensiones de un terreno.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Generalidades",
+      "objetivoEspecifico": "Conocer los conceptos y definiciones básicos de la topografía analizando los parámetros necesarios para determinar la posición de puntos sobre la superficie de la Tierra.",
+      "subtemas": [
+        "1.1 Definiciones: topografía, geodesia.",
+        "1.2 Concepto de levantamiento.",
+        "1.3 Geodésico.",
+        "1.4 Topográfico.",
+        "1.5 Planimetría.",
+        "1.6 Altimetría.",
+        "1.7 Carta Náutica."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Instrumentos de medición y accesorios.",
+      "objetivoEspecifico": "Identificar los diferentes equipos y accesorios de medición a través de su uso, para elaborar levantamientos topográficos.",
+      "subtemas": [
+        "2.1 Tránsito.",
+        "2.2 Teodolito.",
+        "2.3 Nivel.",
+        "2.4 Estación Total.",
+        "2.5 GPS.",
+        "2.6 Estacas.",
+        "2.7 Tripié.",
+        "2.8 Estadal.",
+        "2.9 Cintas.",
+        "2.10 Aliadas.",
+        "2.11 Baliza"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Mediciones.",
+      "objetivoEspecifico": "Realizar mediciones de distancias y ángulos, utilizando y seleccionando los diferentes equipos y accesorios, para elaborar un levantamiento topográfico.",
+      "subtemas": [
+        "3.1 Distancias.",
+        "3.2 Ángulos.",
+        "3.3 Método de la estadía."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Precisión y error.",
+      "objetivoEspecifico": "Determinar la precisión, error y tolerancia, en un levantamiento topográfico, para establecer la validez de un levantamiento.",
+      "subtemas": [
+        "4.1 Concepto de Precisión.",
+        "4.2 Concepto de Error.",
+        "4.3 Teoría del Error."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Levantamiento de una poligonal cerrada o abierta.",
+      "objetivoEspecifico": "Analizar un levantamiento, identificando las características de la zona por medir, seleccionando el método y técnica apropiadas para su elaboración.",
+      "subtemas": [
+        "5.1 Métodos y técnicas de levantamiento.",
+        "5.2 Trazado de un poligonal.",
+        "5.3 Cierre lineal de una poligonal.",
+        "5.4 Cierre angular de una poligonal.",
+        "5.5 Cálculo del área de una poligonal."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Altimetría o nivelación.",
+      "objetivoEspecifico": "Conocer los conceptos y métodos altimétricos, analizando las características del terreno, para determinar las diferencias de nivel entre puntos del mismo.",
+      "subtemas": [
+        "6.1 Definiciones.",
+        "6.2 Línea Vertical.",
+        "6.3 Línea horizontal.",
+        "6.4 Banco de nivel cota.",
+        "6.5 Plano de referencia.",
+        "6.6 Puntos prominentes de un terreno.",
+        "6.7 Métodos para obtener elevaciones de un terreno."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Prácticas",
+      "objetivoEspecifico": "Realizar un levantamiento, identificando las características de la zona por medir, aplicando el método y técnica apropiados, para su correcta elaboración.",
+      "subtemas": [
+        "7.1 Uso y manejo de equipos, técnicas en los levantamientos topográficos."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Bannister, A.; Stanley, R.; Baker, R. Técnicas modernas en topografía. Marcombo, 2006.",
+    "Estruch Serra, Miguel. Cartografía Marina. UPC, 2001.",
+    "Valbuena Durán, José Luis; Velasco Gómez, Jesús. GPS: La nueva era de la Topografía. Ediciones de las ciencias sociales, 1992."
+  ],
+  "fuente": "topografia_1 TOPOGRAFIA II A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "topografia_1 TOPOGRAFIA II A PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 7,
+      "subtemas": 15,
+      "conObjetivo": 6,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "criterios": [
+          {
+            "criterio": "Prácticas y actividades de aprendizaje - Cuestionario, cuadro comparativo y crucigrama",
+            "peso": 5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Prácticas y actividades de aprendizaje - Ejercicios matemáticos",
+            "peso": 5,
+            "instrumento": "Rúbrica formativa"
+          },
+          {
+            "criterio": "Prácticas y actividades de aprendizaje - Identificación de clases de error",
+            "peso": 5,
+            "instrumento": "Rúbrica formativa"
+          },
+          {
+            "criterio": "Prácticas y actividades de aprendizaje - Ejercicios de diferentes tipos levantamientos",
+            "peso": 5,
+            "instrumento": "Rúbrica formativa"
+          },
+          {
+            "criterio": "Participaciones y uso de TICS - Investigación por medio de internet",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Conocimiento - Examen preguntas y respuestas",
+            "peso": 70,
+            "instrumento": "Rúbrica sumativa"
+          }
+        ],
+        "suma": 100
+      },
+      {
+        "nombre": "2do Parcial",
+        "criterios": [
+          {
+            "criterio": "Prácticas y actividades de aprendizaje - Ejercicios matemáticos",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Prácticas y actividades de aprendizaje - Prácticas de campo",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Participaciones y uso de TICS - Investigación por medio de internet",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Conocimiento - Examen pregunta y respuesta",
+            "peso": 20,
+            "instrumento": "Rúbrica sumativa"
+          },
+          {
+            "criterio": "Conocimiento - Proyecto final",
+            "peso": 50,
+            "instrumento": "Rúbrica sumativa"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

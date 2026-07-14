@@ -1,0 +1,191 @@
+{
+  "clave": "TAL214",
+  "nombre": "Taller",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 4,
+    "teoricas": 54,
+    "practicas": 18,
+    "independientes": 6,
+    "total": 72
+  },
+  "objetivoGeneral": "Desarrollar habilidades y conocimientos necesarios realizando diferentes trabajos de reparación los cuales se utilizarán a bordo de los buques.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "El taller",
+      "objetivoEspecifico": "Identificar las áreas del taller, equipos y materiales utilizados, describiéndolos de acuerdo a su importancia y uso para utilizarlos de forma adecuada.",
+      "subtemas": [
+        "1.1 Descripción general del área de trabajo.",
+        "1.2 Equipos y materiales utilizados en el taller."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Riesgos y seguridad en el taller.",
+      "objetivoEspecifico": "Prevenir accidentes en el taller aplicando las medidas de seguridad en el manejo adecuado de herramientas y equipo.",
+      "subtemas": [
+        "2.1 Prevención de accidentes.",
+        "2.2 Uso adecuado de la ropa de trabajo.",
+        "2.3 Seguridad en el manejo de las herramientas.",
+        "2.4 Seguridad en el manejo de maquinaria."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Instrumentos de medición, manejo y aplicación",
+      "objetivoEspecifico": "Manejar los instrumentos de medición más comunes, seleccionándolos y usándolos adecuadamente en la toma de medidas.",
+      "subtemas": [
+        "3.1 Sistema métrico e inglés.",
+        "3.2 Conversiones.",
+        "3.3 Instrumentos de medición más comunes: Vernier y micrómetro."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Medición y comprobación de longitudes",
+      "objetivoEspecifico": "Clasificar los instrumentos de medición directa de longitudes, considerando sus características, para cubrir las necesidades del taller.",
+      "subtemas": [
+        "4.1 Clasificación de los elementos empleados.",
+        "4.2 Instrumentos de medición de longitudes.",
+        "4.3 Otros instrumentos de medición con nonio."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Máquinas y herramientas",
+      "objetivoEspecifico": "Clasificar las herramientas manuales, eléctricas, y neumáticas, comparando sus características y su utilidad para realizar trabajos.",
+      "subtemas": [
+        "5.1 Herramientas manuales (de corte de trazo y medición, de ajuste y de golpe).",
+        "5.2 Máquinas-herramienta (Torno, Taladro, Fresadora y otras)"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Metales y materiales utilizados a bordo",
+      "objetivoEspecifico": "Clasificar los materiales utilizados a bordo de acuerdo a sus propiedades particulares y específicas para la posible reparación de dispositivos mecánicos.",
+      "subtemas": [
+        "6.1 Aceros, Bronce, Cobre, Aluminio, Estaño Material antifricción y otros."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Principios de soldadura tipos y elementos",
+      "objetivoEspecifico": "Seleccionar el tipo de soldadura y corte analizando sus elementos, para un uso adecuado de ellos.",
+      "subtemas": [
+        "7.1 Componentes de los equipos de soldadura y corte"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Principios de mantenimiento correctivo y preventivo",
+      "objetivoEspecifico": "Organizar un mantenimiento sistemático, preventivo y correctivo, mediante un plan programado, para conservar en condiciones óptimas el taller.",
+      "subtemas": [
+        "8.1 Tipos de mantenimiento.",
+        "8.2 Planificación del mantenimiento"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario.",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "9. Realización de trabajos aplicando los conocimientos adquiridos."
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Lesur L. (1997). Manual de la soldadura con oxiacetileno. México. Editorial Trillas.",
+    "Lesur L. (1997). Manual de la soldadura con arco eléctrico. México. Editorial Trillas."
+  ],
+  "fuente": "plan_245 TALLER GRUPO II A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_245 TALLER GRUPO II A PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 9,
+      "subtemas": 18,
+      "conObjetivo": 6,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "criterios": [
+          {
+            "criterio": "Práctica en el taller (Unidad I)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Práctica en el taller (Unidad II)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Práctica en el taller (Unidad III)",
+            "peso": 20,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Resumen (Unidad V) - Participaciones y uso de TICS",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "1era Evaluación parcial (Unidad V) - Conocimiento",
+            "peso": 20,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      },
+      {
+        "nombre": "2do Parcial",
+        "criterios": [
+          {
+            "criterio": "Práctica en el taller (Unidad VII)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Práctica en el taller (Unidad VII)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Práctica en el taller (Unidad IX)",
+            "peso": 20,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Presentación (Unidad VIII) - Participaciones y uso de TICS",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "2da Evaluación parcial (Unidad IX) - Conocimiento",
+            "peso": 20,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

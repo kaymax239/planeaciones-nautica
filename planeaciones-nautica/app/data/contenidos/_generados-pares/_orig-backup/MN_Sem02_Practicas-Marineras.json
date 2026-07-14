@@ -1,0 +1,160 @@
+{
+  "clave": "PMR215",
+  "nombre": "Prácticas Marineras II",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 3,
+    "teoricas": 18,
+    "practicas": 36,
+    "independientes": 0,
+    "total": 54
+  },
+  "objetivoGeneral": "Maneja mediante la aplicación de los conocimientos y artes marineros maniobras con cabos, cables y nudos, prepara el arriado y virada de embarcaciones menores, maneja winches y utiliza métodos para combatir la corrosión en el mantenimiento del buque.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Prácticas con nudos",
+      "objetivoEspecifico": "Elaborar todo tipo de nudos utilizados abordo, aplicando la técnica adecuada para cubrir las necesidades del buque.",
+      "subtemas": [
+        "1.1 Diferentes tipos de nudos",
+        "1.2 Su aplicación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "MANIOBRAS CON CABOS EN BITAS.",
+      "objetivoEspecifico": "Realiza las diferentes maniobras en las bitas de amarre, aplicando la técnica adecuada, para mantener la posición de una embarcación.",
+      "subtemas": [
+        "2.1 Abozar un cabo.",
+        "2.2 Diferentes formas de afirmar el cabo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "COSTURAS CON CABLES.",
+      "objetivoEspecifico": "Elabora las costuras con cables de acero, utilizando las herramientas adecuadas, para aplicarlas en el buque.",
+      "subtemas": [
+        "3.1 Empulgueras.",
+        "3.2 Universal.",
+        "3.3 portuguesa."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "MANIOBRAS CON CABLES",
+      "objetivoEspecifico": "Mueve grandes pesos con cables de acero adecuados para una operación segura.",
+      "subtemas": [
+        "4.1 Manejo de pesos"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "BOTES SALVAVIDAS.",
+      "objetivoEspecifico": "Prepara el arriado y el izado de los botes salvavidas de un buque mediante los pasos establecidos para su correcta maniobra.",
+      "subtemas": [
+        "5.1 Preparativos para su arriado",
+        "5.2 Maniobra de arriado",
+        "5.3 Maniobra de virado"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "PESCANTES",
+      "objetivoEspecifico": "Conservar en buen estado los pescantes mediante la aplicación de las normas de mantenimiento, para las maniobras de carga y descarga.",
+      "subtemas": [
+        "6.1 Uso y mantenimiento"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "PREPARACIÓN DE SUPERFICIES.",
+      "objetivoEspecifico": "Preparar una superficie de acero mediante el uso de herramientas manuales, eléctricas y neumáticas para la aplicación de recubrimiento anticorrosivo.",
+      "subtemas": [
+        "7.1 Uso de la piqueta.",
+        "7.2 Uso de la rasqueta",
+        "7.3 Uso del cepillo de alambre.",
+        "7.4 Uso de herramientas neumáticas",
+        "7.5 Uso de chorro de arena."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "RECUBRIMIENTO EN OBRA VIVA",
+      "objetivoEspecifico": "Describe los tipos de recubrimientos que se aplican al casco en la obra viva, eligiendo las pinturas adecuadas para proteger el medio ambiente.",
+      "subtemas": [
+        "8.1 Tratamiento del casco.",
+        "8.2 Tipos de recubrimientos pinturas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "WINCHES",
+      "objetivoEspecifico": "Nombra los distintos tipos de winches, de acuerdo a su capacidad para darles un uso adecuado.",
+      "subtemas": [
+        "9.1 Tipos",
+        "9.2 Operación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 10,
+      "tema": "TIMONERÍA",
+      "objetivoEspecifico": "Conoce los elementos de la timonería y el funcionamiento de la maquinilla mediante los manuales para realizar la operación de forma local, tomando las precauciones necesarias.",
+      "subtemas": [
+        "10.1 Elementos que la componen",
+        "10.2 Precauciones al ingresar"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 11,
+      "tema": "VÍAS DE AGUA",
+      "objetivoEspecifico": "Controlar una vía de agua identificando la causa de origen y eligiendo el material adecuado, para la preservación del buque.",
+      "subtemas": [
+        "11.1 Causas que las originan",
+        "11.2 Materiales para controlarlas"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 12,
+      "tema": "CONTENIDOS DE ACTUALIDAD EN EL SECTOR MARÍTIMO PORTUARIO.",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "Pendiente de revisión"
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Biosca, C, (2015), Manual Completo de Nudos. - Ediciones Desnivel, Madrid, España.",
+    "Duarte, B. E. (2005). Barbudo. Valencia, España, Editorial Nora",
+    "Heroica Escuela Naval Militar (1993). Conocimientos marineros. Veracruz: Autor.",
+    "Lulleran, D. L. (2005). Proa a popa. Cádiz, España Editorial Paraninfo.",
+    "Tratado Practico del Marino al Patrón de Costa, Adolfo Larios Pereza Patrón de costa y Contramaestre de la Marina Mercante de México. Editorial Porrúa.",
+    "Manual del Marino, Pierre Garoche. Editorial Víctor Leru.",
+    "Las Artes de la Mar, Enciclopedia Náutica Ilustrada. Editorial Raíces"
+  ],
+  "fuente": "practicas8marineras8ii8a8mn8ok PRACTICAS MARINERAS II A MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "practicas8marineras8ii8a8mn8ok PRACTICAS MARINERAS II A MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 10,
+      "subtemas": 21,
+      "conObjetivo": 8,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

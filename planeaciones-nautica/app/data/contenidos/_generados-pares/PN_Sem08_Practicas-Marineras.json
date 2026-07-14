@@ -1,0 +1,182 @@
+{
+  "clave": "PMR 860",
+  "nombre": "Prácticas marineras VIII",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 3,
+    "teoricas": 18,
+    "practicas": 36,
+    "independientes": 0,
+    "total": 54
+  },
+  "objetivoGeneral": "Identificar los procedimientos autorizados en la gestión de emergencias, analizando causas y diversas para responder eficazmente a estos eventos.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Zafarrancho de piratería y terrorismo",
+      "objetivoEspecifico": "Ubicar las zonas de riesgo de piratería mediante investigaciones para prevenir el abordaje de la nave.",
+      "subtemas": [
+        "1.1 Zonas de riesgo de piratería y terrorismo.",
+        "1.2 Señales de alerta de abordaje.",
+        "1.3 Puntos de reunión.",
+        "1.4 Acciones para prevenir y combatir el abordaje",
+        "1.5 Alertas de auxilios por abordaje.",
+        "1.6 Procedimientos durante las capturas de la nave por piratas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Zafarrancho abandono de buque.",
+      "objetivoEspecifico": "Demostrar las acciones a seguir durante un abandono del buque, tomando en cuenta si es por abordaje, por incendio o por hundimiento, para controlar la situación y mantener la seguridad y vida humana en el mar.",
+      "subtemas": [
+        "2.1 Situaciones de emergencias que puedan producirse para el abandono del buque (abordajes, incendios, hundimiento.",
+        "2.2. Zafarrancho de abandono de buque.",
+        "2.3 Señales de abandono del buque.",
+        "2.4 Ubicación de las estaciones de emergencia.",
+        "2.5 Control de multitudes.",
+        "2.6 Indumentaria y equipo de emergencia.",
+        "2.7 Supervivencia en el mar.",
+        "2.8 Principales peligros para los supervivientes."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Zafarrancho lucha contra incendio",
+      "objetivoEspecifico": "Organizar cuadrillas de luchas contra incendios, aplicando los procedimientos necesarios para controlar y extinguir el fuego.",
+      "subtemas": [
+        "3.1 Puntos de reunión",
+        "3.2 Procedimientos de lucha contraincendios a bordo y en tierra.",
+        "3.3 Control de lucha contra incendio.",
+        "3.4 Organización y formación de cuadrillas de lucha contra incendios.",
+        "3.5 Inspección y mantenimiento de los sistemas y equipos de detección y extinción de incendios.",
+        "3.6 Investigación y recopilación sobre los incidentes en los que se produzcan incendios."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Zafarranchos manejo de embarcaciones de supervivencia y botes de rescate.",
+      "objetivoEspecifico": "Demostrar el uso y control de los botes de rescate gestionando órdenes y acciones para el control del personal superviviente.",
+      "subtemas": [
+        "4.1 Hacerse cargo de una embarcación de supervivencia o bote de rescate durante y después de la puesta a flote.",
+        "4.2 Manejar el motor de una embarcación de supervivencia.",
+        "4.3 Organizar a los supervivientes tras abandonar el buque.",
+        "4.4 Dispensar primeros auxilios a los supervivientes.",
+        "4.5 Utilizar los dispositivos de localización, comunicación y señalización ubicadas en los botes."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Zafarrancho manejo de botes de rescate rápido.",
+      "objetivoEspecifico": "Manejar los botes de rescate, aplicando sus conocimientos respectivos para realizar un salvamento adecuado",
+      "subtemas": [
+        "5.1 Hacer cargo de un bote de rescate rápido durante y después de su puesta a flote.",
+        "5.2 Manejar el motor de un bote de rescate rápido."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Zafarrancho de derrame de hidrocarburos.",
+      "objetivoEspecifico": "Prevenir un derrame de hidrocarburos, aplicando los procedimientos necesarios y en un momento dado combatir este tipo de accidentes.",
+      "subtemas": [
+        "6.1 Precauciones para prevenir derrames de hidrocarburos.",
+        "6.2 ship 01. Pollution emergency plan (sopep).",
+        "6.3 Señales de alarma por derrames de hidrocarburos.",
+        "6.4 Acciones a seguir en derrames de hidrocarburos.",
+        "6.5 Materiales absorbentes para retención y control de derrames de hidrocarburos."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Larios A. (s.f.) Tratado práctico del marinero al patrón de costa.",
+    "Garoche P. (s.f.) Manual del marino.",
+    "González A. (s.f.) Mi afición al mar.",
+    "Biosca.C. (s.f) Enciclopedia de los nudos."
+  ],
+  "fuente": "practicas8marineras8viii8a8pn8ok PRACTICAS MARINERA VII A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "practicas8marineras8viii8a8pn8ok PRACTICAS MARINERA VII A PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 6,
+      "subtemas": 24,
+      "conObjetivo": 5,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1er parcial",
+        "criterios": [
+          {
+            "criterio": "Práctica (Unidad I)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Práctica (Unidad II)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Síntesis (Unidad II)",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Ejercicio (Unidad III)",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "1era evaluación parcial (Unidad III)",
+            "peso": 25,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      },
+      {
+        "nombre": "2do parcial",
+        "criterios": [
+          {
+            "criterio": "Prácticas (Unidad IV)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Prácticas (Unidad IV)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Cuestionario (Unidad IV)",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Trabajo en clase (Unidad V)",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "2da evaluación parcial (Unidad VI)",
+            "peso": 25,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

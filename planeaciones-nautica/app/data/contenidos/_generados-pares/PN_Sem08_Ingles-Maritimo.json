@@ -1,0 +1,93 @@
+{
+  "clave": "853",
+  "nombre": "Inglés Marítimo VIII (Maritime English 2)",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 16,
+    "porSemana": 7,
+    "teoricas": 32,
+    "practicas": 80,
+    "independientes": 32,
+    "total": 112
+  },
+  "objetivoGeneral": "Fortalecer la competencia comunicativa del estudiante en inglés marítimo mediante el uso de estructuras gramaticales y vocabulario relacionados con la comunicación escrita y oral en contextos profesionales, tales como el envío de mensajes técnicos, la transmisión precisa de información y la descripción de acciones en desarrollo, con el propósito de mejorar la claridad, precisión y efectividad de la comunicación operativa a bordo.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Libro 2 unidad 1: Tipos de Buques tanques",
+      "objetivoEspecifico": "El estudiante será capaz de conocer y utilizar el vocabulario de buques tanques.",
+      "subtemas": [
+        "Unit 1 - Tankers 1: Types",
+        "Unit 2 - Tankers 2: Loading and Discharging",
+        "Unit 3 - Container Ships",
+        "Unit 4 - Wire",
+        "Unit 5 - Marlinespike Seamanship 1",
+        "Unit 6 - Marlinespike Seamanship 2",
+        "Unit 7 - Blocks and Tackles",
+        "Unit 8 - Loading Equipment"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Marlins 2",
+      "objetivoEspecifico": "Aplicar el uso del idioma inglés para producir, interpretar y transmitir mensajes escritos y orales propios del entorno marítimo, incluyendo la redacción de comunicaciones técnicas y la descripción precisa de acciones en desarrollo, mediante el empleo adecuado de estructuras gramaticales y vocabulario profesional, con el fin de asegurar una comunicación clara, efectiva y segura a bordo.",
+      "subtemas": [
+        "Unit 8 - Send a Telex",
+        "Unit 9 - The Right Message"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Operaciones avanzadas a bordo (Book 2)",
+      "objetivoEspecifico": "Analizar y expresar ideas relacionadas con las operaciones avanzadas a bordo mediante el uso adecuado del vocabulario temático y estructuras gramaticales del idioma inglés, con el fin de desarrollar la comprensión lectora y auditiva, la expresión oral y escrita, así como la valoración de la diversidad cultural y artística.",
+      "subtemas": [
+        "Unit 9 - Cargo Handling and Storage",
+        "Unit 10 - Mooring",
+        "Unit 11 - Anchoring",
+        "Unit 12 - Towing",
+        "Unit 13 - Weather",
+        "Unit 14 - First Aid",
+        "Unit 15 - The Day of an Officer"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Book 3",
+      "objetivoEspecifico": "Aplicar el uso del idioma inglés técnico marítimo para comprender, describir y comunicar procedimientos administrativos, operativos y de seguridad a bordo, tales como la gestión del buque, el registro en bitácoras, inspecciones, ejercicios y listas de estación, reglas de navegación, operaciones en puertos internacionales, seguridad, lucha contra incendios, mantenimiento, supervivencia, navegación e interpretación de mareas, corrientes y vientos, mediante el uso adecuado del vocabulario especializado y estructuras gramaticales funcionales, con el fin de fortalecer la comunicación profesional, la seguridad operacional y el desempeño eficiente del personal de la marina mercante.",
+      "subtemas": [
+        "Unit 1 - Ship Business",
+        "Unit 2 - Log Books",
+        "Unit 3 - Inspections",
+        "Unit 4 - Drills and Station Bills",
+        "Unit 5 - Rules of the Road 1",
+        "Unit 6 - Rules of the Road 2",
+        "Unit 7 - International Ports",
+        "Unit 8 - Safety",
+        "Unit 9 - Firefighting",
+        "Unit 10 - Maintenance and Repair"
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Evans, V., & Dooley, J. (2015). Career paths: Merchant Navy (C. S. T. Sheppard, Ed.). Express Publishing.",
+    "Nisbet, A., Whitcher, A., & Logie, C. (1997). Marlins English for Seafarers: Study Pack 1. Marlins, Edinburgh, UK.",
+    "Marlin's English for Seafarers: Book 2"
+  ],
+  "fuente": "planeaci8n8viibfirmada INGLES MARITIMO VIII B PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "planeaci8n8viibfirmada INGLES MARITIMO VIII B PN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

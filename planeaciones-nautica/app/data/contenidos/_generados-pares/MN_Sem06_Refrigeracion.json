@@ -1,0 +1,157 @@
+{
+  "clave": "REF640",
+  "nombre": "Refrigeración I",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 21,
+    "porSemana": 4,
+    "teoricas": 36,
+    "practicas": 36,
+    "independientes": 12,
+    "total": 84
+  },
+  "objetivoGeneral": "Comprender la importancia de la refrigeración en un buque, describiendo y analizando los elementos que conforman el sistema, para su mantenimiento y autonomía de la nave.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Generalidades",
+      "objetivoEspecifico": "Entiende los conceptos básicos de la refrigeración, recurriendo a los datos históricos y termodinámicos para comprender las generalidades del enfriamiento.",
+      "subtemas": [
+        "1.1 Datos históricos.",
+        "1.2 Conceptos termodinámicos básicos, aplicados a la refrigeración."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Ciclo básico de refrigeración",
+      "objetivoEspecifico": "Analiza la importancia y función de los componentes del enfriamiento interpretando los diagramas de presión-temperatura para comprender el ciclo de refrigeración.",
+      "subtemas": [
+        "2.1 Ciclo de refrigeración.",
+        "2.2 Componentes, compresor, condensador, evaporador y dispositivos de control.",
+        "2.3 Instrumentos para el control de flujo de refrigerante.",
+        "2.4 Interpreta los diagramas de presión-temperatura."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Características de los gases",
+      "objetivoEspecifico": "Enlista los refrigerantes más comunes, describiendo las propiedades de ellos, para una elección conveniente.",
+      "subtemas": [
+        "3.1 Definición de los refrigerantes.",
+        "3.2 Lista de los refrigerantes más comunes.",
+        "3.3 Propiedades de los refrigerantes."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Aceites utilizados en sistemas de frigoríficos.",
+      "objetivoEspecifico": "Clasifica los aceites usados en un sistema de refrigeración, analizando sus características, para una elección conveniente.",
+      "subtemas": [
+        "4.1 Características de un aceite utilizado en el sistema de refrigeración.",
+        "4.2 Clasificación de aceites usados en el sistema de refrigeración."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "5.1 Innovaciones en los sistemas de refrigeración del sector marítimo."
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Manual de Refrigeración, Juan Manuel Franco Lijó. Editorial Reverté, SA. 2012.",
+    "Manual Curso Frío Industrial."
+  ],
+  "fuente": "plan_171 REFRIGERACION VI A MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_171 REFRIGERACION VI A MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1er PARCIAL",
+        "criterios": [
+          {
+            "criterio": "Cuestionario",
+            "peso": 7.5,
+            "instrumento": "Cuestionario"
+          },
+          {
+            "criterio": "Cuestionario",
+            "peso": 7.5,
+            "instrumento": "Cuestionario"
+          },
+          {
+            "criterio": "Resumen",
+            "peso": 10,
+            "instrumento": "Rúbrica"
+          },
+          {
+            "criterio": "Cuestionamiento directo",
+            "peso": 12.5,
+            "instrumento": "Lista de verificación"
+          },
+          {
+            "criterio": "Debate",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Examen primer parcial",
+            "peso": 50,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      },
+      {
+        "nombre": "2do PARCIAL",
+        "criterios": [
+          {
+            "criterio": "Reporte de prácticas",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Cuadro sinóptico",
+            "peso": 12.5,
+            "instrumento": "Rúbrica"
+          },
+          {
+            "criterio": "Discusión guiada",
+            "peso": 10,
+            "instrumento": "Lista de verificación"
+          },
+          {
+            "criterio": "Debate",
+            "peso": 15,
+            "instrumento": "Lista de verificación"
+          },
+          {
+            "criterio": "Examen segundo parcial",
+            "peso": 50,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "clave": "GEO209",
+  "nombre": "Geografía",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 4,
+    "teoricas": 48,
+    "practicas": 24,
+    "independientes": 6,
+    "total": 72
+  },
+  "objetivoGeneral": "Conocer los conceptos geográficos que influyen en el desarrollo del comercio y transporte marítimo, identificando los factores que lo determinan, para fundamentar el estudio de la actividad marítima.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Introducción a la geografía",
+      "objetivoEspecifico": "Comprender los conceptos fundamentales y la simbología utilizada en la geografía, investigando su uso y aplicación en el ámbito marítimo.",
+      "subtemas": [
+        "1.1 Definiciones, símbolos geográficos y significados.",
+        "1.2 División de la Geografía.",
+        "1.2.1 Geografía Física.",
+        "1.2.2 Geografía Humana.",
+        "1.2.3 Geografía Económica."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Geografía Física",
+      "objetivoEspecifico": "Identificar las características geográficas de la Tierra y la naturaleza de la corteza terrestre, mediante el reconocimiento de éstos, para la interpretación de las cartas náuticas. Distinguir las líneas principales de la Tierra, elaborando diagramas de la esfera terrestre, para la determinación de la situación geográfica.",
+      "subtemas": [
+        "2.1 La Tierra en el Universo.",
+        "2.2 La estructura de la Tierra.",
+        "2.3 Líneas principales de la Tierra.",
+        "2.4 La corteza terrestre.",
+        "2.5 El relieve continental.",
+        "2.6 El relieve Costero.",
+        "2.7 El relieve Submarino."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Los continentes",
+      "objetivoEspecifico": "Conocer la evolución de la corteza terrestre, analizando sus distintas etapas en el transcurso del tiempo, para reconocer la forma y posición geográfica de los continentes. Conocer la influencia marítima de los continentes, identificando los países, principales puertos, hidrografía, zonas marítimas, comercio y lenguaje, para establecer su importancia en el transporte marítimo.",
+      "subtemas": [
+        "3.1 Origen y formación.",
+        "3.2 Los Continentes.",
+        "3.3 América",
+        "3.4 Asia",
+        "3.5 Oceanía",
+        "3.6 Europa",
+        "3.7 África"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Zonas polares",
+      "objetivoEspecifico": "Reconocer la delimitación geográfica y características de los casquetes polares, analizando la incidencia de los rayos solares en la Tierra de acuerdo a su inclinación, para la aplicación en una navegación segura.",
+      "subtemas": [
+        "4.1 Área del Círculo Polar Ártico.",
+        "4.2 Área del Círculo Polar Antártico."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Las rutas marítimas del mundo",
+      "objetivoEspecifico": "Conocer las rutas principales de navegación marítima y sus ventajas, analizando las condiciones meteorológicas e hidrográficas de la superficie terrestre, para aplicarlo en el transporte marítimo eficiente.",
+      "subtemas": [
+        "5.1 Rutas principales del Hemisferio Norte.",
+        "5.2 Rutas principales del Hemisferio Sur."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Estructura geoeconómica de México",
+      "objetivoEspecifico": "Conoce las rutas principales de navegación marítima y sus ventajas, analizando las condiciones meteorológicas e hidrográficas de la superficie terrestre, para aplicarlo en el transporte marítimo eficiente.",
+      "subtemas": [
+        "6.1 Situación Geográfica.",
+        "6.2 Orografía.",
+        "6.3 Relieve Costero.",
+        "6.4 Relieve submarino.",
+        "6.5 Delimitación marítima.",
+        "6.6 Puertos e Infraestructura Portuaria.",
+        "6.7 Desarrollo Económico."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "Pendiente de revisión",
+      "subtemas": [
+        "Pendiente de revisión"
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Córdoba, C., & Levi, S. (2000). Cómo acercarse a la geografía. Limusa.",
+    "Haggett, P. (2002). Geografía. Omega.",
+    "Strahler, A. N., & Strahler, A. H. (2005). Geografía física. Omega"
+  ],
+  "fuente": "plan_geografia_ii_grupo_a_pn_enmt GEOGRAFIA GRUPO A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_geografia_ii_grupo_a_pn_enmt GEOGRAFIA GRUPO A PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 7,
+      "subtemas": 9,
+      "conObjetivo": 6,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "Primera evaluación parcial",
+        "criterios": [
+          {
+            "criterio": "Actividad 1: Organizador gráfico sobre la división de la Geografía y su aplicación al ámbito marítimo. Incluye geografía física, humana y económica, relacionándolas con el comercio y transporte marítimo",
+            "peso": 7,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Actividad 2: Diagrama de la Tierra señalando las líneas principales (Ecuador, trópicos, círculos polares y eje terrestre) y su aplicación para la determinación de la situación geográfica en navegación",
+            "peso": 7,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Actividad 3: Ensayo corto sobre la importancia geográfica de los continentes y su influencia en el transporte marítimo internacional",
+            "peso": 6,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Presentación digital sobre fundamentos geográficos aplicados al transporte marítimo",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Evaluación Parcial",
+            "peso": 70,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

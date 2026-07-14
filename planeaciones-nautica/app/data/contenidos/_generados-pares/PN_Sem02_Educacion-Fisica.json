@@ -1,0 +1,106 @@
+{
+  "clave": "C0011",
+  "nombre": "Educación Física II",
+  "tipo": "Práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 3,
+    "teoricas": 0,
+    "practicas": 54,
+    "independientes": 0,
+    "total": 54
+  },
+  "objetivoGeneral": "Realizar movimientos físicos para el desarrollo de la percepción y mejora de la coordinación motriz y gruesa en el desempeño de cualquier función.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Percepción y Coordinación Motriz.",
+      "objetivoEspecifico": "Ejecutar movimientos físicos de forma adecuada, desarrollando la percepción y coordinación motriz, psicomotriz, para favorecer la ubicación en el espacio, tiempo, equilibrio y lateralidad.",
+      "subtemas": [
+        "1.1 Movimiento físico",
+        "1.2 Ubicación espacial",
+        "1.3 Coordinación motriz y psicomotriz",
+        "1.4 Equilibrio",
+        "1.5 Lateralidad"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Desarrollo Físico Integral",
+      "objetivoEspecifico": "Realizar ejercicios de estimulación, incremento y mantenimiento de la fuerza muscular, resistencia cardiorrespiratoria, la flexibilidad articular y muscular, a través de rutinas adecuadas para favorecer el desarrollo físico integral.",
+      "subtemas": [
+        "2.1 Fuerza muscular.",
+        "2.2 Resistencia cardiorrespiratoria",
+        "2.3 Flexibilidad articular y muscular"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Concentración",
+      "objetivoEspecifico": "Favorecer la concentración, aplicando tácticas en distintos juegos, para el desarrollo integral de funciones mentales.",
+      "subtemas": [
+        "3.1 Fútbol",
+        "3.2 Juegos de concentración",
+        "3.3 Básquetbol",
+        "3.4 Voleibol"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Condición Física",
+      "objetivoEspecifico": "Favorecer la condición física, a través de ejercicios de fuerza, vigor y flexibilidad para el desarrollo integral de funciones físicas.",
+      "subtemas": [
+        "4.1 Fuerza",
+        "4.2 Vigor",
+        "4.3 Flexibilidad"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Natación",
+      "objetivoEspecifico": "Realizar ejercicios de natación, aplicando diferentes técnicas de esta disciplina, favoreciendo el desarrollo integral de sus capacidades.",
+      "subtemas": [
+        "5.1 Técnica",
+        "5.2 Flotación",
+        "5.3 Nado libre",
+        "5.4 Nado en grupo",
+        "5.5 Sobrevivencia"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Contenidos de actualidad en el Sector Marítimo Portuario.",
+      "objetivoEspecifico": "Relacionar la condición física con la seguridad y desempeño operativo en el ámbito marítimo-portuario.",
+      "subtemas": [
+        "6.1 Condición física y seguridad personal en la vida a bordo."
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Organización Marítima Internacional (OMI). Convenio Internacional sobre Normas de Formación, Titulación y Guardia para la Gente de Mar (STCW), enmendado. Londres: OMI, ediciones vigentes 2016–2023.",
+    "Organización Marítima Internacional (OMI). Código Internacional para la Gestión de la Seguridad Operacional del Buque (Código ISM). Londres: OMI, 2018–2024.",
+    "Secretaría de Marina (SEMAR). Manual de Seguridad a Bordo y Prevención de Accidentes en el Ámbito Marítimo. Gobierno de México, 2019–2023.",
+    "Nautical Institute. Personal Safety and Social Responsibilities (PSSR). Londres, ediciones 2016–2021.",
+    "International Labour Organization (OIT). Maritime Labour Convention (MLC, 2006) – Enmiendas vigentes. OIT, actualizaciones 2018–2023.",
+    "World Health Organization (WHO). Guidelines on Physical Activity and Sedentary Behaviour. Ginebra: WHO, 2020."
+  ],
+  "fuente": "plan_educaci8n8f8sica8ii_iib_pn_enmt EDUACACION FISICA 11 B PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_educaci8n8f8sica8ii_iib_pn_enmt EDUACACION FISICA 11 B PN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 6,
+      "subtemas": 16,
+      "conObjetivo": 6,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

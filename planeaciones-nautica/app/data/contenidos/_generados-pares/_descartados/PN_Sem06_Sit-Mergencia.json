@@ -1,0 +1,82 @@
+{
+  "clave": "INS643",
+  "nombre": "Situaciones de emergencia",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 20,
+    "porSemana": 4,
+    "teoricas": 54,
+    "practicas": 18,
+    "independientes": 8,
+    "total": 80
+  },
+  "objetivoGeneral": "Comprender los procedimientos necesarios para responder en casos diversos de emergencia, aplicando las normas estipuladas por la OMI, para garantizar el rescate de personas salvaguardando la integridad de la vida humana, proteger el medio ambiente, la seguridad de la embarcación y la carga.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Precauciones para la protección y seguridad de los pasajeros en situaciones de emergencia",
+      "objetivoEspecifico": "Conoce las acciones de respuesta en casos de emergencia, mediante los planes de contingencia, para garantizar la protección y seguridad de los pasajeros.",
+      "subtemas": [
+        "1.1. Plan de contingencia para respuesta a emergencias.",
+        "1.2. Precauciones para la protección y seguridad de los pasajeros en situaciones de emergencia."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Primeras medidas a seguir después de emergencias; evaluación y control de averías",
+      "objetivoEspecifico": "Conoce el comportamiento adecuado de respuesta en casos de emergencia, mediante planes de simulacros y contingencia, para evaluar y controlar las averías, así como salvaguardar la integridad de los pasajeros.",
+      "subtemas": [
+        "2.1. Varada.",
+        "2.2. Encallamiento.",
+        "2.3. Colisión.",
+        "2.4. Incendio y/o explosión.",
+        "2.5. Abandono del buque.",
+        "2.6. Hombre al agua",
+        "2.7. Derrame de hidrocarburos",
+        "2.8. Atentados terroristas.",
+        "2.9. Casos de piratería.",
+        "2.10. Buque sin gobierno.",
+        "2.11. Remolcar o ser remolcado."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Rescate de personas en el mar, asistiendo a embarcaciones siniestradas y emergencias en puerto.",
+      "objetivoEspecifico": "Conoce los procedimientos de rescate de personas y asistencia a buques siniestrados en la mar o en puerto, a través de los lineamientos previamente establecidos, para garantizar la seguridad de la vida humana, así como para evitar daños a la carga y al medio ambiente.",
+      "subtemas": [
+        "3.1. Rescate de personas de una embarcación siniestrada o encallada.",
+        "3.2. Acciones a seguir en casos de emergencias en puerto.",
+        "3.3. Medidas para asistir a una embarcación siniestrada."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "4.1 Introducción a los temas de actualidad marítimo-portuaria"
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Libran, Álvaro & Mari, Ricardo. (2003). Seguridad pública en buques de pasaje. Ediciones UPC.",
+    "Colwell, Keith. (2009). Manual de supervivencia en el mar: Guía completa de supervivencia en el mar de la RYA. Tutor."
+  ],
+  "fuente": "plan_situaciones8de8emergencia_vi_a_pn_enmt SIT MERGENCIA VI A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_situaciones8de8emergencia_vi_a_pn_enmt SIT MERGENCIA VI A PN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

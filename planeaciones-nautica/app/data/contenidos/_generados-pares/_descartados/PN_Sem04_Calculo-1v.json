@@ -1,0 +1,96 @@
+{
+  "clave": "CAL425",
+  "nombre": "Cálculo Diferencial e Integral",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 0,
+    "porSemana": 4,
+    "teoricas": 36,
+    "practicas": 36,
+    "independientes": 8,
+    "total": 80
+  },
+  "objetivoGeneral": "Derivar e integrar diversas funciones mediante fórmulas y artificios adecuados para aplicarlas en la resolución de problemas de máximos y mínimos, áreas y física.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Cálculo diferencial",
+      "objetivoEspecifico": "Aplicar las reglas y métodos del cálculo diferencial en la derivación de funciones para resolver ejercicios y problemas. Construir el modelo matemático, usando los conocimientos de funciones y derivación, para resolver problemas de máximos y mínimos.",
+      "subtemas": [
+        "1.1 Funciones y límites.",
+        "1.2 Derivación de funciones algebraicas.",
+        "1.3 Derivación de funciones trascendentes.",
+        "1.4 Derivación implícita.",
+        "1.5 Derivadas sucesivas.",
+        "1.6 Aplicaciones de la derivada.",
+        "1.7 Máximas y mínimos."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Cálculo integral.",
+      "objetivoEspecifico": "Comprender la operación contraria a la derivación, el Teorema fundamental y los aplica en la resolución de ejercicios para solucionar problemas. Calcular el área de superficies limitadas por curvas planas, volúmenes de sólidos de revolución y longitudes de arco, aplicando las fórmulas de integración convenientes para construir el modelo matemático de problemas geométricos y de la Física.",
+      "subtemas": [
+        "2.1 Integral indefinida y constante de integración.",
+        "2.2 Integración por partes e integral definida.",
+        "2.3 Artificios de integración.",
+        "2.4 La integración como suma: teorema fundamental.",
+        "2.5 Área de superficies limitadas por curvas planas, usando coordenadas rectangulares y polares.",
+        "2.6 Volúmenes de sólidos de revolución.",
+        "2.7 Longitudes de arco de curvas planas en coordenadas rectangulares y polares.",
+        "2.8 Aplicaciones a la física."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Ecuaciones diferenciales.",
+      "objetivoEspecifico": "Resolver las ecuaciones diferenciales, aplicando los métodos adecuados, para solucionar problemas de Física.",
+      "subtemas": [
+        "3.1 Orden, grado, solución y comprobación de ecuaciones diferenciales.",
+        "3.2 Ecuaciones diferenciales de 1° orden y 1° grado.",
+        "3.3 Dos tipos de ecuaciones diferenciales de orden superior.",
+        "3.4 Ecuaciones diferenciales.",
+        "3.5 Aplicaciones a problemas de Mecánica.",
+        "3.6 Ecuaciones diferenciales."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Análisis numérico.",
+      "objetivoEspecifico": "Pendiente de revisión",
+      "subtemas": [
+        "4.1 Causas principales de Inicio:",
+        "4.2 Raíces de un polinomio.",
+        "4.3 Uso del desarrollo de Taylor como algoritmo genérico para",
+        "4.4 Integral aproximada. Fórmula de los trapecios y fórmula parabólica de Simpson."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario.",
+      "objetivoEspecifico": "Pendiente de revisión",
+      "subtemas": [],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Pendiente de revisión"
+  ],
+  "fuente": "calculo_3 CALCULO 1V A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "calculo_3 CALCULO 1V A PN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 5,
+      "subtemas": 18,
+      "conObjetivo": 5,
+      "bibliografia": 7
+    },
+    "revisar": true
+  }
+}

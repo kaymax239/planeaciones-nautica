@@ -1,0 +1,147 @@
+{
+  "clave": "TEB641",
+  "nombre": "Teoría del Buque I",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 4,
+    "teoricas": 36,
+    "practicas": 36,
+    "independientes": 12,
+    "total": 72
+  },
+  "objetivoGeneral": "Calcular la estabilidad, utilizando el procedimiento adecuado, para garantizar la seguridad del buque.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "El buque y sus dimensiones",
+      "objetivoEspecifico": "Conocer las dimensiones del buque aplicables en la estabilidad, mediante el análisis del plano, para su aplicación en el cálculo de atributos de la carena y estabilidad del buque.",
+      "subtemas": [
+        "1.1 Definición de Teoría del Buque.",
+        "1.2 Principio de Arquímedes.",
+        "1.3 Perpendiculares.",
+        "1.4 Eslora entre perpendiculares y de trazado.",
+        "1.5 Manga de trazado.",
+        "1.6 Puntal de trazado.",
+        "1.7 Tipos de desplazamiento y Peso Muerto."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Planos y coeficientes de formas del buque",
+      "objetivoEspecifico": "Interpretar las formas de la carena, mediante el análisis del plano de formas, para ubicar puntos en el buque y calcular los atributos y coeficientes de formas de la carena.",
+      "subtemas": [
+        "2.1 Líneas y planos de referencia.",
+        "2.2 Líneas y planos de agua.",
+        "2.3 Cuaderna de trazado y secciones transversales.",
+        "2.4 Verticales.",
+        "2.5 Diagonales.",
+        "2.6 Interpretación del plano de formas.",
+        "2.7 Coeficientes de formas del buque."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Áreas y volúmenes",
+      "objetivoEspecifico": "Calcular áreas y volúmenes, utilizando métodos aproximados de integración, para determinar los atributos de la carena y la estabilidad del buque.",
+      "subtemas": [
+        "3.1 Regla de trapecios.",
+        "3.2 Regla de Simpson.",
+        "3.3 Cálculo de atributos de la carena.",
+        "3.4 Curvas y tablas hidrostáticas.",
+        "3.5 Uso de las curvas y tablas hidrostáticas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Estabilidad estática transversal inicial",
+      "objetivoEspecifico": "Calcular la estabilidad estática transversal, analizando la distribución vertical de pesos en el buque, para garantizar una buena estabilidad y navegación segura.",
+      "subtemas": [
+        "4.1 Definición.",
+        "4.2 Centro de gravedad y centro de carena.",
+        "4.3 Metacentro transversal.",
+        "4.4 Condiciones básicas de equilibrio del buque.",
+        "4.5 Brazo y momento adrizante.",
+        "4.6 Estado de equilibrio del buque.",
+        "4.7 Cálculo de KG.",
+        "4.8 Cálculo de GM.",
+        "4.9 Efectos de superficie libre de la estabilidad.",
+        "4.10 Cálculo del GM corregido por efecto de superficie libre.",
+        "4.11 Cálculo de la estabilidad transversal inicial."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Estabilidad estática transversal a grandes ángulos de escora",
+      "objetivoEspecifico": "Calcular la estabilidad estática transversal a grandes ángulos de escora, mediante el uso de las curvas cruzadas o curvas KN, para garantizar una buena estabilidad y navegación segura.",
+      "subtemas": [
+        "5.1 Curvas cruzadas de estabilidad y curvas KN.",
+        "5.2 Curvas de estabilidad estática.",
+        "5.3 Efecto de superficie libre.",
+        "5.4 Cálculo de la estabilidad estática transversal a grandes ángulos de escora."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Estabilidad dinámica",
+      "objetivoEspecifico": "Calcular la estabilidad dinámica del buque, utilizando la curva de estabilidad estática, para garantizar una buena estabilidad y navegación segura.",
+      "subtemas": [
+        "6.1 Análisis de la estabilidad dinámica.",
+        "6.2 Cálculo de la estabilidad dinámica."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Asiento",
+      "objetivoEspecifico": "Calcular el asiento del buque, mediante el análisis de la distribución longitudinal de pesos, para determinar los calados finales del buque.",
+      "subtemas": [
+        "7.1 Definición.",
+        "7.2 Centro de flotación.",
+        "7.3 Cálculo de XG.",
+        "7.4 Cálculo del asiento.",
+        "7.5 Cálculo de calados."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Cálculo de estabilidad en la práctica",
+      "objetivoEspecifico": "Realizar el cálculo de estabilidad del buque, analizando la distribución de pesos, para garantizar una navegación segura.",
+      "subtemas": [
+        "8.1 Cálculo de estabilidad en la práctica"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "9. Contenidos de actualidad en el sector marítimo portuario"
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Teoría del buque. Juan Olivela Puig. Editorial UPC 1996"
+  ],
+  "fuente": "plan_23 TEORIA DEL BUQUE VI A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_23 TEORIA DEL BUQUE VI A PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

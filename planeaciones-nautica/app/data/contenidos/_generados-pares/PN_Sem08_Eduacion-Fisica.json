@@ -1,0 +1,81 @@
+{
+  "clave": "CO011",
+  "nombre": "Educación Física",
+  "tipo": "Práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 3,
+    "teoricas": 0,
+    "practicas": 54,
+    "independientes": 0,
+    "total": 54
+  },
+  "objetivoGeneral": "Realiza movimientos físicos para el desarrollo de la percepción y mejora de la coordinación motriz fina y gruesa en el desempeño de cualquier función.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Percepción y coordinación motriz",
+      "objetivoEspecifico": "Ejecuta movimientos físicos de forma adecuada, desarrollando la percepción y coordinación motriz, psicomotriz, para favorecer la ubicación en el espacio, tiempo, equilibrio y lateralidad.",
+      "subtemas": [
+        "1.1. Movimientos físicos.",
+        "1.2. Ubicación espacial.",
+        "1.3. Coordinación motriz y psicomotriz.",
+        "1.4. Equilibrio.",
+        "1.5. Lateralidad."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Desarrollo físico integral",
+      "objetivoEspecifico": "Realiza ejercicios de estimulación, incremento y mantenimiento de la fuerza muscular, resistencia cardiorrespiratoria, la flexibilidad articular y muscular, a través de rutinas adecuadas para favorecer el desarrollo físico integral.",
+      "subtemas": [
+        "2.1. Fuerza muscular.",
+        "2.2. Resistencia cardiorrespiratoria.",
+        "2.3. Flexibilidad articular y muscular."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Concentración",
+      "objetivoEspecifico": "Favorece la concentración, aplicando tácticas en distintos juegos, para el desarrollo integral de funciones mentales.",
+      "subtemas": [
+        "3.1. Fútbol.",
+        "3.2. Juegos de concentración.",
+        "3.3. Básquetbol.",
+        "3.4. Voleibol."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Condición física",
+      "objetivoEspecifico": "Favorece la condición física, a través de ejercicios de fuerza, vigor y flexibilidad, para el desarrollo integral de funciones físicas.",
+      "subtemas": [
+        "4.1. Fuerza.",
+        "4.2. Vigor.",
+        "4.3. Flexibilidad."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Campos G. Actividad física para la vida y la salud, Ciencia de salud y el deporte. Kinesis, 2003.",
+    "Lloret, Mario. Anatomía aplicada a la actividad física y deportiva. Paidotribo, 2000.",
+    "López de Viñaspre. Manual de educación física y deportes. Océano, 2000."
+  ],
+  "fuente": "plan_20 EDUACION FISICA VIII B PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_20 EDUACION FISICA VIII B PN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 2,
+      "subtemas": 4,
+      "conObjetivo": 1,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

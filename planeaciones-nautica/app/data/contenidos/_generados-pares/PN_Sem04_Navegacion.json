@@ -1,0 +1,225 @@
+{
+  "clave": "NAV423",
+  "nombre": "Navegación II",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 5,
+    "teoricas": 102,
+    "practicas": 72,
+    "independientes": 12,
+    "total": 186
+  },
+  "objetivoGeneral": "Adquirir principios fundamentales de la navegación astronómica, desarrollando la habilidad de realizar cálculos y observaciones, para determinar la situación del buque en una travesía.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Sistema Solar.",
+      "objetivoEspecifico": "Comprender el comportamiento del sistema solar, analizando los movimientos de la tierra, para fundamentar los cálculos de posición astronómica.",
+      "subtemas": [
+        "1.1 Definiciones.",
+        "1.2 Eventos astronómicos.",
+        "1.3 Movimientos de la tierra.",
+        "1.4 Planos de referencia.",
+        "1.5 Eclíptica."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Esfera celeste.",
+      "objetivoEspecifico": "Analizar los distintos tipos de coordenadas, por medio de diagramas de la esfera celeste, para conocer las partes del triángulo de posición.",
+      "subtemas": [
+        "2.1 Coordenadas celestes.",
+        "2.2 Coordenadas horizontales.",
+        "2.3 Combinación de sistemas de coordenadas.",
+        "2.4 Movimiento diario de la tierra.",
+        "2.5 Triángulo de posición.",
+        "2.6 Solución del triángulo de posición."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Sextante.",
+      "objetivoEspecifico": "Conocer el manejo del sextante, a través de sus componentes, para su adecuado uso en la obtención de lecturas.",
+      "subtemas": [
+        "3.1 Uso y componentes.",
+        "3.2 Lecturas con el sextante.",
+        "3.3 Errores del sextante.",
+        "3.4 Observaciones verticales y horizontales.",
+        "3.5 Correcciones aplicables.",
+        "3.6 Tipos de horizonte."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Tiempo",
+      "objetivoEspecifico": "Conocer los distintos tipos de referencia del tiempo, a través de los movimientos de la Tierra, para determinar la hora exacta de un lugar.",
+      "subtemas": [
+        "4.1 Hora verdadera.",
+        "4.2 Ecuación de tiempo.",
+        "4.3 Conversión tiempo-arco.",
+        "4.4 Husos horarios y cambio de horas.",
+        "4.5 Error del cronómetro."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Almanaque Náutico.",
+      "objetivoEspecifico": "Conocer el manejo del almanaque náutico, a través de su contenido, para la obtención de los datos astronómicos.",
+      "subtemas": [
+        "5.1 Contenido.",
+        "5.2 Obtención de datos astronómicos.",
+        "5.3 Correcciones.",
+        "5.4 Tablas adicionales."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Identificación de estrellas.",
+      "objetivoEspecifico": "Conocer las distintas constelaciones y sus estrellas principales, con respecto al movimiento de la Tierra, a través de especificaciones y publicaciones, para la identificación de estrellas propicias en la navegación.",
+      "subtemas": [
+        "6.1 Constelaciones.",
+        "6.2 Estrella polar.",
+        "6.3 Movimiento de estrellas.",
+        "6.4 Enfilación de estrellas.",
+        "6.5 Uso del identificador de estrellas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Ortos, ocasos y crepúsculos",
+      "objetivoEspecifico": "Identificar con precisión el momento de salida y ocultamiento de los astros en el horizonte, calculando la hora del evento, para su aplicación en las observaciones.",
+      "subtemas": [
+        "7.1 Cálculo del orto.",
+        "7.2 Cálculo del ocaso.",
+        "7.3 Cálculo de los crepúsculos."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Observaciones astronómicas.",
+      "objetivoEspecifico": "Conocer los diferentes tipos de observaciones, a través del uso de fórmulas o tablas, para obtener una línea de posición.",
+      "subtemas": [
+        "8.1 Observación de sol, luna, planetas y estrellas.",
+        "8.2 Uso de tablas de navegación astronómica.",
+        "8.3 Solución por fórmulas.",
+        "8.4 Obtención de líneas de posición,"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Determinación de la posición del buque.",
+      "objetivoEspecifico": "Aplicar los cálculos de observaciones astronómicas, a través del trazo de líneas de posición, para obtener una posición fija.",
+      "subtemas": [
+        "9.1 Posición asumida.",
+        "9.2 Trazado de líneas de posición.",
+        "9.3 Traslado de líneas de posición."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 10,
+      "tema": "Cálculo de Latitud.",
+      "objetivoEspecifico": "Pendiente de revisión",
+      "subtemas": [
+        "10.1 Paso del astro por el meridiano.",
+        "10.2 Latitud por meridiana.",
+        "10.3 Latitud por circumeridiana.",
+        "10.4 Latitud por meridiana.",
+        "10.5 Latitud por polar.",
+        "11.1 Determinación de azimut por fórmulas.",
+        "11.2 Determinación de azimut por tablas.",
+        "11.3 Determinación de azimut por polar.",
+        "11.4 Amplitud."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "McCarthy, Michael. The American Practical Navigator. Cambridge University Press, edición 2015.",
+    "Dutton, Benjamin; Maloney; Standford, Helen Standiford. Dutton's Navigation & Piloting. Naval Institute Press, edición 2005.",
+    "AUPI, Vicente. Atlas del firmamento. Bogotá, Colombia: Universidad Pedagógica Nacional, 2011."
+  ],
+  "fuente": "plan_184 NAVEGACION II IV A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_184 NAVEGACION II IV A PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 10,
+      "subtemas": 23,
+      "conObjetivo": 9,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1era evaluación parcial",
+        "criterios": [
+          {
+            "criterio": "Examen diagnóstico en Investigaciones y sesión de preguntas y respuestas",
+            "peso": 7.1,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Cuestionario",
+            "peso": 7.1,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Lectura del sextante y sus errores",
+            "peso": 7.1,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Uso del Sextante",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Obtener altura del sol con el sextante",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Conocer los diferentes tipos de tiempo",
+            "peso": 7.1,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Manejo del almanaque náutico",
+            "peso": 7.1,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Conocer distintas constelaciones",
+            "peso": 7.1,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Identificar salida y ocultamiento de los astros",
+            "peso": 7.4,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Examen",
+            "peso": 25,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

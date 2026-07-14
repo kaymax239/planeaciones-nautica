@@ -1,0 +1,119 @@
+{
+  "clave": "PMR644",
+  "nombre": "Prácticas Marineras VI",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 3,
+    "teoricas": 18,
+    "practicas": 36,
+    "independientes": 0,
+    "total": 54
+  },
+  "objetivoGeneral": "Aplicar la destreza para elaborar costuras y nudos con cabos para utilizarlas como accesorios en las escalas del buque y en embarcaciones a vela, identificando los cabos de amarre según la situación del buque.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Pastecas y cuadernales",
+      "objetivoEspecifico": "Manejar pesos utilizando pastecas y cuadernales para multiplicar la fuerza.",
+      "subtemas": [
+        "1.1. Nomenclatura.",
+        "1.2. Uso y aplicación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Cabos de amarre",
+      "objetivoEspecifico": "Identificar los cabos por su nombre, considerando la posición y la dirección en la que trabajan con respecto al buque para un uso efectivo de ellos.",
+      "subtemas": [
+        "2.1. Identificación por su situación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Costuras con cabos",
+      "objetivoEspecifico": "Unir cabos mediante las costuras necesarias para maniobrar en los buques con seguridad.",
+      "subtemas": [
+        "3.1. Costuras redondas.",
+        "3.2. Empulgeras.",
+        "3.3. Unión de cabos."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Nudos especiales y de ornato",
+      "objetivoEspecifico": "Elaborar los diferentes nudos, aplicando la técnica adecuada para utilizarlos de forma eficiente en el buque.",
+      "subtemas": [
+        "4.1. Cabeza de turco.",
+        "4.2. Barrilete.",
+        "4.3. Botón de dos puntas.",
+        "4.4. Nudo de campana."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Escalas de piloto",
+      "objetivoEspecifico": "Identificar una escala de piloto enumerando sus partes y describiendo el mantenimiento que requiere y la forma de instalarla para el embarque o desembarque del piloto.",
+      "subtemas": [
+        "5.1. Características.",
+        "5.2. Mantenimiento.",
+        "5.3. Instalación abordo.",
+        "5.4. Requisitos especiales en el Canal de Panamá."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Escalas reales",
+      "objetivoEspecifico": "Describir la forma en que se arma una escala real y su instalación, mediante la mención de sus componentes, para utilizarla con seguridad.",
+      "subtemas": [
+        "6.1. Partes que la componen.",
+        "6.2. Guarnido de la misma.",
+        "6.3. Medidas de seguridad."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Embarcaciones de vela",
+      "objetivoEspecifico": "Describir los diferentes tipos de embarcaciones a vela mencionando las partes de ellas para un manejo apropiado y seguro de las naves.",
+      "subtemas": [
+        "7.1. Tipos de velas.",
+        "7.2. Material utilizado en su confección.",
+        "7.3. Partes de un velamen."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "8.1 Prácticas marineras actuales en el sector marítimo."
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "“Conceptos Básicos De Proa A Popa” Luis Delgado Lallemand ED. Thomson Tomo 1 y Tomo 2",
+    "“Manejo y Uso de los Cabos a Bordo de los Buques” José de Jesús Paredes y Castro ED. Esdima AC",
+    "“Manual de Nudos Náuticos” Peter Owen Volumen 3 ED Tutor abordo"
+  ],
+  "fuente": "plan8practicasmarineras_1.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan8practicasmarineras_1.pdf",
+    "variantesAB": 4,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

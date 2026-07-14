@@ -1,0 +1,146 @@
+{
+  "clave": "MOT637",
+  "nombre": "Motores II",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 0,
+    "porSemana": 4,
+    "teoricas": 36,
+    "practicas": 36,
+    "independientes": 12,
+    "total": 84
+  },
+  "objetivoGeneral": "Calcular la potencia, la cilindrada, el ángulo de calaje, etc., de un motor, usando las fórmulas correspondientes, para clasificarlos de acuerdo a su eficiencia.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Cálculo en los motores de 2 y 4 tiempos",
+      "objetivoEspecifico": "Conocer la eficiencia de un motor calculando su volumen muerto, su relación de compresión y su cilindrada para clasificarlos adecuadamente.",
+      "subtemas": [
+        "1.1 Ángulo de calaje.",
+        "1.2 Espacio muerto.",
+        "1.3 Relación de compresión.",
+        "1.4 Cilindrada."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Potencia indicada y potencia de freno",
+      "objetivoEspecifico": "Conocer la potencia y consumos de un motor de combustión interna, realizando el cálculo de ellos, para el control y prolongación de su utilidad.",
+      "subtemas": [
+        "2.1 Fórmulas de potencia.",
+        "2.2 Equivalencias (HP, CV y KW).",
+        "2.3 Cálculo.",
+        "2.4 Aplicación.",
+        "2.5 Cálculo de consumo de combustible y aceite."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Diagramas",
+      "objetivoEspecifico": "Elaborar diagramas de un motor de combustión interna interpretando las funciones de operación para verificar su funcionamiento.",
+      "subtemas": [
+        "3.1 Tipos.",
+        "3.2 Interpretación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Rendimiento mecánico",
+      "objetivoEspecifico": "Conocer el rendimiento mecánico de un motor de combustión interna, calculándolo con las fórmulas adecuadas, para mejorar la utilidad de la máquina.",
+      "subtemas": [
+        "4.1 Fórmula y cálculo del rendimiento.",
+        "4.2 Aplicación"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Relación estequiometría",
+      "objetivoEspecifico": "Conocer la estequiometría de un motor, realizando los cálculos de ella, para mejorar la utilidad del motor.",
+      "subtemas": [
+        "5.1 Concepto.",
+        "5.2 Diagrama.",
+        "5.3 Cálculo.",
+        "5.4 Aplicación."
+      ],
+      "transversal": true
+    },
+    {
+      "numero": 6,
+      "tema": "Operación de un motor de combustión interna",
+      "objetivoEspecifico": "Habilitar en forma segura la máquina principal y motores auxiliares de combustión interna, usando de manera adecuada el regulador de velocidad, para evitar desperfectos y accidentes.",
+      "subtemas": [
+        "6.1 Reguladores de velocidad.",
+        "6.2 Habilitar el motor principal (máquina principal).",
+        "6.3 Habilitar un motor auxiliar (motogenerador)."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Heywood, J. Internal Combustion Engine Fundamentals. McGraw-Hill.",
+    "MAN B&W Diesel. Basic Principles of Marine Engines.",
+    "Wärtsilä. Marine Engine Manual.",
+    "Caterpillar Marine. Operation & Maintenance Manuals.",
+    "OMI (IMO). MARPOL Anexo VI.",
+    "ISO 3046: Reciprocating internal combustion engines."
+  ],
+  "fuente": "plan_motores_viamn_enmt MOTORES II GRUPO VI A MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_motores_viamn_enmt MOTORES II GRUPO VI A MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1er examen parcial",
+        "criterios": [
+          {
+            "criterio": "Cálculos individuales en el programa y visitas al taller",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Cuestionario oral en el salón de clases",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Cálculos individuales",
+            "peso": 10,
+            "instrumento": "Lista de cotejo de participación"
+          },
+          {
+            "criterio": "Participación Trabajo en clase",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo de participación"
+          },
+          {
+            "criterio": "Interpretación de diagrama de un motor",
+            "peso": 5,
+            "instrumento": "Lista de cotejo de participación"
+          },
+          {
+            "criterio": "Examen",
+            "peso": 50,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

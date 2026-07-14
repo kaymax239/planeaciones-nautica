@@ -1,0 +1,172 @@
+{
+  "clave": "ADM857",
+  "nombre": "Administración Naviera y Portuaria",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 4,
+    "teoricas": 36,
+    "practicas": 36,
+    "independientes": 8,
+    "total": 72
+  },
+  "objetivoGeneral": "Interpreta los conceptos de organización y administración de una empresa naviera y/o portuaria, describiendo los procesos fundamentales que se desarrollan bajo esquemas de productividad y calidad en servicios manejando los conceptos y los procesos de la Administración aplicados al Buque, a su mantenimiento y a una Empresa Naviera.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Conceptos administrativos",
+      "objetivoEspecifico": "Conoce la Administración mediante definición y conceptos, para aplicarla a un proceso organizacional de empresas dedicadas al medio marítimo.",
+      "subtemas": [
+        "1.1. Definición y conceptos de la Administración.",
+        "1.2. Etapas del Proceso Administrativo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Planeación",
+      "objetivoEspecifico": "Elabora una planeación estratégica y táctica mediante elementos de ella, para crear políticas y reglas que agilicen los procesos de la Administración aplicados al buque.",
+      "subtemas": [
+        "2.1. Ventajas y desventajas.",
+        "2.2. Planeación estratégica y táctica.",
+        "2.3. Elementos de la Planeación.",
+        "2.4. Políticas y Regla."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Organización",
+      "objetivoEspecifico": "Conoce la organización mediante el análisis de sus componentes para buscar la efectividad y eficiencia del centro de trabajo y en un momento dado estar abiertos al cambio.",
+      "subtemas": [
+        "3.1. Elementos de la Organización.",
+        "3.2. Efectividad y Eficiencia.",
+        "3.3. Poder y Autoridad.",
+        "3.4. Cambio Organizacional y Resistencia al Cambio."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Ejecución o dirección",
+      "objetivoEspecifico": "Reconoce en la Dirección un centro de liderazgo, que mediante los elementos de orientación, comunicación y motivación, se obtengan resultados eficientes y efectivos.",
+      "subtemas": [
+        "4.1. Elementos de Ejecución",
+        "4.2. Orientación Beneficios y guía",
+        "4.3. Motivación y elementos para Motivar.",
+        "4.4. Liderazgo y tipo de líderes.",
+        "4.5. Comunicación y su proceso efectiva y eficiente."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Control",
+      "objetivoEspecifico": "Entiende que el control de una naviera se realiza mediante evaluaciones y variaciones del Desarrollo para un funcionamiento efectivo.",
+      "subtemas": [
+        "5.1. Evaluación: Propósito y consideraciones.",
+        "5.2. Desarrollo: Esfuerzo y métodos para desarrollar.",
+        "5.3. Compensación.",
+        "5.4. Tipos de Control y variaciones."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Planeación y organización de la reparación de un barco en dique",
+      "objetivoEspecifico": "Organiza la reparación de un barco en dique, considerando los servicios que proporciona el Astillero para la distribución de trabajo entre el personal del barco.",
+      "subtemas": [
+        "6.1. Trabajos a efectuar en un Astillero.",
+        "6.2. Servicios que proporciona el Astillero.",
+        "6.3. Distribución de trabajos entre el personal del barco.",
+        "6.4. Intervención de los inspectores."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Organización del mantenimiento",
+      "objetivoEspecifico": "Conoce la organización del mantenimiento abordo mediante la administración de la flota marítima para lograr un óptimo desempeño de las embarcaciones.",
+      "subtemas": [
+        "7.1. Administración de la flota.",
+        "7.2. Organización del Mantenimiento abordo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Programa de mantenimiento y resultados abordo",
+      "objetivoEspecifico": "Elabora programas de mantenimiento estableciendo las estrategias apropiadas para obtener resultados de operación óptimos.",
+      "subtemas": [
+        "8.1. Estrategias de Mantenimiento.",
+        "8.2. Resultados obtenidos en el buque."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Planeación y control del mantenimiento rutinario",
+      "objetivoEspecifico": "Previene la corrosión, el buen estado del equipo mecánico eléctrico y sistemas automáticos, aplicando la planeación y control del mantenimiento rutinario, para el funcionamiento óptimo del buque.",
+      "subtemas": [
+        "9.1. Prevención de la corrosión y pintura.",
+        "9.2. Equipos mecánicos y eléctricos.",
+        "9.3. Pruebas de sistemas automáticos."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Enríquez de Dios, Juan José. Transporte internacional de mercancías. Esic, Madrid, 2002.",
+    "Koontz, Harold. Elementos de Administración. Mc Graw Hill, 2001.",
+    "Hernández y R., Sergio. Administración, pensamiento, proceso, estrategia y vanguardia. Mc Graw Hill, 2002."
+  ],
+  "fuente": "admnavyport_viiiamn_enmt ADMINISTRACION NAVIERA VIII A MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "admnavyport_viiiamn_enmt ADMINISTRACION NAVIERA VIII A MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "Primer parcial",
+        "criterios": [
+          {
+            "criterio": "Participación del cadete",
+            "peso": 10,
+            "instrumento": "Lista cotejo"
+          },
+          {
+            "criterio": "Resumen del tema",
+            "peso": 10,
+            "instrumento": "Lista cotejo"
+          },
+          {
+            "criterio": "Participación del cadete",
+            "peso": 15,
+            "instrumento": "Lista cotejo"
+          },
+          {
+            "criterio": "Resumen del tema",
+            "peso": 15,
+            "instrumento": "Lista cotejo"
+          },
+          {
+            "criterio": "Examen",
+            "peso": 50,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

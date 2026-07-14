@@ -1,0 +1,148 @@
+{
+  "clave": "PMR215",
+  "nombre": "Prácticas Marineras II",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 3,
+    "teoricas": 18,
+    "practicas": 36,
+    "independientes": 0,
+    "total": 54
+  },
+  "objetivoGeneral": "Manejar mediante la aplicación de los conocimientos y artes marineros maniobras con cabos, cables y nudos, preparar el arriado y virada de embarcaciones menores, manejar winches y utilizar métodos para combatir la corrosión en el mantenimiento del buque.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Práctica con nudos.",
+      "objetivoEspecifico": "Elaborar todo tipo de nudos utilizados a bordo, aplicando la técnica adecuada para cubrir las necesidades del buque",
+      "subtemas": [
+        "1.1 Diferentes tipos de nudos.",
+        "1.2 Su aplicación"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Maniobras con cabos en bitas",
+      "objetivoEspecifico": "Realizar las diferentes maniobras en las bitas de amarre, aplicando la técnica adecuada, para mantener la posición de una embarcación.",
+      "subtemas": [
+        "2.1-Abozar un cabo.",
+        "2.2 Diferentes formas de afirmar el cabo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Costuras con cables",
+      "objetivoEspecifico": "Elaborar las costuras con cables de acero, utilizando las herramientas adecuadas, para aplicarlas en el buque.",
+      "subtemas": [
+        "3.1 Empulgueras.",
+        "3.2 Universal.",
+        "3.3 Portuguesa"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Maniobras con cables",
+      "objetivoEspecifico": "Mover grandes pesos con cables de acero adecuados para una operación segura",
+      "subtemas": [
+        "4.1 Manejo de pesos"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Botes salvavidas.",
+      "objetivoEspecifico": "Preparar el arriado y el izado de los botes salvavidas de un buque mediante los pasos establecidos para su correcta maniobra.",
+      "subtemas": [
+        "5.1 Preparativos para su arriado.",
+        "5.2 Maniobra de arriado.",
+        "5.3 Maniobra de virado"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Pescantes",
+      "objetivoEspecifico": "Conservar en buen estado los pescantes mediante la aplicación de las normas de mantenimiento, para las maniobras de carga y descarga.",
+      "subtemas": [
+        "6.1 Uso y mantenimiento."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Preparación de superficies.",
+      "objetivoEspecifico": "Preparar una superficie de acero mediante el uso de herramientas manuales, eléctricas y neumáticas para la aplicación de recubrimiento anticorrosivo.",
+      "subtemas": [
+        "7.1 qué es el mantenimiento y qué tipos existen.",
+        "7.2 Uso de la piqueta.",
+        "7.3 Uso de la rasqueta.",
+        "7.4 Uso del cepillo de alambre.",
+        "7.5 Uso de herramientas neumáticas.",
+        "7.6 Uso de chorro de arena."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Recubrimiento en obra viva",
+      "objetivoEspecifico": "Describir los tipos de recubrimientos que se aplican al casco en la obra viva, eligiendo las pinturas adecuadas para proteger el medio ambiente.",
+      "subtemas": [
+        "8.1 Tratamiento del casco.",
+        "8.2 Tipos de recubrimientos anti-vegetativos."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Winches",
+      "objetivoEspecifico": "Conocer los distintos tipos de winches, de acuerdo a su capacidad para darles un uso adecuado",
+      "subtemas": [
+        "9.1 Tipos.",
+        "9.2 Operación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 10,
+      "tema": "Timonería",
+      "objetivoEspecifico": "Conocer los elementos de la timonería y el funcionamiento de la maquinilla mediante los manuales para realizar la operación de forma local, tomando las precauciones necesarias.",
+      "subtemas": [
+        "10.1 Elementos que la componen.",
+        "10.2 Precauciones al ingresar."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 11,
+      "tema": "Vías de agua",
+      "objetivoEspecifico": "Controlar una vía de agua identificando la causa de origen y eligiendo el material adecuado, para la preservación del buque.",
+      "subtemas": [
+        "11.1 Causas que las originan.",
+        "11.2 Materiales para controlarlas."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "\"Conceptos Básicos De Proa A Popa\" Luis Delgado Lallemand ED. Thomson Tomo 1 y Tomo 2",
+    "\"Manejo y Uso de los Cabos a Bordo de los Buques\" José de Jesús Paredes y Castro ED. Esdima AC",
+    "\"Manual de Nudos Náuticos\" Peter Owen Volumen 3 ED Tutor abordo"
+  ],
+  "fuente": "planeacion8didactica8pm8ii8b8pn PRACTICAS MARINERA II B PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "planeacion8didactica8pm8ii8b8pn PRACTICAS MARINERA II B PN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 10,
+      "subtemas": 20,
+      "conObjetivo": 10,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

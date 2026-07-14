@@ -1,0 +1,134 @@
+{
+  "clave": "OMI859",
+  "nombre": "Convenios Organización Marítima Internacional II",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 3,
+    "teoricas": 36,
+    "practicas": 6,
+    "independientes": 6,
+    "total": 54
+  },
+  "objetivoGeneral": "Interpreta los convenios más importantes emitidos por la Organización Marítima Internacional, analizando el contenido de cada uno de los mismos para su aplicación en el análisis de problemas.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Convenio Internacional para la Seguridad de la Vida Humana en la Mar.",
+      "objetivoEspecifico": "Conoce la importancia del Convenio Internacional para la Seguridad de la Vida Humana en la Mar en los buques, interpretando los artículos contenidos en los capítulos, para su aplicación en las actividades a bordo.",
+      "subtemas": [
+        "1.1. Antecedentes del Convenio Internacional para la Seguridad de la Vida Humana en la Mar.",
+        "1.2. Contenido del Convenio.",
+        "1.3. Capítulo II: Construcción.",
+        "1.4. Capítulo III: Dispositivos de Salvamento."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Marpol",
+      "objetivoEspecifico": "Explica la importancia del convenio Marpol, reconociendo las medidas de control que deben ser tomadas en los buques, para cumplir con las prescripciones del convenio.",
+      "subtemas": [
+        "2.1. Antecedentes e importancia del convenio Marpol.",
+        "2.2. Anexo del Convenio.",
+        "2.3. Anexo IV: Contaminación por las aguas sucias de los buques.",
+        "2.4. Anexo V: Contaminación por la basura de los buques."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "3.1 Cambios o modificaciones en los últimos tiempos en los convenios de la OMI."
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Convenio SOLAS Enmiendas 2008, 2009 OMI Esic Madrid 2009",
+    "Pasajeras y sus equipajes (Convenio de Atenas relativo al transporte de pasajeros y sus equipajes par mar, 1974 y Protocolo 2002) OMI Mc Graw Hill 2004",
+    "MARPOL Anexo VI & NTC 2008 con directrices para su implementación OMI Mc Graw Hill 2013"
+  ],
+  "fuente": "lpn_5 CONVENIOS GRUPO VIII B PN.m",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "lpn_5 CONVENIOS GRUPO VIII B PN.m",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 5
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1er PARCIAL",
+        "criterios": [
+          {
+            "criterio": "Estudio de caso",
+            "peso": 10,
+            "instrumento": "Rubrica"
+          },
+          {
+            "criterio": "Investigación",
+            "peso": 15,
+            "instrumento": "Rubrica"
+          },
+          {
+            "criterio": "Cuestionario oral",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Debate",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Primer examen parcial",
+            "peso": 50,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      },
+      {
+        "nombre": "2do PARCIAL",
+        "criterios": [
+          {
+            "criterio": "Cuestionario",
+            "peso": 10,
+            "instrumento": "Cuestionario"
+          },
+          {
+            "criterio": "Mapa mental",
+            "peso": 15,
+            "instrumento": "Rubrica"
+          },
+          {
+            "criterio": "Discusión guiada",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Dialogo-discusión",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Segundo examen parcial",
+            "peso": 50,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

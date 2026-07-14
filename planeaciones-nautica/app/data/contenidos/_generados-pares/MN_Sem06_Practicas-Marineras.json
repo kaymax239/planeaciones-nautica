@@ -1,0 +1,174 @@
+{
+  "clave": "PMR644",
+  "nombre": "Prácticas Marineras VI",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 3,
+    "teoricas": 18,
+    "practicas": 36,
+    "independientes": 0,
+    "total": 54
+  },
+  "objetivoGeneral": "Aplicar la destreza para elaborar costuras y nudos con cabos para utilizarlos como accesorios en las escalas del buque y en embarcaciones a vela, identificando los cabos de amarre según la situación del buque.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Pastecas y cuadernales.",
+      "objetivoEspecifico": "Manejar pesos utilizando pastecas y cuadernales para multiplicar la fuerza.",
+      "subtemas": [
+        "1.1 Nomenclatura.",
+        "1.2 Uso y aplicación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Cabos de amarre.",
+      "objetivoEspecifico": "Identificar los cabos por su nombre, considerando la posición y la dirección en la que trabajan con respecto al buque para un uso efectivo de ellos.",
+      "subtemas": [
+        "2.1 Identificación por su situación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Costuras con cabos.",
+      "objetivoEspecifico": "Unir cabos mediante las costuras necesarias para maniobrar en los buques.",
+      "subtemas": [
+        "3.1 Costuras redondas.",
+        "3.2 Empulgueras",
+        "3.3 Unión de cabos"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Nudos especiales y de ornato.",
+      "objetivoEspecifico": "Elaborar los diferentes nudos, aplicando la técnica adecuada para utilizarlos de forma eficiente en el buque.",
+      "subtemas": [
+        "4.1 Cabeza de turco.",
+        "4.2 Barrilete.",
+        "4.3 Botón de dos puntas.",
+        "4.4 Nudo de campana."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Escala de pilotos",
+      "objetivoEspecifico": "Identificar una escala de piloto enumerando sus partes y describiendo el mantenimiento que requiere y la forma de instalarla para el embarque o desembarque del piloto.",
+      "subtemas": [
+        "5.1 Características.",
+        "5.2 Mantenimiento",
+        "5.3 Instalación abordo",
+        "5.4 Requisitos especiales en el canal de Panamá."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Escalas reales.",
+      "objetivoEspecifico": "Describir la forma en que se arma una escala real y su instalación, mediante la mención de sus componentes, para utilizarla con seguridad.",
+      "subtemas": [
+        "6.1 Parte que la componente.",
+        "6.2 Guarnido de la misma.",
+        "6.3 Medidas de seguridad."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Embarcaciones de vela.",
+      "objetivoEspecifico": "Describir los diferentes tipos de embarcaciones a vela mencionando las partes de ellas para un manejo apropiado y seguro de las naves.",
+      "subtemas": [
+        "7.1 Tipos de velas.",
+        "7.2 Materiales utilizando en su confección, partes de un velamen."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Libros antología Prácticas Marineras VI"
+  ],
+  "fuente": "practicas8marineras8vi8a8mn8oki PRACTICAS MARINERA VI A MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "practicas8marineras8vi8a8mn8oki PRACTICAS MARINERA VI A MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 7,
+      "subtemas": 8,
+      "conObjetivo": 7,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "criterios": [
+          {
+            "criterio": "Práctica (Unidad I)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Práctica (Unidad IV)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Ejercicio (Unidad II)",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Síntesis (Unidad III)",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "1ra Evaluación parcial (Unidad IV)",
+            "peso": 25,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      },
+      {
+        "nombre": "2do Parcial",
+        "criterios": [
+          {
+            "criterio": "Práctica (Unidad V)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Práctica (Unidad VII)",
+            "peso": 25,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Cuestionario (Unidad V)",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Trabajo en clase (Unidad VI)",
+            "peso": 12.5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "2da Evaluación parcial (Unidad VII)",
+            "peso": 25,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}
