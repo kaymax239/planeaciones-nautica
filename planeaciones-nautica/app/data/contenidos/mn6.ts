@@ -416,7 +416,7 @@ export const contenidosMN6: Record<string, ProgramaOficial> = {
     }
   },
   "Motores II": {
-    "clave": "MOT637",
+    "clave": "MOT367",
     "nombre": "Motores II",
     "tipo": "Teórico-práctica",
     "horas": {
@@ -744,7 +744,7 @@ export const contenidosMN6: Record<string, ProgramaOficial> = {
     }
   },
   "Prácticas Marineras VI": {
-    "clave": "PMR644",
+    "clave": "PMR643",
     "nombre": "Prácticas Marineras VI",
     "tipo": "Teórico-práctica",
     "horas": {

@@ -858,7 +858,7 @@ export const contenidosSemestre2: Record<string, ProgramaOficial> = {
     }
   },
   "Metodología de la investigación": {
-    "clave": "MEI212",
+    "clave": "MEI213",
     "nombre": "Metodología de la investigación",
     "tipo": "Teórico-práctica",
     "horas": {

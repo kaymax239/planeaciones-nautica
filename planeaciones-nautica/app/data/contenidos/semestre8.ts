@@ -1015,7 +1015,7 @@ export const contenidosSemestre8: Record<string, ProgramaOficial> = {
     }
   },
   "Inglés Marítimo VIII (Maritime English 2)": {
-    "clave": "853",
+    "clave": "ING853",
     "nombre": "Inglés Marítimo VIII (Maritime English 2)",
     "tipo": "Teórico-práctica",
     "horas": {
@@ -1443,7 +1443,7 @@ export const contenidosSemestre8: Record<string, ProgramaOficial> = {
     }
   },
   "Prácticas marineras VIII": {
-    "clave": "PMR 860",
+    "clave": "PMR861",
     "nombre": "Prácticas marineras VIII",
     "tipo": "Teórico-práctica",
     "horas": {

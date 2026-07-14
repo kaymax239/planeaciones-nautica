@@ -1017,7 +1017,7 @@ export const contenidosMN2: Record<string, ProgramaOficial> = {
     }
   },
   "Metodología de la investigación": {
-    "clave": "MEI213",
+    "clave": "MEI212",
     "nombre": "Metodología de la investigación",
     "tipo": "Teórico-práctica",
     "horas": {
@@ -1208,7 +1208,7 @@ export const contenidosMN2: Record<string, ProgramaOficial> = {
     }
   },
   "Prácticas Marineras II": {
-    "clave": "PMR215",
+    "clave": "PMR214",
     "nombre": "Prácticas Marineras II",
     "tipo": "Teórico-práctica",
     "horas": {

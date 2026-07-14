@@ -6,7 +6,7 @@ import type { ProgramaOficial } from "../tipos";
 
 export const contenidosSemestre4: Record<string, ProgramaOficial> = {
   "Cálculo Diferencial e Integral": {
-    "clave": "CAL425",
+    "clave": "CAL426",
     "nombre": "Cálculo Diferencial e Integral",
     "tipo": "Teórico-práctica",
     "horas": {
@@ -1265,7 +1265,7 @@ export const contenidosSemestre4: Record<string, ProgramaOficial> = {
     }
   },
   "Prácticas Marineras IV": {
-    "clave": "TAL427",
+    "clave": "PMR429",
     "nombre": "Prácticas Marineras IV",
     "tipo": "Teórico-práctica",
     "horas": {
