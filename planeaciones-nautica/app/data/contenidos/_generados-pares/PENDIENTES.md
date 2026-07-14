@@ -7,17 +7,18 @@ el % de cada categoría lo fija el oficio por (tipo, año), así que ya no depen
 suma cruda. Lo que queda abajo es **para tu decisión / captura opcional — NO bloqueante**
 (los porcentajes oficiales ya están completos y correctos en todas las materias).
 
-## 1) Criterios sin clasificar en ninguna categoría (1)
+## 1) Criterios sin clasificar en ninguna categoría (0)
 
 Actividades que no embonan claramente en Conocimiento / Prácticas / Participación
 (no se forzaron). Típicamente evaluaciones diagnósticas, que no llevan peso.
 
-- `MN_Sem08_Educacion-Fisica.json` (1er Parcial): "Unidad 1. Percepción y coordinación motriz" — instrumento: Evaluación diagnóstica
+- (ninguno)
 
-## 2) Materias sin desglose del 2º parcial (33)
+## 2) Materias sin desglose del 2º parcial (33) — ACEPTADAS ASÍ
 
 Su F-32 solo traía las actividades de un parcial; el 2º quedó con los % oficiales
-correctos pero SIN lista de actividades. Captura manual opcional si la quieres detallada.
+correctos pero SIN lista de actividades. **Decisión del usuario:** se quedan así — los
+% oficiales bastan; las actividades se completarán vía el ciclo de revisión pedagógica.
 
 - `MN_Sem02_Estatica.json` — Estática (2do Parcial vacío)
 - `MN_Sem02_Formacion-Basica.json` — Formación Básica al STCW (2do Parcial vacío)

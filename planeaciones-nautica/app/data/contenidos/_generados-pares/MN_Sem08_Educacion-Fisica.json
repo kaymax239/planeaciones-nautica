@@ -94,6 +94,12 @@
               {
                 "criterio": "Examen parcial",
                 "instrumento": "Examen parcial"
+              },
+              {
+                "criterio": "Unidad 1. Percepción y coordinación motriz",
+                "instrumento": "Evaluación diagnóstica",
+                "peso": 0,
+                "nota": "diagnóstica, no ponderable"
               }
             ]
           },
@@ -118,12 +124,7 @@
             ]
           }
         ],
-        "sinClasificar": [
-          {
-            "criterio": "Unidad 1. Percepción y coordinación motriz",
-            "instrumento": "Evaluación diagnóstica"
-          }
-        ]
+        "sinClasificar": []
       },
       {
         "nombre": "2do Parcial",
