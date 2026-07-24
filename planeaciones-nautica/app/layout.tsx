@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "./lib/authContext";
@@ -30,6 +31,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        {/* Acceso discreto a la zona de desarrollador (solo funciona para el admin). */}
+        <Link
+          href="/desarrollador"
+          className="fixed right-3 top-2 z-50 text-[11px] font-medium text-slate-400 no-underline hover:text-slate-600 hover:underline"
+        >
+          Desarrollador
+        </Link>
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
