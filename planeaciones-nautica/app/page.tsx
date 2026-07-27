@@ -9,17 +9,16 @@ import {
 import {
   distribuirFechas,
   etiquetaSemanaF32,
-  EXAMENES,
-  formatearRango,
 } from "./data/calendario";
 import {
-  criteriosEvaluacion,
   generacionPorSemestre,
+  porcentajesDocx,
   textoPonderacionEvaluacion,
   textoPuntuacionesF32,
   tipoMateriaDesdePrograma,
 } from "./data/evaluacion";
 import { distribuirPrograma } from "./data/distribucion";
+import { calendarioDe } from "./config/calendario";
 import { esProgramaOficial } from "./data/tipos";
 // V1 conservada como respaldo en ./data/presentaciones/algebra-u1.ts y ./lib/pptxOficial.ts.
 // El botón usa la versión visual V2, resuelta bajo demanda desde el registro.
@@ -187,6 +186,11 @@ export default function Home() {
   const [seccion, setSeccion] = useState<"general" | "ingles">("general");
   const [materiaSeleccionada, setMateriaSeleccionada] = useState("");
   const [semestreSeleccionado, setSemestreSeleccionado] = useState("");
+  // Periodo escolar → filtra los semestres del selector. Default: Enero–Junio
+  // (semestres pares), que es el ciclo que viene. Ago–Dic = impares.
+  const [periodoEscolar, setPeriodoEscolar] = useState<"ago-dic" | "ene-jun">(
+    "ene-jun",
+  );
   // Presentación PN/MN: unidades marcadas con casillas (multi-selección). Cada
   // unidad marcada se genera COMPLETA y como un PPTX independiente.
   const [unidadesSeleccionadas, setUnidadesSeleccionadas] = useState<number[]>(
@@ -224,7 +228,10 @@ export default function Home() {
     "f32" | "f51" | "examenes" | "presentaciones"
   >("f32");
 
-  const periodo = "Julio-Diciembre 2026";
+  // Periodo de impartición para los documentos: derivado del periodo escolar
+  // elegido (Ago–Dic 2026 impares / Ene–Jun 2027 pares). Fuente: config/calendario.
+  const calendarioActivo = calendarioDe(periodoEscolar);
+  const periodo = calendarioActivo.etiqueta;
   const escuelaNautica =
     'Escuela Náutica Mercante de Tampico "Cap. de Altura Luis Gonzaga Priego González"';
 
@@ -260,6 +267,7 @@ export default function Home() {
           "teorico-practica",
           generacionPorSemestre(semestreSeleccionado),
         ),
+        calendarioActivo.etiquetaSemana,
       )
         .flatMap((bloque) => bloque.semanas)
         .map((s, i) => ({
@@ -480,6 +488,16 @@ export default function Home() {
   const labelClass =
     "mb-2 block text-xs font-bold uppercase tracking-[0.18em] text-[#0b1f3a]";
   const semestres = Object.keys(menu);
+  const romanoSemestre = (k: string) => k.replace(/\s*SEMESTRE\s*$/i, "").trim();
+  const romanosDelPeriodo =
+    periodoEscolar === "ago-dic"
+      ? ["I", "III", "V", "VII"]
+      : ["II", "IV", "VI", "VIII"];
+  // Solo los semestres del periodo elegido que además existen en el menú de la
+  // carrera (p. ej. MN no tiene IV).
+  const semestresDelPeriodo = semestres.filter((s) =>
+    romanosDelPeriodo.includes(romanoSemestre(s)),
+  );
   const materiasDelSemestre = semestreSeleccionado
     ? menu[semestreSeleccionado as keyof typeof menu] || []
     : [];
@@ -532,11 +550,9 @@ export default function Home() {
         ? tipoMateriaDesdePrograma(programaMateria)
         : "teorica";
       const puntuaciones = textoPuntuacionesF32(tipoMateria, generacion);
-      const criterios = criteriosEvaluacion(tipoMateria, generacion);
-      const porcentaje = (incluye: string) =>
-        String(
-          criterios.find((c) => c.nombre.includes(incluye))?.porcentaje ?? "",
-        );
+      // Plan de evaluación: prioriza el campo `evaluacion` de la biblioteca
+      // (oficial DEN por semestre/tipo); cae a la lógica legacy si no existe.
+      const evalDocx = porcentajesDocx(programaMateria, tipoMateria, generacion);
 
       type DatosRender = {
         asignatura: string;
@@ -573,7 +589,11 @@ export default function Home() {
           horasSemana: String(p.horas.porSemana),
           horasXSemana: String(p.horas.porSemana),
           objetivoGeneral: p.objetivoGeneral,
-          unidadBloques: distribuirPrograma(p, puntuaciones),
+          unidadBloques: distribuirPrograma(
+            p,
+            puntuaciones,
+            calendarioActivo.etiquetaSemana,
+          ),
           fuentes: p.bibliografia.length
             ? p.bibliografia.join("\n")
             : "Pendiente de revisión.",
@@ -644,12 +664,17 @@ export default function Home() {
         numeroCadetes: cadetes,
         fecha: fechaInicio,
 
-        // Plan de evaluación (hoja de fechas de exámenes del F-32)
-        fechaParcial1: formatearRango(EXAMENES.parcial1),
-        fechaParcial2: formatearRango(EXAMENES.parcial2),
-        pctConocimiento: porcentaje("Conocimiento"),
-        pctActividades: porcentaje("Actividades"),
-        pctParticipacion: porcentaje("Participaciones"),
+        // Plan de evaluación: fechas del calendario del periodo activo y
+        // porcentajes/mínima desde la biblioteca (campo evaluacion) según
+        // semestre/tipo. Ene–Jun 2027 aún sin oficio → "(fechas por publicar)".
+        fechaParcial1: calendarioActivo.fechaParcial1,
+        fechaParcial2: calendarioActivo.fechaParcial2,
+        pctConocimiento: evalDocx.pctConocimiento,
+        pctActividades: evalDocx.pctActividades,
+        pctParticipacion: evalDocx.pctParticipacion,
+        // Nota: la plantilla F-32 aún no tiene placeholder {calificacionMinima};
+        // se pasa listo para cuando se agregue a la plantilla.
+        calificacionMinima: evalDocx.calificacionMinima,
       });
 
       const blob = doc.getZip().generate({
@@ -1089,8 +1114,43 @@ export default function Home() {
                     </button>
                   </div>
 
-                  <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                    {semestres.map((semestre) => (
+                  {/* Periodo escolar: filtra qué semestres se muestran. */}
+                  <div className="mt-8">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#c8a45d]">
+                      Periodo
+                    </p>
+                    <div className="mt-3 flex flex-wrap justify-center gap-3">
+                      {(
+                        [
+                          ["ene-jun", "Enero–Junio", "II · IV · VI · VIII"],
+                          ["ago-dic", "Agosto–Diciembre", "I · III · V · VII"],
+                        ] as const
+                      ).map(([valor, etiqueta, sems]) => (
+                        <button
+                          key={valor}
+                          type="button"
+                          onClick={() => {
+                            setPeriodoEscolar(valor);
+                            setSemestreSeleccionado("");
+                          }}
+                          aria-pressed={periodoEscolar === valor}
+                          className={`rounded-2xl px-5 py-3 text-sm font-black uppercase tracking-[0.14em] shadow-sm transition ${
+                            periodoEscolar === valor
+                              ? "bg-[#c8a45d] text-[#071a33]"
+                              : "border border-[#071a33]/30 bg-white text-[#071a33] hover:border-[#c8a45d]"
+                          }`}
+                        >
+                          {etiqueta}
+                          <span className="mt-1 block text-[10px] font-bold tracking-[0.14em] opacity-70">
+                            {sems}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    {semestresDelPeriodo.map((semestre) => (
                       <button
                         key={semestre}
                         type="button"

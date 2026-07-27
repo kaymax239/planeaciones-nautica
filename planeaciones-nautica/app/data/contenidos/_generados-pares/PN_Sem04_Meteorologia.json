@@ -1,0 +1,265 @@
+{
+  "clave": "MET425",
+  "nombre": "Meteorología I",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 17,
+    "porSemana": 4,
+    "teoricas": 36,
+    "practicas": 36,
+    "independientes": 10,
+    "total": 82
+  },
+  "objetivoGeneral": "Predecir las condiciones meteorológicas, así como el comportamiento de los diferentes meteoros, interpretando la información obtenida de los instrumentos meteorológicos, para desarrollar una navegación segura.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "La atmósfera.",
+      "objetivoEspecifico": "Conocer la composición de la atmósfera analizando fenómenos meteorológicos conocidos, para comprender el origen de los mismos.",
+      "subtemas": [
+        "1.1 Compromiso de la atmósfera.",
+        "1.2 Capas de la atmósfera."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Temperatura y termómetros",
+      "objetivoEspecifico": "Conocer la temperatura de un lugar leyendo el termómetro en diferentes escalas para determinar su influencia en las condiciones meteorológicas actuales y futuras.",
+      "subtemas": [
+        "2.1 Temperatura.",
+        "2.2 Termómetro.",
+        "2.3 Escalas termométricas.",
+        "2.4 Temperatura del aire.",
+        "2.5 Variación con la altura.",
+        "2.6 Reducción de la temperatura al nivel del mar.",
+        "2.7 Variación diaria de la temperatura.",
+        "2.8 Variación anual de la temperatura."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Presión y barómetros.",
+      "objetivoEspecifico": "Conocer la presión de un lugar leyendo el barómetro en diferentes escalas para determinar su influencia en las condiciones meteorológicas actuales y futuras.",
+      "subtemas": [
+        "3.1 Presión, líneas isóbaras, gradiente de presión.",
+        "3.2 Clases de barómetros, de mercurio, milibares, sus equivalencias.",
+        "3.3 Lectura del barómetro aneroide y barógrafo.",
+        "3.4 Marea barométrica.",
+        "3.5 Reducción al nivel del mar.",
+        "3.6 Formaciones isobáricas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Evaporación, vapor de agua",
+      "objetivoEspecifico": "Conocer el proceso de evaporación, mediante el análisis de los factores que intervienen para determinar su efecto en las condiciones meteorológicas.",
+      "subtemas": [
+        "4.1 El ciclo del agua.",
+        "4.2 Evaporación.",
+        "4.3 Vapor de agua, saturación.",
+        "4.4 Higrómetro.",
+        "4.5 Psicrómetro."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Condensación y nubes",
+      "objetivoEspecifico": "Conocer el proceso de formación de nubes y sus características mediante la observación de las mismas para determinar los estados del tiempo asociados.",
+      "subtemas": [
+        "5.1 Condensación.",
+        "5.2 Nivel de condensación.",
+        "5.3 Nubes y su clasificación.",
+        "5.4 Nubosidad."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Visibilidad y nieblas",
+      "objetivoEspecifico": "Identificar los tipos de niebla mediante el análisis de los procesos de formación para determinar su efecto en la reducción de la visibilidad.",
+      "subtemas": [
+        "6.1 Niebla.",
+        "6.2 Niebla de advección.",
+        "6.3 Nieblas de evaporación.",
+        "6.4 Nieblas de lluvias o de frente.",
+        "6.5 Niebla de irradiación.",
+        "6.6 Nieblas de mezcla.",
+        "6.7 Propagación de las nieblas.",
+        "6.8 Dispersión de las nieblas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Precipitaciones",
+      "objetivoEspecifico": "Describir el tipo de precipitación asociado a una condición de tiempo mediante el análisis de los diferentes factores atmosféricos para predecir las condiciones meteorológicas de un lugar.",
+      "subtemas": [
+        "7.1 Precipitaciones.",
+        "7.2 Tipos de lluvias: de frente, de convección y orográficas.",
+        "7.3 Clasificación de las precipitaciones.",
+        "7.4 Pluviómetro."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Formas tormentosas.",
+      "objetivoEspecifico": "Identificar los factores meteorológicos que prevalecen en los diferentes tipos de forma tormentosa, analizando los efectos combinados de las variables meteorológicas con el fin de predecir el tiempo que prevalecerá en un lugar.",
+      "subtemas": [
+        "8.1 Generalidades.",
+        "8.2 Estratificación del aire.",
+        "8.3 Situaciones de inestabilidad.",
+        "8.4 Tormentas.",
+        "8.5 Clasificación de las tormentas.",
+        "8.6 Chubascos.",
+        "8.7 Trombas de agua y tornados."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "El viento",
+      "objetivoEspecifico": "Conocer los factores asociados al viento así como la medición del mismo mediante el uso de equipo especializado u observación directa de las condiciones del mar con el fin de predecir el tiempo que prevalecerá en un lugar.",
+      "subtemas": [
+        "9.1 El viento y sus causas.",
+        "9.2 Anemómetros.",
+        "9.3 Viento real y aparente.",
+        "9.4 Escala marítima de los vientos."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 10,
+      "tema": "Sistemas generales de vientos",
+      "objetivoEspecifico": "Conocer la circulación general de la atmósfera y sus excepciones a partir del análisis de la distribución de presiones y temperaturas sobre la superficie terrestre para determinar el viento que prevalece en un área.",
+      "subtemas": [
+        "10.1 Generalidades.",
+        "10.2 Distribución de presiones y vientos.",
+        "10.3 La corriente de chorro.",
+        "10.4 Alisios y contralisios.",
+        "10.5 Calmas ecuatoriales.",
+        "10.6 Dominantes del oeste.",
+        "10.7 Calmas tropicales.",
+        "10.8 Vientos tropicales.",
+        "10.9 Monzones."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 11,
+      "tema": "Masas de aire y frente",
+      "objetivoEspecifico": "Conocer la clasificación y características de las masas de aire y frentes analizando las regiones de formación para determinar las condiciones meteorológicas asociadas.",
+      "subtemas": [
+        "11.1 Masas de aire. Clasificación y propiedades.",
+        "11.2 Ciclos de vida de las masas de aire.",
+        "11.3 Frentes, presión y vientos.",
+        "11.4 Clasificación de los frentes."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 12,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Viñas Rubio, José Miguel (2022). Conocer la Meteorología: Diccionario ilustrado del tiempo y el clima. Editorial Alianza.",
+    "Thunberg, Greta et al. (2022). El libro del clima.",
+    "Mederos, Luis (2018). Meteorología: Fundamentos de la atmósfera.",
+    "DelSole, Timothy & Tippett, Michael (2022). Statistical Methods for Climate Scientists. Cambridge University Press.",
+    "García-Burgos, M. et al. (2024). Abrupt and persistent atmospheric circulation changes…"
+  ],
+  "fuente": "planeaci8n8didactica_meteorologia8i_iva8pn_enmt METEOROLOGIA GRUPO IVA PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "planeaci8n8didactica_meteorologia8i_iva8pn_enmt METEOROLOGIA GRUPO IVA PN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 10,
+      "subtemas": 29,
+      "conObjetivo": 9,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Examen primer parcial",
+                "instrumento": "Examen Evaluación sumativa"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "SINTESIS DE LECTURA",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Actividad de Aprendizaje",
+                "instrumento": "Lista de cotejo. Evaluación formativa"
+              },
+              {
+                "criterio": "Diagrama del ciclo del agua",
+                "instrumento": "Lista de cotejo. Rúbrica. Evaluación formativa."
+              },
+              {
+                "criterio": "Trabajo de Practica",
+                "instrumento": "Lista de cotejo. Evaluación formativa"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": []
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": []
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "clave": "C0036",
+  "nombre": "Manejo de embarcaciones de supervivencia y botes de rescate que no sean botes de rescate rápidos",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 0,
+    "porSemana": 4,
+    "teoricas": 18,
+    "practicas": 10,
+    "independientes": 0,
+    "total": 28
+  },
+  "objetivoGeneral": "Maneja mediante la aplicación de los conocimientos y artes marineros, opera con destreza los botes de supervivencia y de rescate para la búsqueda, rescate y traslado de posibles víctimas y estar disponible en un estado de emergencia en un abandono de buque.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Introducción y Seguridad",
+      "objetivoEspecifico": "Establecerá las reglas de seguridad de acuerdo a su unidad. Explicará el uso y las acciones a ser realizadas cuando sean dadas las órdenes de \"pendientes\" y \"ejecutar\".",
+      "subtemas": [
+        "1.1.- Introducción.",
+        "1.2.- Guía de seguridad."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Generalidades",
+      "objetivoEspecifico": "Establecerá que los mensajes de emergencia pueden ser transmitidos por el sistema público de llamadas localizado en espacios de tripulación y pasajeros, así como en las estaciones de emergencia. Establecerá que es necesario estar familiarizado con todos los dispositivos de salvamento del buque. Explicará que los botes sólo serán arriados hasta la cubierta de embarque por órdenes del capitán.",
+      "subtemas": [
+        "2.1 situaciones de emergencia.",
+        "2.2. Entrenamiento y operación.",
+        "2.3. Acciones que debe tomarse cuando se llama a las estaciones de embarcaciones de supervivencia"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Abandono de Buque",
+      "objetivoEspecifico": "Establecerá que un buque sólo será abandonado bajo órdenes del capitán o persona encargada del buque",
+      "subtemas": [
+        "3.1.-. Acciones que deben tomarse cuando sea requerido el abandono del buque.",
+        "3.2.- Acciones que debe tomarse cuando se está en el agua."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Embarcaciones de Supervivencia y Botes de Rescate",
+      "objetivoEspecifico": "Describirá la construcción y equipamiento de los siguientes botes salvavidas: parcialmente cerrados, totalmente cerrados, de caída libre, balsas salvavidas inflable, balsas rígidas. Identificará los requerimientos para el uso de embarcaciones de supervivencia y botes de rescate",
+      "subtemas": [
+        "4.1.- Botes salvavidas.",
+        "4.2.- Balsas salvavidas.",
+        "4.3.- Botes de rescate."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Arreglos para la Puesta a Flote de las Embarcaciones de Supervivencia",
+      "objetivoEspecifico": "Describirá los arreglos en la estiba, trincas, preventas y métodos de puesta a flote y recobro de botes con: pescante por gravedad, pescante de arriado a motor, pescante de brazo giratorio. Describirá los pescantes para poner a flote balsas salvavidas. Describirá los arreglos para la puesta a flote por caída libre desde la popa del barco.",
+      "subtemas": [
+        "5.1.- Pescante de botes salvavidas.",
+        "5.2.- Pescante de balsas salvavidas.",
+        "5.3.- Pescante de botes de rescate.",
+        "5.4.- Caída libre.",
+        "5.5.- Dispositivos de flotación libre.",
+        "5.6.- Sistemas de evacuación marina."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Evacuación y Recuperación de Embarcaciones de Supervivencia y Botes de Rescate",
+      "objetivoEspecifico": "Establecerá la importancia de mantener claro al lugar al cual se arriará la embarcación de supervivencia. Describirá cómo alejarse del costado del barco en un bote: a motor, a remos.",
+      "subtemas": [
+        "6.1.- Puesta a flote (botadura).",
+        "6.2.- Alejarse del costado del barco.",
+        "6.3.- Reunir y organizar las balsas salvavidas y el rescate de supervivientes del mar.",
+        "6.4.- Recuperación de embarcaciones de supervivencia y botes de rescate.",
+        "6.5.- Método de puesta a flote de las embarcaciones de supervivencia en mar encrespado.",
+        "6.6.- Recuperación de botes de rescate en mar encrespado."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Acciones a Tomar cuando se Aleja del Buque.",
+      "objetivoEspecifico": "Establecerá que los equipos que estén flotando en el agua como epirb´s y sart´s, deberán ser tomados y embarcados. Establecerá que todas las embarcaciones de supervivencia deberán mantenerse en proximidad una de la otra.",
+      "subtemas": [
+        "7. Acciones a Tomar cuando se Aleja del Buque"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Botes Salvavidas a Motor y Accesorios",
+      "objetivoEspecifico": "Establecerá que la máquina del bote deberá ser capaz de estar en marcha por lo menos durante 5 minutos mientras el bote aún esté fuera del agua.",
+      "subtemas": [
+        "8.1.- Arranque de la máquina.",
+        "8.2.- Sistemas de enfriamiento",
+        "8.3.- Métodos de carga de la batería.",
+        "8.4.- Extintores de fuego.",
+        "8.5.- Sistema de rocío de agua.",
+        "8.6.- Sistema de aire de soporte autónomo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Maquinaria del Bote con Motor Fuera de Borda",
+      "objetivoEspecifico": "Describe el motor de la embarcación de rescate fuera de borda, con especial énfasis en: la posición normal durante los medios de sujeción, arreglos de depósito de combustible, las conexiones y la imprimación, sistema de refrigeración, el uso de estrangulación, partida, acelerador y parada del motor, cambiando el engranaje. Describe el mantenimiento a bordo de los motores de motor fuera de borda.",
+      "subtemas": [
+        "9. Maquinaria del Bote con Motor Fuera de Borda"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 10,
+      "tema": "Manejo de Embarcaciones de Supervivencia y Botes de Rescate en Mar Encrespada",
+      "objetivoEspecifico": "Describirá el uso del ancla flotante. Explicará las dificultades que se encontrarán para alejarse del socaire del buque cuando se presenten vientos fuertes. Establecerá los tipos de playa que serán evitadas en lo posible.",
+      "subtemas": [
+        "10.1.- Botes salvavidas.",
+        "10.2.- Balsas salvavidas.",
+        "10.3.- Desembarque en playa"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 11,
+      "tema": "Acciones que deben Tomarse cuando se Embarca en una Embarcación de Supervivencia",
+      "objetivoEspecifico": "Explicará la necesidad de dar primeros auxilios a las personas lesionadas, dando prioridad a la resucitación.",
+      "subtemas": [
+        "Pendiente de revisión"
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Manual de formación y entrenamiento en seguridad y protección ambiental",
+    "Convenio SOLAS. Prevención de accidentes a bordo de los buques en el mar y en los puertos",
+    "Técnicas de supervivencia personal 2017, centro de patrones y de oficiales fluviales, de pesca y de cabotaje marítimo.",
+    "Convenio SOLAS capítulo III dispositivos y medios de salvamento",
+    "International Safety Management (ISM)",
+    "Simbología OMI",
+    "Código IDS, ISM",
+    "Procedimiento de evacuación y abandono en un buque de pasaje",
+    "Centro de patrones y de oficiales fluviales, de pesca y de cabotaje marítimo.",
+    "Tratado de maniobras tomo 1, Barbudo E, Ignacio Fragata",
+    "Complementos de formación para la licenciatura en máquinas navales",
+    "Capítulo sexto motores fuera de Borda"
+  ],
+  "fuente": "manejo8de8embarcaciones8iv8b8pn8ok_1 MANEJO EMBARCACIONES GRUPO IV B PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "manejo8de8embarcaciones8iv8b8pn8ok_1 MANEJO EMBARCACIONES GRUPO IV B PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 10,
+      "subtemas": 3,
+      "conObjetivo": 7,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "1er examen parcial",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Investigación de tipos de bote de rescate",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Síntesis sobre la importancia de conocer manejo de embarcaciones",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": []
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": []
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

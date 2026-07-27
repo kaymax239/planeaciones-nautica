@@ -1,0 +1,215 @@
+{
+  "clave": "TUC855",
+  "nombre": "Turbinas de Combustión",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 4,
+    "teoricas": 36,
+    "practicas": 36,
+    "independientes": 10,
+    "total": 72
+  },
+  "objetivoGeneral": "Comprende el funcionamiento de una turbina de combustión, analizando sus componentes, para su correcta operación.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Principios fundamentales",
+      "objetivoEspecifico": "Conoce los principios básicos de las turbinas de gas, analizando diagramas, para comprender su funcionamiento.",
+      "subtemas": [
+        "1.1. Conceptos básicos.",
+        "1.2. Ciclo de funcionamiento.",
+        "1.3. Disposición general de los componentes del conjunto."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Compresor de aire",
+      "objetivoEspecifico": "Conoce las partes de un compresor rotativo, mediante imágenes, para comprender su funcionamiento.",
+      "subtemas": [
+        "2.1. Compresor de flujo axial.",
+        "2.2. Trabajo de compresión.",
+        "2.3. Análisis del funcionamiento."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Generador de Gas",
+      "objetivoEspecifico": "Conocer las partes de un generador de gases de combustión, mediante esquemas descriptivos, para analizar el funcionamiento en la turbina.",
+      "subtemas": [
+        "3.1 Disposición.",
+        "3.2 Cámara de combustión.",
+        "3.3 Proceso de combustión.",
+        "3.4 Temperatura de los productos.",
+        "3.5 Válvulas y bombas de inyección de combustible."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Turbina de potencia",
+      "objetivoEspecifico": "Identifica las partes de una turbina de potencia accionada por gases de combustión, analizando imágenes, para comprender su funcionamiento.",
+      "subtemas": [
+        "4.1. Rotor de la turbina de alta presión.",
+        "4.2. Enfriamiento de toberas y paletas.",
+        "4.3. Análisis elemental de funcionamiento.",
+        "4.4. Condiciones de funcionamiento"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Utilización de turbinas de gas en buques",
+      "objetivoEspecifico": "Describe la aplicación de las turbinas de gas en sistemas de propulsión de buques, ejemplificando su uso en artefactos navales.",
+      "subtemas": [
+        "5.1. Instalación de turbinas de gas propulsoras en buques.",
+        "5.2. Ejemplos de funcionamiento de una turbina de gas de propulsión.",
+        "5.3. Mantenimiento de las turbinas de gas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "6.1 Innovaciones y cambios en los últimos años en las turbinas de combustión."
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Casimiro Catalá Gregori. (2013, Febrero 02). Funcionamiento compresor Axial. Recuperado de https://www.youtube.com/watch?v=cwE_zV4k0V8",
+    "Rusmay Abdullah. (2013, Agosto 13). Axial Flow Air Compressor. Recuperado de https://www.youtube.com/watch?v=Wh4Furbn1Gk",
+    "oyeyayo1982. (2009, Septiembre 14). Compresores centrífugos 1. Recuperado de https://www.youtube.com/watch?v=szppmQnSH5w",
+    "Renovefree Gmao. (2016, junio 21). Turbinas de gas: montaje de turbinas de gas. Recuperado de https://www.youtube.com/watch?v=EecE-A5skIU",
+    "Cedron39. (2013, Junio 01). Accidente montaje de turbina de gas. Recuperado de https://www.youtube.com/watch?v=PO9asSzABnk",
+    "Fernández, C. (2010). Reparación General de Turbinas de Vapor. CTI, Solari y Asociados.",
+    "Nógues y Guerrero, J. (2001). Elementos de máquinas y calderas. 2ª edición.",
+    "Shield, Carl. (2005). Calderas. Ed. Continental.",
+    "EDIBON (2015). Manual de prácticas. Recuperado de M7-TGDEC.pdf y M7-TTVC.pdf",
+    "Meherwan P. Boyce (2002). Gas turbine Engineering Handbook. Gulf Professional Publishing."
+  ],
+  "fuente": "lmn_turbinas8de8combusti8n_viiiamn_enmt VIII MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "lmn_turbinas8de8combusti8n_viiiamn_enmt VIII MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Primer examen parcial",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Investigación",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Organizador gráfico",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Debate",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Discusión guiada",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Diálogo-discusión",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Segundo examen parcial",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Investigación",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Investigación",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Organizador gráfico",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Discusión guiada",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Lectura comentada",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Cuestionamiento directo",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

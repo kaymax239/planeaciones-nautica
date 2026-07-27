@@ -1,0 +1,157 @@
+{
+  "clave": "EST212",
+  "nombre": "Estática",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 4,
+    "teoricas": 36,
+    "practicas": 36,
+    "independientes": 6,
+    "total": 72
+  },
+  "objetivoGeneral": "Resolver problemas relacionados con la mecánica de los sólidos rígidos, usando los elementos teóricos, para comprender la estructura de los puentes y del buque, y extremar las precauciones en las maniobras.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Principios y Conceptos fundamentales de la Estática",
+      "objetivoEspecifico": "Conocer los principios de la Estática por medio de definiciones y conceptos, así como las unidades de medición en diferentes sistemas, para realizar conversiones según sea el caso.",
+      "subtemas": [
+        "1.1 La ley del paralelogramo.",
+        "1.2 Principio de transmisibilidad.",
+        "1.3 Las tres leyes de Newton.",
+        "1.4 Sistemas de unidades."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Fuerzas en un plano",
+      "objetivoEspecifico": "Calcular la resultante de dos fuerzas, usando el método del paralelogramo o del triángulo para establecer que una partícula está en equilibrio cuando la suma de las fuerzas que actúan sobre ella es cero.",
+      "subtemas": [
+        "2.1 Resultante de dos fuerzas",
+        "2.2 Equilibrio de una partícula.",
+        "2.3 Primera ley del movimiento de Newton."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Fuerzas en el espacio",
+      "objetivoEspecifico": "Calcular la resultante de un sistema de fuerzas concurrentes en el espacio descomponiéndolas en sus componentes para aplicarlo a problemas afines.",
+      "subtemas": [
+        "3.1 Componentes rectangulares de una fuerza en el espacio.",
+        "3.2 Suma de fuerzas concurrentes en el espacio.",
+        "3.3 Equilibrio de una partícula en el espacio."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Cuerpos rígidos: sistemas de fuerzas equivalentes",
+      "objetivoEspecifico": "Diferenciar una fuerza externa de una fuerza interna concluyendo que la primera puede provocar una traslación o una rotación en el cuerpo rígido para obtener el momento de una fuerza en este último caso.",
+      "subtemas": [
+        "4.1 Fuerzas externas e internas.",
+        "4.2 Momento de una fuerza con respecto a un punto.",
+        "4.3 Teorema de Varignon.",
+        "4.4 Componentes rectangulares del momento de una fuerza.",
+        "4.5 Momento de una fuerza con respecto a un eje dado.",
+        "4.6 Momento de un par.",
+        "4.7 Representación de un par por medio de un vector.",
+        "4.8 Descomposición de una fuerza en otra fuerza aplicada en “O” y un par."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Equilibrio de Cuerpos Rígidos",
+      "objetivoEspecifico": "Comprender las condiciones de equilibrio en un cuerpo rígido, considerando que la fuerza y momento resultante en él debe ser igual a cero y de esta forma, resolver problemas de estructura.",
+      "subtemas": [
+        "5.1 Introducción al equilibrio.",
+        "5.2 Diagrama de cuerpo libre",
+        "5.3 Reacciones en los puntos de apoyo y conexiones de una estructura bidimensional."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Fuerzas distribuidas: Centroides y Centros de Gravedad",
+      "objetivoEspecifico": "Localizar el centro de gravedad de un cuerpo rígido empleando algunas propiedades de simetría o una integración simple y usarlo en la resolución de problemas.",
+      "subtemas": [
+        "6.1 Introducción a los centroides y centros de gravedad.",
+        "6.2 Centro de gravedad de un cuerpo bidimensional.",
+        "6.3 Centroide de áreas y líneas.",
+        "6.4 Primeros momentos de áreas y líneas.",
+        "6.5 Placas y alambres compuestos.",
+        "6.6 Cargas distribuidas en vigas.",
+        "6.7 Fuerza sobre superficies sumergidas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Análisis de Estructuras",
+      "objetivoEspecifico": "Considerar a las estructuras formadas por varios cuerpos rígidos como uno sólo, analizando las fuerzas externas e internas que intervienen en ellas, para solución de problemas que involucran cuerpos en contacto.",
+      "subtemas": [
+        "7.1 Introducción y definición de la armadura.",
+        "7.2 Análisis de armadura en un plano."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Fricción",
+      "objetivoEspecifico": "Comprender que la fricción seca, juega un papel importante en los cuerpos rígidos en contacto, relacionándola con los ejes, ruedas, cuñas y tornillos, para obtener algún beneficio de ella.",
+      "subtemas": [
+        "8.1 Introducción.",
+        "8.2 Coeficiente de fricción.",
+        "8.3 Ángulo de fricción.",
+        "8.4 Problemas que involucran fricción en seco.",
+        "8.5 Cuñas.",
+        "8.6 Tornillos de rosca cuadrada.",
+        "8.7 Chumaceras.",
+        "8.8 Fricción en ejes.",
+        "8.9 Fricción en ruedas.",
+        "8.10 Fricción en bandas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Momentos de inercia",
+      "objetivoEspecifico": "Obtener mediante el Cálculo Integral el momento de inercia de un área, para usarlo en el cálculo del momento de inercia de un área compuesta.",
+      "subtemas": [
+        "9.1 Segundo momento o momento de inercia de un área.",
+        "9.2 Determinación del momento de un área por integración."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 10,
+      "tema": "Aplicaciones de la estática en el sector marítimo portuario.",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "Pendiente de revisión"
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Beer, F. P., Johnston, E. R., Mazurek, D. F. y Cornwell, P. J. (2017). Mecánica vectorial para ingenieros: Estática. McGraw-Hill.",
+    "Hibbeler, R. C. (2016). Ingeniería mecánica: Estática. Pearson Educación.",
+    "Meriam, J. L. y Kraige, L. G. (2015). Mecánica para ingenieros: Estática. Wiley"
+  ],
+  "fuente": "plan_247 ESTATICA GRUPO II A MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_247 ESTATICA GRUPO II A MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 10,
+      "subtemas": 29,
+      "conObjetivo": 8,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

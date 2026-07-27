@@ -1,0 +1,160 @@
+{
+  "clave": "MAN640",
+  "nombre": "Maniobras II",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 19,
+    "porSemana": 4,
+    "teoricas": 54,
+    "practicas": 18,
+    "independientes": 10,
+    "total": 82
+  },
+  "objetivoGeneral": "Conocer los procedimientos de maniobra del buque, considerando los factores internos y externos que intervienen, para una operación segura.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Maniobra de atraque y desatraque",
+      "objetivoEspecifico": "Conocer e identificar los tipos de maniobra y cabos, analizando una maniobra, para realizar un atraque o desatraque seguro.",
+      "subtemas": [
+        "1.1 Denominación de los cabos de acuerdo a su función en una maniobra.",
+        "1.2 Atraque y desatraque de costado a un muelle.",
+        "1.3 Maniobra de amarre y desamarre a una monoboya.",
+        "1.4 Maniobra de arrejeramiento y desarrejeramiento a un muelle.",
+        "1.5 Maniobra de abarloamiento y desabarloamiento a una embarcación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Remolcadores",
+      "objetivoEspecifico": "Conocer los tipos de remolcadores, analizando sus funciones, para garantizar operaciones seguras.",
+      "subtemas": [
+        "2.1 Tipos de remolcadores y sus funciones.",
+        "2.2 Equipo para remolque.",
+        "2.3 Aproximación a un buque.",
+        "2.4 Maniobras de remolque.",
+        "2.5 Atracando y desatracando un remolque",
+        "2.6 Pérdida del remolque",
+        "2.7 Cuidados con el cable de remolque.",
+        "2.8 Maniobra de asistencia a otros buques en maniobra de atraque y desatraque."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Maniobra en hielo",
+      "objetivoEspecifico": "Conocer los principios generales de las maniobras en hielo, identificando las características de los buques y de las zonas, para la navegación segura.",
+      "subtemas": [
+        "3.1 Clasificación/limitaciones del Buque para navegar en hielo.",
+        "3.2 Preparación del buque.",
+        "3.3 Entrando en una placa de hielo.",
+        "3.4 Remolcando en hielo.",
+        "3.5 Fondeo y atraque en hielo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Varada",
+      "objetivoEspecifico": "Identificar las maniobras pertinentes en caso de varada, analizando causas y procedimientos, para evaluar los daños causados por esta condición.",
+      "subtemas": [
+        "4.1 Acciones inmediatas.",
+        "4.2 Procedimientos de rebote.",
+        "4.3 Varada intencional."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Diques",
+      "objetivoEspecifico": "Comprender las maniobras de entrada/salida a diques, analizando los procedimientos establecidos, para garantizar una correcta operación.",
+      "subtemas": [
+        "5.1 Tipos.",
+        "5.2 Entradas.",
+        "5.3 Reflote."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Maniobras en emergencia",
+      "objetivoEspecifico": "Conocer las maniobras en caso de emergencia, analizando los procedimientos aplicables en situaciones concretas, para salvaguardar la integridad de la vida humana, la protección del medio ambiente, del buque y la carga.",
+      "subtemas": [
+        "6.1 Maniobrando un buque dañado.",
+        "6.2 Rescate a sobrevivientes.",
+        "6.3 Procedimiento de hombre al agua."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Navegación con mal tiempo",
+      "objetivoEspecifico": "Identificar las maniobras en caso de mal tiempo, analizando los procedimientos aplicables en situaciones concretas, para salva guardar la integridad de la vida humana, la protección del medio ambiente, del buque y la carga.",
+      "subtemas": [
+        "7.1 Comportamiento del buque.",
+        "7.2 Cambio de rumbo.",
+        "7.3 Preparando el buque para mal tiempo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Control de averías",
+      "objetivoEspecifico": "Identificar las maniobras pertinentes en caso de averías, analizando causas y procedimientos, para evaluar los daños causados por esta condición.",
+      "subtemas": [
+        "8.1 Colisiones.",
+        "8.2 Después del impacto.",
+        "8.3 Reparación temporal.",
+        "8.4 Averías de mal tiempo.",
+        "8.5 Pérdidas del timón."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Maniobras en costa afuera",
+      "objetivoEspecifico": "Conocer e identificar los tipos de maniobras, analizando los procedimientos dispuestos, para efectuar una operación segura.",
+      "subtemas": [
+        "9.1 Tipos de maniobras.",
+        "9.2 Rolado de anclas.",
+        "9.3 Posicionamiento de una plataforma autoelevable.",
+        "9.4 Posicionamiento en proximidades de plataforma.",
+        "9.5 Operación de buceo saturado y de superficie.",
+        "9.6 Tendido de líneas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 10,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "Digitalización y puertos inteligentes",
+        "Automatización y uso de energías limpias"
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Maneuvering and Control of Marine Vehicles (2021)",
+    "Ship Handling (ediciones recientes 2016–2020)",
+    "Bridge Team Management (últimas ediciones 2017+)",
+    "Maniobra avanzada en propulsores azimutales y waterjets en buques de pasaje (2025)",
+    "ATLS Automated Trailer Loading for Surface Vessels (2024)",
+    "Safe Payload Transfer with Ship Mounted Cranes (2025)"
+  ],
+  "fuente": "planeaci8n8didactica_maniobra8ii_via8pn8_enmt MANIOBAS II GRUPO VI A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "planeaci8n8didactica_maniobra8ii_via8pn8_enmt MANIOBAS II GRUPO VI A PN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

@@ -1,0 +1,234 @@
+{
+  "clave": "TAL642",
+  "nombre": "Taller V",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 20,
+    "porSemana": 4,
+    "teoricas": 24,
+    "practicas": 48,
+    "independientes": 8,
+    "total": 80
+  },
+  "objetivoGeneral": "Conocer el torno y sus componentes, describiendo su función y precaución al usarlos, así como el afilado de las herramientas de corte, para realizar trabajos de calidad en el buque.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Clasificación de torno y seguridad en su manejo",
+      "objetivoEspecifico": "Clasifica los diferentes tipos de torno tomando en cuenta sus características, para realizar el trabajo adecuado con ellos.",
+      "subtemas": [
+        "1.1 Tipos y clasificación.",
+        "1.2 Trabajos a realizar con ellos"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Partes principales de un torno",
+      "objetivoEspecifico": "Conoce las partes de un torno y su uso, describiendo su función para darles el uso adecuado en la realización de un trabajo.",
+      "subtemas": [
+        "2.1 Fijas",
+        "2.2 Móviles"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Herramientas auxiliares.",
+      "objetivoEspecifico": "Conoce las herramientas de corte y fijación mencionando sus características, para la manufactura de piezas útiles en el buque.",
+      "subtemas": [
+        "3.1 De corte.",
+        "3.2 De fijación"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Elementos de corte para torno",
+      "objetivoEspecifico": "Clasifica y afila buriles considerando el tipo de trabajo a realizar para su aplicación en cortes precisos.",
+      "subtemas": [
+        "4.1 Tipos de buriles.",
+        "4.2 Afilado de varios ángulos."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Cálculo de conicidad y trabajos de desbaste",
+      "objetivoEspecifico": "Opera el torno en los distintos trabajos de desbaste, utilizando los procedimientos y diferentes cálculos de conicidad, para obtener acabados con calidad.",
+      "subtemas": [
+        "5.1 Tipos de desbaste.",
+        "5.2 Fórmula para calcular el desbaste."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Tipos de torneado.",
+      "objetivoEspecifico": "Realiza trabajos de torno tomando en cuenta las indicaciones para refrentado, el mandrilado y el moleteado.",
+      "subtemas": [
+        "6.1 Refrentado",
+        "6.2 Mandrilado",
+        "6.3 Moleteado"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Teoría del roscado.",
+      "objetivoEspecifico": "Opera el torno calculando y utilizando las tablas de velocidad según el tipo de roscado, para obtener un trabajo aceptable.",
+      "subtemas": [
+        "7.1 Diferentes tipos de roscado en el torno",
+        "7.2 Uso de tablas",
+        "7.3 Cálculos y tablas de velocidad"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Roscados con machuelos y con tarraja.",
+      "objetivoEspecifico": "Elabora roscas, usando machuelos y tarraja según el material para un trabajo de calidad.",
+      "subtemas": [
+        "8. Roscados con machuelos y con tarraja"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Realización de trabajos aplicando los conocimientos adquiridos.",
+      "objetivoEspecifico": "Maquina piezas usando los conocimientos adquiridos y las medidas de seguridad necesarias para obtener un acabado de calidad.",
+      "subtemas": [
+        "9. Realización de trabajos aplicando los conocimientos adquiridos"
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Henry Ford. (1971). Teoría del taller. Michigan: Gustavo Gilis.",
+    "Izquierdo, J. J., y Martínez, J. A. (2011). Libro de taller de torno y fresadora. España: Ceysa. Cano Pina, S.L. Ediciones.",
+    "López, A. (2008). Máquinas. Cálculos de taller. España: Autor-editor.",
+    "South bend. (2018). Manual del tornero. Estados Unidos América: Twins."
+  ],
+  "fuente": "plan_248 TALLER GRUPO VI A MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_248 TALLER GRUPO VI A MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "práctica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Conocimiento - 1era Evaluación parcial (Unidad V)",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Prácticas y actividades de aprendizaje - Práctica de taller (Unidad I)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Prácticas y actividades de aprendizaje - Práctica de taller (Unidad II)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Prácticas y actividades de aprendizaje - Práctica de taller (Unidad III)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Prácticas y actividades de aprendizaje - Práctica de taller (Unidad IV)",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participaciones y uso de TICs - Investigación (Unidad II)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Participaciones y uso de TICs - Cuadro comparativo (Unidad V)",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Conocimiento - 2da Evaluación parcial (Unidad IX)",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Prácticas y actividades de aprendizaje - Práctica de taller (Unidad VI)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Prácticas y actividades de aprendizaje - Práctica de taller (Unidad VIII)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Prácticas y actividades de aprendizaje - Práctica de taller (Unidad IX)",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participaciones y uso de TICs - Trabajo de investigación (Unidad VII)",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Participaciones y uso de TICs - Participación de video (Unidad VIII)",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

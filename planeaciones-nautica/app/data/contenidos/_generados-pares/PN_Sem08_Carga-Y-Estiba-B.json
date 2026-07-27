@@ -1,0 +1,206 @@
+{
+  "clave": "CYE855",
+  "nombre": "Carga y Estiba II",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 4,
+    "teoricas": 54,
+    "practicas": 18,
+    "independientes": 10,
+    "total": 72
+  },
+  "objetivoGeneral": "Realiza las operaciones de carga especializada, aplicando los criterios necesarios, para garantizar la seguridad del buque y de la carga.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Transporte de mercancías perecederas y refrigeradas",
+      "objetivoEspecifico": "Conoce los cuidados en el manejo de mercancías perecederas y refrigeradas analizando las características del buque, para garantizar su buen estado durante la transportación.",
+      "subtemas": [
+        "1.1.1. Diferentes tipos de aplicación del frío.",
+        "1.1.2. Tipos de buques para cargas congeladas y/o refrigeradas, construcción de sus bodegas.",
+        "1.1.3. Preparación de las bodegas para cargas refrigeradas incluyendo el preenfriado y colocación de madera de Estiba.",
+        "1.1.4. Recepción de las cargas refrigeradas.",
+        "1.1.5. Inspección de la carga antes y durante las operaciones.",
+        "1.1.6. Vicios propios de la carga.",
+        "1.1.7. Cargas refrigeradas.",
+        "1.1.8. Cargas congeladas.",
+        "1.1.9. Operaciones portuarias, seguimiento del plan de estiba y lastre, comunicación con personal portuario, toma y registro de temperaturas, cálculo de carga abordo, estimación de carga, trimado de la carga al finalizar operaciones, copeteado del ángulo de reposo (guardia en puerto).",
+        "1.1.10. Dispositivos y medios de trincado usando el manual de Estiba y trincado del buque."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Buques tanque",
+      "objetivoEspecifico": "Conoce las técnicas, cuidados y medidas de seguridad en el transporte de hidrocarburos en buques tanque de acuerdo a las características del producto y tipo de embarcación, para garantizar su transporte seguro.",
+      "subtemas": [
+        "2.1. Definiciones generales del hidrocarburo y tipos.",
+        "2.2. Tipos de B/T.",
+        "2.3. Distribución general de los buques tanques que incluya tanques para cargar, cuartos de bombas, tanques de lastre segregado, tanques de residuos, tanques profundos, tanques trimadores.",
+        "2.4. Sistemas de tuberías de carga, en cubierta, en cuarto de bombas, de achique, cruces, válvulas.",
+        "2.5. Bombas de carga.",
+        "2.6. Operaciones normales de un buque tanque, preparación para recibir producto, inspección de tanques, seguimiento al plan de carga conexión a tierra, poner el buque en línea, inicio de operaciones (pie), control de sondas/aforos, control de lastre, cálculo de producto a bordo (ritmo de carga), comunicación con personal de tierra, uso del paro de emergencia, supervisión de las operaciones (guardia).",
+        "2.7. Normas de seguridad que deben observar los buques tanques.",
+        "2.8. Uso de la planta de gas inerte, explosímetro, Método de extracción de gases.",
+        "2.9. Sistema de lavado de tanques, máquinas fijas o móviles, lavado con crudo.",
+        "2.10. Cálculo de carga, factores de corrección de volumen por temperatura, factores de conversión, determinación de los esfuerzos del buque y del asiento, diseño de un plan de carga."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Precauciones antes de entrar a espacios cerrados o confinados",
+      "objetivoEspecifico": "Aplica las medidas de seguridad y procedimientos documentales al entrar a espacios cerrados o confinados, analizando las características del espacio, para garantizar la seguridad de la operación.",
+      "subtemas": [
+        "3.1. Listado de espacios potencialmente peligrosos.",
+        "3.2. Autorización previa al ingreso a espacios cerrados.",
+        "3.3. Determinación del nivel de explosividad y oxígeno en los espacios cerrados.",
+        "3.4. Uso apropiado del equipo de respiración autónomo y regulaciones aplicables antes de ingresar a espacios cerrados.",
+        "3.5. Listas de verificación de seguridad.",
+        "3.6. Sistemas de ventilación antes y durante el ingreso."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Gases licuados del petróleo",
+      "objetivoEspecifico": "Conoce el manejo de gases licuados y la operación de equipos involucrados, identificando las características del producto y tipo de buque, para realizar el transporte marítimo con seguridad.",
+      "subtemas": [
+        "4.1. Gases de hidrocarburos, características, propiedades generales.",
+        "4.2. Tipos de buques tanques gaseros, LNG, LPG, distribución general de estos.",
+        "4.3. Sistemas de contención de carga, tanque independiente, tanque de membrana, tanque de semimembrana, tanque integral, tanque de aislamiento interno.",
+        "4.4. Distribución de tuberías y válvulas.",
+        "4.5. Bombas de carga.",
+        "4.6. Planta de refrigeración, líneas.",
+        "4.7. Planta de gas inerte, líneas.",
+        "4.8. Operaciones del manejo de carga, pre enfriamiento de tanques, poner el buque en línea, líneas de llenado, instrumentos de medición, secuencia de manejo de operaciones de lastre, seguimiento de plan de carga (guardia).",
+        "4.9. Normas de seguridad que deben observar los buques gaseros, válvulas de seguridad vacío-presión.",
+        "4.10. Cuidados de la carga en travesía llenos y en lastre.",
+        "4.11. Preparación de tanques para la inspección y reparaciones.",
+        "4.12. Cálculo de carga, procedimiento usando la temperatura estándar de 15°C, cálculo del líquido, cálculo del vapor, diseño de un plan de carga."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Cálculo y planos de carga.",
+      "objetivoEspecifico": "Elabora cálculo de carga y planos de estiba, considerando la distribución de pesos a bordo, para garantizar la correcta distribución de estos, el cumplimiento de regularizaciones y la seguridad en la navegación.",
+      "subtemas": [
+        "5.1. Elaboración de cálculos de carga de casos determinados por el tipo de buque.",
+        "5.2. Elaboración de planos de Estiba determinados por el tipo de buque."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Código de Prácticas de Seguridad para la estiba y sujeción de la carga. González Laxe, F.; José Sánchez, R. OMI, 2004.",
+    "La protección física de las mercancías. Freire Seoane, M. J.; González Laxe, F.; Merino, L.; Rodríguez, D.; Cabría, D. 1994.",
+    "Directrices sobre el programa mejorado de inspecciones durante los reconocimientos de graneleros y petróleos. Freire Seoane, M. J.; González Laxe, F. OMI, 2008."
+  ],
+  "fuente": "plan_cye_viii_b_pn_enmt CARGA Y ESTIBA VIII PN B.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_cye_viii_b_pn_enmt CARGA Y ESTIBA VIII PN B.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Examen",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Realizar mapa conceptual de conceptos de la unidad",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Realizar investigación de tema buque tanque",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Resumen de los cuidados y equipos requeridos para entrada a espacios confinados",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participación del cadete",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Examen Ordinario",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Actividades del cadete",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Elaborar una investigación del tema gases licuados del petróleo",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Elaborar cálculos de carga",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

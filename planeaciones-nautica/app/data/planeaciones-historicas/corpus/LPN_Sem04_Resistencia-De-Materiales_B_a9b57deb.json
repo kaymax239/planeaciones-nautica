@@ -1,0 +1,29 @@
+{
+  "id": "Resistencia-De-Materiales_a9b57deb",
+  "clave": "",
+  "materia": "Resistencia De Materiales",
+  "carrera": "PN",
+  "semestre": 4,
+  "grupo": "B",
+  "periodo": "Enero-Junio 2026",
+  "lote": "enero-junio-2026",
+  "area": "basica",
+  "contenidoExtraible": false,
+  "claveCoincideConProgramaOficial": false,
+  "origen": {
+    "archivo": "plan_5 RESISTENCIA DE MATERIALES IV B PN.pdf",
+    "formato": "pdf",
+    "sha1": "a9b57deb3d1d70afb2ea336fc67942d96374b58d"
+  },
+  "datosGenerales": {},
+  "pedagogia": {
+    "competencias": [],
+    "estrategiasEnsenanza": [],
+    "tecnicasEnsenanza": [],
+    "secuenciaDidactica": "",
+    "productosEvidencias": [],
+    "instrumentosEvaluacion": []
+  },
+  "textoReferenciaRedactado": "",
+  "textoCompletoRedactado": ""
+}

@@ -1,0 +1,221 @@
+{
+  "clave": "SIM852",
+  "nombre": "Simulador de Máquinas",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 6,
+    "teoricas": 20,
+    "practicas": 88,
+    "independientes": 10,
+    "total": 108
+  },
+  "objetivoGeneral": "Desarrolla habilidades para responder correctamente a situaciones de riesgo, mediante ejercicios de simulación de maniobras, para una navegación eficiente y segura.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Introducción",
+      "objetivoEspecifico": "Conoce los equipos en el ERS-4000, identificando sus componentes y propósito, para familiarizarse con los equipos con que cuentan las embarcaciones.",
+      "subtemas": [
+        "1.1. Propósito de Simulador ERS-4000.",
+        "1.2. Distribución del equipo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Planta de Generación Eléctrica",
+      "objetivoEspecifico": "Identifica los componentes del sistema de generación de energía eléctrica, mediante diagramas, para comprender la operación y distribución de la energía.",
+      "subtemas": [
+        "2.1. Generador eléctrico de emergencia motor diésel.",
+        "2.2. Generadores principales diésel.",
+        "2.3. Interruptores.",
+        "2.4. Red eléctrica y carga.",
+        "2.5. Manejo del generador del eje de cola.",
+        "2.6. Suministro de energía eléctrica de tierra."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Maquinaria Marítima Auxiliar",
+      "objetivoEspecifico": "Habilita los sistemas, mediante la simulación de puesta en servicio, para estar en condiciones óptimas de operación de la embarcación.",
+      "subtemas": [
+        "3.1. Sistema planta de vapor.",
+        "3.2. Sistema agua de sentina.",
+        "3.3. Sistema de gobierno.",
+        "3.4. Planta destiladora.",
+        "3.5. Estación alarma contra incendio.",
+        "3.6. Estación CO2.",
+        "3.7. Sistema contra incendio.",
+        "3.8. Sistema refrigeración y aire acondicionado."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Máquina principal",
+      "objetivoEspecifico": "Habilita la máquina principal, mediante la operación de los sistemas auxiliares, para la puesta en servicio.",
+      "subtemas": [
+        "4.1. Puesta en servicio de la máquina principal.",
+        "4.2. Control de los parámetros de la máquina principal.",
+        "4.3. Deshabilitar la máquina principal."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "5.1 Innovaciones y cambios en los últimos años sobre los sistemas del área de máquinas."
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Baumeister T. (1989). Manual del Ingeniero Mecánico. México: McGraw-Hill",
+    "Dawes C. L. (1980). Electricidad Industrial. España: Reverté",
+    "García, M. A. (2011). Estudio de los efectos de la post inyección sobre el proceso de combustión. México: Reverté",
+    "Gimeno, J. (2011). Estudio de la inyección diésel mediante la medida del flujo de cantidad de movimiento del chorro. México: Reverté",
+    "Martín, J. (2013). Diagnóstico de la combustión en motores. Diésel de inyección directa. México: Reverté",
+    "Mileaf H. (2013). Electricidad Serie 1-7. México: Limusa",
+    "Newnes G. (1965). Maquinaria Marítima Auxiliar. México: Uteha"
+  ],
+  "fuente": "plan_172 SIMULADOR DE MAQUINAS VIII A MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_172 SIMULADOR DE MAQUINAS VIII A MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "práctica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Cuestionario oral",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Primer examen parcial",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Reporte de prácticas (1.1 y 1.2)",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Debate",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Reporte de prácticas (2.1, 2.2 y 2.3)",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Discusión guiada",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Reporte de prácticas (2.4, 2.5 y 2.6)",
+                "instrumento": "Rúbrica"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Segundo examen parcial",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Lectura comentada",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Reporte de prácticas (3.1, 3.2 y 3.3)",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Cuestionamiento directo",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Reporte de prácticas (3.4 y 3.5)",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Reporte de prácticas (3.6, 3.7 y 3.8)",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Cuestionamiento oral",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Reporte de prácticas (4.1 y 4.2)",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Cuestionamiento directo",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Reporte de prácticas (4.2 y 4.3)",
+                "instrumento": "Rúbrica"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

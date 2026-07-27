@@ -14,6 +14,10 @@ import {
   type EntradaIndiceIngles,
 } from "../../lib/bibliotecaIngles";
 import { bibliografiaIDiscover } from "../../lib/planeacionInglesF32.js";
+import {
+  NIVEL_ESPEJO,
+  temarioOficialTexto,
+} from "../../data/temarioInglesOficial";
 import { verificarAuth } from "../../lib/server/auth";
 import { verificarLimite, contarUso } from "../../lib/server/limites";
 
@@ -187,10 +191,15 @@ REGLAS POR APARTADO:
 5) RECURSOS — tómalos preferentemente de las históricas; agrega nuevos solo si son necesarios.
 6) BIBLIOGRAFÍA — usa la bibliografía de las históricas. Si no aparece, usa la bibliografía institucional del libro iDiscover del nivel (te la indico en el mensaje). NUNCA escribas "No especificada…".
 
+TEMARIO OFICIAL (solo si se te entrega uno en el mensaje):
+- Algunos niveles son NUEVOS y todavía no tienen planeaciones históricas propias. En esos casos se te dan como referencia las históricas de OTRO nivel (el nivel espejo) SOLO para copiar su estructura, voz, estilo, competencias, evaluación, recursos, bibliografía y formato.
+- Cuando el mensaje incluya un "TEMARIO OFICIAL DEL NIVEL", la "secuenciaSemanal" (contenido/temas de cada semana) DEBE construirse a partir de ESE temario oficial (módulos, gramática, vocabulario y destrezas), NO de los temas de las referencias del nivel espejo. Respeta el ORDEN de los módulos del temario y reparte sus contenidos de forma equilibrada en el número de semanas indicado, reservando semanas para repaso/evaluación como hacen las históricas.
+- Todo lo demás (competencias, objetivos, redacción y dificultad de actividades, evaluación con su distribución, recursos, bibliografía, tono) se ESPEJA de las referencias del nivel espejo.
+
 REGLAS DURAS:
 - NO uses STCW ni estándares OMI. NO uses programas oficiales de Piloto Naval ni Máquinas Navales.
-- Base conceptual: enfoque iDiscover + planeaciones históricas del nivel.
-- Respeta nivel, grupo, semanas y horas por semana; ajusta la secuencia histórica a ese número de semanas.
+- Base conceptual: enfoque iDiscover + planeaciones históricas (del nivel o, si es nuevo, del nivel espejo) + el temario oficial cuando se entregue.
+- Respeta nivel, grupo, semanas y horas por semana; ajusta la secuencia a ese número de semanas.
 
 SALIDA:
 - Devuelve ÚNICAMENTE un objeto JSON válido (sin texto adicional, sin markdown):
@@ -231,7 +240,12 @@ function construirMensajeUsuario(
     observaciones: string;
   },
   referencias: EntradaIndiceIngles[],
+  opciones?: { nivelEspejo?: string; temario?: string | null },
 ): string {
+  const nivelEspejo = opciones?.nivelEspejo ?? datos.nivel;
+  const temario = opciones?.temario ?? null;
+  const espejando = nivelEspejo !== datos.nivel;
+
   const bloquesRef = referencias
     .map((r, i) => {
       const recorte = recortarReferencia(r.texto);
@@ -240,6 +254,16 @@ function construirMensajeUsuario(
       }; archivo: ${r.nombre}) ---\n${recorte}`;
     })
     .join("\n\n");
+
+  // Bloque de temario oficial (solo para niveles nuevos con temario configurado).
+  const bloqueTemario = temario
+    ? `TEMARIO OFICIAL DEL NIVEL ${datos.nivel} (fuente de los TEMAS de la secuencia semanal; síguelo en orden):\n${temario}\n`
+    : "";
+
+  // Explicación de la fuente de temas según haya o no temario/espejo.
+  const origenTemas = temario
+    ? `Los TEMAS/secuencia semanal se toman del TEMARIO OFICIAL del nivel ${datos.nivel} (arriba). La estructura, voz, competencias, evaluación, recursos, bibliografía y formato se ESPEJAN de las planeaciones históricas del nivel ${nivelEspejo} de abajo (el nivel ${datos.nivel} es nuevo y aún no tiene históricas propias).`
+    : `Tema, unidades, secuencia, objetivos, competencias, evaluación y recursos se EXTRAEN/DERIVAN de las históricas del nivel ${datos.nivel} de abajo. Compórtate como si ACTUALIZARAS estas planeaciones, conservando voz, estilo y formato del docente.`;
 
   return `DATOS PARA ACTUALIZAR LA PLANEACIÓN DE INGLÉS (flujo por nivel):
 - Nivel: ${datos.nivel}
@@ -252,13 +276,19 @@ Bibliografía institucional del nivel (úsala SOLO si las históricas no traen b
     datos.nivel,
   )}
 
-Tema, unidades, secuencia, objetivos, competencias, evaluación y recursos se EXTRAEN/DERIVAN de las históricas del nivel ${datos.nivel} de abajo. Compórtate como si ACTUALIZARAS estas planeaciones, conservando voz, estilo y formato del docente.
+${bloqueTemario}${origenTemas}
 
-PLANEACIONES HISTÓRICAS DEL NIVEL ${datos.nivel}:
+PLANEACIONES HISTÓRICAS ${
+    espejando ? `DEL NIVEL ESPEJO ${nivelEspejo}` : `DEL NIVEL ${datos.nivel}`
+  }:
 
 ${bloquesRef || "(sin referencias disponibles)"}
 
-Genera ahora la planeación didáctica de Inglés en el JSON solicitado. Espeja estas históricas (competencias categorizadas, objetivos, actividades con su misma longitud/dificultad/secuencia, evaluación con su misma distribución, recursos y bibliografía). NO uses STCW. NO inventes desde cero.`;
+Genera ahora la planeación didáctica de Inglés en el JSON solicitado. ${
+    temario
+      ? `La secuenciaSemanal debe seguir el TEMARIO OFICIAL del nivel ${datos.nivel} (módulos en orden). `
+      : ""
+  }Espeja estas históricas (competencias categorizadas, objetivos, actividades con su misma longitud/dificultad/secuencia, evaluación con su misma distribución, recursos y bibliografía). NO uses STCW. NO inventes desde cero.`;
 }
 
 async function generarTexto(
@@ -323,7 +353,19 @@ export async function POST(request: Request) {
   }
 
   // 2-3. Base principal: planeaciones históricas del MISMO nivel.
-  const referencias = seleccionarReferencias(indice.documentos, nivel, tema);
+  let referencias = seleccionarReferencias(indice.documentos, nivel, tema);
+  let nivelEspejo = nivel;
+  // Temario oficial del nivel (solo definido para niveles nuevos, p. ej. el 8).
+  const temario = temarioOficialTexto(nivel);
+
+  // Nivel nuevo sin históricas propias: si tiene un nivel espejo configurado,
+  // usar las históricas del nivel espejo SOLO para estructura/estilo/formato.
+  // Los TEMAS vendrán del temario oficial (se inyecta en el prompt).
+  if (referencias.length === 0 && NIVEL_ESPEJO[nivel]) {
+    nivelEspejo = NIVEL_ESPEJO[nivel];
+    referencias = seleccionarReferencias(indice.documentos, nivelEspejo, tema);
+  }
+
   if (referencias.length === 0) {
     const niveles = nivelesDisponibles(indice.documentos);
     return error(
@@ -345,6 +387,7 @@ export async function POST(request: Request) {
   const mensajeUsuario = construirMensajeUsuario(
     { nivel, grupo, semanas, horasPorSemana, observaciones },
     referencias,
+    { nivelEspejo, temario },
   );
 
   // 6-9. Llamar a Gemini, limpiar y parsear (con reintento por timeout).

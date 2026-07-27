@@ -1,0 +1,240 @@
+{
+  "clave": "C0113",
+  "nombre": "Sistema de posicionamiento dinámico",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 0,
+    "porSemana": 5,
+    "teoricas": 34,
+    "practicas": 6,
+    "independientes": 0,
+    "total": 40
+  },
+  "objetivoGeneral": "Proporciona el conocimiento de los Sistemas de Posicionamiento Dinámico (DP, por sus siglas en inglés), que permita discernir sobre el uso práctico y las limitaciones de los Sistemas de Posicionamiento Dinámico, utilizados en la Industria Petrolera mar adentro.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Introducción",
+      "objetivoEspecifico": "Describe objetivos, contenido, etc. del curso. Exponer la historia y acontecimientos relevantes en la historia del Sistema de Posicionamiento Dinámico.",
+      "subtemas": [
+        "1.1. Descripción del curso.",
+        "1.2. Historia del Desarrollo del Sistema de Posicionamiento Dinámico."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Sistema Básico de Posicionamiento Dinámico",
+      "objetivoEspecifico": "Define el Sistema y principios en que se basa el Sistema de Posicionamiento Dinámico en varios tipos de buques. Distinguir y diferenciar los 6 movimientos libres de un buque. Aprender la disposición del cable y sus principales funciones.",
+      "subtemas": [
+        "2.1. Disposición de los Sistemas Básicos.",
+        "2.2. Principios del Sistema Básico de Posicionamiento Dinámico.",
+        "2.3. Disposición del Cable."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Teoría del Posicionamiento Dinámico",
+      "objetivoEspecifico": "Explica los significados de las abreviaturas utilizadas en los Sistema de Posicionamiento Dinámico, sus modos y funciones, así como el funcionamiento del sistema eléctrico.",
+      "subtemas": [
+        "3.1. Abreviaturas.",
+        "3.2. Modos y Funciones de Posicionamiento Dinámico.",
+        "3.3. Sistema Eléctrico.",
+        "3.4. Propulsores.",
+        "3.5. Alarmas y Advertencias."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Operación con el Sistema de Posicionamiento Dinámico",
+      "objetivoEspecifico": "Enlista y explica todos los elementos que intervienen para la correcta operación del sistema de posicionamiento dinámico.",
+      "subtemas": [
+        "4.1. Planeación y guardia de mar.",
+        "4.2. Aproximación al sitio de trabajo (recalada).",
+        "4.3. Operaciones de Posicionamiento Dinámico.",
+        "4.4. Operaciones en aguas poco profundas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Leyes y Reglamentos",
+      "objetivoEspecifico": "Explica, enumera y comparte todas las guías y contenidos necesarios que permitan entender la reglamentación y marco legal bajo el cual se debe operar el Sistema de Posicionamiento Dinámico.",
+      "subtemas": [
+        "5.1. Leyes y Reglamentos.",
+        "5.2. Guía de la OMI para buques con Sistemas de Posicionamiento Dinámico.",
+        "5.3. Entrenamiento clave de IMCA para personal de Posicionamiento Dinámico.",
+        "5.4. Factores Humanos en las operaciones de Posicionamiento Dinámico.",
+        "5.5. Modos de fallas y efectos para los Sistemas de Posicionamiento Dinámico.",
+        "5.6. Diagrama de flujo de la Certificación de Operador de Posicionamiento Dinámico.",
+        "5.7. Tiempo establecido para la Certificación de Posicionamiento Dinámico.",
+        "5.8. Rol de los Capitanes de acuerdo al documento de IMCA M 08 01."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Sistemas de Referencia de Posición",
+      "objetivoEspecifico": "Describe los varios tipos de Sistemas de Referencia de Posición, comúnmente asociados a las instalaciones de Posicionamiento Dinámico.",
+      "subtemas": [
+        "6.1. Sistema UTM (Universal Transversa Mercator).",
+        "6.2. Sistemas Satelitales (DGPS/Glonass).",
+        "6.3. Sistema de referencia-posición Hidroacústica (HPR).",
+        "6.4. Sistema de referencia-posición Artemis.",
+        "6.5. Sistema de referencia-posición por alambre tenso (taut wire).",
+        "6.6. Sistema de referencia-posición por rayo láser (fanbeam)."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Incidentes del Sistema de Posicionamiento Dinámico",
+      "objetivoEspecifico": "Informa y expone los principales incidentes que han ocurrido en los Sistemas de Posicionamiento Dinámico.",
+      "subtemas": [
+        "7.1. Pérdida de la marcación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Ejercicios Teóricos",
+      "objetivoEspecifico": "Describe detalladamente procedimientos operacionales para las maniobras de Posicionamiento Dinámico y los procedimientos para la operación del Sistema de Posicionamiento Dinámico.",
+      "subtemas": [
+        "8.1. Generalidades.",
+        "8.2. Sensores.",
+        "8.3. Operaciones.",
+        "8.4. Interfaz hombre-máquina (Man-Machine Interface, MMI).",
+        "8.5. Sistemas de referencia.",
+        "8.6. Propulsores.",
+        "8.7. Leyes y reglamentos.",
+        "8.8. Mensajes."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Ejercicios Prácticos",
+      "objetivoEspecifico": "Practica y demuestra la correcta operación del Sistema de Posicionamiento Dinámico.",
+      "subtemas": [
+        "9. Ejercicios prácticos"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 10,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "10.1 Innovación en el sistema de posicionamiento dinámico."
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Fundamentos del posicionamiento dinámico, Ingeniería Náutica y Transporte Marítimo, Universidad de Cantabria",
+    "IMO MSC CIRC 645, 1994",
+    "Directrices para los buques y unidades provistos de sistemas de posicionamiento dinámico, MSC CIRC 1580, 2017",
+    "DP Operation Guidance, Amrine Technology Society Dynamic Positioning Committe, 2021",
+    "The Cybernetics of Dynamic Positioning in a Historic Perspective, Kongsberg Dynamic Positioning Committee."
+  ],
+  "fuente": "plan_sistemadeposicionamientodinamico_8bpn_enmt.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_sistemadeposicionamientodinamico_8bpn_enmt.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Examen primer parcial",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Discusión guiada",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Debate",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Debate",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Síntesis escrita",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Cuestionamiento oral",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Discusión guiada",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Cuadro sinóptico",
+                "instrumento": "Rúbrica"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": []
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": []
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

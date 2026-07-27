@@ -1,0 +1,215 @@
+{
+  "clave": "SNV854",
+  "nombre": "Simuladores de Navegación II",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 6,
+    "teoricas": 20,
+    "practicas": 88,
+    "independientes": 10,
+    "total": 108
+  },
+  "objetivoGeneral": "Desarrolla habilidades para responder correctamente a situaciones de riesgo, mediante ejercicios de simulación de maniobras, para una navegación eficiente y segura.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Ejercicios de aproximación a puerto, incluyendo fondeo y atraque",
+      "objetivoEspecifico": "Ejecutar el arribo de una embarcación, realizando ejercicios simulados, para una maniobra segura y eficaz.",
+      "subtemas": [
+        "1.1. Preparativos para el arribo de un puerto.",
+        "1.2. Mantener libre de tráfico siguiendo las reglas de gobierno.",
+        "1.3. Preparativos para realizar un fondeo.",
+        "1.4. Realizar una maniobra de fondeo.",
+        "1.5. Preparativos para recibir al práctico.",
+        "1.6. Aproximación al muelle (asistida y sin asistencia) y haciendo firme cabos de amarre."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Ejercicios de navegación presentando fallas",
+      "objetivoEspecifico": "Aplica los procedimientos establecidos, en simulación de fallas, para mantener la seguridad durante la navegación.",
+      "subtemas": [
+        "2.1. Detección de fallas y procedimientos para abordarlos.",
+        "2.2. Fallas de Propulsión.",
+        "2.3. Fallas del sistema de gobierno.",
+        "2.4. Fallas en el equipo de navegación y posición.",
+        "2.5. Fallas simples, como las luces de navegación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Ejercicios de navegación presentando situaciones de emergencia",
+      "objetivoEspecifico": "Muestra los procedimientos establecidos, en simulación de situaciones de emergencia, para mantener la seguridad de la embarcación.",
+      "subtemas": [
+        "3.1. Reconocimiento de Situaciones de Emergencia y procedimientos para abordarlos.",
+        "3.2. Incendio a bordo.",
+        "3.3. Colisión",
+        "3.4. Varada.",
+        "3.5. Hombre al agua.",
+        "3.6. Avistamiento de señales de socorro.",
+        "3.7. Operaciones de búsqueda y rescate."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Ejercicios de navegación y maniobras especiales",
+      "objetivoEspecifico": "Demuestra los procedimientos especiales, realizando ejercicios simulados, para una maniobra segura y eficaz.",
+      "subtemas": [
+        "4.1. Navegando con remolque a la tira (individual o en equipo).",
+        "4.2. Acortando tira de remolque.",
+        "4.3. Aproximación a un remolque, haciendo firme e inicio de travesía (individual o en equipo).",
+        "4.4. Abarloarse a otra embarcación.",
+        "4.5. Aproximación a monoboya y amarre a esta.",
+        "4.6. Aproximación y maniobras a un buque cisterna.",
+        "4.7. Pruebas de mar."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Ejercicios de acercamiento a plataformas con embarcaciones menores",
+      "objetivoEspecifico": "Reproduce los procedimientos de aproximación, realizando ejercicios simulados, para una maniobra segura y eficaz.",
+      "subtemas": [
+        "5.1 Ejercicios de acercamiento a plataformas con embarcaciones menores"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "Incorporar contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "6.0 Contenido de Actualidad en el Sector Marítimo Portuario",
+        "6.1 Buques de Navegación Autónoma"
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Código de Prácticas de Seguridad para la estiba y sujeción de la carga. González Laxe, F.; José Sánchez, R. OMI, 2004.",
+    "La protección física de las mercancías. Freire Seoane, M. J.; González Laxe, F.; Merino, L.; Rodríguez, D.; Cabría, D. 1994.",
+    "Directrices sobre el programa mejorado de inspecciones durante los reconocimientos de graneleros y petróleos. Freire Seoane, M. J.; González Laxe, F. OMI, 2008."
+  ],
+  "fuente": "plan_simulador8de8navegaci8n8ii_viiibpn8818 SIMULADOR NAVEGACION VIII B PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_simulador8de8navegaci8n8ii_viiibpn8818 SIMULADOR NAVEGACION VIII B PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "práctica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Examen Primer Parcial",
+                "instrumento": "Examen Sumativo"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Elabora y Anexa Check List. Pilotage",
+                "instrumento": "Lista de Cotejo"
+              },
+              {
+                "criterio": "Prácticas de Fallas a la Navegación",
+                "instrumento": "Guía de Observación"
+              },
+              {
+                "criterio": "Prácticas de Emergency",
+                "instrumento": "Guía de Observación"
+              },
+              {
+                "criterio": "Trabajo de Investigación sobre las Fallas. Anexando (Check List)",
+                "instrumento": "Lista de Cotejo"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participación Oral",
+                "instrumento": "Lista de Cotejo"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Examen Segundo Parcial",
+                "instrumento": "Examen Sumativo"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Situaciones de Emergency M.O.B realizar Croquis de la Maniobra Williamson",
+                "instrumento": "Lista de Cotejo"
+              },
+              {
+                "criterio": "Práctica Maniobra de Hombre al Agua",
+                "instrumento": "Guía de Observación"
+              },
+              {
+                "criterio": "Práctica, Maniobra Especiales de Remolque",
+                "instrumento": "Guía de Observación"
+              },
+              {
+                "criterio": "Trabajo Investigación Emergency M.O.B. Anexando (Check List) del O.O.W",
+                "instrumento": "Lista de Cotejo"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participación Oral",
+                "instrumento": "Lista de Cotejo"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

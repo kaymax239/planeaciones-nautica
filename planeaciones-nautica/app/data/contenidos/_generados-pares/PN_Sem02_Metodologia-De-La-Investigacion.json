@@ -1,0 +1,206 @@
+{
+  "clave": "MEI213",
+  "nombre": "Metodología de la investigación",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 8,
+    "porSemana": 6,
+    "teoricas": 24,
+    "practicas": 24,
+    "independientes": 10,
+    "total": 48
+  },
+  "objetivoGeneral": "Elaborar un reporte de investigación con rigurosidad científica, a través del planteamiento de un problema y del seguimiento integral de cada componente metodológico, para posibilitar soluciones a problemáticas actuales.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "La investigación científica y su impacto social.",
+      "objetivoEspecifico": "Valorar la importancia de la investigación científica, clasificando sus tipos, así como objetos de estudio, para reconocer su importancia en el desarrollo social.",
+      "subtemas": [
+        "1.1 Conceptos básicos en la investigación científica.",
+        "1.2 Objeto de estudio de las diferentes disciplinas científicas.",
+        "1.3 Tipos de investigación: documental, campo y experimental.",
+        "1.4 Evolución de la sociedad y relación con la investigación científica."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Teoría del conocimiento y sus tipos",
+      "objetivoEspecifico": "Identificar las características del conocimiento, analizando sus tipos, para reconocer la forma de sustentar una investigación científica.",
+      "subtemas": [
+        "2.1 Epistemología: estudio del conocimiento y sus elementos.",
+        "2.2 Características del conocimiento científico: empírico, religioso, filosófico y científico.",
+        "2.3 Conocimiento científico como sustento de una investigación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Metodología de la investigación",
+      "objetivoEspecifico": "Comprender las características de los diferentes métodos de investigación, clasificándolos adecuadamente, para comprobar su pertinencia en la gestión de posibles soluciones a problemáticas del entorno.",
+      "subtemas": [
+        "3.1 Conceptos: Metodología, método y técnica de investigación.",
+        "3.2 Método deductivo e inductivo.",
+        "3.3 Características de la investigación documental y de campo.",
+        "3.4. Método histórico y experimental."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Investigación cualitativa y cuantitativa",
+      "objetivoEspecifico": "Conocer los modelos de investigación cualitativa y cuantitativa, analizando alcances y diferencias, para plantear problemas de investigación adecuadamente.",
+      "subtemas": [
+        "4.1 Características de los modelos de investigación cualitativo y cuantitativo.",
+        "4.2 Planteamiento del problema desde el enfoque cualitativo y cuantitativo.",
+        "4.3 Características del planteamiento de un problema.",
+        "4.4 Cronograma de trabajo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Estadística.",
+      "objetivoEspecifico": "Utilizar el proceso estadístico en un fenómeno social o biológico, aplicando la presentación gráfica de datos y los cálculos necesarios para interpretarlo.",
+      "subtemas": [
+        "5.1 Definición, términos básicos y subdivisión de ella (Descriptiva e inferencial)",
+        "5.2 Presentación gráfica de frecuencias.",
+        "5.3 Medidas de tendencia central: media, mediana y moda.",
+        "5.4 Medidas de dispersión: varianza y desviación estándar."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Probabilidad.",
+      "objetivoEspecifico": "Medir la certeza de que ocurra un evento, empleando las reglas de la probabilidad para darle referencia de seriedad a la casualidad.",
+      "subtemas": [
+        "6.1 Introducción.",
+        "6.2 Producto cartesiano y diagrama de árbol.",
+        "6.3 Probabilidad de que ocurra un evento."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Diseño de investigación",
+      "objetivoEspecifico": "Comprender la forma de plantear un problema de investigación, considerando los pasos y recursos necesarios en su elaboración y concreción, para formular investigaciones adecuadamente.",
+      "subtemas": [
+        "7.1 Definición de la metodología de investigación.",
+        "7.2 Técnicas de investigación documental; fuentes de investigación primaria y secundaria.",
+        "7.3 Instrumentos y herramientas de investigación."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Marco teórico",
+      "objetivoEspecifico": "Comprender la forma de elaborar un marco teórico, a partir de la revisión, selección y contraste de fuentes, para establecer conceptos clave y supuestos teóricos.",
+      "subtemas": [
+        "8.1 Características y elementos del marco teórico.",
+        "8.2 Antecedentes a la problemática de estudio.",
+        "8.3 Selección de teorías que sustenten el problema.",
+        "8.4 Conceptos clave que orientan la investigación.",
+        "8.5 Contraste de fuentes."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Referencias bibliográficas",
+      "objetivoEspecifico": "Valorar la importancia de redactar investigaciones bajo un estilo de referencia bibliográfica, reconociendo los distintos estilos, para presentar trabajos con rigor científico adecuado.",
+      "subtemas": [
+        "9.1 Estilos de referencia.",
+        "9.2 Importancia del aparato crítico en una investigación.",
+        "9.3 Formas de referenciar la bibliografía consultada."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 10,
+      "tema": "Hipótesis, conclusiones y análisis de resultados",
+      "objetivoEspecifico": "Comprender la forma de presentar un trabajo de investigación, considerando coherencia en la introducción y conclusiones, para corroborar hipótesis y analizar resultados",
+      "subtemas": [
+        "10.1 Conclusión e introducción.",
+        "10.2 Prólogo, apéndice, glosario y anexo."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Metodología de la Investigación. SAMPIERI HERNÁNDEZ, Roberto. Editorial Mc Graw Hill. 2007",
+    "El Proceso de la Investigación Científica. TAMAYO y TAMAYO, Mario. Limusa. 2008",
+    "Fundamentos de estadística en la investigación social. LEVIN, Jack. Harla. 2004",
+    "Metodología de la Investigación. MARTÍNEZ RUÍZ, Héctor, Cengage Learning Editores. 2012"
+  ],
+  "fuente": "plan_53 (2)METDOLOGIA DE LA INVESTIACION GRUPO II B PN.docx",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_53 (2)METDOLOGIA DE LA INVESTIACION GRUPO II B PN.docx",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 10,
+      "subtemas": 31,
+      "conObjetivo": 10,
+      "bibliografia": 3
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 7,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 70,
+            "desglose": [
+              {
+                "criterio": "Examen primer parcial",
+                "instrumento": null
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 20,
+            "desglose": []
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 10,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 70,
+            "desglose": []
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 20,
+            "desglose": []
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 10,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

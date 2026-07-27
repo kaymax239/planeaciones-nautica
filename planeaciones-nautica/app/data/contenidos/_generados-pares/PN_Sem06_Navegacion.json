@@ -1,0 +1,238 @@
+{
+  "clave": "NAV637",
+  "nombre": "Navegación IV",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 5,
+    "teoricas": 102,
+    "practicas": 72,
+    "independientes": 12,
+    "total": 174
+  },
+  "objetivoGeneral": "Conocer y comprender los principios de la navegación electrónica, identificando equipos y realizando prácticas en el simulador, para desarrollar una navegación eficiente y segura.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Sistema de Navegación por Satélite",
+      "objetivoEspecifico": "Conocer los distintos tipos de navegación por satélite, identificando su uso y componentes, para interpretar los datos que estos equipos proporcionan.",
+      "subtemas": [
+        "1.1 Generalidades.",
+        "1.2 Capacidad del sistema.",
+        "1.3 Receptores GPS y DGPS.",
+        "1.4 Descripción y funcionamiento.",
+        "1.5 Operación de equipos",
+        "1.6 Errores del sistema."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Navegación hiperbólica",
+      "objetivoEspecifico": "Conocer la navegación hiperbólica, clasificando los diferentes sistemas utilizados para tal fin.",
+      "subtemas": [
+        "2.1 Generalidades.",
+        "2.2 Sistema LORAN.",
+        "2.3 Descripción"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Ecosonda",
+      "objetivoEspecifico": "Utilizar la información de un ecosonda, a través de la interpretación otorgada por el equipo, para la navegación segura.",
+      "subtemas": [
+        "3.1 Generalidades.",
+        "3.2 Descripción y funcionamiento de los diferentes tipos de Ecosondas.",
+        "3.3 Operación de los diferentes tipos de Ecosondas.",
+        "3.4 Determinación de errores y calibración de las Ecosondas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Corredera",
+      "objetivoEspecifico": "Interpretar la información proporcionada por los instrumentos, realizando una lectura adecuada, para estimar la velocidad horaria del buque.",
+      "subtemas": [
+        "4.1 Generalidades.",
+        "4.2 Descripción y operación de los diferentes tipos de correderas.",
+        "4.3 Determinación de errores."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Sistema de identificación automático (AIS)",
+      "objetivoEspecifico": "Conocer el funcionamiento y manejo del equipo, identificando sus componentes e interpretando la información, para el control del tráfico marítimo.",
+      "subtemas": [
+        "5.1 Generalidades.",
+        "5.2 Edición de los datos estáticos y de viaje.",
+        "5.3 Visualización de la información del AIS.",
+        "5.4 Envío de mensajes de texto.",
+        "5.5 Visualización de los mensajes de texto recibidos."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Sistemas integrados de Navegación (ECDIS)",
+      "objetivoEspecifico": "Utilizar los sistemas integrados de navegación, mediante la integración teórico/práctica del manual (navi trainer), para una navegación eficaz.",
+      "subtemas": [
+        "6.1 Generalidades.",
+        "6.2 Activación y ajustes.",
+        "6.3 Manejo de cartas.",
+        "6.4 Control del sistema y ajustes de seguridad.",
+        "6.5 Tareas de navegación.",
+        "6.6 Actualización de cartas.",
+        "6.7 Manejo y obtención de información.",
+        "6.8 Visión y procesamiento de datos."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "Comercio marítimo mundial y cadenas logísticas",
+        "Congestión portuaria y digitalización",
+        "Automatización y puertos inteligentes",
+        "Descarbonización y sostenibilidad (IMO, emisiones)",
+        "Seguridad marítima y portuaria",
+        "Impacto de conflictos, pandemias y crisis económicas"
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "Sistema de navegación desde el compás magnético a la navegación por satélite - CORBASI OTIN, ANGEL - MC GRAW-HILL - 200",
+    "Introducción a los sistemas de navegación por satélite - OLMEDILLAS, JUAN CARLOS - UOC - 2009",
+    "America practical navigator - BOWDITCH, NATHANIAL - 2002",
+    "Noticias marítimas especializadas",
+    "Informes de la OMI, UNCTAD, CEPAL",
+    "Videos documentales",
+    "Mapas de comercio marítimo",
+    "Entrevistas a profesionales del sector"
+  ],
+  "fuente": "planeacion_2 NAVEGACION IV VIA PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "planeacion_2 NAVEGACION IV VIA PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Estimar la velocidad horaria del buque",
+                "instrumento": "EXAMEN"
+              },
+              {
+                "criterio": "1RA. Evaluación Parcial",
+                "instrumento": "EXAMEN"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Utilizar datos de posicionamiento en aplicaciones reales.",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Conocer la navegación hiperbólica",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Usar el ecosonda para la navegación segura",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Participar en prácticas",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Participar en prácticas",
+                "instrumento": "Rúbrica"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "2DA Evaluación Parcial",
+                "instrumento": "EXAMEN"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Conocer los datos estáticos y dinámicos del AIS",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Prácticas del manual navi trainer",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Temas de actualidad del sector marítimo",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participación del AIS",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Participación del ECDIS",
+                "instrumento": "Rúbrica"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

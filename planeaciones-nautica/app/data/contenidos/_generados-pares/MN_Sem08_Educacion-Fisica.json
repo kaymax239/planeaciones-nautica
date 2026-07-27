@@ -1,0 +1,153 @@
+{
+  "clave": "CO011",
+  "nombre": "Educación Física VIII A MN",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 3,
+    "teoricas": 0,
+    "practicas": 54,
+    "independientes": 0,
+    "total": 54
+  },
+  "objetivoGeneral": "Realiza movimientos físicos para el desarrollo de la percepción y mejora de la coordinación motriz fina y gruesa en el desempeño de cualquier función.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Percepción y coordinación motriz",
+      "objetivoEspecifico": "Ejecuta movimientos físicos de forma adecuada, desarrollando la percepción y coordinación motriz, psicomotriz, para favorecer la ubicación en el espacio, tiempo, equilibrio y lateralidad.",
+      "subtemas": [
+        "1.1. Movimientos físicos.",
+        "1.2. Ubicación espacial.",
+        "1.3. Coordinación motriz y psicomotriz.",
+        "1.4. Equilibrio.",
+        "1.5. Lateralidad."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Desarrollo físico integral",
+      "objetivoEspecifico": "Realiza ejercicios de estimulación, incremento y mantenimiento de la fuerza muscular, resistencia cardiorrespiratoria, la flexibilidad articular y muscular, a través de rutinas adecuadas para favorecer el desarrollo físico integral.",
+      "subtemas": [
+        "2.1. Fuerza muscular.",
+        "2.2. Resistencia cardiorrespiratoria.",
+        "2.3. Flexibilidad articular y muscular."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Concentración",
+      "objetivoEspecifico": "Favorece la concentración, aplicando tácticas en distintos juegos, para el desarrollo integral de funciones mentales.",
+      "subtemas": [
+        "3.1. Fútbol.",
+        "3.2. Juegos de concentración.",
+        "3.3. Básquetbol.",
+        "3.4. Voleibol."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Condición física",
+      "objetivoEspecifico": "Favorece la condición física, a través de ejercicios de fuerza, vigor y flexibilidad, para el desarrollo integral de funciones físicas.",
+      "subtemas": [
+        "4.1. Fuerza.",
+        "4.2. Vigor.",
+        "4.3. Flexibilidad."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Campos G. Actividad física para la vida y la salud, Ciencia de salud y el deporte. Kinesis, 2003.",
+    "Lloret, Mario. Anatomía aplicada a la actividad física y deportiva. Paidotribo, 2000.",
+    "López de Viñaspre. Manual de educación física y deportes. Océano, 2000."
+  ],
+  "fuente": "plan_vii8a8mn EDUACION FISICA VIII A MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_vii8a8mn EDUACION FISICA VIII A MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "práctica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Examen parcial",
+                "instrumento": "Examen parcial"
+              },
+              {
+                "criterio": "Unidad 1. Percepción y coordinación motriz",
+                "instrumento": "Evaluación diagnóstica",
+                "peso": 0,
+                "nota": "diagnóstica, no ponderable"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Unidad 2. Desarrollo físico integral",
+                "instrumento": "Lista de cotejo Evaluación sumativa"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participación del estudiante. Ejercicios actividad física",
+                "instrumento": "Lista de cotejo (Evaluación formativa)"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 25,
+            "desglose": []
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 50,
+            "desglose": []
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

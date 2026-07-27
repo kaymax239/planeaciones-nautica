@@ -1,0 +1,29 @@
+{
+  "id": "El-Hombre-Y-Su-Entorno_941520bc",
+  "clave": "",
+  "materia": "El Hombre Y Su Entorno",
+  "carrera": "PN",
+  "semestre": 4,
+  "grupo": "A",
+  "periodo": "Enero-Junio 2026",
+  "lote": "enero-junio-2026",
+  "area": "humanidades",
+  "contenidoExtraible": false,
+  "claveCoincideConProgramaOficial": false,
+  "origen": {
+    "archivo": "pd8el8hombre8y8su8entorno8iva8pn_1 EL HOMBRE Y SU ENTORNO GRUPO IV A PN.pdf",
+    "formato": "pdf",
+    "sha1": "941520bc54914458c6f9d3fb26a51589ad2b73aa"
+  },
+  "datosGenerales": {},
+  "pedagogia": {
+    "competencias": [],
+    "estrategiasEnsenanza": [],
+    "tecnicasEnsenanza": [],
+    "secuenciaDidactica": "",
+    "productosEvidencias": [],
+    "instrumentosEvaluacion": []
+  },
+  "textoReferenciaRedactado": "",
+  "textoCompletoRedactado": ""
+}

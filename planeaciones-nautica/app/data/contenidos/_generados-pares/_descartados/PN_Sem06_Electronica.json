@@ -1,0 +1,124 @@
+{
+  "clave": "ELC642",
+  "nombre": "Electrónica",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 0,
+    "porSemana": 3,
+    "teoricas": 27,
+    "practicas": 27,
+    "independientes": 8,
+    "total": 62
+  },
+  "objetivoGeneral": "Interpreta el funcionamiento de los semiconductores en diodos y transistores, su aplicación en rectificadores, reguladores de voltaje, amplificadores, osciladores y circuitos integrados, para identificar averías y fallas.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Introducción",
+      "objetivoEspecifico": "Conocer los parámetros eléctricos básicos, sistemas de medición y componentes, analizando su funcionamiento, para entender su uso adecuado.",
+      "subtemas": [
+        "1.1. Definiciones de los parámetros eléctricos.",
+        "1.2. Unidades de los parámetros eléctricos básicos.",
+        "1.3. Componentes básicos (resistencias, capacitores, bobinas, etc).",
+        "1.4. Sistemas de medición eléctrica (multímetro, osciloscopio, Megger).",
+        "1.5. Conversión de unidades."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Análisis de circuitos",
+      "objetivoEspecifico": "Comprender el funcionamiento de circuitos a partir de las leyes de Ohm y Kirchhoff, además de conocer las técnicas determinadas para su análisis.",
+      "subtemas": [
+        "2.1. Leyes de Ohm.",
+        "2.2. Leyes de Kirchhoff.",
+        "2.3. Técnica de análisis de circuitos por mallas.",
+        "2.4. Técnica de análisis de circuitos por nodos."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Dispositivos de estado sólido",
+      "objetivoEspecifico": "Conocer los dispositivos de estado sólido, analizando los materiales que los componen, para entender sus características ideales.",
+      "subtemas": [
+        "3.1. Materiales semiconductores.",
+        "3.2. Materiales extrínsecos: tipos P y N. El diodo ideal (características eléctricas de acuerdo a su curva característica)."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Diodos y sus aplicaciones",
+      "objetivoEspecifico": "Conocer el funcionamiento de los diodos y sus aplicaciones, a través del análisis en corriente directa y alterna para determinar su adecuado uso.",
+      "subtemas": [
+        "4.1. Tipos de diodos, características principales y aplicaciones.",
+        "4.2. Análisis en corriente directa de circuitos con diodos.",
+        "4.3. Análisis en corriente alterna de diodos rectificadores (proceso de rectificación de media onda y onda completa)."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Transistores",
+      "objetivoEspecifico": "Identificar la constitución de los transistores NPN y PNP, analizando sus configuraciones básicas en corriente directa, para determinar su función y adecuado uso.",
+      "subtemas": [
+        "5.1. Construcción de transistores NPN y PNP.",
+        "5.2. Polarización de las uniones del transistor.",
+        "5.3. Análisis en corriente directa de las configuraciones básicas del transistor."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Circuitos Integrados",
+      "objetivoEspecifico": "Conocer los circuitos integrados, a través de su adecuada clasificación y funcionamiento para entender su utilidad.",
+      "subtemas": [
+        "6.1. Composición, clasificación y escala de integración.",
+        "6.2. Familias de circuitos integrados.",
+        "6.3. Identificación de terminales y circuitos integrados.",
+        "6.4. Identificación de los circuitos integrados."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Análisis de circuitos electrónicos",
+      "objetivoEspecifico": "Comprender el funcionamiento de circuitos electrónicos, identificando terminología y medición adecuada de parámetros en elementos electrónicos, además de entender el funcionamiento del sistema automático de regulación de voltaje.",
+      "subtemas": [
+        "7.1. Modelos de circuitos.",
+        "7.2. Terminología y medición de parámetros de elementos electrónicos.",
+        "7.3 Análisis del sistema automático de regulación de voltaje."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "8. Contenidos de actualidad en el sector marítimo portuario"
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "García T, J (2002) Electrotecnia, Madrid España; PARANINFO",
+    "Martínez F. (2009). Apuntes de electricidad aplicada a los buques. México Club Universitario",
+    "Mileaf, H. (2014). Electricidad Serie 1-7. México: Limusa",
+    "Braga, N (SF) Curso Electrónica Básica, Editorial NCB (Libro electrónico)"
+  ],
+  "fuente": "plan_electronica_vibpn_enmt ELECTRONICA GRUPO VI B PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan_electronica_vibpn_enmt ELECTRONICA GRUPO VI B PN.pdf",
+    "variantesAB": 3,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  }
+}

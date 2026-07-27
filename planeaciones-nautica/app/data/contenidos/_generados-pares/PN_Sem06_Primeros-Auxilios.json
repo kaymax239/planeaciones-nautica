@@ -1,0 +1,219 @@
+{
+  "clave": "C0039",
+  "nombre": "Primeros Auxilios Médicos",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 0,
+    "porSemana": 3,
+    "teoricas": 22,
+    "practicas": 8,
+    "independientes": 0,
+    "total": 30
+  },
+  "objetivoGeneral": "Al término del curso, el participante será capaz de llevar a cabo las tareas, cometidos y responsabilidades, conforme a los requerimientos que se indican en la sección A-VI/4, tabla A-VI/4-1 del Convenio STCW pero no se limitan a: 1. Dispensar primeros auxilios en caso de accidentes o enfermedad a bordo.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Acción inmediata.",
+      "objetivoEspecifico": "1. Describir cada uno de los pasos que se deben de seguir durante el entrenamiento de las acciones inmediatas. 2. Demostrar su habilidad para llevar a cabo una acción inmediata dentro del área de trabajo. 1. Reconocer los signos del paciente en estado de inconsciencia. 2. Manejar en forma general al paciente inconsciente.",
+      "subtemas": [
+        "1.1. Aspectos importantes de entrenamiento necesario para llevar a cabo las acciones inmediatas efectivas.",
+        "1.2. Primeros auxilios en el paciente inconsciente."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Botiquín de primeros auxilios.",
+      "objetivoEspecifico": "1. Describir las características y elementos que componen el botiquín de primeros auxilios. 2. Describir el contenido de un botiquín de Primeros Auxilios en un bote Salvavidas.",
+      "subtemas": [
+        "2.1. Descripción del botiquín de Primeros Auxilios.",
+        "2.2. Uso correcto del equipo de Primeros Auxilios."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Estructura y funciones del organismo humano.",
+      "objetivoEspecifico": "1. Explicar el concepto y las partes que constituyen al cuerpo humano. 2. Describir cada una de las funciones de los órganos y sistemas que constituyen el cuerpo humano. 3. Describir cada una de las funciones de los órganos y sistemas que constituyen el cuerpo humano, de acuerdo al dibujo mostrado por el instructor.",
+      "subtemas": [
+        "3.1. El cuerpo humano.",
+        "3.2. Estructuras del cuerpo humano.",
+        "3.3. Funciones de los órganos y sistemas que constituyen el cuerpo humano."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Riesgos toxicológicos a bordo del buque.",
+      "objetivoEspecifico": "1. Conocer la importancia de las regulaciones establecidas por el Código IMDG. 2. Identificar los síntomas y aspectos clínicos de envenenamiento. 3. Aplicar los primeros auxilios en caso de envenenamiento por ingestión, inhalación o contacto en la piel/lesiones en los ojos. 4. Aplicar la terapia en caso de soluciones ácidas y cáusticas que han sido ingeridas. 5. Identificar los síntomas y tratamiento para quemaduras ácidas o cáusticas. 6. Utilizar el resucitador de oxígeno: - Partes del resucitador. - Operación del resucitador. - Cambio de cilindros. - CPR con resucitador.",
+      "subtemas": [
+        "4.1. Importancia de las regulaciones para el transporte de carga peligrosa a bordo de los buques.",
+        "4.2. Guía de Primeros Auxilios para uso en accidentes que involucren mercancía peligrosa."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Exploración del paciente.",
+      "objetivoEspecifico": "1. Conocer cómo realizar la exploración física en la persona lesionada o accidentada. 2. Elaborar un diagnóstico de una gran variedad de factores individuales basados en: - Información derivada del historial médico. - Apariencia general. - Respuesta de preguntas específicas. - Examen físico.",
+      "subtemas": [
+        "5.1. Examen clínico del lesionado o enfermo.",
+        "5.2. Diagnóstico del lesionado o enfermo"
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Lesiones de la columna vertebral.",
+      "objetivoEspecifico": "1. Mencionar los síntomas que presenta un paciente con lesión espinal. 2. Identificar las complicaciones la cual pueden ser causadas por la inconsciencia. 1. Aplicar las medidas apropiadas de primeros auxilios, incluyendo: Control de la sensibilidad en las extremidades. Apropiado transporte de rescate y tratamiento para casos de sospecha de fractura de espina dorsal. 2. Lesiones en la cabeza: Nivel de conciencia/inconsciencia.",
+      "subtemas": [
+        "6.1. Reconocimiento de las lesiones espinales.",
+        "6.2. Medidas a tomar en la aplicación de los Primeros Auxilios y transporte del paciente o lesionado."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Quemaduras, escaldaduras y consecuencias del calor y el frío.",
+      "objetivoEspecifico": "1. Identificar los conceptos de las quemaduras y escaldaduras. 2. Conocer la importancia de aplicar los primeros auxilios inmediatamente. 3. Distinguir entre quemadura y escaldadura. 4. Describir la diferencia entre quemaduras de primer grado, segundo grado y tercer grado. 5. Aplicar en forma correcta los primeros auxilios al paciente con quemaduras y/o escaldaduras. 6. Establecer la importancia de las preparaciones estériles.",
+      "subtemas": [
+        "7.1. Definición de las quemaduras y las escaldaduras.",
+        "7.2. La importancia de aplicar los primeros auxilios después de identificar cada una de ellas.",
+        "7.3. Uso correcto y aplicación de los primeros auxilios en los casos de quemaduras."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Fractura, dislocaciones y lesiones musculares.",
+      "objetivoEspecifico": "1. Mencionar los tipos y las características de las fracturas, luxaciones y lesiones musculares. 2. Explicar la importancia de aplicar inmediatamente los primeros auxilios al paciente, cuando alguna de estas lesiones se presente. 3. Aplicar los primeros auxilios al paciente que presente estos síntomas, en forma correcta basándose en el método adecuado. 4. Establecer las precauciones necesarias mientras se utiliza las tablillas neumáticas. 5. Describir el tratamiento para partes lesionadas y la importancia de la inmovilización de la parte lesionada. 6. Describir los requisitos especiales para el tratamiento de las lesiones de la pelvis y la espina dorsal.",
+      "subtemas": [
+        "8.1. Características y tipos de fracturas, luxaciones y lesiones musculares.",
+        "8.2. La importancia de la aplicación de los primeros auxilios a estas lesiones.",
+        "8.3. Aplicación y uso correcto de primeros auxilios de acuerdo al método."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Cuidados médicos de personas rescatadas, incluyendo angustia, hipotermia y exposición al frío.",
+      "objetivoEspecifico": "1. Identificar los síntomas de angustia, hipotermia y exposición al frío, al examinar al paciente. 2. Mencionar cada una de las medidas que deben tomarse en cuenta para aplicar los primeros auxilios, en estos casos. 3. Aplicar los primeros auxilios inmediatamente y en forma correcta al paciente que presente estos síntomas.",
+      "subtemas": [
+        "9.1. Las medidas que se deben considerar para la atención de un paciente que presente síntomas de angustia, hipotermia y exposición al frío.",
+        "9.2. Aplicación de las medidas a los pacientes."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 10,
+      "tema": "Consejo médico por radio.",
+      "objetivoEspecifico": "1. Describir el desarrollo del método usado para solicitar un consejo médico por radio.",
+      "subtemas": [
+        "10.1. Disponibilidad para mandar un aviso médico por radio.",
+        "10.2. Métodos de uso y cómo obtener un aviso por radio."
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Curso Modelo OMI 1.13 Primeros Auxilios Básicos",
+    "Curso Modelo OMI 1.14 Primeros Auxilios Sanitarios",
+    "Libro del estudiante de SVB/BLS para profesionales de la salud"
+  ],
+  "fuente": "lmn_primeros8auxilios8m8dicos_vi_bpn PRIMEROS AUXILISO GRUPO VI B PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "lmn_primeros8auxilios8m8dicos_vi_bpn PRIMEROS AUXILISO GRUPO VI B PN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 0
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Examen primer parcial",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Debate",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Práctica",
+                "instrumento": "Lista de verificación"
+              },
+              {
+                "criterio": "Cuestionamiento",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Mapa conceptual",
+                "instrumento": "Rúbrica"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participación",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Participación",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": []
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": []
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}

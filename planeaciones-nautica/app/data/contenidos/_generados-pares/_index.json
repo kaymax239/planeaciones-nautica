@@ -1,0 +1,575 @@
+{
+  "generado": "claude-opus-4-8",
+  "total": 62,
+  "hechos": 62,
+  "fallos": 0,
+  "omitidos": 0,
+  "nota": "Post-dedup: 77 generados -> 15 duplicados A/B movidos a _descartados/ -> 62 unicos. Evaluacion pendiente de decision.",
+  "materias": [
+    {
+      "materia": "Educación Física II",
+      "carrera": "MN",
+      "semestre": 2,
+      "archivo": "MN_Sem02_Educacion-Fisica.json",
+      "estado": "generado",
+      "unidades": 6,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Electricidad II",
+      "carrera": "MN",
+      "semestre": 2,
+      "archivo": "MN_Sem02_Electricidad.json",
+      "estado": "generado",
+      "unidades": 5,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Estática",
+      "carrera": "MN",
+      "semestre": 2,
+      "archivo": "MN_Sem02_Estatica.json",
+      "estado": "generado",
+      "unidades": 10,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Formación Básica al STCW",
+      "carrera": "MN",
+      "semestre": 2,
+      "archivo": "MN_Sem02_Formacion-Basica.json",
+      "estado": "generado",
+      "unidades": 5,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Metodología de la investigación",
+      "carrera": "MN",
+      "semestre": 2,
+      "archivo": "MN_Sem02_Metodologia-De-La-Investigacion.json",
+      "estado": "generado",
+      "unidades": 10,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Prácticas Marineras II",
+      "carrera": "MN",
+      "semestre": 2,
+      "archivo": "MN_Sem02_Practicas-Marineras.json",
+      "estado": "generado",
+      "unidades": 12,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Taller I",
+      "carrera": "MN",
+      "semestre": 2,
+      "archivo": "MN_Sem02_Ii-Taller.json",
+      "estado": "generado",
+      "unidades": 9,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Electrónica",
+      "carrera": "MN",
+      "semestre": 6,
+      "archivo": "MN_Sem06_Electronica.json",
+      "estado": "generado",
+      "unidades": 7,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Generadores y máquinas de vapor",
+      "carrera": "MN",
+      "semestre": 6,
+      "archivo": "MN_Sem06_Generadores-Y-Maquinaria.json",
+      "estado": "generado",
+      "unidades": 7,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Motores II",
+      "carrera": "MN",
+      "semestre": 6,
+      "archivo": "MN_Sem06_Motores.json",
+      "estado": "generado",
+      "unidades": 6,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Pensamiento Crítico",
+      "carrera": "MN",
+      "semestre": 6,
+      "archivo": "MN_Sem06_Pensamiento-Critico.json",
+      "estado": "generado",
+      "unidades": 4,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Practicas Marineras VI",
+      "carrera": "MN",
+      "semestre": 6,
+      "archivo": "MN_Sem06_Practicas-Marineras.json",
+      "estado": "generado",
+      "unidades": 7,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Primeros Auxilios Médicos",
+      "carrera": "MN",
+      "semestre": 6,
+      "archivo": "MN_Sem06_Primeros-Auxilios-Medicos.json",
+      "estado": "generado",
+      "unidades": 10,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Refrigeración I",
+      "carrera": "MN",
+      "semestre": 6,
+      "archivo": "MN_Sem06_Refrigeracion.json",
+      "estado": "generado",
+      "unidades": 5,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Taller V",
+      "carrera": "MN",
+      "semestre": 6,
+      "archivo": "MN_Sem06_Taller.json",
+      "estado": "generado",
+      "unidades": 9,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Administración Naviera y Portuaria",
+      "carrera": "MN",
+      "semestre": 8,
+      "archivo": "MN_Sem08_Administracion-Naviera.json",
+      "estado": "generado",
+      "unidades": 9,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Convenios Organización Marítima Internacional II",
+      "carrera": "MN",
+      "semestre": 8,
+      "archivo": "MN_Sem08_Convenios-Omi.json",
+      "estado": "generado",
+      "unidades": 3,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Economía Marítima",
+      "carrera": "MN",
+      "semestre": 8,
+      "archivo": "MN_Sem08_Economia-Maritima.json",
+      "estado": "generado",
+      "unidades": 5,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Educación Física VIII A MN",
+      "carrera": "MN",
+      "semestre": 8,
+      "archivo": "MN_Sem08_Educacion-Fisica.json",
+      "estado": "generado",
+      "unidades": 4,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Laboratorio Diesel",
+      "carrera": "MN",
+      "semestre": 8,
+      "archivo": "MN_Sem08_Laboratorio-Diesel.json",
+      "estado": "generado",
+      "unidades": 3,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Legislación Marítima y Laboral",
+      "carrera": "MN",
+      "semestre": 8,
+      "archivo": "MN_Sem08_Legislacion-Maritima.json",
+      "estado": "generado",
+      "unidades": 9,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Metodología de la investigación",
+      "carrera": "MN",
+      "semestre": 8,
+      "archivo": "MN_Sem08_Metodologia-Investigacion.json",
+      "estado": "generado",
+      "unidades": 10,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Practicas marineras VIII",
+      "carrera": "MN",
+      "semestre": 8,
+      "archivo": "MN_Sem08_Practicas-Marineras.json",
+      "estado": "generado",
+      "unidades": 6,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Simulador de Máquinas",
+      "carrera": "MN",
+      "semestre": 8,
+      "archivo": "MN_Sem08_Simulador-De-Maquinas.json",
+      "estado": "generado",
+      "unidades": 5,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Turbinas de Combustión",
+      "carrera": "MN",
+      "semestre": 8,
+      "archivo": "MN_Sem08_Turbinas-De-Combustion.json",
+      "estado": "generado",
+      "unidades": 6,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Educación Física II",
+      "carrera": "PN",
+      "semestre": 2,
+      "archivo": "PN_Sem02_Educacion-Fisica.json",
+      "estado": "generado",
+      "unidades": 6,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Estática",
+      "carrera": "PN",
+      "semestre": 2,
+      "archivo": "PN_Sem02_Estatica.json",
+      "estado": "generado",
+      "unidades": 10,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Formación Básica al STCW",
+      "carrera": "PN",
+      "semestre": 2,
+      "archivo": "PN_Sem02_Formacion-Basica-Stcw.json",
+      "estado": "generado",
+      "unidades": 5,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Geografía",
+      "carrera": "PN",
+      "semestre": 2,
+      "archivo": "PN_Sem02_Geografia.json",
+      "estado": "generado",
+      "unidades": 7,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Metodología de la investigación",
+      "carrera": "PN",
+      "semestre": 2,
+      "archivo": "PN_Sem02_Metodologia-De-La-Investigacion.json",
+      "estado": "generado",
+      "unidades": 10,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Practicas Marineras II",
+      "carrera": "PN",
+      "semestre": 2,
+      "archivo": "PN_Sem02_Practicas-Marineras.json",
+      "estado": "generado",
+      "unidades": 11,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Taller",
+      "carrera": "PN",
+      "semestre": 2,
+      "archivo": "PN_Sem02_Taller.json",
+      "estado": "generado",
+      "unidades": 9,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Topografía",
+      "carrera": "PN",
+      "semestre": 2,
+      "archivo": "PN_Sem02_Topografia.json",
+      "estado": "generado",
+      "unidades": 7,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Cálculo Diferencial e Integral",
+      "carrera": "PN",
+      "semestre": 4,
+      "archivo": "PN_Sem04_Calculo.json",
+      "estado": "generado",
+      "unidades": 5,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Educación Física",
+      "carrera": "PN",
+      "semestre": 4,
+      "archivo": "PN_Sem04_Educacion-Fisica.json",
+      "estado": "generado",
+      "unidades": 4,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Manejo de embarcaciones de supervivencia y botes de rescate que no sean botes de rescate rápidos",
+      "carrera": "PN",
+      "semestre": 4,
+      "archivo": "PN_Sem04_Manejo-Embarcaciones.json",
+      "estado": "generado",
+      "unidades": 11,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Maquinaria Marítima Auxiliar",
+      "carrera": "PN",
+      "semestre": 4,
+      "archivo": "PN_Sem04_Maquinaria-Maritima.json",
+      "estado": "generado",
+      "unidades": 10,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Meteorología I",
+      "carrera": "PN",
+      "semestre": 4,
+      "archivo": "PN_Sem04_Meteorologia.json",
+      "estado": "generado",
+      "unidades": 12,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Navegación II",
+      "carrera": "PN",
+      "semestre": 4,
+      "archivo": "PN_Sem04_Navegacion.json",
+      "estado": "generado",
+      "unidades": 10,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Practicas Marineras IV",
+      "carrera": "PN",
+      "semestre": 4,
+      "archivo": "PN_Sem04_Practicas-Marineras.json",
+      "estado": "generado",
+      "unidades": 8,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Técnicas de argumentación",
+      "carrera": "PN",
+      "semestre": 4,
+      "archivo": "PN_Sem04_Tecnicas-Argumentacion.json",
+      "estado": "generado",
+      "unidades": 5,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Educación Física",
+      "carrera": "PN",
+      "semestre": 6,
+      "archivo": "PN_Sem06_Educacion-Fisica.json",
+      "estado": "generado",
+      "unidades": 4,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Electrónica",
+      "carrera": "PN",
+      "semestre": 6,
+      "archivo": "PN_Sem06_Electronica.json",
+      "estado": "generado",
+      "unidades": 8,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Laboratorio de Navegación",
+      "carrera": "PN",
+      "semestre": 6,
+      "archivo": "PN_Sem06_Laboratorio-Navegacion.json",
+      "estado": "generado",
+      "unidades": 7,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Maniobras II",
+      "carrera": "PN",
+      "semestre": 6,
+      "archivo": "PN_Sem06_Maniobras.json",
+      "estado": "generado",
+      "unidades": 10,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Navegación IV",
+      "carrera": "PN",
+      "semestre": 6,
+      "archivo": "PN_Sem06_Navegacion.json",
+      "estado": "generado",
+      "unidades": 7,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Pensamiento Crítico",
+      "carrera": "PN",
+      "semestre": 6,
+      "archivo": "PN_Sem06_Pensamiento-Critico.json",
+      "estado": "generado",
+      "unidades": 4,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Prácticas Marineras VI",
+      "carrera": "PN",
+      "semestre": 6,
+      "archivo": "PN_Sem06_Practicas-Marineras-Vi.json",
+      "estado": "generado",
+      "unidades": 8,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Primeros Auxilios Médicos",
+      "carrera": "PN",
+      "semestre": 6,
+      "archivo": "PN_Sem06_Primeros-Auxilios.json",
+      "estado": "generado",
+      "unidades": 10,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Situaciones de emergencia",
+      "carrera": "PN",
+      "semestre": 6,
+      "archivo": "PN_Sem06_Sit-Emergencia.json",
+      "estado": "generado",
+      "unidades": 4,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Teoría del Buque I",
+      "carrera": "PN",
+      "semestre": 6,
+      "archivo": "PN_Sem06_Teoria-Del-Buque.json",
+      "estado": "generado",
+      "unidades": 9,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Administración Naviera y Portuaria",
+      "carrera": "PN",
+      "semestre": 8,
+      "archivo": "PN_Sem08_Administracion-Naviera.json",
+      "estado": "generado",
+      "unidades": 9,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Carga y Estiba II",
+      "carrera": "PN",
+      "semestre": 8,
+      "archivo": "PN_Sem08_Carga-Y-Estiba-B.json",
+      "estado": "generado",
+      "unidades": 5,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Convenios Organización Marítima Internacional II",
+      "carrera": "PN",
+      "semestre": 8,
+      "archivo": "PN_Sem08_Convenios.json",
+      "estado": "generado",
+      "unidades": 3,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Economía Marítima",
+      "carrera": "PN",
+      "semestre": 8,
+      "archivo": "PN_Sem08_Economia-Maritima.json",
+      "estado": "generado",
+      "unidades": 5,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Educación Física",
+      "carrera": "PN",
+      "semestre": 8,
+      "archivo": "PN_Sem08_Eduacion-Fisica.json",
+      "estado": "generado",
+      "unidades": 4,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Inglés Marítimo VIII (Maritime English 2)",
+      "carrera": "PN",
+      "semestre": 8,
+      "archivo": "PN_Sem08_Ingles-Maritimo.json",
+      "estado": "generado",
+      "unidades": 4,
+      "eval": "oficial-ingles"
+    },
+    {
+      "materia": "Legislación Marítima y Laboral",
+      "carrera": "PN",
+      "semestre": 8,
+      "archivo": "PN_Sem08_Legislacion-Maritima.json",
+      "estado": "generado",
+      "unidades": 9,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Practicas marineras VIII",
+      "carrera": "PN",
+      "semestre": 8,
+      "archivo": "PN_Sem08_Practicas-Marineras.json",
+      "estado": "generado",
+      "unidades": 6,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Simuladores de Navegación II",
+      "carrera": "PN",
+      "semestre": 8,
+      "archivo": "PN_Sem08_Simulador-Navegacion.json",
+      "estado": "generado",
+      "unidades": 6,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Sistema de posicionamiento dinámico",
+      "carrera": "PN",
+      "semestre": 8,
+      "archivo": "PN_Sem08_Sistema-Posicionamiento-Dinamico.json",
+      "estado": "generado",
+      "unidades": 10,
+      "eval": "oficial"
+    },
+    {
+      "materia": "Sistema Mundial de Socorro y Salvamento Marítimo",
+      "carrera": "PN",
+      "semestre": 8,
+      "archivo": "PN_Sem08_Gmdss.json",
+      "estado": "generado",
+      "unidades": 5,
+      "eval": "oficial"
+    }
+  ],
+  "evalResumen": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "teoricas": 41,
+    "practicas": 20,
+    "ingles": 1
+  }
+}

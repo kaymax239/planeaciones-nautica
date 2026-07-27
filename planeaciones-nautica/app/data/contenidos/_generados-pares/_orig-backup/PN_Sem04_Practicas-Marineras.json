@@ -1,0 +1,212 @@
+{
+  "clave": "TAL427",
+  "nombre": "Practicas Marineras IV",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 3,
+    "teoricas": 18,
+    "practicas": 36,
+    "independientes": 0,
+    "total": 54
+  },
+  "objetivoGeneral": "Manejar mediante la aplicación de los conocimientos y artes marineros maniobras con cabos, organización de pañoles y clasificación de pinturas para prevenir y combatir la corrosión del buque.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "Constitución del cabo.",
+      "objetivoEspecifico": "Identificar las partes de un cabo, a partir de los materiales que se utilizan en su construcción para su uso específico.",
+      "subtemas": [
+        "1.1 Colchado del cabo.",
+        "1.2 Partes del cabo.",
+        "1.3 Materiales."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Origen de los materiales",
+      "objetivoEspecifico": "Clasificar los tipos de cabos, considerando el material con el que son fabricados para la aplicación en su ámbito de trabajo.",
+      "subtemas": [
+        "2.1 Vegetal: Henequén, abacá y algodón.",
+        "2.2 Mineral: Acero.",
+        "2.3 Sintético: Polipropileno, nylon, etc."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "Pañoles de cabuyería",
+      "objetivoEspecifico": "Adujar los cabos maniobrándoles adecuadamente para depositarlos en los pañoles de cabullerías que previamente recibieron un servicio de mantenimiento y limpieza.",
+      "subtemas": [
+        "3.1 Maniobras para adujar los cabos.",
+        "3.2 Limpieza y mantenimiento."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Aparejos",
+      "objetivoEspecifico": "Enlistar los diferentes tipos de aparejos, clasificándolos por sus características, para guarnirlos adecuadamente.",
+      "subtemas": [
+        "4.1 Tipos.",
+        "4.2 Forma de guarnirlos."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Corrosión",
+      "objetivoEspecifico": "Combatir la corrosión mediante materiales y herramientas adecuadas además de detectar el origen de ellas para aplicar los métodos de prevención.",
+      "subtemas": [
+        "5.1 Prevención de la corrosión.",
+        "5.2 Eliminación de la corrosión."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Pinturas",
+      "objetivoEspecifico": "Proteger las superficies aplicando diferentes recubrimientos para la mejor conservación de ellas.",
+      "subtemas": [
+        "6.1 Tipos de pinturas.",
+        "6.2 Uso de pinturas."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "Pañol de pinturas.",
+      "objetivoEspecifico": "Conservar en condiciones de servicio el pañol mediante un mantenimiento permanente para el almacenamiento de la pintura.",
+      "subtemas": [
+        "7.1 Conservación y limpieza.",
+        "7.2 Almacenamiento de la pintura."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Contenidos de actualidad en el sector marítimo portuario",
+      "objetivoEspecifico": "La presente unidad se incluye con el propósito de que el/la profesor/a incorpore contenidos o temas de actualidad del sector marítimo portuario, a fin de vincularlos con el contenido de esta asignatura.",
+      "subtemas": [
+        "8. Contenidos de actualidad en el sector marítimo portuario."
+      ],
+      "transversal": true
+    }
+  ],
+  "bibliografia": [
+    "ARTE NAVAL, BAISTOCCHI, S/F",
+    "SEAMAN SHIP HANDBOOK, 1974",
+    "PERSONAL SURVIVAL AT SEA, 1980"
+  ],
+  "fuente": "plan-practicas8marineras8iv_88ivb8pn8  PRACTICAS MARINERAS IV A PN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "plan-practicas8marineras8iv_88ivb8pn8  PRACTICAS MARINERAS IV A PN.pdf",
+    "variantesAB": 2,
+    "calidadExtraccion": {
+      "unidades": 8,
+      "subtemas": 11,
+      "conObjetivo": 7,
+      "bibliografia": 15
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "parciales": [
+      {
+        "nombre": "1er PARCIAL",
+        "criterios": [
+          {
+            "criterio": "Investigación",
+            "peso": 10,
+            "instrumento": "Rubrica"
+          },
+          {
+            "criterio": "Mapa mental",
+            "peso": 10,
+            "instrumento": "Rubrica"
+          },
+          {
+            "criterio": "Practica",
+            "peso": 15,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Practica",
+            "peso": 15,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Participación",
+            "peso": 5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Debate",
+            "peso": 8,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Mesa redonda",
+            "peso": 8,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Participación",
+            "peso": 4,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Examen primer parcial",
+            "peso": 25,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      },
+      {
+        "nombre": "2do PARCIAL",
+        "criterios": [
+          {
+            "criterio": "Práctica",
+            "peso": 20,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Resumen",
+            "peso": 10,
+            "instrumento": "Rubrica"
+          },
+          {
+            "criterio": "Práctica",
+            "peso": 20,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Participación",
+            "peso": 5,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Discusión guiada",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Participación",
+            "peso": 10,
+            "instrumento": "Lista de cotejo"
+          },
+          {
+            "criterio": "Examen segundo parcial",
+            "peso": 25,
+            "instrumento": "Examen"
+          }
+        ],
+        "suma": 100
+      }
+    ],
+    "fuente": "F-32-2026 (extraído por IA, sin inventar)"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "id": "sin-identificar_9f2b1092",
+  "clave": "",
+  "materia": "(sin identificar)",
+  "carrera": "PN",
+  "semestre": 2,
+  "grupo": "B",
+  "periodo": "Enero-Junio 2026",
+  "lote": "enero-junio-2026",
+  "area": "otra",
+  "contenidoExtraible": false,
+  "claveCoincideConProgramaOficial": false,
+  "origen": {
+    "archivo": "plan_trigonometria8plana8y8esferica_ii_b_pn_enmt GRUPO II B PN.pdf",
+    "formato": "pdf",
+    "sha1": "9f2b10921d597296bbadc16c8d08d4aa8fd69c54"
+  },
+  "datosGenerales": {},
+  "pedagogia": {
+    "competencias": [],
+    "estrategiasEnsenanza": [],
+    "tecnicasEnsenanza": [],
+    "secuenciaDidactica": "",
+    "productosEvidencias": [],
+    "instrumentosEvaluacion": []
+  },
+  "textoReferenciaRedactado": "",
+  "textoCompletoRedactado": ""
+}

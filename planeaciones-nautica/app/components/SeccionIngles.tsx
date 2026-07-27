@@ -52,7 +52,7 @@ const labelClass =
 // Niveles de Inglés de respaldo si la API no responde. La lista REAL se carga
 // del índice (los niveles con planeaciones históricas) en un useEffect: así, al
 // subir nuevos niveles y reindexar, aparecen solos sin tocar el código.
-const NIVELES_FALLBACK = ["3", "4", "5", "6", "7"];
+const NIVELES_FALLBACK = ["3", "4", "5", "6", "7", "8"];
 
 const MENSAJE_BIBLIOTECA_NO_DISPONIBLE =
   "La biblioteca académica de este nivel aún no está disponible.";

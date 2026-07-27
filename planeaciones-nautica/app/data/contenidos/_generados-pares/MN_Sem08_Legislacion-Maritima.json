@@ -1,0 +1,241 @@
+{
+  "clave": "LRM856",
+  "nombre": "Legislación Marítima y Laboral",
+  "tipo": "Teórico-práctica",
+  "horas": {
+    "semanas": 18,
+    "porSemana": 4,
+    "teoricas": 54,
+    "practicas": 18,
+    "independientes": 0,
+    "total": 72
+  },
+  "objetivoGeneral": "Interpreta el contenido de la legislación nacional e internacional en el ramo marítimo, para lograr las aptitudes necesarias de su cargo de Oficial de la Marina Mercante, responsabilizándose de los intereses que están en juego en la aventura marítima, y en el ramo laboral para delimitar los derechos y obligaciones como trabajador.",
+  "unidades": [
+    {
+      "numero": 1,
+      "tema": "El Derecho en General",
+      "objetivoEspecifico": "Identifica la relación del individuo con la sociedad analizando las normas jurídicas y demás elementos, para su regulación conforme a los estatutos del Derecho.",
+      "subtemas": [
+        "1.1. Las relaciones sociales y su regulación por el Derecho.",
+        "1.2. Normas Jurídicas y su sanción.",
+        "1.3. Etimología y definición.",
+        "1.4. Sentidos fundamentales del derecho.",
+        "1.5. Fuentes del derecho.",
+        "1.6. Clasificación y ubicación del Derecho Marítimo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 2,
+      "tema": "Derecho Marítimo",
+      "objetivoEspecifico": "Entiende que las Autoridades marítimas, mediante la revisión de las referencias históricas aplican el Derecho Marítimo.",
+      "subtemas": [
+        "2.1. Concepto.",
+        "2.2. División del Derecho Marítimo.",
+        "2.3. Referencias históricas.",
+        "2.4. Autoridades marítimas.",
+        "2.5. Funciones."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 3,
+      "tema": "El Derecho Marítimo Constitucional e Internacional",
+      "objetivoEspecifico": "Describe normas marítimas y sus jerarquías analizando su aplicación para relacionarlas con la regulación de la estructura del Derecho Marítimo Constitucional e Internacional.",
+      "subtemas": [
+        "3.1. Normas marítimas constitucionales secundarias y terciarias.",
+        "3.2. La jerarquía de las normas supletorias."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 4,
+      "tema": "Los espacios marítimos",
+      "objetivoEspecifico": "Ubica los espacios marítimos, delimitándolos física y jurídicamente para cumplir con las reglas y convenios internacionales.",
+      "subtemas": [
+        "4.1. Aguas interiores.",
+        "4.2. Mar territorial.",
+        "4.3. Espacio marítimo terrestre.",
+        "4.4. Espacio marítimo-buque."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 5,
+      "tema": "Derecho Marítimo Civil y Mercantil",
+      "objetivoEspecifico": "Aplica el Derecho Marítimo Civil y Mercantil, analizando sus generalidades para comprender los elementos que intervienen en el comercio.",
+      "subtemas": [
+        "5.1. Generalidades.",
+        "5.2. El Capitán como funcionario civil.",
+        "5.3. Problemas de jurisdicción y competencia.",
+        "5.4. Personas que intervienen en el negocio marítimo.",
+        "5.5. Elementos del comercio marítimo."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 6,
+      "tema": "Régimen jurídico de la Marina Mercante",
+      "objetivoEspecifico": "Conocer las obligaciones de los contratos públicos del transporte marítimo en los tipos de cabotaje acatando los lineamientos del régimen jurídico de la Marina Mercante, para mantener un servicio legal y eficiente.",
+      "subtemas": [
+        "6.1. Planteamiento.",
+        "6.2. Fuentes normativas.",
+        "6.3. Concepto y finalidades.",
+        "6.4. Zonas y tipos de navegación.",
+        "6.5. Navegación de interés público: imposición de obligaciones específicas por utilidad pública y contratos públicos de transporte marítimo.",
+        "6.6. Ayudas a la Marina Mercante.",
+        "6.7. Cabotaje marítimo y cabotaje marítimo Insular."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 7,
+      "tema": "El trabajo en la Marina Mercante",
+      "objetivoEspecifico": "Clasifica las categorías de contratos y derechos laborales de la gente de mar, analizando la capacidad del personal, para dar cumplimiento a las disposiciones generales del trabajo en la Marina Mercante.",
+      "subtemas": [
+        "7.1. Ámbito de aplicación.",
+        "7.2. Habilitación profesional.",
+        "7.3. El contrato de embarco.",
+        "7.4. Clasificación y categorías de la gente de mar.",
+        "7.5. El Capitán y el jefe de Máquinas.",
+        "7.6. La jornada laboral.",
+        "7.7. Descansos.",
+        "7.8. Vacaciones.",
+        "7.9. Transbordos.",
+        "7.10. Expectativas de embarque.",
+        "7.11. Licencias.",
+        "7.12. Otras ventajas económicas y sociales."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 8,
+      "tema": "Contratos de utilización del buque",
+      "objetivoEspecifico": "Conoce los contratos de fletamentos, estudiando las obligaciones y derechos adquiridos por ambas partes, para garantizar el transporte seguro de mercancías.",
+      "subtemas": [
+        "8.1. El fletamento.",
+        "8.2. El fletamento por tiempo.",
+        "8.3. El fletamento por viaje.",
+        "8.4. Obligaciones y derechos del fletador.",
+        "8.5. Otras modalidades conectadas con el fletamento.",
+        "8.6. El subfletamento."
+      ],
+      "transversal": false
+    },
+    {
+      "numero": 9,
+      "tema": "Los intereses asegurables como objeto del contrato de seguro",
+      "objetivoEspecifico": "Distingue los tipos de seguro convenidos en un contrato de transporte de mercancía, analizando las obligaciones y deberes, tanto del asegurado como del asegurador para realizar un convenio equitativo de las partes contratantes.",
+      "subtemas": [
+        "9.1. Seguro de cascos.",
+        "9.2. Seguro de facultades.",
+        "9.3. Seguro sobre el flete y beneficio esperados.",
+        "9.4. Seguro de responsabilidad civil del naviero.",
+        "9.5. El elemento formal del contrato. La póliza.",
+        "9.6. Obligación y deberes del asegurado"
+      ],
+      "transversal": false
+    }
+  ],
+  "bibliografia": [
+    "Derecho Marítimo, Cervantes A., 1985",
+    "Introducción al Estudio del Derecho, Peniche B., 1984",
+    "Diccionario Jurídico-Comercial del Transporte, C. Alas, 1983"
+  ],
+  "fuente": "lmn_legislaci8n8mar8tima8y8laboral_8viiia8mn8 LEGILSACION MARITIMA VIII A MN.pdf",
+  "__origen": {
+    "lote": "enero-junio-2026",
+    "archivoFuente": "lmn_legislaci8n8mar8tima8y8laboral_8viiia8mn8 LEGILSACION MARITIMA VIII A MN.pdf",
+    "variantesAB": 1,
+    "calidadExtraccion": {
+      "unidades": 0,
+      "subtemas": 0,
+      "conObjetivo": 0,
+      "bibliografia": 14
+    },
+    "revisar": true
+  },
+  "evaluacion": {
+    "esquema": "oficial",
+    "oficio": "DEN-526-2025 / DEN-065-2026",
+    "tipoMateria": "teórica",
+    "calificacionMinima": 6,
+    "parciales": [
+      {
+        "nombre": "1er Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": [
+              {
+                "criterio": "Examen primer parcial",
+                "instrumento": "Examen"
+              }
+            ]
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Debate",
+                "instrumento": "Lista de cotejo"
+              },
+              {
+                "criterio": "Cuadro sinóptico",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Investigación",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Resumen",
+                "instrumento": "Rúbrica"
+              },
+              {
+                "criterio": "Discusión guiada",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": [
+              {
+                "criterio": "Participación",
+                "instrumento": "Lista de cotejo"
+              }
+            ]
+          }
+        ],
+        "sinClasificar": []
+      },
+      {
+        "nombre": "2do Parcial",
+        "categorias": [
+          {
+            "categoria": "Conocimiento",
+            "porcentaje": 50,
+            "desglose": []
+          },
+          {
+            "categoria": "Prácticas y actividades de aprendizaje",
+            "porcentaje": 25,
+            "desglose": []
+          },
+          {
+            "categoria": "Participación y TIC's",
+            "porcentaje": 25,
+            "desglose": []
+          }
+        ],
+        "sinClasificar": []
+      }
+    ],
+    "acreditacion": "2 parciales con examen escrito; la suma aprobatoria da derecho a ordinario; si no, extraordinario."
+  }
+}
