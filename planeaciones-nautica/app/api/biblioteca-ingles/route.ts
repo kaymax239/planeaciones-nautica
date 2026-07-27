@@ -5,6 +5,7 @@
 // Aislado del flujo PN/MN y de las presentaciones (Gemini). No genera nada.
 
 import { BibliotecaIngles } from "../../lib/bibliotecaIngles";
+import { NIVELES_CON_TEMARIO } from "../../data/temarioInglesOficial";
 import { verificarAuth } from "../../lib/server/auth";
 
 export const runtime = "nodejs";
@@ -24,6 +25,9 @@ export async function GET(request: Request) {
     for (const d of indice?.documentos ?? []) {
       if (d.nivel) set.add(d.nivel);
     }
+    // Niveles nuevos con temario oficial pero sin históricas propias (p. ej. el
+    // 8): se generan espejando otro nivel, así que también deben aparecer.
+    for (const n of NIVELES_CON_TEMARIO) set.add(n);
     const nivelesDisponibles = [...set].sort((a, b) =>
       a.localeCompare(b, undefined, { numeric: true }),
     );
