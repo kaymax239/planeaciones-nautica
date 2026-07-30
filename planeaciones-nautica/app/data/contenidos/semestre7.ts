@@ -1066,7 +1066,7 @@ export const contenidosSemestre7: Record<string, ProgramaOficial> = {
   "Teoría del buque II": {
     "clave": "TEB749",
     "nombre": "Teoría del buque II",
-    "tipo": "Teórico-práctica",
+    "tipo": "Práctica",
     "horas": {
       "semanas": 18,
       "porSemana": 3,

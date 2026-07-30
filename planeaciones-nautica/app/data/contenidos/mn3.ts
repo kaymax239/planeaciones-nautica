@@ -85,7 +85,7 @@ export const contenidosMN3: Record<string, ProgramaOficial> = {
   "Técnicas Avanzadas de Lucha Contra Incendios": {
     "clave": "C0038",
     "nombre": "Técnicas Avanzadas de Lucha Contra Incendios",
-    "tipo": "Teórica",
+    "tipo": "Práctica",
     "horas": {
       "semanas": 10,
       "porSemana": 3,
@@ -281,7 +281,7 @@ export const contenidosMN3: Record<string, ProgramaOficial> = {
   "Dinámica": {
     "clave": "DIN318",
     "nombre": "Dinámica",
-    "tipo": "Práctica",
+    "tipo": "Teórica",
     "horas": {
       "semanas": 18,
       "porSemana": 4,
@@ -800,7 +800,7 @@ export const contenidosMN3: Record<string, ProgramaOficial> = {
   "Tecnología de Materiales": {
     "clave": "TEM319",
     "nombre": "Tecnología de Materiales",
-    "tipo": "Práctica",
+    "tipo": "Teórica",
     "horas": {
       "semanas": 18,
       "porSemana": 4,

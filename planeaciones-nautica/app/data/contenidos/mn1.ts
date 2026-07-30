@@ -7,7 +7,7 @@ export const contenidosMN1: Record<string, ProgramaOficial> = {
   "Álgebra": {
     "clave": "ALG103",
     "nombre": "Álgebra",
-    "tipo": "Teórico-práctica",
+    "tipo": "Práctica",
     "horas": {
       "semanas": 18,
       "porSemana": 4,
@@ -809,7 +809,7 @@ export const contenidosMN1: Record<string, ProgramaOficial> = {
   "Transporte Marítimo": {
     "clave": "TMO101",
     "nombre": "Transporte Marítimo",
-    "tipo": "Práctica",
+    "tipo": "Teórica",
     "horas": {
       "semanas": 18,
       "porSemana": 5,

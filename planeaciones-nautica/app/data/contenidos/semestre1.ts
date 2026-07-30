@@ -172,7 +172,7 @@ export const contenidosSemestre1: Record<string, ProgramaOficial> = {
   "Álgebra": {
     "clave": "ALG103",
     "nombre": "Álgebra",
-    "tipo": "Teórico-práctica",
+    "tipo": "Práctica",
     "horas": {
       "semanas": 18,
       "porSemana": 4,

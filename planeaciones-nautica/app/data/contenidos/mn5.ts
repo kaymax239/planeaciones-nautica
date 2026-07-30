@@ -382,7 +382,7 @@ export const contenidosMN5: Record<string, ProgramaOficial> = {
   "Mecánica de fluidos": {
     "clave": "MEF532",
     "nombre": "Mecánica de fluidos",
-    "tipo": "Teórico-práctica",
+    "tipo": "Práctica",
     "horas": {
       "semanas": 18,
       "porSemana": 3,
@@ -702,7 +702,7 @@ export const contenidosMN5: Record<string, ProgramaOficial> = {
   "Motores I": {
     "clave": "MOT529",
     "nombre": "Motores I",
-    "tipo": "Teórico-práctica",
+    "tipo": "Práctica",
     "horas": {
       "semanas": 18,
       "porSemana": 4,

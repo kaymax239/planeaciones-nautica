@@ -85,7 +85,7 @@ export const contenidosSemestre3: Record<string, ProgramaOficial> = {
   "Técnicas Avanzadas de Lucha Contra Incendios": {
     "clave": "C0038",
     "nombre": "Técnicas Avanzadas de Lucha Contra Incendios",
-    "tipo": "Teórica",
+    "tipo": "Práctica",
     "horas": {
       "semanas": 10,
       "porSemana": 3,
@@ -274,7 +274,7 @@ export const contenidosSemestre3: Record<string, ProgramaOficial> = {
   "Cartografía": {
     "clave": "CAR319",
     "nombre": "Cartografía",
-    "tipo": "Práctica",
+    "tipo": "Teórica",
     "horas": {
       "semanas": 18,
       "porSemana": 4,
@@ -369,7 +369,7 @@ export const contenidosSemestre3: Record<string, ProgramaOficial> = {
   "Dinámica": {
     "clave": "DIN321",
     "nombre": "Dinámica",
-    "tipo": "Práctica",
+    "tipo": "Teórica",
     "horas": {
       "semanas": 18,
       "porSemana": 4,
@@ -520,7 +520,7 @@ export const contenidosSemestre3: Record<string, ProgramaOficial> = {
   "Hidrografía": {
     "clave": "HID318",
     "nombre": "Hidrografía",
-    "tipo": "Práctica",
+    "tipo": "Teórica",
     "horas": {
       "semanas": 18,
       "porSemana": 4,
@@ -614,7 +614,7 @@ export const contenidosSemestre3: Record<string, ProgramaOficial> = {
   "Navegación I": {
     "clave": "NAV316",
     "nombre": "Navegación I",
-    "tipo": "Práctica",
+    "tipo": "Teórica",
     "horas": {
       "semanas": 18,
       "porSemana": 6,

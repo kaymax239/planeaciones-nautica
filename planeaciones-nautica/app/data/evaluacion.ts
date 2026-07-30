@@ -8,9 +8,15 @@ import type { ProgramaOficial } from "./tipos";
 export type TipoMateria = "teorica" | "practica" | "teorico-practica";
 
 // La generación define tanto los porcentajes como la escala aprobatoria.
-//  - "nuevo-ingreso": generación 2025-2029 y subsecuentes (1.er Año). Mínima 7.0.
-//  - "en-curso": generaciones 2021-2025 (2.º, 3.º y 4.º Año). Mínima 6.0.
-export type Generacion = "nuevo-ingreso" | "en-curso";
+// Actualizado a Oficio DEN/562/2026 (retoma DEN/526/2025):
+//  - "nuevo-ingreso": 1.er Año (Sem I). Porcentajes generales (Art. 25) 70/20/10 y
+//    20/70/10. Mínima 7.0.
+//  - "segundo-ano": 2.º Año (Sem III). El oficio asigna el 50/25/25 SOLO a 3.º y 4.º
+//    Año, así que el 2.º Año usa el criterio GENERAL (Art. 25) 70/20/10 y 20/70/10,
+//    pero con mínima 6.0 (según generación/año).
+//  - "en-curso": 3.º y 4.º Año (Sem V y VII, gen 2024-2028 y 2023-2027). 50/25/25 y
+//    25/50/25. Mínima 6.0.
+export type Generacion = "nuevo-ingreso" | "segundo-ano" | "en-curso";
 
 export type Criterio = { nombre: string; porcentaje: number };
 
@@ -68,6 +74,11 @@ export const ESCALA = {
     noCompetente: "0.0 a 6.9",
     competente: "7.0 a 10.0",
   },
+  "segundo-ano": {
+    minimaAprobatoria: 6.0,
+    noCompetente: "0.0 a 5.9",
+    competente: "6.0 a 10.0",
+  },
   "en-curso": {
     minimaAprobatoria: 6.0,
     noCompetente: "0.0 a 5.9",
@@ -82,15 +93,26 @@ export const EVALUACIONES = [
   "Evaluación Semestral (Ordinaria)",
 ] as const;
 
-/** Semestre I = nuevo ingreso (1.er Año); III, V y VII = generaciones en curso. */
-export const generacionPorSemestre = (semestre: string): Generacion =>
-  /\bI\s+SEMESTRE\b/i.test(semestre.trim()) ? "nuevo-ingreso" : "en-curso";
+/**
+ * Mapeo semestre → generación (Oficio DEN/562/2026):
+ *  - I SEMESTRE   → "nuevo-ingreso" (1.er Año): 70/20/10, mínima 7.0
+ *  - III SEMESTRE → "segundo-ano"  (2.º Año):  70/20/10, mínima 6.0
+ *  - V y VII      → "en-curso"     (3.º/4.º Año): 50/25/25, mínima 6.0
+ */
+export const generacionPorSemestre = (semestre: string): Generacion => {
+  const s = semestre.trim().toUpperCase();
+  if (/(^|\b)III\s+SEMESTRE\b/.test(s)) return "segundo-ano";
+  if (/(^|\b)I\s+SEMESTRE\b/.test(s)) return "nuevo-ingreso";
+  return "en-curso"; // V y VII SEMESTRE (3.º y 4.º Año)
+};
 
 export const criteriosEvaluacion = (
   tipo: TipoMateria = "teorico-practica",
   generacion: Generacion = "nuevo-ingreso",
 ): Criterio[] =>
-  (generacion === "nuevo-ingreso" ? CRITERIOS_NUEVO_INGRESO : CRITERIOS_EN_CURSO)[
+  // 1.er y 2.º Año usan el criterio GENERAL (Art. 25) 70/20/10 · 20/70/10;
+  // solo 3.º y 4.º Año ("en-curso") usan 50/25/25 · 25/50/25.
+  (generacion === "en-curso" ? CRITERIOS_EN_CURSO : CRITERIOS_NUEVO_INGRESO)[
     tipo
   ];
 
