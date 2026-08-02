@@ -49,7 +49,18 @@ export type TemarioNivel = {
 };
 
 // iDiscover 8 — Contents (Express Publishing), ISBN 978-1-4715-1824-9.
+//
+// Niveles 1, 2 y 3: cambiaron de libro a StartUp (Pearson) y NO se generan —
+// su planeación es contenido almacenado (app/data/inglesMaritimo.ts), servido
+// por el desvío de /api/planeacion-ingles. Aparecen aquí por un solo motivo:
+// NIVELES_CON_TEMARIO alimenta el selector (biblioteca-ingles/route.ts:30), y
+// así se listan aunque no tengan históricas propias. `modulos` va vacío a
+// propósito: la dosificación existe fuera del repositorio y entra después; el
+// desvío corta antes de que temarioOficialTexto() llegue a usarse para ellos.
 export const TEMARIO_OFICIAL: Record<string, TemarioNivel> = {
+  "1": { libro: "StartUp 1 (Pearson Education, 2019)", modulos: [] },
+  "2": { libro: "StartUp 2 (Pearson Education, 2019)", modulos: [] },
+  "3": { libro: "StartUp 3 (Pearson Education, 2019)", modulos: [] },
   "8": {
     libro: "iDiscover 8 (Express Publishing), Evans, Dooley — ISBN 978-1-4715-1824-9",
     modulos: [

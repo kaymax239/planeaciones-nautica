@@ -29,6 +29,7 @@ import {
   esquemaInglesTexto,
   resolverPuntaje,
 } from "../lib/puntajeExamen";
+import { metaF32DesdeAlmacenada } from "../data/inglesMaritimo";
 import type { PresentacionV2 } from "../data/presentaciones/tiposV2";
 import { Stepper, type PasoStepper } from "./Stepper";
 import { LoadingIA } from "./LoadingIA";
@@ -52,7 +53,7 @@ const labelClass =
 // Niveles de Inglés de respaldo si la API no responde. La lista REAL se carga
 // del índice (los niveles con planeaciones históricas) en un useEffect: así, al
 // subir nuevos niveles y reindexar, aparecen solos sin tocar el código.
-const NIVELES_FALLBACK = ["3", "4", "5", "6", "7", "8"];
+const NIVELES_FALLBACK = ["1", "2", "3", "4", "5", "6", "7", "8"];
 
 const MENSAJE_BIBLIOTECA_NO_DISPONIBLE =
   "La biblioteca académica de este nivel aún no está disponible.";
@@ -399,6 +400,10 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
           grupo,
           semanas,
           horasPorSemana,
+          // Niveles almacenados (1/2/3): clave, docente, escuela, periodo y
+          // fechas de parciales salen del calendario oficial Ago–Dic 2026
+          // (app/config/calendario.ts). Devuelve null en 4-8, que quedan igual.
+          ...(metaF32DesdeAlmacenada(nivel) ?? {}),
         }),
       );
       // El cuadro de competencias disciplinares del F-32 es texto estático: se

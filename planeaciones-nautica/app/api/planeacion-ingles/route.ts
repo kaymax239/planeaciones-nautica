@@ -18,6 +18,10 @@ import {
   NIVEL_ESPEJO,
   temarioOficialTexto,
 } from "../../data/temarioInglesOficial";
+import {
+  planeacionDesdeAlmacenada,
+  tienePlaneacionAlmacenada,
+} from "../../data/inglesMaritimo";
 import { verificarAuth } from "../../lib/server/auth";
 import { verificarLimite, contarUso } from "../../lib/server/limites";
 
@@ -32,6 +36,10 @@ const MODELO =
   process.env.GEMINI_MODEL ||
   "gemini-2.5-flash";
 const TIMEOUT_MS = 120000;
+
+// Los niveles almacenados no pasan por ningún modelo: el campo `modelo` de la
+// respuesta lo declara explícitamente en lugar de mentir con el de Gemini.
+const MODELO_ALMACENADO = "almacenado";
 
 // Cuántas planeaciones históricas se incluyen como referencia y cuánto texto de
 // cada una. Se toma cabecera + cola para captar tanto las competencias/objetivos
@@ -340,6 +348,28 @@ export async function POST(request: Request) {
   if (cuentaComoPlaneacion) {
     const limite = await verificarLimite(sesionAuth.sesion, "planeaciones");
     if (!limite.ok) return limite.respuesta;
+  }
+
+  // 0. DESVÍO — niveles 1, 2 y 3: contenido ALMACENADO, no generado.
+  // Cambiaron de libro (iDiscover → StartUp, Pearson), así que espejear sus
+  // planeaciones históricas daría contenido del libro equivocado. Estos tres
+  // NO leen el índice, NO usan NIVEL_ESPEJO y NO llaman a Gemini. Va antes de
+  // leerIndice() para que la ruta de los niveles 4-8 quede intacta.
+  // `nivel` es string aquí (lo fuerza .toString() arriba), de ahí "1"/"2"/"3".
+  if (tienePlaneacionAlmacenada(nivel)) {
+    const planeacion = planeacionDesdeAlmacenada(nivel, {
+      grupo,
+      tema,
+      observaciones,
+    });
+    if (cuentaComoPlaneacion) {
+      await contarUso(sesionAuth.sesion, "planeaciones");
+    }
+    return Response.json({
+      planeacion,
+      referenciasUsadas: [],
+      modelo: MODELO_ALMACENADO,
+    });
   }
 
   // 1. Leer el índice del corpus histórico.
