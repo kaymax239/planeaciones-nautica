@@ -357,6 +357,143 @@ for (const n of ["1", "2", "3"]) {
   );
 }
 
+/* ---------------------------------------------- C) presentacion-ingles ----- */
+//
+// El endpoint de PRESENTACIONES no compartía el desvío de contenido almacenado
+// (D2 en DEUDA-TECNICA-INGLES.md). Sin él, el nivel 2 daba 404 y los niveles 1 y
+// 3 generaban desde históricas de iDiscover: el libro equivocado.
+
+const rutaPres = "app/api/presentacion-ingles/route.ts";
+const srcPres = leer(rutaPres);
+const codigoPres = sinComentarios(srcPres);
+
+const literal = (src, nombre) => {
+  const p = "const " + nombre + " = `";
+  const i = src.indexOf(p);
+  if (i < 0) return null;
+  const desde = i + p.length;
+  return src.slice(desde, src.indexOf("`;", desde));
+};
+
+// C1. El molde de los niveles históricos (4-8) NO cambió: se compone de la
+// cabecera de siempre + las reglas comunes, y debe seguir dando el MISMO texto.
+// Se compara contra el archivo tal como está en HEAD, normalizando saltos de
+// línea (el árbol de trabajo en Windows queda con CRLF y `git show` da LF).
+const comunesPres = literal(srcPres, "REGLAS_COMUNES_PROMPT");
+const promptHistoricas = literal(srcPres, "SYSTEM_PROMPT");
+comprobarQue(
+  "C1 el prompt de históricas se compone de las reglas comunes",
+  !!comunesPres &&
+    !!promptHistoricas &&
+    promptHistoricas.includes("${REGLAS_COMUNES_PROMPT}"),
+);
+comprobarQue(
+  "C1 el prompt de históricas conserva la referencia a iDiscover",
+  (promptHistoricas ?? "").includes("libro iDiscover (te doy la referencia)"),
+);
+
+// C2. El molde de los niveles almacenados existe y NO nombra el libro viejo
+// salvo para prohibirlo.
+const promptAlmacenado = literal(srcPres, "SYSTEM_PROMPT_ALMACENADO");
+comprobarQue("C2 existe el prompt de niveles almacenados", !!promptAlmacenado);
+comprobarQue(
+  "C2 el prompt almacenado nombra StartUp (Pearson)",
+  (promptAlmacenado ?? "").includes("libro StartUp (Pearson)"),
+);
+comprobarQue(
+  "C2 el prompt almacenado prohíbe iDiscover / Express Publishing",
+  /PROHIBIDO mencionar iDiscover o Express Publishing/.test(
+    promptAlmacenado ?? "",
+  ),
+);
+comprobarQue(
+  "C2 el prompt almacenado no menciona iDiscover fuera de la prohibición",
+  !/iDiscover|Express Publishing/.test(
+    (promptAlmacenado ?? "").replace(/PROHIBIDO mencionar[^\n]*/g, ""),
+  ),
+);
+
+// C3. El desvío se decide con la MISMA función que /api/planeacion-ingles y se
+// evalúa ANTES de leer el índice histórico.
+comprobarQue(
+  "C3 presentacion-ingles usa tienePlaneacionAlmacenada",
+  codigoPres.includes("tienePlaneacionAlmacenada(nivel)"),
+);
+comprobarQue(
+  "C3 el desvío se decide antes de leerIndice()",
+  codigoPres.indexOf("tienePlaneacionAlmacenada(nivel)") <
+    codigoPres.indexOf("BibliotecaIngles.leerIndice()"),
+);
+comprobarQue(
+  "C3 los niveles almacenados no llegan a seleccionarReferencias",
+  codigoPres.indexOf("construirMensajeAlmacenado(nivel, tema, almacenada)") <
+    codigoPres.indexOf("seleccionarReferencias(indice.documentos"),
+);
+
+// C4. bibliografiaIDiscover sigue existiendo para 4-8, pero el camino
+// almacenado no puede pasar por ella.
+const cuerpoAlmacenado = (() => {
+  const i = codigoPres.indexOf("function construirMensajeAlmacenado");
+  if (i < 0) return "";
+  return codigoPres.slice(i, codigoPres.indexOf("\n}", i));
+})();
+comprobarQue(
+  "C4 el mensaje almacenado no llama a bibliografiaIDiscover",
+  !!cuerpoAlmacenado && !cuerpoAlmacenado.includes("bibliografiaIDiscover"),
+);
+comprobarQue(
+  "C4 el mensaje almacenado usa la bibliografía de la entrada",
+  cuerpoAlmacenado.includes("e.bibliografia"),
+);
+comprobarQue(
+  "C4 el camino de históricas conserva bibliografiaIDiscover",
+  codigoPres.includes("bibliografiaIDiscover(nivel)"),
+);
+
+// C5. Las semanas PENDIENTE (14 y 15 del nivel 3) no entran al prompt.
+comprobarQue(
+  "C5 se filtran las semanas PENDIENTE",
+  cuerpoAlmacenado.includes("esSemanaPendiente"),
+);
+
+// C6. El nivel 8 ya no cae en 404: usa NIVEL_ESPEJO como planeacion-ingles.
+comprobarQue(
+  "C6 presentacion-ingles aplica NIVEL_ESPEJO",
+  codigoPres.includes("NIVEL_ESPEJO[nivel]"),
+);
+const nivelesConHistoricas = new Set(
+  indice.documentos.map((d) => d.nivel).filter(Boolean),
+);
+comprobarQue(
+  "C6 el nivel 8 no tiene históricas propias (por eso necesita el espejo)",
+  !nivelesConHistoricas.has("8"),
+  `niveles indexados: ${[...nivelesConHistoricas].sort().join(", ")}`,
+);
+comprobarQue(
+  "C6 el nivel espejo del 8 (el 7) sí tiene históricas",
+  nivelesConHistoricas.has("7"),
+);
+
+// C7. El cache separa el origen: un mismo (nivel, tema) generado desde
+// históricas de iDiscover y desde la dosificación de StartUp no es lo mismo.
+const srcCachePres = leer("app/lib/cachePresentacionIngles.ts");
+comprobarQue(
+  "C7 la clave de cache admite el origen",
+  sinComentarios(srcCachePres).includes("d.origen"),
+);
+comprobarQue(
+  "C7 los niveles almacenados marcan origen en la clave",
+  /origen:\s*almacenada\s*\?\s*"almacenado"\s*:\s*undefined/.test(codigoPres),
+);
+
+// C8. Los tres niveles almacenados quedan cubiertos por el desvío.
+comprobarQue(
+  "C8 el desvío cubre los niveles 1, 2 y 3",
+  ["1", "2", "3"].every((n) =>
+    codigoIngles.includes(`"${n}": entrada("${n}"`),
+  ),
+);
+
 /* ------------------------------------------------------------- resultado -- */
 
 console.log(`\n${pasadas} comprobaciones ok, ${fallos} fallas.\n`);

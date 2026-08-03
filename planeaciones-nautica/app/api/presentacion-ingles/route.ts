@@ -11,6 +11,12 @@ import {
   type EntradaIndiceIngles,
 } from "../../lib/bibliotecaIngles";
 import { bibliografiaIDiscover } from "../../lib/planeacionInglesF32.js";
+import { NIVEL_ESPEJO } from "../../data/temarioInglesOficial";
+import {
+  PLANEACIONES_INGLES_ALMACENADAS,
+  tienePlaneacionAlmacenada,
+  type PlaneacionInglesAlmacenada,
+} from "../../data/inglesMaritimo";
 import {
   validarPresentacionTolerante,
   type PresentacionIA,
@@ -120,12 +126,11 @@ function nivelesDisponibles(entradas: EntradaIndiceIngles[]): string[] {
   return [...set].sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 }
 
-const SYSTEM_PROMPT = `Eres el MISMO docente de inglés de una escuela náutica mercante mexicana que redactó las planeaciones históricas. Diseñas una PRESENTACIÓN de clase (diapositivas) para un nivel, BASÁNDOTE en las planeaciones históricas reales del nivel que se te entregan. No inventas un temario nuevo: tomas los temas, vocabulario, gramática, actividades y secuencia que aparecen en esas históricas y los conviertes en diapositivas didácticas.
-
-REGLAS:
-- Trabajas POR NIVEL y por ESPEJEO: temas, contenidos, actividades y orden salen de las históricas del nivel. No inventes contenido fuera de ellas.
-- Enfoque comunicativo + libro iDiscover (te doy la referencia). NO uses STCW ni programas oficiales de Piloto Naval / Máquinas Navales.
-- IDIOMA (regla dura): TODO el contenido visible de las diapositivas va en INGLÉS, sin excepción. Esto incluye kicker, subtítulo de portada, TÍTULOS de cada diapositiva, ENCABEZADOS/ETIQUETAS de sección (usa "AGENDA", "VOCABULARY", "GRAMMAR", "PRACTICE", "ASSESSMENT", "REVIEW", "EXAMPLES", etc., NUNCA "VOCABULARIO"/"GRAMÁTICA"/"AGENDA" en español), las EXPLICACIONES gramaticales, las DEFINICIONES, las INSTRUCCIONES de actividades y ejercicios, las notas y los ejemplos. NO escribas NADA en español: es una clase de inglés impartida íntegramente en inglés (English-only / immersion). Los nombres de campo del JSON ("titulo", "bloques", "tipo", etc.) permanecen igual; lo que va en inglés es su CONTENIDO de texto.
+// Reglas compartidas por los dos moldes de prompt (históricas y almacenado).
+// Se extrajeron TAL CUAL del prompt original: el molde de históricas se compone
+// abajo y sigue produciendo el MISMO texto que antes, byte a byte, para no
+// alterar lo que ya genera Claude en los niveles 4-8.
+const REGLAS_COMUNES_PROMPT = `- IDIOMA (regla dura): TODO el contenido visible de las diapositivas va en INGLÉS, sin excepción. Esto incluye kicker, subtítulo de portada, TÍTULOS de cada diapositiva, ENCABEZADOS/ETIQUETAS de sección (usa "AGENDA", "VOCABULARY", "GRAMMAR", "PRACTICE", "ASSESSMENT", "REVIEW", "EXAMPLES", etc., NUNCA "VOCABULARIO"/"GRAMÁTICA"/"AGENDA" en español), las EXPLICACIONES gramaticales, las DEFINICIONES, las INSTRUCCIONES de actividades y ejercicios, las notas y los ejemplos. NO escribas NADA en español: es una clase de inglés impartida íntegramente en inglés (English-only / immersion). Los nombres de campo del JSON ("titulo", "bloques", "tipo", etc.) permanecen igual; lo que va en inglés es su CONTENIDO de texto.
 - COMPLEJIDAD POR NIVEL: adapta la dificultad del inglés al nivel indicado. Nivel 1 = principiante (vocabulario básico, oraciones cortas y simples, presente simple, instrucciones muy claras y breves). Niveles intermedios = más estructuras gramaticales y vocabulario. Niveles altos = avanzado (tiempos y estructuras complejas, vocabulario rico, consignas y textos más largos). Mantén siempre la gramática correcta y natural para un hablante nativo.
 - Nada de muros de texto: prefiere tablas de vocabulario/gramática, comparaciones, mapas conceptuales, ejemplos y ejercicios.
 
@@ -159,6 +164,28 @@ Cada Bloque es UNO de:
 - {"tipo":"diagramaArbol","raiz":"...","ramas":[{"titulo":"...","ejemplo":"opcional"}]}
 No inventes otros tipos ni campos. La portada lleva "bloques": [].`;
 
+// Molde de los niveles que SÍ tienen planeaciones históricas (4-8). Idéntico al
+// de siempre.
+const SYSTEM_PROMPT = `Eres el MISMO docente de inglés de una escuela náutica mercante mexicana que redactó las planeaciones históricas. Diseñas una PRESENTACIÓN de clase (diapositivas) para un nivel, BASÁNDOTE en las planeaciones históricas reales del nivel que se te entregan. No inventas un temario nuevo: tomas los temas, vocabulario, gramática, actividades y secuencia que aparecen en esas históricas y los conviertes en diapositivas didácticas.
+
+REGLAS:
+- Trabajas POR NIVEL y por ESPEJEO: temas, contenidos, actividades y orden salen de las históricas del nivel. No inventes contenido fuera de ellas.
+- Enfoque comunicativo + libro iDiscover (te doy la referencia). NO uses STCW ni programas oficiales de Piloto Naval / Máquinas Navales.
+${REGLAS_COMUNES_PROMPT}`;
+
+// Molde de los niveles ALMACENADOS (1, 2 y 3 — StartUp, Pearson). No hay
+// espejeo: la fuente de los temas es la dosificación semanal oficial que se
+// entrega en el mensaje. La mención a iDiscover se sustituye por una PROHIBICIÓN
+// explícita: esos niveles cambiaron de libro y nombrarlo sería el libro
+// equivocado en un material que se proyecta en clase.
+const SYSTEM_PROMPT_ALMACENADO = `Eres el MISMO docente de inglés de una escuela náutica mercante mexicana que redactó la planeación del nivel. Diseñas una PRESENTACIÓN de clase (diapositivas) para un nivel, BASÁNDOTE en la DOSIFICACIÓN SEMANAL OFICIAL del nivel que se te entrega. No inventas un temario nuevo: tomas los temas, vocabulario, gramática, actividades y evidencias que aparecen en esa dosificación y los conviertes en diapositivas didácticas.
+
+REGLAS:
+- Trabajas POR NIVEL sobre la DOSIFICACIÓN OFICIAL: temas, contenidos, actividades y orden salen de las semanas que se te entregan. No inventes contenido fuera de ellas.
+- Enfoque comunicativo + libro StartUp (Pearson) (te doy la referencia). NO uses STCW ni programas oficiales de Piloto Naval / Máquinas Navales. PROHIBIDO mencionar iDiscover o Express Publishing: este nivel cambió de libro y esa referencia sería incorrecta.
+- Si una semana viene marcada como PENDIENTE, IGNÓRALA por completo: no inventes su contenido ni la conviertas en diapositiva.
+${REGLAS_COMUNES_PROMPT}`;
+
 function construirMensajeUsuario(
   nivel: string,
   tema: string,
@@ -185,6 +212,66 @@ Convierte ese contenido en diapositivas didácticas en el JSON solicitado. NO us
 RECUERDA: TODO el texto visible de las diapositivas debe estar en INGLÉS — títulos, encabezados de sección (AGENDA, VOCABULARY, GRAMMAR, PRACTICE, ASSESSMENT…), explicaciones gramaticales, instrucciones y ejemplos — con la dificultad del inglés adaptada al Nivel ${nivel}. No dejes nada en español.`;
 }
 
+/** Una semana sin contenido real: las 14 y 15 del nivel 3 esperan el programa de
+ *  estudio oficial 2022. No deben llegar al prompt como si fueran temario. */
+const esSemanaPendiente = (s: { contenido: string }) =>
+  /^\s*PENDIENTE\b/i.test(s.contenido);
+
+/** Dosificación oficial del nivel en texto plano para el prompt. Si `tema`
+ *  coincide con el contenido de una semana (así la manda la UI, que arma las
+ *  casillas con `secuenciaSemanal[].contenido`), esa semana va primero y el
+ *  resto queda como contexto. */
+function construirMensajeAlmacenado(
+  nivel: string,
+  tema: string,
+  e: PlaneacionInglesAlmacenada,
+): string {
+  const semanas = e.secuenciaSemanal.filter((s) => !esSemanaPendiente(s));
+
+  const enfocada = tema
+    ? semanas.find((s) => s.contenido.trim() === tema.trim())
+    : undefined;
+
+  const comoTexto = (s: (typeof semanas)[number]) =>
+    [
+      `--- SEMANA ${s.semana} ---`,
+      `Contenido: ${s.contenido}`,
+      s.actividades.length ? `Actividades: ${s.actividades.join("; ")}` : "",
+      s.evidencias ? `Evidencias: ${s.evidencias}` : "",
+      s.recursos.length ? `Recursos: ${s.recursos.join("; ")}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+  const bloques = (
+    enfocada ? [enfocada, ...semanas.filter((s) => s !== enfocada)] : semanas
+  )
+    .map(comoTexto)
+    .join("\n\n");
+
+  return `Genera una PRESENTACIÓN de clase de Inglés del NIVEL ${nivel} (${e.nombre}), basada en la dosificación semanal oficial del nivel.
+
+Libro del nivel: ${e.libro}
+Bibliografía institucional del nivel (úsala como referencia del libro): ${e.bibliografia.join(" | ")}
+Enfoque: ${e.enfoque}
+Objetivo general: ${e.objetivoGeneral}
+${
+  enfocada
+    ? `Enfoca la presentación en la SEMANA ${enfocada.semana}: "${enfocada.contenido}" (usa el resto de las semanas solo como contexto).`
+    : tema
+      ? `Enfoca la presentación en el tema: "${tema}" (usa el resto de la dosificación solo como contexto).`
+      : "Cubre los temas principales del nivel tal como aparecen en la dosificación."
+}
+
+Los temas, vocabulario, gramática, actividades y secuencia se TOMAN de esta dosificación oficial del nivel ${nivel}:
+
+${bloques || "(sin dosificación disponible)"}
+
+Convierte ese contenido en diapositivas didácticas en el JSON solicitado. NO uses STCW. NO inventes temas fuera de la dosificación. NO menciones iDiscover ni Express Publishing.
+
+RECUERDA: TODO el texto visible de las diapositivas debe estar en INGLÉS — títulos, encabezados de sección (AGENDA, VOCABULARY, GRAMMAR, PRACTICE, ASSESSMENT…), explicaciones gramaticales, instrucciones y ejemplos — con la dificultad del inglés adaptada al Nivel ${nivel}. No dejes nada en español.`;
+}
+
 export async function POST(request: Request) {
   const sesionAuth = await verificarAuth(request);
   if (!sesionAuth.ok) return sesionAuth.respuesta;
@@ -203,12 +290,20 @@ export async function POST(request: Request) {
   const tema = (cuerpo.tema ?? "").toString().trim();
   if (!nivel) return error("faltan_datos", "Se requiere el nivel.", 400);
 
+  // Niveles 1, 2 y 3: su contenido está ALMACENADO (cambiaron de iDiscover a
+  // StartUp). No hay históricas propias del libro nuevo, así que no se espejan.
+  const almacenada: PlaneacionInglesAlmacenada | null =
+    tienePlaneacionAlmacenada(nivel)
+      ? PLANEACIONES_INGLES_ALMACENADAS[nivel]
+      : null;
+
   // El temario por nivel es estable: si ya generamos este nivel/tema, lo
   // servimos del cache (gratis, incluso sin API key). `forzar` lo regenera.
   const claveCacheIngles = claveCache({
     modelo: MODELO_CLAUDE,
     nivel,
     tema: tema || undefined,
+    origen: almacenada ? "almacenado" : undefined,
   });
   if (!cuerpo.forzar) {
     const cacheado = await leerCache(claveCacheIngles);
@@ -218,38 +313,61 @@ export async function POST(request: Request) {
     }
   }
 
-  const indice = await BibliotecaIngles.leerIndice();
-  if (!indice || indice.documentos.length === 0) {
-    return error(
-      "sin_corpus",
-      "No hay índice de planeaciones históricas de inglés.",
-      503,
-    );
-  }
+  // Los niveles almacenados NO leen el índice histórico: su temario sale de la
+  // dosificación oficial. El desvío va antes de leerIndice() para que la ruta de
+  // los niveles que sí se espejan quede intacta. Sin él, el nivel 2 daba 404
+  // (no tiene históricas) y los niveles 1 y 3 generaban del libro equivocado
+  // (sí las tienen, pero de iDiscover).
+  let systemPrompt = SYSTEM_PROMPT;
+  let mensajeUsuario: string;
 
-  const referencias = seleccionarReferencias(indice.documentos, nivel, tema);
-  if (referencias.length === 0) {
-    const niveles = nivelesDisponibles(indice.documentos);
-    return error(
-      "sin_historicas_nivel",
-      `No hay planeaciones históricas del nivel "${nivel}". Niveles disponibles: ${niveles.join(", ") || "ninguno"}.`,
-      404,
-      { nivelesDisponibles: niveles },
-    );
+  if (almacenada) {
+    systemPrompt = SYSTEM_PROMPT_ALMACENADO;
+    mensajeUsuario = construirMensajeAlmacenado(nivel, tema, almacenada);
+  } else {
+    const indice = await BibliotecaIngles.leerIndice();
+    if (!indice || indice.documentos.length === 0) {
+      return error(
+        "sin_corpus",
+        "No hay índice de planeaciones históricas de inglés.",
+        503,
+      );
+    }
+
+    let referencias = seleccionarReferencias(indice.documentos, nivel, tema);
+
+    // Nivel nuevo sin históricas propias (hoy solo el 8): se toman las del nivel
+    // espejo para estructura y estilo, igual que en /api/planeacion-ingles, que
+    // ya usaba NIVEL_ESPEJO. Aquí faltaba, y por eso el 8 devolvía 404.
+    let nivelEspejo = nivel;
+    if (referencias.length === 0 && NIVEL_ESPEJO[nivel]) {
+      nivelEspejo = NIVEL_ESPEJO[nivel];
+      referencias = seleccionarReferencias(indice.documentos, nivelEspejo, tema);
+    }
+
+    if (referencias.length === 0) {
+      const niveles = nivelesDisponibles(indice.documentos);
+      return error(
+        "sin_historicas_nivel",
+        `No hay planeaciones históricas del nivel "${nivel}". Niveles disponibles: ${niveles.join(", ") || "ninguno"}.`,
+        404,
+        { nivelesDisponibles: niveles },
+      );
+    }
+
+    mensajeUsuario = construirMensajeUsuario(nivel, tema, referencias);
   }
 
   if (!tieneClaveAnthropic()) {
     return error("sin_api_key", "ANTHROPIC_API_KEY no está configurada.", 503);
   }
 
-  const mensajeUsuario = construirMensajeUsuario(nivel, tema, referencias);
-
   let validado: PresentacionIA | null = null;
   let motivo = "fallo_ia";
   for (let intento = 1; intento <= 2 && !validado; intento++) {
     try {
       const texto = await conTimeout(
-        generarTextoClaude(SYSTEM_PROMPT, mensajeUsuario),
+        generarTextoClaude(systemPrompt, mensajeUsuario),
         TIMEOUT_MS,
       );
       if (!texto.trim()) {
@@ -282,8 +400,10 @@ export async function POST(request: Request) {
 
   const tituloUnidad = tema || `Inglés Nivel ${nivel}`;
   const presentacion: PresentacionV2 = {
-    asignatura: `Inglés Nivel ${nivel}`,
-    clave: `INGLES-N${nivel}`,
+    // Los niveles almacenados llevan su nombre institucional, el mismo que
+    // firma su F-32; el resto conserva la etiqueta genérica de siempre.
+    asignatura: almacenada ? almacenada.nombre : `Inglés Nivel ${nivel}`,
+    clave: almacenada ? almacenada.clave : `INGLES-N${nivel}`,
     unidad: tituloUnidad,
     carrera: "Inglés — Escuela Náutica Mercante de Tampico",
     semestre: `Nivel ${nivel}`,

@@ -31,6 +31,12 @@ export interface DatosClavePresIngles {
   nivel: string;
   /** undefined = nivel completo (sin enfocar en un tema). */
   tema?: string;
+  /** Fuente del contenido: "almacenado" para los niveles servidos desde la
+   *  dosificación oficial (1, 2 y 3 — StartUp). Se omite en los niveles que se
+   *  espejan de las históricas, para no invalidar sus entradas ya guardadas.
+   *  Existe porque un mismo (nivel, tema) generado desde históricas de iDiscover
+   *  y desde la dosificación de StartUp NO es la misma presentación. */
+  origen?: string;
 }
 
 export function claveCache(d: DatosClavePresIngles): string {
@@ -39,6 +45,7 @@ export function claveCache(d: DatosClavePresIngles): string {
     d.modelo,
     d.nivel,
     d.tema ?? "__completo__",
+    ...(d.origen ? [d.origen] : []),
   ].join("|");
 }
 
