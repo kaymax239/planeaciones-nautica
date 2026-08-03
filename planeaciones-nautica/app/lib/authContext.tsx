@@ -28,6 +28,23 @@ import { DOMINIO_PERMITIDO, esAdminEmail, esDominioPermitido } from "./config";
 
 const MENSAJE_DOMINIO = `Debes usar tu correo institucional de FIDENA (@${DOMINIO_PERMITIDO}).`;
 
+const MENSAJE_FALLO_GENERICO = "No se pudo iniciar sesión. Inténtalo de nuevo.";
+
+/** Causas conocidas de fallo al abrir el acceso con Google, en lenguaje claro
+ *  para el docente y accionable para quien da soporte. */
+const MENSAJE_FALLO: Record<string, string> = {
+  "auth/unauthorized-domain":
+    "Esta dirección de internet no está autorizada para iniciar sesión. Entra por la liga oficial: planeaciones-nautica.vercel.app",
+  "auth/popup-blocked":
+    "El navegador bloqueó la ventana de Google. Permite las ventanas emergentes de este sitio y vuelve a intentar.",
+  "auth/operation-not-allowed":
+    "El acceso con Google no está habilitado en el proyecto. Contacta al administrador del sistema.",
+  "auth/network-request-failed":
+    "No hay conexión con Google. Revisa tu internet y vuelve a intentar.",
+  "auth/internal-error":
+    "Google rechazó la solicitud de acceso. Contacta al administrador del sistema.",
+};
+
 type AuthContextValor = {
   /** Usuario autenticado y con dominio válido, o null. */
   usuario: User | null;
@@ -95,14 +112,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await signOut(auth);
       }
     } catch (e) {
-      // El usuario cerró el popup u ocurrió un fallo de red: no es crítico.
+      // El usuario cerró el popup: no es un fallo, no molestamos con un error.
       const code = (e as { code?: string })?.code ?? "";
       if (
-        code !== "auth/popup-closed-by-user" &&
-        code !== "auth/cancelled-popup-request"
+        code === "auth/popup-closed-by-user" ||
+        code === "auth/cancelled-popup-request"
       ) {
-        setError("No se pudo iniciar sesión. Inténtalo de nuevo.");
+        return;
       }
+      // El resto sí son fallos reales. Un mensaje genérico deja al docente sin
+      // saber qué hacer y a quien da soporte sin saber qué revisar, así que
+      // cada causa conocida se nombra y se incluye el código al final.
+      setError(`${MENSAJE_FALLO[code] ?? MENSAJE_FALLO_GENERICO} (${code})`);
     }
   };
 
