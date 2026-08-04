@@ -31,6 +31,7 @@ import {
 import type { PresentacionV2 } from "./data/presentaciones/tiposV2";
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
+import { OPCIONES_DOCX } from "./lib/opcionesDocx";
 import { saveAs } from "file-saver";
 import { SeccionIngles } from "./components/SeccionIngles";
 import { Monograma } from "./components/Monograma";
@@ -238,7 +239,10 @@ export default function Home() {
   const horasPorSemana = "1";
   const horasTotales = "18";
   const horasTeoricas = "18";
-  const horasIndependientes = "0";
+  // Vacío, no "0": la plantilla no tenía placeholder para este campo y la celda
+  // salía en blanco. Al añadirlo, un "0" estrenaría un dato falso en los
+  // semestres legacy, donde las horas independientes no están documentadas.
+  const horasIndependientes = "";
 
   const menu = carrera === "MN" ? materiasPorSemestreMN : materiasPorSemestre;
   const fuenteContenidos =
@@ -535,8 +539,7 @@ export default function Home() {
       const zip = new PizZip(content);
 
       const doc = new Docxtemplater(zip, {
-        paragraphLoop: true,
-        linebreaks: true,
+        ...OPCIONES_DOCX,
       });
 
       const datosMateria =
@@ -566,6 +569,9 @@ export default function Home() {
         horasPorSemana: string;
         horasSemana: string;
         horasXSemana: string;
+        /** La plantilla F-32 tiene {creditos}, pero HorasPrograma (data/tipos.ts)
+         *  no trae créditos para PN/MN: se emite vacío, nunca inventado. */
+        creditos: string;
         objetivoGeneral: string;
         unidadBloques: unknown;
         fuentes: string;
@@ -588,6 +594,7 @@ export default function Home() {
           horasPorSemana: String(p.horas.porSemana),
           horasSemana: String(p.horas.porSemana),
           horasXSemana: String(p.horas.porSemana),
+          creditos: "",
           objetivoGeneral: p.objetivoGeneral,
           unidadBloques: distribuirPrograma(
             p,
@@ -632,6 +639,7 @@ export default function Home() {
           horasPorSemana,
           horasSemana: horasPorSemana,
           horasXSemana: horasPorSemana,
+          creditos: "",
           objetivoGeneral:
             dm?.objetivoEspecifico || "Objetivo general de la asignatura.",
           unidadBloques: [
@@ -763,8 +771,7 @@ export default function Home() {
       }
       const content = await response.arrayBuffer();
       const doc = new Docxtemplater(new PizZip(content), {
-        paragraphLoop: true,
-        linebreaks: true,
+        ...OPCIONES_DOCX,
       });
 
       doc.render(
@@ -845,8 +852,7 @@ export default function Home() {
       }
 
       const doc = new Docxtemplater(zip, {
-        paragraphLoop: true,
-        linebreaks: true,
+        ...OPCIONES_DOCX,
       });
 
       // Las materias con programa oficial no exponen `semanas`; derivamos los

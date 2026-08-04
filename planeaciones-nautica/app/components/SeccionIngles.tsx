@@ -13,6 +13,7 @@
 import { useEffect, useState } from "react";
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
+import { OPCIONES_DOCX } from "../lib/opcionesDocx";
 import { saveAs } from "file-saver";
 import { construirDatosF32DesdeIngles } from "../lib/planeacionInglesF32.js";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "../lib/avanceF51";
@@ -329,8 +330,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
       }
       const content = await plantilla.arrayBuffer();
       const doc = new Docxtemplater(new PizZip(content), {
-        paragraphLoop: true,
-        linebreaks: true,
+        ...OPCIONES_DOCX,
       });
       doc.render(
         construirDatosAvanceF51(seleccionadas, {
@@ -397,8 +397,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
       const content = await plantilla.arrayBuffer();
       const zip = new PizZip(content);
       const doc = new Docxtemplater(zip, {
-        paragraphLoop: true,
-        linebreaks: true,
+        ...OPCIONES_DOCX,
       });
       doc.render(
         construirDatosF32DesdeIngles(data.planeacion, {
@@ -518,8 +517,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
       }
 
       const doc = new Docxtemplater(zip, {
-        paragraphLoop: true,
-        linebreaks: true,
+        ...OPCIONES_DOCX,
       });
 
       // Preguntas REALES por tema con IA (Gemini), en inglés (ámbito INGLES).
