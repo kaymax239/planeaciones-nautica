@@ -113,10 +113,15 @@ export function construirDatosF32DesdeIngles(planeacion, meta = {}) {
   const totalCalculado = hpw && sem ? hpw * sem : 0;
 
   // total/teóricas/prácticas/independientes son UNA descomposición: 112 = 32+80.
-  // Si el docente teclea sus horas/semana, el total se recalcula desde su dato
+  // Si el docente CAMBIA las horas/semana, el total se recalcula desde su dato
   // y el grupo entero vuelve al cálculo histórico; mezclar un total de 54 con
   // 80 horas prácticas imprimiría un encabezado que se contradice.
-  const oficiales = !!horas && !hpwForm;
+  //
+  // El formulario viene precargado con la cifra oficial del nivel, así que
+  // recibirla NO es un override: solo cuenta como tal un valor DISTINTO. Sin
+  // esto, dejar el 7 precargado daría 7×18=126 en vez de las 112 oficiales.
+  const oficiales =
+    !!horas && (!hpwForm || hpwForm === num(horas.porSemana));
   const total = oficiales ? num(horas.total) || totalCalculado : totalCalculado;
   const teoricas = oficiales ? num(horas.teoricas) : total;
   const practicas = oficiales ? num(horas.practicas) : 0;

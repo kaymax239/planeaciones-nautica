@@ -193,6 +193,11 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
 
   const seleccionarNivel = (n: string) => {
     setNivel(n);
+    // Los niveles almacenados traen sus horas oficiales: se precargan para que
+    // el docente vea la cifra en vez de un campo vacío. Recibirla de vuelta NO
+    // cuenta como override en construirDatosF32DesdeIngles; cambiarla, sí.
+    const porSemana = metaF32DesdeAlmacenada(n)?.horas?.porSemana;
+    setHorasPorSemana(porSemana ? String(porSemana) : "");
     setMensaje(null);
     setAvancePaso("no");
     setSemanasAvance([]);
@@ -204,6 +209,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
 
   const regresarANiveles = () => {
     setNivel(null);
+    setHorasPorSemana("");
     setMensaje(null);
     setAvancePaso("no");
     setSemanasAvance([]);
