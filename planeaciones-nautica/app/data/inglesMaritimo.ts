@@ -98,8 +98,7 @@ export type PlaneacionInglesAlmacenada = {
       sistemicas: string[];
     };
   };
-  /** Dosificación semanal: 18 semanas. Semanas 14 y 15 del nivel 3 marcadas
-   *  como PENDIENTE en espera del programa de estudio oficial 2022. */
+  /** Dosificación semanal: 18 semanas, todas con contenido definitivo. */
   secuenciaSemanal: SemanaSecuencia[];
   recursos: string[];
   /** NUNCA vacía: si lo estuviera, planeacionInglesF32.js:81 estamparía la
@@ -891,7 +890,8 @@ const SECUENCIA_NIVEL_2: SemanaSecuencia[] = [
 ];
 
 // NIVEL 3 — StartUp 3 (Pearson) · CEFR A2+
-// Semanas 14 y 15: PENDIENTES del programa de estudio oficial 2022.
+// Semanas 14 y 15 (units 9 y 10) tomadas del Teacher's Edition de StartUp 3;
+// injerto marítimo aprobado por el docente titular.
 const SECUENCIA_NIVEL_3: SemanaSecuencia[] = [
   {
     semana: 1,
@@ -1122,25 +1122,42 @@ const SECUENCIA_NIVEL_3: SemanaSecuencia[] = [
   {
     semana: 14,
     contenido:
-      "PENDIENTE — contenido de la unidad 9 de StartUp 3, en espera del programa de estudio oficial 2022.",
+      "Unit 9 — Where do you want to meet? Living room furniture and decor, reasons for being late, places in and around the house. Coordinating port operations. Reporting delays. Accommodation areas on board.",
     actividades: [
-      "PENDIENTE — contenido de la unidad 9 de StartUp 3, en espera del programa de estudio oficial 2022.",
+      "Inicio: repaso de las formas de futuro aplicadas a la planeación de operaciones.",
+      "Desarrollo: futuro con will, be going to, presente continuo y presente simple; preguntas indirectas.",
+      "Desarrollo: adverbios y frases adverbiales de lugar; vocabulario de espacios y mobiliario.",
+      "Desarrollo: coordinación de operaciones en puerto, reporte de retrasos y sus causas, áreas de alojamiento a bordo.",
+      "Cierre: redacción descriptiva aplicando estructura paralela.",
     ],
     evidencias:
-      "Actividad de expresión escrita (6 pts del 2do parcial) — por definir con el programa oficial",
-    recursos: ["StartUp 3 Student Book, Unit 9", "StartUp 3 Workbook"],
+      "Actividad de expresión escrita: reporte de coordinación y retrasos en puerto (6 pts del 2do parcial)",
+    recursos: [
+      "StartUp 3 Student Book, Unit 9",
+      "StartUp 3 Workbook",
+      "Audios SB Unit 9",
+      "Plano de áreas de alojamiento",
+    ],
   },
   {
     semana: 15,
     contenido:
-      "PENDIENTE — contenido de la unidad 10 de StartUp 3, en espera del programa de estudio oficial 2022.",
+      "Unit 10 — How long did you work there? Job interviews, work experience, soft skills. Crewing agency interview. Sea service record. Cover letter for embarkation.",
     actividades: [
       "Asueto: 16 y 20 de noviembre — semana de cuatro días.",
-      "PENDIENTE — contenido de la unidad 10 de StartUp 3, en espera del programa de estudio oficial 2022.",
+      "Desarrollo: tag questions; presente perfecto con for y since, how long y ever; preguntas informativas con presente perfecto.",
+      "Desarrollo: entrevista en agencia de tripulaciones y descripción de la experiencia embarcada.",
+      "Desarrollo: lectura de recomendaciones para entrevista; redacción de carta de presentación.",
+      "Cierre: dramatización oral de una entrevista de embarque.",
     ],
     evidencias:
-      "Actividad de expresión oral (6 pts del 2do parcial) — por definir con el programa oficial",
-    recursos: ["StartUp 3 Student Book, Unit 10", "StartUp 3 Workbook"],
+      "Actividad de expresión oral: simulacro de entrevista de embarque (6 pts del 2do parcial)",
+    recursos: [
+      "StartUp 3 Student Book, Unit 10",
+      "StartUp 3 Workbook",
+      "Audios SB Unit 10",
+      "Modelo de libreta de mar y carta de presentación",
+    ],
   },
   {
     semana: 16,

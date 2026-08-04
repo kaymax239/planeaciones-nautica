@@ -212,8 +212,9 @@ Convierte ese contenido en diapositivas didácticas en el JSON solicitado. NO us
 RECUERDA: TODO el texto visible de las diapositivas debe estar en INGLÉS — títulos, encabezados de sección (AGENDA, VOCABULARY, GRAMMAR, PRACTICE, ASSESSMENT…), explicaciones gramaticales, instrucciones y ejemplos — con la dificultad del inglés adaptada al Nivel ${nivel}. No dejes nada en español.`;
 }
 
-/** Una semana sin contenido real: las 14 y 15 del nivel 3 esperan el programa de
- *  estudio oficial 2022. No deben llegar al prompt como si fueran temario. */
+/** Una semana sin contenido real no debe llegar al prompt como si fuera temario.
+ *  Hoy no matchea ninguna semana: las 14 y 15 del nivel 3 ya tienen contenido
+ *  definitivo. Se conserva como red para dosificaciones futuras. */
 const esSemanaPendiente = (s: { contenido: string }) =>
   /^\s*PENDIENTE\b/i.test(s.contenido);
 

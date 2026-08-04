@@ -65,6 +65,34 @@ El archivo no se tocó, y el comportamiento de los niveles 4-8 queda idéntico.
 La deuda sigue abierta: cualquier nivel futuro cuya bibliografía llegue vacía
 volverá a heredar iDiscover en silencio.
 
+### Evidencia de que el fallback sí se dispara (2026-08-04)
+
+Ya no es un riesgo teórico. `F32_INGLES_NIVEL3_VERIF.docx` —generado antes del
+alta de niveles almacenados y sin trackear en la raíz del repo— trae impreso en
+la celda FUENTES:
+
+```
+I Discover 3 Student book & Workbook (2013), Evans, Dooley. Express Publishing.
+```
+
+Cero apariciones de "Pearson". Es un F-32 del nivel 3 con la editorial de la que
+ese nivel se está saliendo, y la sección no sale vacía: sale **mal**, que es peor,
+porque no hay señal visible de que algo falló.
+
+Contraste con los tres documentos generados por el camino de contenido almacenado
+(`F32_INGLES_NIVEL1/2/3.docx`, 2026-08-03): 7 apariciones de "Pearson" cada uno,
+las tres referencias de StartUp separadas por `<w:br/>` dentro de la celda.
+
+Dos notas para quien retome esto:
+
+- El texto dice `Student book` (b minúscula). Una búsqueda de `Student Book`
+  sensible a mayúsculas no lo encuentra, y la celda parece vacía.
+- Iterar celdas con python-docx tampoco muestra el contenido separado por
+  `<w:br/>` como líneas distintas; conviene verificar sobre `word/document.xml`.
+
+Refuerza la conclusión: neutralizar por datos no basta, porque el camino que
+produjo el `_VERIF` sigue existiendo.
+
 ---
 
 ## D2 — `presentacion-ingles` no comparte el mecanismo de espejo
