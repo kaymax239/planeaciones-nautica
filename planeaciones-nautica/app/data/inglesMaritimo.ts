@@ -205,6 +205,26 @@ const bibliografiaStartUp = (nivelLibro: number): string[] => [
   `Pearson Education. (2019). StartUp Level ${nivelLibro} Workbook. Pearson Education.`,
 ];
 
+/** Objetivo general por nivel, redactado desde la dosificación. NO puede quedar
+ *  vacío: alimenta {objetivoGeneral} del F-32 y, vía planeacionInglesF32.js:131,
+ *  el objetivoEspecifico del primer bloque. */
+const OBJETIVO_GENERAL: Record<"1" | "2" | "3", string> = {
+  "1":
+    "Desarrollar en el estudiante habilidades comunicativas para el dominio " +
+    "del idioma inglés que le permitan solventar situaciones de su " +
+    "cotidianidad y adquirir un vocabulario básico de la vida a bordo.",
+  "2":
+    "Consolidar en el estudiante las habilidades comunicativas del idioma " +
+    "inglés en situaciones cotidianas y profesionales, ampliando el " +
+    "vocabulario técnico de la vida a bordo y la descripción de personas, " +
+    "rutinas y experiencias.",
+  "3":
+    "Ampliar en el estudiante el dominio del idioma inglés hacia la " +
+    "descripción de experiencias, la expresión de opiniones y el reporte de " +
+    "situaciones operativas, incorporando vocabulario técnico del entorno " +
+    "marítimo portuario.",
+};
+
 const entrada = (
   nivel: "1" | "2" | "3",
   nombre: string,
@@ -223,7 +243,7 @@ const entrada = (
   escuela: ESCUELA,
   horas: HORAS,
   enfoque: ENFOQUE,
-  objetivoGeneral: "",
+  objetivoGeneral: OBJETIVO_GENERAL[nivel],
   objetivosEspecificos: [],
   competencias: {
     disciplinares: [],
@@ -1265,6 +1285,7 @@ export function planeacionDesdeAlmacenada(
     grupo: (datos.grupo ?? "").toString().trim(),
     tema: (datos.tema ?? "").toString().trim(),
     enfoque: e.enfoque,
+    horas: e.horas,
     objetivoGeneral: e.objetivoGeneral,
     objetivosEspecificos: e.objetivosEspecificos,
     competencias: e.competencias,
@@ -1280,9 +1301,11 @@ export function planeacionDesdeAlmacenada(
  * Metadatos de portada del F-32 para un nivel almacenado. Se pasan como `meta`
  * a construirDatosF32DesdeIngles, cuyo segundo parámetro ya es opcional.
  *
- * Solo campos institucionales que hoy salen VACÍOS en el F-32 de Inglés: no
- * incluye `horasPorSemana` ni `nivel`, que los captura el usuario en el
- * formulario y no deben sobrescribirse en silencio.
+ * Solo campos institucionales que hoy salen VACÍOS en el F-32 de Inglés. No
+ * incluye `nivel`, que lo captura el usuario en el formulario.
+ *
+ * Las horas oficiales SÍ van aquí, pero el llamador las coloca ANTES de lo que
+ * teclee el docente (ver SeccionIngles.tsx): si captura un valor, ese manda.
  */
 export function metaF32DesdeAlmacenada(nivel: string) {
   const e = PLANEACIONES_INGLES_ALMACENADAS[String(nivel).trim()];
@@ -1294,5 +1317,6 @@ export function metaF32DesdeAlmacenada(nivel: string) {
     fechaParcial1: CALENDARIO.fechaParcial1,
     fechaParcial2: CALENDARIO.fechaParcial2,
     escuelaNautica: e.escuela,
+    horas: e.horas,
   };
 }

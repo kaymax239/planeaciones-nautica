@@ -94,10 +94,38 @@ export function construirDatosF32DesdeIngles(planeacion, meta = {}) {
   const fechaInicio = texto(meta.fechaInicio);
   const objetivoGeneral = texto(p.objetivoGeneral);
 
-  // Horas: para Inglés son teóricas. Total = semanas × horas/semana (si se dan).
-  const hpw = Number(meta.horasPorSemana) || 0;
+  // Horas. Dos orígenes, en este orden de prioridad:
+  //
+  //  1. Lo que teclee el docente en el formulario. Siempre manda.
+  //  2. Las horas oficiales del nivel, si la planeación las trae (`p.horas`) o
+  //     si llegan en el meta (`meta.horas`). Solo los niveles almacenados
+  //     (1/2/3) las tienen; los niveles 4-8 se generan desde las históricas y
+  //     nunca traen `horas`, así que caen al cálculo de siempre.
+  //
+  // El total almacenado se usa TAL CUAL, no se recalcula: 112 no es 7×18=126,
+  // y `teoricas` (32) no es derivable de las horas por semana.
+  const horas = p.horas || meta.horas || null;
+  const num = (v) => (Number.isFinite(Number(v)) && Number(v) > 0 ? Number(v) : 0);
+
+  const hpwForm = Number(meta.horasPorSemana) || 0;
+  const hpw = hpwForm || (horas ? num(horas.porSemana) : 0);
   const sem = Number(meta.semanas) || semanas.length || 0;
-  const total = hpw && sem ? hpw * sem : 0;
+  const totalCalculado = hpw && sem ? hpw * sem : 0;
+
+  // total/teóricas/prácticas/independientes son UNA descomposición: 112 = 32+80.
+  // Si el docente teclea sus horas/semana, el total se recalcula desde su dato
+  // y el grupo entero vuelve al cálculo histórico; mezclar un total de 54 con
+  // 80 horas prácticas imprimiría un encabezado que se contradice.
+  const oficiales = !!horas && !hpwForm;
+  const total = oficiales ? num(horas.total) || totalCalculado : totalCalculado;
+  const teoricas = oficiales ? num(horas.teoricas) : total;
+  const practicas = oficiales ? num(horas.practicas) : 0;
+  const independientes = oficiales ? num(horas.independientes) : 0;
+
+  // Los créditos no dependen del horario: son constante de la asignatura, así
+  // que sobreviven aunque el docente ajuste las horas por semana.
+  const creditos = horas ? num(horas.creditos) : 0;
+
   const hStr = (n) => (n ? String(n) : "");
 
   // Mismo conjunto de campos que pasa el flujo PN/MN (page.tsx -> doc.render),
@@ -116,9 +144,17 @@ export function construirDatosF32DesdeIngles(planeacion, meta = {}) {
     claveAsignaturaCurso: clave,
 
     horasTotales: hStr(total),
-    horasTeoricas: hStr(total),
-    horasPracticas: "0",
-    horasIndependientes: "0",
+    horasTeoricas: hStr(teoricas),
+
+    // Sin horas almacenadas (niveles 4-8) se conserva LO QUE HOY SE IMPRIME,
+    // no lo que hoy se emite: "0" en prácticas, que la plantilla ya pinta, y
+    // vacío en independientes y créditos, cuyas celdas salen hoy en blanco
+    // porque hasta ahora no tenían placeholder. Emitir "0" ahí haría aparecer
+    // un cero nuevo en el F-32 de los niveles 4-8.
+    horasPracticas: oficiales ? hStr(practicas) : "0",
+    horasIndependientes: oficiales ? hStr(independientes) : "",
+    creditos: hStr(creditos),
+
     horasPorSemana: hStr(hpw),
     horasSemana: hStr(hpw),
     horasXSemana: hStr(hpw),
