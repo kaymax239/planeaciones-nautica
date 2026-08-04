@@ -28,6 +28,7 @@ no generado, y se desvía antes de tocar el índice histórico.
 | D7 | Comentario de placeholders incompleto | Baja | Abierto |
 | D8 | Periodo de Inglés desconectado del calendario oficial | Baja | Corregido solo para 1/2/3 |
 | D9 | Cero pruebas automatizadas | Baja / riesgo alto | Mitigado con script de comparación |
+| D10 | Dos proyectos de Vercel enlazados en el mismo repo | Media / riesgo alto | Solo documentado |
 
 ---
 
@@ -257,3 +258,55 @@ ejecutable. Hubo que escribir el script de comparación como parte del alta.
 
 **Decisión: mitigado, no resuelto.** El script cubre el flujo de Inglés; el
 resto del repositorio sigue sin pruebas.
+
+---
+
+## D10 — Dos proyectos de Vercel enlazados en el mismo repositorio
+
+**Severidad: media / riesgo alto de despliegue equivocado.** Detectado 2026-08-04.
+
+El repositorio tiene dos enlaces de Vercel superpuestos:
+
+| Ruta | `.vercel/project.json` | Proyecto |
+|---|---|---|
+| `rutas-tampico/` (raíz git) | `prj_MmCg6EvUQe8PNejwcssNyRUEYkjV` | `rutas-tampico` |
+| `rutas-tampico/planeaciones-nautica/` | `prj_zsNRwiOgRjfb36dKeAmkhzjJnsZE` | `planeaciones-nautica` |
+
+Ambos bajo el team `team_8C1NtOVRRxW95wpRAOzYQaYX` (scope `victors-projects-cfa2b71b`).
+
+El proyecto `planeaciones-nautica` tiene **Root Directory = `planeaciones-nautica`**.
+De ahí salen dos fallas distintas, y ninguna avisa de forma clara:
+
+1. **Desde el subdirectorio**, `vercel deploy` toma el enlace correcto pero le
+   vuelve a aplicar el Root Directory, y busca
+   `planeaciones-nautica/planeaciones-nautica`. Falla con
+   `Error: The provided path ... does not exist`. Molesto pero visible.
+
+2. **Desde la raíz del repo** —que es la ruta correcta para este proyecto—
+   `vercel deploy` toma el enlace de la raíz y despliega **`rutas-tampico`**,
+   el proyecto equivocado. Termina con éxito. Ese es el peligro real: no hay
+   error, y quien lo corra creerá que publicó planeaciones.
+
+Hoy se esquiva pasando el proyecto explícito por variables de entorno, sin
+tocar configuración ni los `.vercel`:
+
+```bash
+cd "D:/Disco C/Proyectos/rutas-tampico"
+VERCEL_ORG_ID=team_8C1NtOVRRxW95wpRAOzYQaYX \
+VERCEL_PROJECT_ID=prj_zsNRwiOgRjfb36dKeAmkhzjJnsZE \
+vercel deploy --scope victors-projects-cfa2b71b
+```
+
+### Nota adicional sobre `vercel promote`
+
+`vercel promote` sobre un deployment de **preview** no reasigna el alias:
+construye uno nuevo con las variables de entorno de producción. El artefacto
+publicado no es el mismo binario que se revisó en el preview, que se construyó
+con env de preview. Además el deployment resultante quedó `target: production`
+y `Ready` pero **sin tomar el alias de producción**; hizo falta un segundo
+`promote`, ya sobre el deployment de producción, para moverlo. Un `READY` en
+Vercel no prueba que el alias haya cambiado: hay que resolver
+`vercel inspect <dominio>` y comparar el id.
+
+**Decisión: solo documentado.** No se tocó ningún `.vercel` ni la configuración
+de ninguno de los dos proyectos.
