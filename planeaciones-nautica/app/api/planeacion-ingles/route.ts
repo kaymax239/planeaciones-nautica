@@ -1,5 +1,6 @@
-// Endpoint AISLADO — genera una planeación didáctica de Inglés con Gemini,
-// usando como base el corpus histórico indexado (BibliotecaIngles.leerIndice()).
+// Endpoint AISLADO — genera una planeación didáctica de Inglés con Claude
+// (Anthropic), usando como base el corpus histórico indexado
+// (BibliotecaIngles.leerIndice()).
 //
 // Inglés NO usa STCW ni los programas oficiales PN/MN. Se apoya en el enfoque
 // iDiscover, los niveles y las planeaciones históricas reales: la IA debe
@@ -8,12 +9,17 @@
 // La API key vive SOLO aquí (servidor). No guarda archivos: devuelve JSON a la
 // UI. Independiente del flujo PN/MN, de presentaciones, F-32, F-51 y exámenes.
 
-import { GoogleGenAI } from "@google/genai";
 import {
   BibliotecaIngles,
   type EntradaIndiceIngles,
 } from "../../lib/bibliotecaIngles";
-import { bibliografiaIDiscover } from "../../lib/planeacionInglesF32.js";
+import {
+  modeloClaude,
+  tieneClaveAnthropic,
+  generarJSONClaude,
+  ErrorJSONClaude,
+} from "../../lib/claudeIA";
+import { bibliografiaDeNivel } from "../../lib/planeacionInglesF32.js";
 import {
   NIVEL_ESPEJO,
   temarioOficialTexto,
@@ -29,16 +35,17 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
-// Modelo propio de Inglés. Por defecto flash (plan gratuito); configurable sin
-// afectar a presentaciones (GEMINI_MODEL_PRESENTACIONES) ni a F-32 (GEMINI_MODEL).
-const MODELO =
-  process.env.GEMINI_MODEL_INGLES ||
-  process.env.GEMINI_MODEL ||
-  "gemini-2.5-flash";
+// Modelo de planeaciones. Configurable sin tocar código y sin afectar a las
+// presentaciones (ANTHROPIC_MODEL_PRESENTACIONES) ni a los exámenes
+// (ANTHROPIC_MODEL_EXAMENES); si no está, usa ANTHROPIC_MODEL.
+const MODELO = modeloClaude("planeaciones");
 const TIMEOUT_MS = 120000;
+// El razonamiento de Claude también consume max_tokens; la planeación completa
+// es larga, así que se mantiene el mismo techo alto de salida que ya había.
+const MAX_TOKENS = 32000;
 
 // Los niveles almacenados no pasan por ningún modelo: el campo `modelo` de la
-// respuesta lo declara explícitamente en lugar de mentir con el de Gemini.
+// respuesta lo declara explícitamente en lugar de mentir con el de la IA.
 const MODELO_ALMACENADO = "almacenado";
 
 // Cuántas planeaciones históricas se incluyen como referencia y cuánto texto de
@@ -118,18 +125,6 @@ function sanearDisciplinares(planeacion: unknown): void {
       x.trim().length > 0 &&
       !RE_DISCIPLINARES_RELLENO.test(x),
   );
-}
-
-// Aísla el objeto JSON: quita ```json ... ``` y texto sobrante, quedándose con
-// el primer "{" hasta el último "}".
-function extraerJSON(texto: string): string {
-  let t = texto.trim();
-  const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  if (fence) t = fence[1].trim();
-  const ini = t.indexOf("{");
-  const fin = t.lastIndexOf("}");
-  if (ini !== -1 && fin !== -1 && fin > ini) t = t.slice(ini, fin + 1);
-  return t;
 }
 
 /**
@@ -273,6 +268,15 @@ function construirMensajeUsuario(
     ? `Los TEMAS/secuencia semanal se toman del TEMARIO OFICIAL del nivel ${datos.nivel} (arriba). La estructura, voz, competencias, evaluación, recursos, bibliografía y formato se ESPEJAN de las planeaciones históricas del nivel ${nivelEspejo} de abajo (el nivel ${datos.nivel} es nuevo y aún no tiene históricas propias).`
     : `Tema, unidades, secuencia, objetivos, competencias, evaluación y recursos se EXTRAEN/DERIVAN de las históricas del nivel ${datos.nivel} de abajo. Compórtate como si ACTUALIZARAS estas planeaciones, conservando voz, estilo y formato del docente.`;
 
+  // Este camino es SOLO el de las históricas (niveles 4-8, que sí son de
+  // iDiscover): los de StartUp se desvían antes. Si el nivel no tuviera libro
+  // registrado, la línea entera se omite en vez de dejar la etiqueta con el
+  // hueco detrás, que invita al modelo a rellenarlo por su cuenta.
+  const bibliografia = bibliografiaDeNivel(datos.nivel).join("\n").trim();
+  const lineaBibliografia = bibliografia
+    ? `Bibliografía institucional del nivel (úsala SOLO si las históricas no traen bibliografía): ${bibliografia}\n\n`
+    : "";
+
   return `DATOS PARA ACTUALIZAR LA PLANEACIÓN DE INGLÉS (flujo por nivel):
 - Nivel: ${datos.nivel}
 - Grupo: ${datos.grupo || "(no especificado)"}
@@ -280,11 +284,7 @@ function construirMensajeUsuario(
 - Horas por semana: ${datos.horasPorSemana || "(deriva de las referencias)"}
 - Observaciones: ${datos.observaciones || "(ninguna)"}
 
-Bibliografía institucional del nivel (úsala SOLO si las históricas no traen bibliografía): ${bibliografiaIDiscover(
-    datos.nivel,
-  )}
-
-${bloqueTemario}${origenTemas}
+${lineaBibliografia}${bloqueTemario}${origenTemas}
 
 PLANEACIONES HISTÓRICAS ${
     espejando ? `DEL NIVEL ESPEJO ${nivelEspejo}` : `DEL NIVEL ${datos.nivel}`
@@ -297,24 +297,6 @@ Genera ahora la planeación didáctica de Inglés en el JSON solicitado. ${
       ? `La secuenciaSemanal debe seguir el TEMARIO OFICIAL del nivel ${datos.nivel} (módulos en orden). `
       : ""
   }Espeja estas históricas (competencias categorizadas, objetivos, actividades con su misma longitud/dificultad/secuencia, evaluación con su misma distribución, recursos y bibliografía). NO uses STCW. NO inventes desde cero.`;
-}
-
-async function generarTexto(
-  client: GoogleGenAI,
-  system: string,
-  mensaje: string,
-): Promise<string> {
-  const resp = await client.models.generateContent({
-    model: MODELO,
-    contents: mensaje,
-    config: {
-      systemInstruction: system,
-      responseMimeType: "application/json",
-      temperature: 0.5,
-      maxOutputTokens: 32000,
-    },
-  });
-  return resp.text ?? "";
 }
 
 export async function POST(request: Request) {
@@ -353,7 +335,7 @@ export async function POST(request: Request) {
   // 0. DESVÍO — niveles 1, 2 y 3: contenido ALMACENADO, no generado.
   // Cambiaron de libro (iDiscover → StartUp, Pearson), así que espejear sus
   // planeaciones históricas daría contenido del libro equivocado. Estos tres
-  // NO leen el índice, NO usan NIVEL_ESPEJO y NO llaman a Gemini. Va antes de
+  // NO leen el índice, NO usan NIVEL_ESPEJO y NO llaman a la IA. Va antes de
   // leerIndice() para que la ruta de los niveles 4-8 quede intacta.
   // `nivel` es string aquí (lo fuerza .toString() arriba), de ahí "1"/"2"/"3".
   if (tienePlaneacionAlmacenada(nivel)) {
@@ -409,8 +391,8 @@ export async function POST(request: Request) {
   }
 
   // 5. API key (solo servidor).
-  if (!process.env.GEMINI_API_KEY) {
-    return error("sin_api_key", "GEMINI_API_KEY no está configurada.", 503);
+  if (!tieneClaveAnthropic()) {
+    return error("sin_api_key", "ANTHROPIC_API_KEY no está configurada.", 503);
   }
 
   // 4. Construir prompt (tema/objetivo se derivan de las históricas del nivel).
@@ -420,45 +402,50 @@ export async function POST(request: Request) {
     { nivelEspejo, temario },
   );
 
-  // 6-9. Llamar a Gemini, limpiar y parsear (con reintento por timeout).
-  const client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
+  // 6-9. Llamar a Claude, limpiar y parsear (con reintento por timeout o JSON
+  // inválido). Aquí NO hay esquema Zod: la forma la fija el SYSTEM_PROMPT y la
+  // UI consume el JSON tal cual, así que se pide JSON "libre" y se parsea.
+  let planeacion: unknown;
+  let ok = false;
   let textoCrudo = "";
   let motivo = "fallo_ia";
-  for (let intento = 1; intento <= 2; intento++) {
+  let detalleJSON: string | undefined;
+  for (let intento = 1; intento <= 2 && !ok; intento++) {
     try {
-      textoCrudo = await conTimeout(
-        generarTexto(client, SYSTEM_PROMPT, mensajeUsuario),
+      const r = await conTimeout(
+        generarJSONClaude(SYSTEM_PROMPT, mensajeUsuario, {
+          modelo: MODELO,
+          maxTokens: MAX_TOKENS,
+          esfuerzo: "medium",
+        }),
         TIMEOUT_MS,
       );
-      if (textoCrudo.trim()) break;
-      motivo = "respuesta_vacia";
+      textoCrudo = r.texto;
+      planeacion = r.datos;
+      ok = true;
     } catch (e) {
-      motivo =
-        e instanceof Error && e.message === "timeout" ? "timeout" : "fallo_ia";
+      if (e instanceof ErrorJSONClaude) {
+        motivo = e.motivo; // "respuesta_vacia" | "json_invalido"
+        textoCrudo = e.texto;
+        detalleJSON =
+          e.motivo === "json_invalido" ? (e.detalle ?? e.message) : undefined;
+      } else {
+        motivo =
+          e instanceof Error && e.message === "timeout" ? "timeout" : "fallo_ia";
+      }
       console.error(`Error generando planeación de inglés (intento ${intento}):`, e);
     }
   }
 
-  if (!textoCrudo.trim()) {
-    return error(motivo, "No se pudo generar la planeación de inglés.", 502);
-  }
-
-  // 8. Limpiar texto extra. 9. Si falla JSON.parse, devolver respuesta original.
-  const limpio = extraerJSON(textoCrudo);
-  let planeacion: unknown;
-  try {
-    planeacion = JSON.parse(limpio);
-  } catch (e) {
-    return error(
-      "json_invalido_ia",
-      "Gemini devolvió un JSON no parseable.",
-      502,
-      {
-        detalle: e instanceof Error ? e.message : String(e),
+  // 9. Si falla JSON.parse, devolver la respuesta original (mismo contrato).
+  if (!ok) {
+    if (motivo === "json_invalido") {
+      return error("json_invalido_ia", "La IA devolvió un JSON no parseable.", 502, {
+        detalle: detalleJSON,
         respuestaOriginal: textoCrudo,
-      },
-    );
+      });
+    }
+    return error(motivo, "No se pudo generar la planeación de inglés.", 502);
   }
 
   // El texto institucional de relleno nunca debe salir como competencia.

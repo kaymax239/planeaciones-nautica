@@ -160,11 +160,151 @@ export type BloqueIA = z.infer<typeof bloqueIASchema>;
 
 export type ResultadoTolerante = {
   pres: PresentacionIA;
-  /** Nº de bloques individuales descartados por no validar contra el esquema. */
+  /** Nº de bloques individuales descartados por no validar contra el esquema
+   *  o por quedar SIN contenido real (arrays vacíos, textos en blanco). */
   bloquesDescartados: number;
-  /** Nº de diapositivas descartadas (sin título válido, etc.). */
+  /** Nº de diapositivas descartadas (sin título válido, sin bloques, etc.). */
   diapositivasDescartadas: number;
 };
+
+/* ------------------------------ Saneamiento ------------------------------- */
+//
+// El esquema acepta `z.string()` y `z.array(...)`, así que "" y [] validan: un
+// bloque `{"tipo":"bullets","items":[]}` o `{"tipo":"nota","texto":"   "}` pasa
+// la validación y llega al renderer, que dibuja una caja vacía —o una
+// diapositiva entera en blanco— sin que nada falle ni avise. Es el mismo modo
+// de fallo que el `nullGetter` del F-32 (commit 6e9c412): el hueco sin dato no
+// rompe nada, solo se proyecta. Aquí se corta antes: lo que no tiene contenido
+// real no llega al .pptx.
+
+const limpiar = (xs: string[]): string[] =>
+  xs.map((x) => x.trim()).filter((x) => x.length > 0);
+
+/**
+ * Normaliza las filas de una tabla al ancho de sus encabezados. Una fila corta
+ * desplaza las celdas siguientes bajo el encabezado equivocado (dato correcto,
+ * columna equivocada: el error que nadie ve); una fila larga descuadra el
+ * ancho de columna. Se rellena con "" y el excedente se pliega en la última
+ * celda, de modo que no se pierde texto.
+ */
+function normalizarFilas(headers: string[], filas: string[][]): string[][] {
+  const n = headers.length;
+  return filas
+    .map((f) => f.map((c) => c.trim()))
+    .filter((f) => f.some((c) => c.length > 0))
+    .map((f) => {
+      if (f.length === n) return f;
+      if (f.length < n) return [...f, ...Array(n - f.length).fill("")];
+      return [...f.slice(0, n - 1), f.slice(n - 1).filter(Boolean).join(" · ")];
+    });
+}
+
+/** Devuelve el bloque con sus textos recortados, o null si se queda sin
+ *  contenido que dibujar. */
+function sanearBloque(b: BloqueIA): BloqueIA | null {
+  switch (b.tipo) {
+    case "bullets":
+    case "ejercicio": {
+      const items = limpiar(b.items);
+      return items.length ? { ...b, items } : null;
+    }
+    case "nota": {
+      const texto = b.texto.trim();
+      return texto ? { ...b, texto } : null;
+    }
+    case "definicion": {
+      const texto = b.texto.trim();
+      return texto ? { ...b, titulo: b.titulo.trim(), texto } : null;
+    }
+    case "formulaDestacada": {
+      const formula = b.formula.trim();
+      return formula
+        ? { ...b, formula, etiqueta: b.etiqueta?.trim() || undefined }
+        : null;
+    }
+    case "tabla": {
+      const headers = b.headers.map((h) => h.trim());
+      if (!headers.some((h) => h.length > 0)) return null;
+      const filas = normalizarFilas(headers, b.filas);
+      return filas.length ? { ...b, headers, filas } : null;
+    }
+    case "proceso": {
+      const etapas = limpiar(b.etapas);
+      return etapas.length ? { ...b, etapas } : null;
+    }
+    case "flujo": {
+      const nodos = limpiar(b.nodos);
+      return nodos.length
+        ? { ...b, nodos, resultado: b.resultado?.trim() || undefined }
+        : null;
+    }
+    case "pasos": {
+      const pasos = limpiar(b.pasos);
+      const enunciado = b.enunciado.trim();
+      return pasos.length || enunciado
+        ? { ...b, enunciado, pasos, resultado: b.resultado?.trim() || undefined }
+        : null;
+    }
+    case "ejemplo": {
+      const pasos = limpiar(b.pasos);
+      const enunciado = b.enunciado.trim();
+      return pasos.length || enunciado ? { ...b, enunciado, pasos } : null;
+    }
+    case "aplicacion": {
+      const pasos = limpiar(b.pasos);
+      const enunciado = b.enunciado.trim();
+      return pasos.length || enunciado
+        ? {
+            ...b,
+            titulo: b.titulo.trim(),
+            enunciado,
+            pasos,
+            resultado: b.resultado?.trim() || undefined,
+          }
+        : null;
+    }
+    case "ejercicioGuiado": {
+      const items = limpiar(b.items);
+      const enunciado = b.enunciado.trim();
+      return items.length || enunciado
+        ? { ...b, enunciado, items, pista: b.pista?.trim() || undefined }
+        : null;
+    }
+    case "comparacion": {
+      const izq = { titulo: b.izq.titulo.trim(), items: limpiar(b.izq.items) };
+      const der = { titulo: b.der.titulo.trim(), items: limpiar(b.der.items) };
+      return izq.items.length || der.items.length ? { ...b, izq, der } : null;
+    }
+    case "mapaConceptual": {
+      const centro = b.centro.trim();
+      const ramas = b.ramas
+        .map((r) => ({
+          titulo: r.titulo.trim(),
+          detalle: r.detalle?.trim() || undefined,
+        }))
+        .filter((r) => r.titulo.length > 0);
+      return centro && ramas.length ? { ...b, centro, ramas } : null;
+    }
+    case "diagramaArbol": {
+      const raiz = b.raiz.trim();
+      const ramas = b.ramas
+        .map((r) => ({
+          titulo: r.titulo.trim(),
+          ejemplo: r.ejemplo?.trim() || undefined,
+        }))
+        .filter((r) => r.titulo.length > 0);
+      return raiz && ramas.length ? { ...b, raiz, ramas } : null;
+    }
+  }
+}
+
+/** Una diapositiva de contenido sin bloques se proyecta como un título sobre
+ *  una diapositiva en blanco. Las portadas/divisores/transiciones/cierres sí
+ *  viven sin bloques: son su propio contenido. */
+function tieneSustancia(d: DiapositivaIA): boolean {
+  if (d.layout && d.layout !== "contenido") return true;
+  return d.bloques.length > 0;
+}
 
 /**
  * Valida la respuesta cruda de la IA SIN tirar todo el deck si algo no encaja:
@@ -190,20 +330,38 @@ export function validarPresentacionTolerante(raw: unknown): ResultadoTolerante {
     const bloques: BloqueIA[] = [];
     for (const b of bloquesRaw) {
       const r = bloqueIASchema.safeParse(b);
-      if (r.success) bloques.push(r.data);
+      const saneado = r.success ? sanearBloque(r.data) : null;
+      if (saneado) bloques.push(saneado);
       else bloquesDescartados++;
     }
-    const r = diapositivaIASchema.safeParse({ ...obj, bloques });
-    if (r.success) diapositivas.push(r.data);
+    const titulo = typeof obj.titulo === "string" ? obj.titulo.trim() : "";
+    const opcional = (v: unknown): string | undefined =>
+      typeof v === "string" && v.trim() ? v.trim() : undefined;
+    const r = diapositivaIASchema.safeParse({
+      ...obj,
+      titulo,
+      etiqueta: opcional(obj.etiqueta),
+      subtitulo: opcional(obj.subtitulo),
+      mensajeFinal: opcional(obj.mensajeFinal),
+      bloques,
+    });
+    // Sin título no hay diapositiva que proyectar (salvo la portada, cuyos
+    // textos los fija el servidor); sin bloques, una de contenido sale en
+    // blanco. En ambos casos es preferible que falte a que se proyecte vacía.
+    if (r.success && (titulo || r.data.layout === "portada") && tieneSustancia(r.data))
+      diapositivas.push(r.data);
     else diapositivasDescartadas++;
   }
 
+  // En blanco NO es lo mismo que ausente: el renderer solo deriva el kicker y
+  // el subtítulo de portada cuando llegan `undefined` (`pres.kicker ?? …`), así
+  // que un " " los dejaba en blanco en la portada en vez de caer al derivado.
+  const textoOpcional = (v: unknown): string | undefined =>
+    typeof v === "string" && v.trim() ? v.trim() : undefined;
+
   const pres = presentacionIASchema.parse({
-    kicker: typeof root.kicker === "string" ? root.kicker : undefined,
-    subtituloPortada:
-      typeof root.subtituloPortada === "string"
-        ? root.subtituloPortada
-        : undefined,
+    kicker: textoOpcional(root.kicker),
+    subtituloPortada: textoOpcional(root.subtituloPortada),
     diapositivas,
   });
 

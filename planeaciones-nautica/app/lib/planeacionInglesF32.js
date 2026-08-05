@@ -6,10 +6,23 @@
 // Plantilla JS (no TS) a propósito: así la importan sin duplicar tanto la UI
 // (TS, allowJs) como el script de Node (.mjs). No toca el flujo PN/MN.
 //
-// Placeholders reales de F-32.docx:
-//   {periodo}{asignatura}{clave}{cadetes}{docente}{grupo}{fuentes}
-//   {#unidadBloques}{estrategia}{#semanas}{semana}{tema}{secuencia}{recursos}{producto}{/semanas}{/unidadBloques}
+// Placeholders reales de F-32.docx (D7):
+//   {escuela}{escuelaNautica}{licenciatura}{periodo}{asignatura}{clave}
+//   {claveAsignatura}{claveAsignaturaCurso}{cadetes}{numeroCadetes}
+//   {docente}{nombreDocente}{grupo}{grupoAsignatura}{fecha}{fechaInicio}
+//   {horasTotales}{horasTeoricas}{horasPracticas}{horasIndependientes}{creditos}
+//   {horasPorSemana}{horasSemana}{horasXSemana}
+//   {objetivoGeneral}{fuentes}
+//   {#unidadBloques}{unidad}{objetivoEspecifico}{estrategia}
+//     {#semanas}{semana}{tema}{secuencia}{recursos}{producto}{evaluacion}{/semanas}
+//   {/unidadBloques}
 //   {fechaParcial1}{fechaParcial2}{pctConocimiento}{pctActividades}{pctParticipacion}
+//
+// La lista se comprueba contra el objeto que devuelve construirDatosF32DesdeIngles:
+// toda clave emitida aparece aquí, y `evaluacion` es la que faltaba (se produce
+// por semana; ver `evaluacionSesion`). Los alias (claveAsignatura/
+// claveAsignaturaCurso, docente/nombreDocente, horasSemana/horasXSemana…) existen
+// porque la plantilla institucional no usa un nombre único para el mismo dato.
 
 /** Une una lista de strings en viñetas separadas por salto de línea. */
 function vinetas(lista) {
@@ -22,15 +35,134 @@ function texto(v) {
   return typeof v === "string" ? v : "";
 }
 
-/**
- * Bibliografía institucional del libro iDiscover para el nivel dado. Es el
- * patrón observado en las planeaciones históricas (Express Publishing).
+/* ------------------------------------------------------ bibliografía (D1) --
+ *
+ * Qué libro usa cada nivel. Es un dato INSTITUCIONAL, no una preferencia del
+ * generador: los niveles 1-3 cambiaron a StartUp (Pearson) y los 4-8 siguen en
+ * iDiscover (Express Publishing).
+ *
+ * Existe porque el fallback anterior estampaba iDiscover para CUALQUIER nivel:
+ * si la planeación llegaba sin bibliografía, un F-32 del nivel 3 salía firmado
+ * con el libro del que ese nivel se está saliendo, y sin ninguna señal de que
+ * algo hubiera fallado (ver D1 en DEUDA-TECNICA-INGLES.md, y el .docx
+ * F32_INGLES_NIVEL3_VERIF donde eso ya ocurrió de verdad).
+ *
+ * Un nivel que no esté en esta tabla NO hereda el libro de otro: ver
+ * `avisoSinBibliografia`.
  */
-export function bibliografiaIDiscover(nivel) {
-  const n = String(nivel || "").trim();
+const LIBRO_POR_NIVEL = {
+  "1": "startup",
+  "2": "startup",
+  "3": "startup",
+  "4": "idiscover",
+  "5": "idiscover",
+  "6": "idiscover",
+  "7": "idiscover",
+  "8": "idiscover",
+};
+
+/** Referencia iDiscover del nivel. `n` ya viene normalizado (string, trim). */
+function refIDiscover(n) {
   return n
     ? `I Discover ${n} Student book & Workbook (2013), Evans, Dooley. Express Publishing.`
     : "I Discover Student book & Workbook (2013), Evans, Dooley. Express Publishing.";
+}
+
+// Las tres referencias de StartUp del nivel.
+//
+// Duplican, a propósito, las de `bibliografiaStartUp` en
+// app/data/inglesMaritimo.ts. No se importan de allí porque este módulo es .js
+// deliberadamente (lo carga node directo en scripts/*.mjs, donde un import de
+// un .ts no resuelve). Si una de las dos cambia, la otra tiene que cambiar:
+// scripts/verificar-no-regresion-ingles.mjs (bloque B1) fija el texto del lado
+// de los datos, que es el que de verdad se imprime; esto es solo la red.
+function refsStartUp(n) {
+  return [
+    `Pearson Education. (2019). StartUp Level ${n} Student Book. Pearson Education.`,
+    `Pearson Education. (2019). StartUp Level ${n} Teacher's Edition. Pearson Education.`,
+    `Pearson Education. (2019). StartUp Level ${n} Workbook. Pearson Education.`,
+  ];
+}
+
+/**
+ * Bibliografía institucional que le corresponde AL NIVEL, como lista.
+ * Devuelve `[]` para un nivel desconocido o ausente: eso NO es un hueco que
+ * rellenar con un valor plausible, es la señal de que no hay dato.
+ *
+ * @param {string|number} nivel
+ * @returns {string[]}
+ */
+export function bibliografiaDeNivel(nivel) {
+  const n = String(nivel == null ? "" : nivel).trim();
+  const libro = LIBRO_POR_NIVEL[n];
+  if (!libro) return [];
+  return libro === "startup" ? refsStartUp(n) : [refIDiscover(n)];
+}
+
+/**
+ * Enfoque de respaldo para la celda ESTRATEGIA, cuando la planeación no trae ni
+ * `enfoque` ni `objetivoGeneral`. Mismo fallo de clase que D1: el texto fijo
+ * anterior nombraba iDiscover para cualquier nivel.
+ *
+ * Aquí no hace falta aviso ni bloqueo: si el nivel no tiene libro registrado se
+ * devuelve una frase que NO nombra libro alguno. Una estrategia genérica es una
+ * omisión; una estrategia que nombra el libro equivocado es un dato falso.
+ */
+function enfoquePorDefectoDeNivel(nivel) {
+  const libro = LIBRO_POR_NIVEL[String(nivel == null ? "" : nivel).trim()];
+  if (libro === "idiscover") {
+    return "Enfoque iDiscover; aprendizaje activo y contextualizado del inglés.";
+  }
+  if (libro === "startup") {
+    return "Enfoque StartUp (Pearson); aprendizaje activo y contextualizado del inglés.";
+  }
+  return "Aprendizaje activo y contextualizado del inglés.";
+}
+
+/**
+ * Texto que ocupa la celda FUENTES cuando no hay bibliografía ni en la
+ * planeación ni en la tabla del nivel.
+ *
+ * Se deja CONSTANCIA en el documento en vez de lanzar una excepción. El
+ * criterio: esto corre en el último paso del flujo (doc.render, ya en el
+ * navegador, sobre una planeación que costó una llamada al modelo). Lanzar
+ * dejaría al docente sin documento y con un error genérico, y el incentivo
+ * inmediato sería reintentar hasta que "saliera" — no completar el dato. Un
+ * F-32 con esta celda es imposible de entregar sin verla: dice a quién le toca
+ * completarla y prohíbe firmarlo. Lo que NUNCA vuelve a pasar es lo de D1:
+ * imprimir una referencia plausible y equivocada, que sí se firma sin mirar.
+ */
+function avisoSinBibliografia(nivel) {
+  const n = String(nivel == null ? "" : nivel).trim();
+  const causa = n
+    ? `no hay bibliografía registrada para el nivel ${n}`
+    : "la planeación no indica de qué nivel es, así que no se puede determinar el libro";
+  return (
+    `*** FALTA LA BIBLIOGRAFÍA: ${causa}. ` +
+    "Captúrala aquí con el libro vigente ANTES de firmar o entregar este F-32. " +
+    "No se rellena automáticamente para no imprimir un libro equivocado. ***"
+  );
+}
+
+/** Deja rastro fuera del documento, para que el fallo también sea diagnosticable. */
+function avisar(mensaje) {
+  if (typeof console !== "undefined" && typeof console.warn === "function") {
+    console.warn(`[F-32 Inglés] ${mensaje}`);
+  }
+}
+
+/**
+ * Bibliografía institucional del libro iDiscover para el nivel dado.
+ *
+ * @deprecated Para el F-32 usa `bibliografiaDeNivel(nivel)`: esta función NO
+ * discrimina nivel y le devuelve iDiscover a cualquiera, incluidos 1/2/3, que
+ * son de StartUp (Pearson). Se conserva porque la importan
+ * `app/api/planeacion-ingles/route.ts` y `app/api/presentacion-ingles/route.ts`,
+ * donde solo alimenta el prompt del camino de históricas (niveles 4-8) —
+ * legítimo ahí, porque ese corpus sí es de iDiscover.
+ */
+export function bibliografiaIDiscover(nivel) {
+  return refIDiscover(String(nivel || "").trim());
 }
 
 /**
@@ -69,18 +201,39 @@ export function construirDatosF32DesdeIngles(planeacion, meta = {}) {
     evaluacion: evaluacionSesion,
   }));
 
-  // Bibliografía/fuentes: usa la del JSON salvo que esté vacía o sea el texto
-  // genérico "No especificada…", en cuyo caso cae a la bibliografía iDiscover
-  // del nivel. Nunca se muestra "No especificada".
+  // Bibliografía/fuentes (D1). Tres orígenes, en este orden:
+  //
+  //  1. La del JSON, salvo que esté vacía o sea el texto genérico
+  //     "No especificada…". Nunca se muestra "No especificada".
+  //  2. La que le corresponde AL NIVEL (`bibliografiaDeNivel`). Deriva del
+  //     nivel, así que ningún nivel puede heredar el libro de otro.
+  //  3. Si el nivel no está en la tabla —o no llegó nivel— NO se rellena: la
+  //     celda lleva un aviso que impide firmar el documento a ciegas.
   const bibJSON = Array.isArray(p.bibliografia)
     ? p.bibliografia.filter((x) => typeof x === "string" && x.trim())
     : [];
   const bibValida = bibJSON.filter((x) => !/no\s+especificad/i.test(x));
-  const fuentes = bibValida.length
-    ? bibValida.join("\n")
-    : bibliografiaIDiscover(nivel);
+  let fuentes;
+  if (bibValida.length) {
+    fuentes = bibValida.join("\n");
+  } else {
+    const bibNivel = bibliografiaDeNivel(nivel);
+    if (bibNivel.length) {
+      fuentes = bibNivel.join("\n");
+      avisar(
+        `la planeación no traía bibliografía; se usó la del nivel ${nivel}. ` +
+          "Revisa la celda FUENTES antes de entregar.",
+      );
+    } else {
+      fuentes = avisoSinBibliografia(nivel);
+      avisar(
+        `sin bibliografía y sin libro registrado para el nivel "${nivel}": ` +
+          "el F-32 sale con la celda FUENTES marcada como pendiente.",
+      );
+    }
+  }
 
-  // Estrategia de la unidad: el enfoque iDiscover + objetivo general.
+  // Estrategia de la unidad: enfoque de la planeación + objetivo general.
   const estrategiaPartes = [texto(p.enfoque), texto(p.objetivoGeneral)].filter(
     Boolean,
   );
@@ -171,8 +324,7 @@ export function construirDatosF32DesdeIngles(planeacion, meta = {}) {
         unidad: "I",
         objetivoEspecifico: objetivoGeneral,
         estrategia:
-          estrategiaPartes.join("\n\n") ||
-          "Enfoque iDiscover; aprendizaje activo y contextualizado del inglés.",
+          estrategiaPartes.join("\n\n") || enfoquePorDefectoDeNivel(nivel),
         semanas,
       },
     ],

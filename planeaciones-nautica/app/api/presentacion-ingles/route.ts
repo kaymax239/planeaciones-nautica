@@ -10,8 +10,12 @@ import {
   BibliotecaIngles,
   type EntradaIndiceIngles,
 } from "../../lib/bibliotecaIngles";
-import { bibliografiaIDiscover } from "../../lib/planeacionInglesF32.js";
-import { NIVEL_ESPEJO } from "../../data/temarioInglesOficial";
+import { bibliografiaDeNivel } from "../../lib/planeacionInglesF32.js";
+import {
+  NIVEL_ESPEJO,
+  temarioOficialTexto,
+  tieneTemarioOficial,
+} from "../../data/temarioInglesOficial";
 import {
   PLANEACIONES_INGLES_ALMACENADAS,
   tienePlaneacionAlmacenada,
@@ -83,6 +87,13 @@ function conTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
 }
 
 const sinAcentos = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "");
+
+/** Trozo de nombre de archivo derivado del tema (ASCII, sin espacios). */
+const sufijoArchivo = (s: string) =>
+  sinAcentos(s)
+    .replace(/[^A-Za-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 40) || "tema";
 
 function recortarReferencia(t: string): string {
   if (t.length <= MAX_CHARS_CABECERA + MAX_CHARS_COLA) return t;
@@ -186,11 +197,27 @@ REGLAS:
 - Si una semana viene marcada como PENDIENTE, IGNÓRALA por completo: no inventes su contenido ni la conviertas en diapositiva.
 ${REGLAS_COMUNES_PROMPT}`;
 
+/** Mensaje de los niveles que se espejan de las históricas (4-8).
+ *
+ *  `opciones` gobierna el caso del nivel NUEVO: cuando las históricas son de
+ *  otro nivel (NIVEL_ESPEJO) el mensaje tiene que decirlo, y los TEMAS salen
+ *  del temario oficial del nivel destino. Sin eso, el nivel 8 recibía las
+ *  históricas del 7 presentadas como "las planeaciones históricas del nivel 8"
+ *  y devolvía un deck del temario del 7 rotulado como Nivel 8 — el contenido
+ *  del curso equivocado, proyectado en clase, sin ningún síntoma.
+ *
+ *  Sin `opciones` (niveles 4-7: histórica propia y sin temario configurado) el
+ *  texto resultante es EL MISMO de siempre, byte a byte. */
 function construirMensajeUsuario(
   nivel: string,
   tema: string,
   referencias: EntradaIndiceIngles[],
+  opciones: { nivelEspejo?: string; temario?: string | null } = {},
 ): string {
+  const nivelEspejo = opciones.nivelEspejo ?? nivel;
+  const espejando = nivelEspejo !== nivel;
+  const temario = opciones.temario ?? null;
+
   const bloques = referencias
     .map(
       (r, i) =>
@@ -198,16 +225,49 @@ function construirMensajeUsuario(
     )
     .join("\n\n");
 
-  return `Genera una PRESENTACIÓN de clase de Inglés del NIVEL ${nivel}, basada en las planeaciones históricas del nivel.
+  const encabezado = espejando
+    ? `Genera una PRESENTACIÓN de clase de Inglés del NIVEL ${nivel}. El nivel ${nivel} es NUEVO y todavía no tiene planeaciones históricas propias: las que se te entregan son del NIVEL ESPEJO ${nivelEspejo}.`
+    : `Genera una PRESENTACIÓN de clase de Inglés del NIVEL ${nivel}, basada en las planeaciones históricas del nivel.`;
 
-Bibliografía institucional del nivel (úsala como referencia del libro): ${bibliografiaIDiscover(nivel)}
-${tema ? `Enfoca la presentación en el tema: "${tema}" (usa el resto del nivel solo como contexto).` : "Cubre los temas principales del nivel tal como aparecen en las históricas."}
+  const bloqueTemario = temario
+    ? `TEMARIO OFICIAL DEL NIVEL ${nivel} (fuente de los TEMAS, vocabulario y gramática de las diapositivas; síguelo en orden):\n${temario}\n\n`
+    : "";
 
-Los temas, vocabulario, gramática, actividades y secuencia se TOMAN de estas planeaciones históricas del nivel ${nivel}:
+  const origenTemas = temario
+    ? `Los TEMAS, vocabulario y gramática salen del TEMARIO OFICIAL del nivel ${nivel} (arriba). De las planeaciones históricas ${espejando ? `del NIVEL ESPEJO ${nivelEspejo}` : `del nivel ${nivel}`} de abajo se ESPEJAN únicamente la estructura, la voz, el tipo de actividades y el formato${espejando ? `; sus temas son los del nivel ${nivelEspejo} y NO deben aparecer como temario del nivel ${nivel}` : ""}:`
+    : espejando
+      ? `Las planeaciones de abajo son del NIVEL ESPEJO ${nivelEspejo}: espeja su estructura, voz, tipo de actividades y formato, y ADAPTA los temas al nivel ${nivel}. No las presentes como el temario del nivel ${nivel}:`
+      : `Los temas, vocabulario, gramática, actividades y secuencia se TOMAN de estas planeaciones históricas del nivel ${nivel}:`;
+
+  const enfoque = tema
+    ? `Enfoca la presentación en el tema: "${tema}" (usa el resto del nivel solo como contexto).`
+    : temario
+      ? "Cubre los temas principales del nivel tal como aparecen en el temario oficial."
+      : "Cubre los temas principales del nivel tal como aparecen en las históricas.";
+
+  const cierre = temario
+    ? `Convierte ese contenido en diapositivas didácticas en el JSON solicitado. Sigue el TEMARIO OFICIAL del nivel ${nivel} (módulos en orden). NO uses STCW. NO inventes temas fuera del temario oficial.`
+    : "Convierte ese contenido en diapositivas didácticas en el JSON solicitado. NO uses STCW. NO inventes temas fuera de las históricas.";
+
+  // Este camino es SOLO el de las históricas (niveles 4-8), que sí son de
+  // iDiscover; los niveles de StartUp se desvían antes y traen su propia
+  // bibliografía. Aun así, si algún día la función no devuelve nada, la línea
+  // entera se omite: una etiqueta con el hueco detrás invita al modelo a
+  // rellenarlo por su cuenta.
+  const bibliografia = bibliografiaDeNivel(nivel).join("\n").trim();
+  const lineaBibliografia = bibliografia
+    ? `Bibliografía institucional del nivel (úsala como referencia del libro): ${bibliografia}\n`
+    : "";
+
+  return `${encabezado}
+
+${lineaBibliografia}${enfoque}
+
+${bloqueTemario}${origenTemas}
 
 ${bloques || "(sin referencias disponibles)"}
 
-Convierte ese contenido en diapositivas didácticas en el JSON solicitado. NO uses STCW. NO inventes temas fuera de las históricas.
+${cierre}
 
 RECUERDA: TODO el texto visible de las diapositivas debe estar en INGLÉS — títulos, encabezados de sección (AGENDA, VOCABULARY, GRAMMAR, PRACTICE, ASSESSMENT…), explicaciones gramaticales, instrucciones y ejemplos — con la dificultad del inglés adaptada al Nivel ${nivel}. No dejes nada en español.`;
 }
@@ -300,11 +360,23 @@ export async function POST(request: Request) {
 
   // El temario por nivel es estable: si ya generamos este nivel/tema, lo
   // servimos del cache (gratis, incluso sin API key). `forzar` lo regenera.
+  // "temario" marca los niveles cuyo prompt lleva el TEMARIO OFICIAL (hoy el 8).
+  // Va en la clave porque un deck del nivel 8 generado ANTES —cuando el prompt
+  // presentaba las históricas del nivel 7 como si fueran el temario del 8— no
+  // es la misma presentación, y servirlo del cache repetiría el error ya
+  // corregido. Los niveles 4-7 no tienen temario: su clave no cambia y su cache
+  // sigue siendo válido.
+  const origenCache = almacenada
+    ? "almacenado"
+    : tieneTemarioOficial(nivel)
+      ? "temario"
+      : undefined;
+
   const claveCacheIngles = claveCache({
     modelo: MODELO_CLAUDE,
     nivel,
     tema: tema || undefined,
-    origen: almacenada ? "almacenado" : undefined,
+    origen: origenCache,
   });
   if (!cuerpo.forzar) {
     const cacheado = await leerCache(claveCacheIngles);
@@ -356,7 +428,12 @@ export async function POST(request: Request) {
       );
     }
 
-    mensajeUsuario = construirMensajeUsuario(nivel, tema, referencias);
+    // Los TEMAS del nivel nuevo salen de su temario oficial, no de las
+    // históricas del espejo (mismo criterio que /api/planeacion-ingles:380-400).
+    mensajeUsuario = construirMensajeUsuario(nivel, tema, referencias, {
+      nivelEspejo,
+      temario: temarioOficialTexto(nivel),
+    });
   }
 
   if (!tieneClaveAnthropic()) {
@@ -383,6 +460,13 @@ export async function POST(request: Request) {
         continue;
       }
       const r = validarPresentacionTolerante(datos);
+      // Mismo aviso que /api/presentacion: si la IA emite bloques o
+      // diapositivas que no llegan al .pptx, tiene que quedar en el log.
+      if (r.bloquesDescartados || r.diapositivasDescartadas) {
+        console.warn(
+          `Presentación de inglés (nivel ${nivel}): descartados ${r.bloquesDescartados} bloque(s) y ${r.diapositivasDescartadas} diapositiva(s) sin contenido válido.`,
+        );
+      }
       if (r.pres.diapositivas.length === 0) {
         motivo = "sin_diapositivas";
         continue;
@@ -400,6 +484,16 @@ export async function POST(request: Request) {
   }
 
   const tituloUnidad = tema || `Inglés Nivel ${nivel}`;
+
+  // El renderer despide con una frase en ESPAÑOL cuando la diapositiva de
+  // cierre no trae `mensajeFinal` (y el prompt lo declara opcional). En un deck
+  // English-only eso rompe la regla dura del idioma en la última diapositiva
+  // que ve el grupo, así que aquí se rellena en inglés.
+  const diapositivas = validado.diapositivas.map((d) =>
+    d.layout === "cierre" && !d.mensajeFinal?.trim()
+      ? { ...d, mensajeFinal: "Thank you!" }
+      : d,
+  );
   const presentacion: PresentacionV2 = {
     // Los niveles almacenados llevan su nombre institucional, el mismo que
     // firma su F-32; el resto conserva la etiqueta genérica de siempre.
@@ -411,8 +505,11 @@ export async function POST(request: Request) {
     tema: tema || undefined,
     kicker: validado.kicker,
     subtituloPortada: validado.subtituloPortada ?? tituloUnidad,
-    nombreArchivo: `Presentacion_INGLES_N${nivel}.pptx`,
-    diapositivas: validado.diapositivas as DiapositivaV2[],
+    // Con el nombre fijo por nivel, generar varios temas de un mismo nivel
+    // descargaba N archivos llamados igual (el navegador los renumera y el aviso
+    // de la UI repite el mismo nombre): el docente no puede saber cuál es cuál.
+    nombreArchivo: `Presentacion_INGLES_N${nivel}${tema ? `_${sufijoArchivo(tema)}` : ""}.pptx`,
+    diapositivas: diapositivas as DiapositivaV2[],
   };
 
   // Guarda el guion para que este nivel/tema no se vuelva a pagar.

@@ -1,16 +1,16 @@
-// Esquema del banco de reactivos que devuelve Gemini para un examen, + el
+// Esquema del banco de reactivos que devuelve la IA para un examen, + el
 // formateador que lo convierte a los MISMOS 4 strings que produce el motor
 // determinista (construirPreguntasExamen). Así la plantilla Word institucional
 // (examen-parcial.docx / examen-ordinario.docx) no cambia: solo se le inyecta
 // contenido REAL por tema en lugar del texto genérico.
 //
-// Dos representaciones del MISMO contrato:
-//  - `examenIASchema` (Zod v4): validación estricta en el servidor.
-//  - `responseSchemaExamen` (Type de @google/genai): fuerza JSON estructurado
-//    por constrained decoding (responseMimeType "application/json").
+// UNA sola representación del contrato: `examenIASchema` (Zod v4). Sirve a la
+// vez para (a) validar en el servidor y (b) forzar el JSON estructurado de
+// Claude: `generarJSONEstructuradoClaude` deriva el JSON Schema del esquema Zod
+// y lo manda como `output_config.format` (structured outputs). Antes había que
+// mantener a mano un espejo con `Type` de @google/genai; ya no.
 
 import * as z from "zod/v4";
-import { Type } from "@google/genai";
 import {
   componerPreguntasExamen,
   type PreguntasExamen,
@@ -88,65 +88,3 @@ export function formatearPreguntasIA(
 
   return componerPreguntasExamen(crudas, puntaje);
 }
-
-/* ------------------------ responseSchema (Gemini) ------------------------ */
-
-/** Espejo del esquema Zod en el formato que exige Gemini para forzar el JSON. */
-export const responseSchemaExamen = {
-  type: Type.OBJECT,
-  properties: {
-    opcionMultiple: {
-      type: Type.ARRAY,
-      items: {
-        type: Type.OBJECT,
-        properties: {
-          pregunta: { type: Type.STRING },
-          opciones: { type: Type.ARRAY, items: { type: Type.STRING } },
-          correcta: { type: Type.INTEGER },
-        },
-        required: ["pregunta", "opciones", "correcta"],
-        propertyOrdering: ["pregunta", "opciones", "correcta"],
-      },
-    },
-    verdaderoFalso: {
-      type: Type.ARRAY,
-      items: {
-        type: Type.OBJECT,
-        properties: {
-          afirmacion: { type: Type.STRING },
-          respuesta: { type: Type.BOOLEAN },
-        },
-        required: ["afirmacion", "respuesta"],
-        propertyOrdering: ["afirmacion", "respuesta"],
-      },
-    },
-    relacionarColumnas: {
-      type: Type.ARRAY,
-      items: {
-        type: Type.OBJECT,
-        properties: {
-          concepto: { type: Type.STRING },
-          descripcion: { type: Type.STRING },
-        },
-        required: ["concepto", "descripcion"],
-        propertyOrdering: ["concepto", "descripcion"],
-      },
-    },
-    preguntasAbiertas: {
-      type: Type.ARRAY,
-      items: { type: Type.STRING },
-    },
-  },
-  required: [
-    "opcionMultiple",
-    "verdaderoFalso",
-    "relacionarColumnas",
-    "preguntasAbiertas",
-  ],
-  propertyOrdering: [
-    "opcionMultiple",
-    "verdaderoFalso",
-    "relacionarColumnas",
-    "preguntasAbiertas",
-  ],
-} as const;

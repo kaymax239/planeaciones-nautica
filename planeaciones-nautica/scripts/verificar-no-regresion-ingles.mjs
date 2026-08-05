@@ -1,7 +1,27 @@
 // Verificador de NO-REGRESIÓN del flujo de Inglés Marítimo.
 //
-// Existe porque el repositorio no tiene pruebas automatizadas (ver D9 en
+// Nació porque el repositorio no tenía pruebas automatizadas (D9 en
 // DEUDA-TECNICA-INGLES.md): la línea base de los niveles 4-8 no era ejecutable.
+//
+// AHORA HAY SUITE: `npm test` (vitest, carpeta tests/). La puerta de calidad es
+// esa. Lo que este script comprueba se reparte así:
+//
+//   - Lo que se comportaba como prueba de verdad ya está PORTADO a tests/:
+//     bibliografía por nivel, desvío de los niveles almacenados, dosificación de
+//     18 semanas, esquema de evaluación, espejo del nivel 8, contratos de los
+//     endpoints y —lo que aquí no se podía ver— que el .docx renderizado no
+//     imprima "undefined" ni el libro de otro nivel.
+//   - Lo que queda aquí son ANCLAS SOBRE EL TEXTO FUENTE: expresiones regulares
+//     contra route.ts, temarioInglesOficial.ts, inglesMaritimo.ts y
+//     planeacionInglesF32.js que fijan literales, órdenes de líneas y nombres de
+//     variables. Eso detecta cambios de implementación, no de comportamiento: es
+//     útil como aviso ("alguien movió el desvío"), pero da FALSOS POSITIVOS en
+//     cuanto alguien refactoriza sin romper nada.
+//
+// Por eso NO está enganchado a `npm test`: se corre a mano con
+// `npm run verificar:ingles`, y una falla suya se lee como "revisa esto", no
+// como "está roto". Si una comprobación de aquí resulta valiosa de verdad,
+// el sitio correcto es tests/, escrita contra el comportamiento observable.
 //
 // Comprueba dos cosas:
 //   A) Que los niveles 4-8 (GENERADOS espejando históricas de iDiscover) sigan
@@ -481,9 +501,16 @@ comprobarQue(
   "C7 la clave de cache admite el origen",
   sinComentarios(srcCachePres).includes("d.origen"),
 );
+// Ancla TOLERANTE a propósito: la versión anterior exigía el literal
+// `origen: almacenada ? "almacenado" : undefined` y falló en cuanto se añadió un
+// tercer origen ("temario", para el nivel 8) sin cambiar el comportamiento de
+// los niveles almacenados. Lo que importa es que `almacenada` siga decidiendo el
+// origen "almacenado"; que la clave de cache separe los tres orígenes se
+// comprueba de verdad, sobre claveCache(), en tests/niveles-almacenados.test.ts.
 comprobarQue(
   "C7 los niveles almacenados marcan origen en la clave",
-  /origen:\s*almacenada\s*\?\s*"almacenado"\s*:\s*undefined/.test(codigoPres),
+  /almacenada\s*\r?\n?\s*\?\s*"almacenado"/.test(codigoPres) ||
+    /almacenada\s*\?\s*"almacenado"/.test(codigoPres),
 );
 
 // C8. Los tres niveles almacenados quedan cubiertos por el desvío.

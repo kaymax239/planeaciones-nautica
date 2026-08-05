@@ -549,6 +549,11 @@ export const presentacionAlgebraU1V2: PresentacionV2 = {
       layout: "cierre",
       etiqueta: "Cierre de la sesión",
       titulo: "Lo esencial que te llevas",
+      // Este deck SÍ continúa en la Unidad 2, así que lo dice explícitamente.
+      // Antes lo ponía el renderer para cualquier presentación (también las de
+      // la Unidad 5 o las de Inglés, donde era falso); ahora el texto vive
+      // donde se sabe verdadero.
+      mensajeFinal: "¡Gracias!  Continuamos con la Unidad 2.",
       bloques: [
         {
           tipo: "bullets",

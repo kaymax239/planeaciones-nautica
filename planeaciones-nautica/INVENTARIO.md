@@ -117,7 +117,7 @@ Formato: **Materia** — semestre — grupos disponibles.
 | 28 | `plan8practicasmarineras_2.pdf` | Ídem | Abrir |
 | 77 | `plan_practicasmarineras_2bpn_enmt.pdf` | Semestre no explícito (¿2º B PN?) | Abrir |
 | 102 | `planpracticasmarineras_2apn_enmt.pdf` | Semestre no explícito (¿2º A PN?) | Abrir |
-| 81 | `plan_sistemadeposicionamientodinamico_8bpn_enmt.pdf` | ¿Duplicado de Pos. Dinámico VIII B PN? | Deduplicar |
+| 81 | `plan_sistemadeposicionamientodinamico_8bpn_enmt.pdf` | ~~¿Duplicado de Pos. Dinámico VIII B PN?~~ **Confirmado 2026-08-05**: es **Sistema de posicionamiento dinámico**, clave `C0113` (encabezado del F-32). Tercera copia de la misma materia PN 8; el manifest aún la registra como "(sin identificar)" | Deduplicar · corregir `materia`/`clave` en el manifest (ver `PENDIENTES.md` §2) |
 | 13 | `lpn_dp_viiibpn POSCIONAMIENTO DINAMICO GRUPO VIII A PN.pdf` | Nombre-archivo dice `viiib`, etiqueta dice "A" | Confirmar grupo |
 | 11 | `lpn_5 CONVENIOS ... VIII B PN.m` | Extensión `.m` rota | Confirmar formato real |
 | 88 | `plan_vii8a8mn EDUCACION FISICA VIII MN.pdf` | ¿Duplicado de #87 (VIII A MN)? | Deduplicar |

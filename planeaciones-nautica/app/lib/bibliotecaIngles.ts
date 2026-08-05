@@ -54,8 +54,23 @@ export type EntradaIndiceIngles = {
   rutaRelativa: string;
   /** Docente / carpeta de origen (subcarpeta inmediata del archivo). */
   origen: string;
-  /** Nivel inferido del nombre (p. ej. "5"), o null si no se pudo. */
+  /** Nivel inferido del NOMBRE del archivo (p. ej. "5"), o null si no se pudo.
+   *  Es el único campo de nivel que se usa para seleccionar referencias. */
   nivel: string | null;
+  /**
+   * DIAGNÓSTICO (índice v2, opcional en índices v1). Valor literal del campo
+   * "ASIGNATURA/CURSO" del F-32 dentro del documento. Nadie lo consume para
+   * generar: sirve para saber de qué curso es realmente cada documento.
+   */
+  asignaturaTexto?: string | null;
+  /**
+   * DIAGNÓSTICO (índice v2, opcional en índices v1). Nivel que el propio
+   * documento declara en `asignaturaTexto`, solo si lo marca explícitamente
+   * ("lvl 4", "Level 6", "NIVEL 3"). No se deduce del romano del semestre:
+   * en este corpus semestre y nivel no coinciden. Cuando discrepa de `nivel`,
+   * el nombre del archivo está mintiendo sobre su contenido.
+   */
+  nivelSegunTexto?: string | null;
   /** Conteo de palabras del texto extraído. */
   palabras: number;
   /** Texto plano extraído del .docx. */

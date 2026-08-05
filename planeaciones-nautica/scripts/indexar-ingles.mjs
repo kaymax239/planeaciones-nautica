@@ -24,7 +24,10 @@ const BIBLIOTECA = path.join(RAIZ, NOMBRE_BIBLIOTECA);
 const DEST_DIR = path.join(RAIZ, ".indice-ingles");
 const DEST_FILE = path.join(DEST_DIR, "indice.json");
 
-const VERSION_INDICE = 1;
+// v2: añade `asignaturaTexto` y `nivelSegunTexto` (diagnóstico). `nivel` NO
+// cambió de criterio: sigue saliendo del nombre de archivo, byte a byte igual
+// que en v1, para no alterar la selección de referencias de los niveles 4-8.
+const VERSION_INDICE = 2;
 
 /* --------------------------- utilidades de texto --------------------------- */
 
@@ -61,9 +64,53 @@ function contarPalabras(texto) {
   return t.split(/\s+/).filter(Boolean).length;
 }
 
-/** Intenta inferir el nivel a partir del nombre del archivo (best-effort). */
+/**
+ * Nivel a partir del NOMBRE DEL ARCHIVO (best-effort). Es el campo `nivel` que
+ * consume la selección de referencias de /api/planeacion-ingles y
+ * /api/presentacion-ingles, así que su criterio NO se cambia a la ligera:
+ * tocarlo mueve qué históricas se espejean en los niveles 4-8.
+ *
+ * Deja 15 de 44 documentos en null (ficha D4 de DEUDA-TECNICA-INGLES.md). Ver
+ * `nivelSegunTexto` más abajo para saber por qué ampliarlo NO es la solución.
+ */
 function inferirNivel(nombre) {
   const base = sinAcentos(nombre).toLowerCase();
+  const m = base.match(/(?:lvl|lv|level|nivel)\s*\.?\s*([1-9]\d?)/);
+  return m ? m[1] : null;
+}
+
+/**
+ * Valor literal del campo "ASIGNATURA/CURSO" del F-32, tal como está escrito
+ * dentro del documento. Es un dato crudo, sin interpretar: sirve para saber de
+ * qué curso es realmente cada documento sin volver a abrir el .docx.
+ */
+function asignaturaDeTexto(texto) {
+  const m = texto.match(/ASIGNATURA\s*\/?\s*CURSO\s*:*\s*·\s*([^·\n]{0,120})/i);
+  const v = (m?.[1] ?? "").replace(/\s+/g, " ").trim();
+  return v || null;
+}
+
+/**
+ * Nivel DECLARADO por el propio documento en su campo ASIGNATURA/CURSO.
+ *
+ * Solo acepta una marca EXPLÍCITA de nivel ("lvl 4", "Level 6", "NIVEL 3"). No
+ * deduce el nivel del número romano del semestre a propósito: en este corpus
+ * semestre y nivel NO coinciden ("Ingles Marítimo II C PN/MN lvl 4",
+ * "Ingles Marítimo VI C PN MN lvl 7"), así que inferirlo del romano produciría
+ * etiquetas falsas.
+ *
+ * Campo de DIAGNÓSTICO: nadie lo consume para seleccionar referencias. Existe
+ * para dos cosas que el nombre de archivo no puede dar:
+ *   1. Explicar los documentos sin nivel (los 9 "Inglés Marítimo VIII /
+ *      MARITIME ENGLISH 2", clave ING 853, que son del libro Career Paths
+ *      Merchant Navy — NO del iDiscover de los niveles 4-8 — y los 4 "Inglés
+ *      Marítimo VI (Level 6)").
+ *   2. Delatar los documentos cuyo nombre de archivo MIENTE sobre su contenido
+ *      (ver el aviso "nombre ≠ contenido" al final de la ejecución).
+ */
+function nivelSegunTexto(asignatura) {
+  if (!asignatura) return null;
+  const base = sinAcentos(asignatura).toLowerCase();
   const m = base.match(/(?:lvl|lv|level|nivel)\s*\.?\s*([1-9]\d?)/);
   return m ? m[1] : null;
 }
@@ -97,7 +144,11 @@ async function main() {
 
   const rutasDocx = [];
   await listarDocx(BIBLIOTECA, BIBLIOTECA, rutasDocx);
-  rutasDocx.sort((a, b) => a.localeCompare(b));
+  // Orden por punto de código, NO localeCompare: el orden del índice decide el
+  // desempate de seleccionarReferencias (Array.sort es estable), y localeCompare
+  // depende del ICU del Node que ejecute el indexador. Reindexar en otra máquina
+  // reordenaba el índice y podía mover qué históricas se espejean.
+  rutasDocx.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
 
   console.log(`Encontrados ${rutasDocx.length} .docx. Extrayendo texto…`);
 
@@ -110,12 +161,15 @@ async function main() {
     try {
       const buf = await fs.readFile(abs);
       const texto = textoDeDocx(buf);
+      const asignaturaTexto = asignaturaDeTexto(texto);
       documentos.push({
         id: rutaRelativa,
         nombre,
         rutaRelativa,
         origen,
         nivel: inferirNivel(nombre),
+        asignaturaTexto,
+        nivelSegunTexto: nivelSegunTexto(asignaturaTexto),
         palabras: contarPalabras(texto),
         texto,
       });
@@ -143,6 +197,48 @@ async function main() {
   console.log(`  documentos indexados: ${documentos.length}`);
   console.log(`  fallidos: ${fallidos}`);
   console.log(`  palabras totales: ${palabrasTotales}`);
+
+  // Reparto por nivel (el campo que consume la selección de referencias).
+  const conteo = {};
+  for (const d of documentos) {
+    const k = d.nivel ?? "null";
+    conteo[k] = (conteo[k] ?? 0) + 1;
+  }
+  const clavesNivel = Object.keys(conteo).sort((a, b) =>
+    a.localeCompare(b, undefined, { numeric: true }),
+  );
+  console.log("");
+  console.log("Reparto por nivel (según nombre de archivo):");
+  for (const k of clavesNivel) console.log(`  nivel ${k}: ${conteo[k]}`);
+
+  // Documentos que el nombre de archivo no logra etiquetar. Se listan con la
+  // asignatura que declaran para que se vea de qué curso son en realidad.
+  const sinNivel = documentos.filter((d) => !d.nivel);
+  if (sinNivel.length) {
+    console.log("");
+    console.log(`Sin nivel (${sinNivel.length}) — asignatura declarada en el documento:`);
+    for (const d of sinNivel) {
+      console.log(`  ${d.nombre} → ${d.asignaturaTexto ?? "(sin campo ASIGNATURA)"}`);
+    }
+  }
+
+  // Aviso fuerte: el nombre de archivo dice un nivel y el documento dice otro.
+  // Estos SÍ son referencias equivocadas en el generador, porque `nivel` sale
+  // del nombre. Es un fallo peor que quedarse sin etiqueta.
+  const discrepantes = documentos.filter(
+    (d) => d.nivel && d.nivelSegunTexto && d.nivel !== d.nivelSegunTexto,
+  );
+  if (discrepantes.length) {
+    console.log("");
+    console.log(
+      `⚠ nombre ≠ contenido (${discrepantes.length}) — el nombre etiqueta un nivel que el documento contradice:`,
+    );
+    for (const d of discrepantes) {
+      console.log(
+        `  ${d.nombre}: nombre dice nivel ${d.nivel}, el documento dice "${d.asignaturaTexto}" (nivel ${d.nivelSegunTexto})`,
+      );
+    }
+  }
 }
 
 main().catch((e) => {

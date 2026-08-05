@@ -1,12 +1,13 @@
-// Fase 2 — Endpoint del Modo Premium: enriquecimiento pedagógico con Gemini.
+// Fase 2 — Endpoint del Modo Premium: enriquecimiento pedagógico con Claude
+// (Anthropic).
 //
 // Recibe la materia, toma el PROGRAMA OFICIAL como fuente de verdad, selecciona
 // planeaciones históricas de referencia (seleccionHistoricas) y los lineamientos
-// DEN, y pide a Gemini SOLO la parte pedagógica (competencias, estrategias,
+// DEN, y pide a la IA SOLO la parte pedagógica (competencias, estrategias,
 // técnicas, secuencia, productos, instrumentos). Valida con esquema estricto y
 // fusiona garantizando que temas/objetivos/bibliografía vengan del programa.
 //
-// TOLERANTE A FALLOS: si falta la key, Gemini falla, hay timeout o el JSON es
+// TOLERANTE A FALLOS: si falta la key, la IA falla, hay timeout o el JSON es
 // inválido tras un reintento, devuelve `enriquecimiento: null` con HTTP 200 y un
 // `motivo`. El cliente (Fase 3) cae entonces al F-32 determinista ACTUAL, de modo
 // que el usuario obtiene exactamente la misma planeación que hoy.
@@ -15,7 +16,6 @@
 
 import { promises as fs } from "fs";
 import path from "path";
-import { GoogleGenAI } from "@google/genai";
 import {
   contenidosMaterias,
   contenidosMateriasMN,
@@ -39,7 +39,6 @@ import {
 } from "../../lib/promptPlaneacion";
 import {
   planeacionEnriquecidaSchema,
-  responseSchemaGemini,
   type PlaneacionEnriquecida,
 } from "../../lib/esquemaPlaneacion";
 import { mergePlaneacion } from "../../lib/mergePlaneacion";
@@ -48,13 +47,25 @@ import {
   leerCache,
   escribirCache,
 } from "../../lib/cachePlaneacion";
+import {
+  modeloClaude,
+  tieneClaveAnthropic,
+  generarJSONEstructuradoClaude,
+  ErrorJSONClaude,
+} from "../../lib/claudeIA";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 120;
 
-const MODELO = process.env.GEMINI_MODEL || "gemini-2.5-flash";
-const TIMEOUT_MS = 45000;
+// Mismo modelo que el resto de planeaciones (ANTHROPIC_MODEL_PLANEACIONES ||
+// ANTHROPIC_MODEL). Entra en la clave de cache, así que cambiarlo regenera.
+const MODELO = modeloClaude("planeaciones");
+// maxDuration = 120 s y hasta 2 intentos: el timeout por intento tiene que
+// dejar margen para que la ruta responda `enriquecimiento: null` (fallback
+// determinista) en lugar de que Vercel mate la función con un 504.
+const TIMEOUT_MS = 50000;
+const MAX_TOKENS = 16000;
 
 type Cuerpo = {
   carrera?: Carrera;
@@ -124,25 +135,6 @@ function conTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
   });
 }
 
-/** Llama a Gemini forzando JSON estructurado. Devuelve el texto crudo. */
-async function generarTexto(
-  client: GoogleGenAI,
-  system: string,
-  mensaje: string,
-): Promise<string> {
-  const resp = await client.models.generateContent({
-    model: MODELO,
-    contents: mensaje,
-    config: {
-      systemInstruction: system,
-      responseMimeType: "application/json",
-      responseSchema: responseSchemaGemini as never,
-      temperature: 0.3,
-    },
-  });
-  return resp.text ?? "";
-}
-
 export async function POST(request: Request) {
   const sesionAuth = await verificarAuth(request);
   if (!sesionAuth.ok) return sesionAuth.respuesta;
@@ -189,7 +181,7 @@ export async function POST(request: Request) {
     }
   }
 
-  if (!process.env.GEMINI_API_KEY) {
+  if (!tieneClaveAnthropic()) {
     return respuesta(null, { motivo: "sin_api_key" });
   }
 
@@ -221,33 +213,35 @@ export async function POST(request: Request) {
     historicas: referencias,
   });
 
-  const client = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
-  // Hasta 2 intentos: timeout + reintento.
+  // Hasta 2 intentos: timeout + reintento. El JSON lo fuerza Claude con el
+  // esquema (structured outputs, derivado del MISMO esquema Zod) y se revalida
+  // con Zod antes de aceptarlo.
   let validado: PlaneacionEnriquecida | null = null;
   let motivo = "fallo_ia";
   for (let intento = 1; intento <= 2 && !validado; intento++) {
     try {
-      const texto = await conTimeout(
-        generarTexto(client, SYSTEM_PROMPT, mensaje),
+      const { datos } = await conTimeout(
+        generarJSONEstructuradoClaude(
+          SYSTEM_PROMPT,
+          mensaje,
+          planeacionEnriquecidaSchema,
+          { modelo: MODELO, maxTokens: MAX_TOKENS, esfuerzo: "low" },
+        ),
         TIMEOUT_MS,
       );
-      if (!texto.trim()) {
-        motivo = "respuesta_vacia";
-        continue;
-      }
-      const parsed = planeacionEnriquecidaSchema.safeParse(JSON.parse(texto));
-      if (!parsed.success) {
-        motivo = "json_invalido";
-        continue;
-      }
-      if (parsed.data.unidades.length === 0) {
+      if (datos.unidades.length === 0) {
         motivo = "sin_unidades";
         continue;
       }
-      validado = parsed.data;
+      validado = datos;
     } catch (e) {
-      motivo = e instanceof Error && e.message === "timeout" ? "timeout" : "fallo_ia";
+      if (e instanceof ErrorJSONClaude) {
+        // "respuesta_vacia" | "json_invalido" — mismos motivos que antes.
+        motivo = e.motivo;
+      } else {
+        motivo =
+          e instanceof Error && e.message === "timeout" ? "timeout" : "fallo_ia";
+      }
       console.error(`planeacion-enriquecida intento ${intento}:`, e);
     }
   }

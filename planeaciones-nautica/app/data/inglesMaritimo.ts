@@ -48,9 +48,12 @@ export type EvaluacionIngles = {
 };
 
 /**
- * Una semana de la dosificación, en el MISMO formato que consume
- * planeacionInglesF32.js:58-70 → columnas Semana / Tema / Secuencia didáctica /
- * Recursos / Producto del F-32. `semana` va como número: el mapper le antepone
+ * Una semana de la dosificación, en el MISMO formato que consume el
+ * `secuencia.map(...)` de planeacionInglesF32.js → columnas Semana / Tema /
+ * Secuencia didáctica / Recursos / Producto / Evaluación del F-32 (la de
+ * Evaluación es común a las 18 semanas y no sale de aquí: la arma
+ * `evaluacionSesion` desde el bloque `evaluacion` de nivel superior).
+ * `semana` va como número: el mapper le antepone
  * "Semana ". Los otros tres flujos (avance F-51, examen, presentación) solo
  * leen `semana` y `contenido`.
  */
@@ -84,9 +87,12 @@ export type PlaneacionInglesAlmacenada = {
   formato: string;
   escuela: string;
   horas: HorasIngles;
-  /** Enfoque pedagógico. NO puede quedar vacío: si tanto este campo como
-   *  objetivoGeneral van vacíos, planeacionInglesF32.js:134 imprime
-   *  "Enfoque iDiscover…" en el F-32 — el libro equivocado para estos niveles. */
+  /** Enfoque pedagógico. Si tanto este campo como objetivoGeneral van vacíos,
+   *  la celda ESTRATEGIA del F-32 cae al respaldo de
+   *  `enfoquePorDefectoDeNivel` en planeacionInglesF32.js. Ese respaldo ya
+   *  deriva del nivel (para 1/2/3 dice StartUp, no iDiscover), así que dejarlo
+   *  vacío ya no imprime el libro equivocado — pero sí una frase genérica en
+   *  lugar del enfoque real del curso. Manténlo poblado. */
   enfoque: string;
   objetivoGeneral: string;
   objetivosEspecificos: string[];
@@ -101,8 +107,11 @@ export type PlaneacionInglesAlmacenada = {
   /** Dosificación semanal: 18 semanas, todas con contenido definitivo. */
   secuenciaSemanal: SemanaSecuencia[];
   recursos: string[];
-  /** NUNCA vacía: si lo estuviera, planeacionInglesF32.js:81 estamparía la
-   *  bibliografía de iDiscover en el F-32 (ver D1 en DEUDA-TECNICA-INGLES.md). */
+  /** Bibliografía real del nivel. Desde el arreglo de D1, dejarla vacía ya no
+   *  estampa iDiscover: `bibliografiaDeNivel` en planeacionInglesF32.js deriva
+   *  el libro DEL NIVEL y para 1/2/3 devuelve las mismas referencias de StartUp
+   *  que hay aquí. Aun así este es el dato bueno y el que de verdad se imprime;
+   *  aquella función es solo la red de seguridad. */
   bibliografia: string[];
   evaluacion: EvaluacionIngles;
 };
@@ -198,7 +207,12 @@ const EVALUACION: EvaluacionIngles = {
 };
 
 /** Las tres referencias de StartUp del nivel. Ninguna debe matchear
- *  /no\s+especificad/i, que planeacionInglesF32.js:78 descarta. */
+ *  /no\s+especificad/i, que planeacionInglesF32.js descarta al filtrar
+ *  `bibValida`.
+ *
+ *  Estas tres cadenas están DUPLICADAS en `refsStartUp`, dentro de
+ *  planeacionInglesF32.js, que es .js a propósito y no puede importar este .ts
+ *  (lo carga node directo en scripts/*.mjs). Si cambian aquí, cambian allá. */
 const bibliografiaStartUp = (nivelLibro: number): string[] => [
   `Pearson Education. (2019). StartUp Level ${nivelLibro} Student Book. Pearson Education.`,
   `Pearson Education. (2019). StartUp Level ${nivelLibro} Teacher's Edition. Pearson Education.`,
@@ -206,8 +220,8 @@ const bibliografiaStartUp = (nivelLibro: number): string[] => [
 ];
 
 /** Objetivo general por nivel, redactado desde la dosificación. NO puede quedar
- *  vacío: alimenta {objetivoGeneral} del F-32 y, vía planeacionInglesF32.js:131,
- *  el objetivoEspecifico del primer bloque. */
+ *  vacío: alimenta {objetivoGeneral} del F-32 y, vía el `unidadBloques` de
+ *  planeacionInglesF32.js, el {objetivoEspecifico} del primer bloque. */
 const OBJETIVO_GENERAL: Record<"1" | "2" | "3", string> = {
   "1":
     "Desarrollar en el estudiante habilidades comunicativas para el dominio " +
