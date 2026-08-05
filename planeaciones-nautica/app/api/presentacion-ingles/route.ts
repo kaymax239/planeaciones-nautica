@@ -1,7 +1,11 @@
-// Endpoint AISLADO — genera con Claude (Anthropic) el guion de una PRESENTACIÓN
-// de clase de Inglés (por nivel), espejeando las planeaciones históricas reales
-// del nivel (BibliotecaIngles.leerIndice()) + enfoque iDiscover. NUNCA usa STCW
-// ni los programas oficiales PN/MN.
+// Endpoint AISLADO — genera con IA el guion de una PRESENTACIÓN de clase de
+// Inglés (por nivel), espejeando las planeaciones históricas reales del nivel
+// (BibliotecaIngles.leerIndice()) + enfoque iDiscover. NUNCA usa STCW ni los
+// programas oficiales PN/MN.
+//
+// Proveedor: Gemini por defecto (GEMINI_API_KEY), con Claude (ANTHROPIC_API_KEY)
+// como FALLBACK AUTOMÁTICO ante 429/cuota/clave ausente. Se configura con
+// PROVEEDOR_PRESENTACIONES; la cadena vive en app/lib/geminiIA.ts.
 //
 // Devuelve una PresentacionV2 lista para el renderer cliente (pptxOficialV2).
 // La key vive SOLO aquí. No guarda archivos: se genera al hacer clic.
@@ -22,20 +26,30 @@ import {
   type PlaneacionInglesAlmacenada,
 } from "../../data/inglesMaritimo";
 import {
+  responseSchemaPresentacion,
   validarPresentacionTolerante,
   type PresentacionIA,
 } from "../../lib/esquemaPresentacion";
 import {
-  MODELO_CLAUDE,
-  tieneClaveAnthropic,
-  generarTextoClaude,
   extraerJSON,
-} from "../../lib/claudeIA";
+  generadorPresentaciones,
+  generadoresPresentaciones,
+  generarTextoPresentacion,
+  hayClavePresentaciones,
+  proveedorPresentaciones,
+  type ProveedorPresentaciones,
+} from "../../lib/geminiIA";
 import {
   claveCache,
-  leerCache,
+  leerCachePrimero,
   escribirCache,
 } from "../../lib/cachePresentacionIngles";
+import {
+  fuenteDesdeNivelIngles,
+  validarPresentacionOficial,
+  resumirVeredicto,
+  type VeredictoOficial,
+} from "../../lib/validarPresentacionOficial";
 import type {
   DiapositivaV2,
   PresentacionV2,
@@ -68,22 +82,6 @@ function error(
   extra?: Record<string, unknown>,
 ) {
   return Response.json({ error: codigo, mensaje, ...extra }, { status });
-}
-
-function conTimeout<T>(p: Promise<T>, ms: number): Promise<T> {
-  return new Promise((resolve, reject) => {
-    const t = setTimeout(() => reject(new Error("timeout")), ms);
-    p.then(
-      (v) => {
-        clearTimeout(t);
-        resolve(v);
-      },
-      (e) => {
-        clearTimeout(t);
-        reject(e);
-      },
-    );
-  });
 }
 
 const sinAcentos = (s: string) => s.normalize("NFD").replace(/[̀-ͯ]/g, "");
@@ -351,6 +349,13 @@ export async function POST(request: Request) {
   const tema = (cuerpo.tema ?? "").toString().trim();
   if (!nivel) return error("faltan_datos", "Se requiere el nivel.", 400);
 
+  // Fuente oficial contra la que se contrasta el contenido generado. En los
+  // niveles 4-7 no existe (solo se espejan de históricas), así que el veredicto
+  // será "sin_fuente": se sirve igual, pero marcado como no verificado.
+  const fuenteOficial = fuenteDesdeNivelIngles(nivel);
+  let ultimoVeredicto: VeredictoOficial | null = null;
+  let veredictoServido: VeredictoOficial | null = null;
+
   // Niveles 1, 2 y 3: su contenido está ALMACENADO (cambiaron de iDiscover a
   // StartUp). No hay históricas propias del libro nuevo, así que no se espejan.
   const almacenada: PlaneacionInglesAlmacenada | null =
@@ -372,14 +377,19 @@ export async function POST(request: Request) {
       ? "temario"
       : undefined;
 
-  const claveCacheIngles = claveCache({
-    modelo: MODELO_CLAUDE,
+  // La identidad del generador entra en la clave, así que se consultan las de
+  // la cadena de proveedores en su orden de preferencia (ver geminiIA.ts).
+  const alcanceCache = {
     nivel,
     tema: tema || undefined,
     origen: origenCache,
-  });
+  };
   if (!cuerpo.forzar) {
-    const cacheado = await leerCache(claveCacheIngles);
+    const cacheado = await leerCachePrimero(
+      generadoresPresentaciones().map((modelo) =>
+        claveCache({ modelo, ...alcanceCache }),
+      ),
+    );
     if (cacheado) {
       await contarUso(sesionAuth.sesion, "presentaciones");
       return Response.json({ presentacion: cacheado, cacheado: true });
@@ -436,18 +446,26 @@ export async function POST(request: Request) {
     });
   }
 
-  if (!tieneClaveAnthropic()) {
-    return error("sin_api_key", "ANTHROPIC_API_KEY no está configurada.", 503);
+  if (!hayClavePresentaciones()) {
+    return error(
+      "sin_api_key",
+      "No hay clave de IA configurada (GEMINI_API_KEY o ANTHROPIC_API_KEY).",
+      503,
+    );
   }
 
   let validado: PresentacionIA | null = null;
+  let proveedorUsado: ProveedorPresentaciones | null = null;
   let motivo = "fallo_ia";
   for (let intento = 1; intento <= 2 && !validado; intento++) {
     try {
-      const texto = await conTimeout(
-        generarTextoClaude(systemPrompt, mensajeUsuario),
-        TIMEOUT_MS,
+      const { texto, proveedor } = await generarTextoPresentacion(
+        systemPrompt,
+        mensajeUsuario,
+        responseSchemaPresentacion,
+        { timeoutMs: TIMEOUT_MS },
       );
+      proveedorUsado = proveedor;
       if (!texto.trim()) {
         motivo = "respuesta_vacia";
         continue;
@@ -471,6 +489,18 @@ export async function POST(request: Request) {
         motivo = "sin_diapositivas";
         continue;
       }
+      const veredicto = validarPresentacionOficial(r.pres, fuenteOficial);
+      if (veredicto.desviaciones.length) {
+        console.warn(
+          `Presentación de inglés (nivel ${nivel}) intento ${intento}:\n${resumirVeredicto(veredicto)}`,
+        );
+      }
+      if (veredicto.estado === "desviaciones") {
+        motivo = "curriculo_desviado";
+        ultimoVeredicto = veredicto;
+        continue;
+      }
+      veredictoServido = veredicto;
       validado = r.pres;
     } catch (e) {
       motivo =
@@ -480,6 +510,17 @@ export async function POST(request: Request) {
   }
 
   if (!validado) {
+    if (motivo === "curriculo_desviado") {
+      return Response.json(
+        {
+          error: "curriculo_desviado",
+          mensaje:
+            "La presentación generada contiene temario que no está en la dosificación oficial del nivel.",
+          desviaciones: ultimoVeredicto?.desviaciones ?? [],
+        },
+        { status: 502 },
+      );
+    }
     return error(motivo, "No se pudo generar la presentación de inglés.", 502);
   }
 
@@ -512,9 +553,22 @@ export async function POST(request: Request) {
     diapositivas: diapositivas as DiapositivaV2[],
   };
 
-  // Guarda el guion para que este nivel/tema no se vuelva a pagar.
-  await escribirCache(claveCacheIngles, presentacion);
+  // Guarda el guion para que este nivel/tema no se vuelva a pagar. Se archiva
+  // bajo la identidad del proveedor que REALMENTE generó (no la del
+  // configurado): así una entrada nunca se atribuye al modelo equivocado.
+  await escribirCache(
+    claveCache({
+      modelo: generadorPresentaciones(proveedorUsado ?? proveedorPresentaciones()),
+      ...alcanceCache,
+    }),
+    presentacion,
+  );
 
   await contarUso(sesionAuth.sesion, "presentaciones");
-  return Response.json({ presentacion, cacheado: false });
+  return Response.json({
+    presentacion,
+    cacheado: false,
+    avisos: veredictoServido?.desviaciones ?? [],
+    curriculoVerificado: veredictoServido?.estado !== "sin_fuente",
+  });
 }

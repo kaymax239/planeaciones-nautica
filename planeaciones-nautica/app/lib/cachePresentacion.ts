@@ -26,6 +26,10 @@ const CACHE_DIR = process.env.VERCEL
 export const CACHE_VERSION = "v1";
 
 export type DatosClave = {
+  /** Identidad del GENERADOR: `<proveedor>:<modelo>` para Gemini y el nombre de
+   *  modelo pelado para Claude (así las entradas ya guardadas siguen valiendo).
+   *  Va en la clave para que cambiar de proveedor NO sirva un guion generado por
+   *  el otro: son modelos distintos y el deck no es el mismo. */
   modelo: string;
   carrera: string;
   materia: string;
@@ -57,6 +61,26 @@ export async function leerCache(clave: string): Promise<PresentacionV2 | null> {
   } catch {
     return null;
   }
+}
+
+/**
+ * Primera entrada disponible entre varias claves, en orden de preferencia.
+ *
+ * Existe por el fallback de proveedor: con Gemini configurado, la cadena real
+ * es [gemini, claude]. Si Gemini está sin cuota, TODAS las generaciones acaban
+ * en Claude y se guardan bajo la clave de Claude; consultando solo la de Gemini
+ * el cache no acertaría nunca y cada docente volvería a pagar la misma unidad.
+ * Se consultan las claves en el MISMO orden en que se intentarían los
+ * proveedores, así que la del proveedor configurado siempre gana.
+ */
+export async function leerCachePrimero(
+  claves: string[],
+): Promise<PresentacionV2 | null> {
+  for (const clave of claves) {
+    const pres = await leerCache(clave);
+    if (pres) return pres;
+  }
+  return null;
 }
 
 /** Guarda la presentación. Nunca lanza: si falla, solo registra el aviso. */

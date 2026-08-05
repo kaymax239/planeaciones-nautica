@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useAuth } from "../lib/authContext";
 import { LoginScreen } from "../components/LoginScreen";
 import { CorrectorPlaneaciones } from "./CorrectorPlaneaciones";
+import { GeneradorMasivo } from "./GeneradorMasivo";
 
 export default function DesarrolladorPage() {
   const { usuario, cargando, esAdmin, salir } = useAuth();
@@ -69,11 +70,11 @@ export default function DesarrolladorPage() {
             Zona de Desarrollador
           </p>
           <h1 className="mt-0.5 text-xl font-semibold text-[#071a33]">
-            Corregir planeaciones
+            Herramientas de administración
           </h1>
           <p className="mt-1 text-sm text-slate-600">
-            Sube la planeación de un docente, la IA sugiere correcciones y tú
-            apruebas cuáles se aplican.
+            Corrección asistida de planeaciones y generación masiva de
+            presentaciones por materia.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -89,7 +90,16 @@ export default function DesarrolladorPage() {
         </div>
       </header>
 
-      <CorrectorPlaneaciones />
+      <div className="space-y-8">
+        <GeneradorMasivo />
+
+        <div>
+          <h2 className="mb-3 text-base font-semibold text-[#071a33]">
+            Corregir planeaciones
+          </h2>
+          <CorrectorPlaneaciones />
+        </div>
+      </div>
     </main>
   );
 }

@@ -3,8 +3,8 @@
 // (cachePresentacion.ts): tiene su propio directorio y su propia CACHE_VERSION,
 // para poder invalidarlo sin afectar a las presentaciones de PN/MN.
 //
-// El temario por nivel es estable, así que cada (nivel, tema) se genera con
-// Claude UNA sola vez y se reutiliza gratis. Guarda solo la PresentacionV2 (JSON
+// El temario por nivel es estable, así que cada (nivel, tema) se genera con IA
+// UNA sola vez y se reutiliza gratis. Guarda solo la PresentacionV2 (JSON
 // pequeño); el .pptx se sigue renderizando bajo demanda en el navegador.
 //
 // Persiste entre reinicios donde el disco persista (local / `next start`). En
@@ -27,6 +27,10 @@ const CACHE_DIR = process.env.VERCEL
 export const CACHE_VERSION = "v1";
 
 export interface DatosClavePresIngles {
+  /** Identidad del GENERADOR: `<proveedor>:<modelo>` para Gemini y el nombre de
+   *  modelo pelado para Claude (así las entradas ya guardadas siguen valiendo).
+   *  Va en la clave para que cambiar de proveedor NO sirva un guion generado por
+   *  el otro: son modelos distintos y el deck no es el mismo. */
   modelo: string;
   nivel: string;
   /** undefined = nivel completo (sin enfocar en un tema). */
@@ -62,6 +66,26 @@ export async function leerCache(clave: string): Promise<PresentacionV2 | null> {
   } catch {
     return null;
   }
+}
+
+/**
+ * Primera entrada disponible entre varias claves, en orden de preferencia.
+ *
+ * Existe por el fallback de proveedor: con Gemini configurado, la cadena real
+ * es [gemini, claude]. Si Gemini está sin cuota, TODAS las generaciones acaban
+ * en Claude y se guardan bajo la clave de Claude; consultando solo la de Gemini
+ * el cache no acertaría nunca y cada docente volvería a pagar el mismo nivel.
+ * Se consultan las claves en el MISMO orden en que se intentarían los
+ * proveedores, así que la del proveedor configurado siempre gana.
+ */
+export async function leerCachePrimero(
+  claves: string[],
+): Promise<PresentacionV2 | null> {
+  for (const clave of claves) {
+    const pres = await leerCache(clave);
+    if (pres) return pres;
+  }
+  return null;
 }
 
 /** Guarda la presentación. Nunca lanza: si falla, solo registra el aviso. */

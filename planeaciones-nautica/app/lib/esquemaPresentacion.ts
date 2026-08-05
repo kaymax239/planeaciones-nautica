@@ -12,6 +12,7 @@
 // procesos, casos prácticos, participación y evaluación).
 
 import * as z from "zod/v4";
+import { Type, type Schema } from "@google/genai";
 
 /* ------------------------------ Bloques V1 ------------------------------- */
 
@@ -155,6 +156,149 @@ export const presentacionIASchema = z.object({
 export type PresentacionIA = z.infer<typeof presentacionIASchema>;
 export type DiapositivaIA = z.infer<typeof diapositivaIASchema>;
 export type BloqueIA = z.infer<typeof bloqueIASchema>;
+
+/* ----------------------- responseSchema de Gemini ------------------------- */
+//
+// MISMO contrato que los esquemas Zod de arriba, en el dialecto OpenAPI que
+// entiende Gemini (`responseMimeType: "application/json"` + `responseSchema`):
+// el modelo queda obligado por decodificación restringida a devolver esta forma,
+// igual que `output_config.format` en Claude.
+//
+// Es un ESPEJO, no un sustituto: la respuesta se sigue validando con Zod y
+// saneando con `validarPresentacionTolerante` (abajo). Forzar la forma en el
+// modelo evita la mayoría de los descartes; la validación posterior es la que
+// impide que un bloque vacío llegue al .pptx, y NO se puede quitar.
+//
+// Si algún día divergen, manda Zod: lo que no valide se descarta.
+
+const gStr: Schema = { type: Type.STRING };
+const gStrArr: Schema = { type: Type.ARRAY, items: { type: Type.STRING } };
+const gEnum = (valores: string[]): Schema => ({
+  type: Type.STRING,
+  format: "enum",
+  enum: valores,
+});
+
+/** Un miembro de la unión discriminada: `tipo` fijo + sus campos. */
+function gBloque(
+  tipo: BloqueIA["tipo"],
+  propiedades: Record<string, Schema>,
+  requeridos: string[],
+): Schema {
+  return {
+    type: Type.OBJECT,
+    properties: { tipo: gEnum([tipo]), ...propiedades },
+    required: ["tipo", ...requeridos],
+  };
+}
+
+const gColumnaComparacion: Schema = {
+  type: Type.OBJECT,
+  properties: { titulo: gStr, items: gStrArr },
+  required: ["titulo", "items"],
+};
+
+const gBloqueSchema: Schema = {
+  anyOf: [
+    gBloque("bullets", { items: gStrArr }, ["items"]),
+    gBloque("definicion", { titulo: gStr, texto: gStr }, ["titulo", "texto"]),
+    gBloque("nota", { texto: gStr }, ["texto"]),
+    gBloque(
+      "tabla",
+      { headers: gStrArr, filas: { type: Type.ARRAY, items: gStrArr } },
+      ["headers", "filas"],
+    ),
+    gBloque("proceso", { etapas: gStrArr }, ["etapas"]),
+    gBloque(
+      "pasos",
+      { enunciado: gStr, pasos: gStrArr, resultado: gStr },
+      ["enunciado", "pasos"],
+    ),
+    gBloque("ejemplo", { enunciado: gStr, pasos: gStrArr }, [
+      "enunciado",
+      "pasos",
+    ]),
+    gBloque(
+      "aplicacion",
+      { titulo: gStr, enunciado: gStr, pasos: gStrArr, resultado: gStr },
+      ["titulo", "enunciado", "pasos"],
+    ),
+    gBloque("ejercicio", { items: gStrArr }, ["items"]),
+    gBloque("ejercicioGuiado", { enunciado: gStr, pista: gStr, items: gStrArr }, [
+      "enunciado",
+      "items",
+    ]),
+    gBloque("formulaDestacada", { etiqueta: gStr, formula: gStr }, ["formula"]),
+    gBloque(
+      "comparacion",
+      { izq: gColumnaComparacion, der: gColumnaComparacion },
+      ["izq", "der"],
+    ),
+    gBloque(
+      "flujo",
+      {
+        nodos: gStrArr,
+        resultado: gStr,
+        orientacion: gEnum(["vertical", "horizontal"]),
+      },
+      ["nodos"],
+    ),
+    gBloque(
+      "mapaConceptual",
+      {
+        centro: gStr,
+        ramas: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: { titulo: gStr, detalle: gStr },
+            required: ["titulo"],
+          },
+        },
+      },
+      ["centro", "ramas"],
+    ),
+    gBloque(
+      "diagramaArbol",
+      {
+        raiz: gStr,
+        ramas: {
+          type: Type.ARRAY,
+          items: {
+            type: Type.OBJECT,
+            properties: { titulo: gStr, ejemplo: gStr },
+            required: ["titulo"],
+          },
+        },
+      },
+      ["raiz", "ramas"],
+    ),
+  ],
+};
+
+const gDiapositivaSchema: Schema = {
+  type: Type.OBJECT,
+  properties: {
+    layout: gEnum(["portada", "contenido", "divisor", "transicion", "cierre"]),
+    etiqueta: gStr,
+    titulo: gStr,
+    subtitulo: gStr,
+    bloques: { type: Type.ARRAY, items: gBloqueSchema },
+    mensajeFinal: gStr,
+  },
+  required: ["titulo", "bloques"],
+};
+
+/** Esquema que se pasa a Gemini como `responseSchema` para las presentaciones. */
+export const responseSchemaPresentacion: Schema = {
+  type: Type.OBJECT,
+  properties: {
+    kicker: gStr,
+    subtituloPortada: gStr,
+    diapositivas: { type: Type.ARRAY, items: gDiapositivaSchema },
+  },
+  required: ["diapositivas"],
+};
 
 /* --------------------------- Validación tolerante ------------------------- */
 
