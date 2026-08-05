@@ -212,6 +212,17 @@ const ARMAZON = new Set([
   "mapa", "mapas", "conceptual", "esquema", "organizador", "diagrama",
   "parte", "partes", "participacion", "programa", "programas", "oficial",
   "oficiales", "fuente", "archivo", "documento", "pdf", "asignatura",
+  // Audiencia y proceso didáctico. Añadidas tras ejercitar Gemini de verdad
+  // (2026-08-05): rotuló dos diapositivas "Participación del Alumno" y
+  // "Evaluación de la Comprensión". "participacion" y "evaluacion" ya estaban,
+  // pero sobrevivían "alumno" y "comprension" y ambas salían como temario
+  // INVENTADO, o sea desviación dura que bloquea y devuelve 502. La lista se
+  // había calibrado contra el generador determinista, que rotula distinto.
+  "alumno", "alumnos", "alumna", "alumnas", "cadete", "cadetes",
+  "estudiante", "estudiantes", "docente", "docentes", "profesor", "instructor",
+  "comprension", "aprendizaje", "aprendizajes", "saberes", "logro", "logros",
+  "desempeno", "avance", "avances", "seguimiento", "verificacion",
+  "discusion", "debate", "sintesis", "plenaria", "cuestionario", "rubrica",
   // Inglés
   "objective", "objectives", "learning", "aim", "aims", "goal", "goals",
   "introduction", "outline", "contents", "overview", "warm", "lead", "wrap",
@@ -227,6 +238,8 @@ const ARMAZON = new Set([
   "curricular", "instructions", "slide", "pair", "pairs", "group", "individual",
   "closure", "warmer", "starter", "exit", "ticket", "checkpoint", "part",
   "map", "concept", "chart", "syllabus", "official", "file", "document",
+  "student", "students", "learner", "learners", "teacher", "comprehension",
+  "understanding", "discussion", "progress", "achievement", "performance",
 ]);
 
 /** Palabras con contenido de una cadena (sin vacías, sin números sueltos). */
