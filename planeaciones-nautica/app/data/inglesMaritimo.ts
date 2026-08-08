@@ -219,6 +219,18 @@ const bibliografiaStartUp = (nivelLibro: number): string[] => [
   `Pearson Education. (2019). StartUp Level ${nivelLibro} Workbook. Pearson Education.`,
 ];
 
+/** Indicaciones de derechos de autor de la antología (Pedagogía y Formación,
+ *  3 de agosto de 2026). Va en `bibliografia` —no en `observaciones`— porque
+ *  ese campo no existe y no se imprime; ver DEUDA-TECNICA-INGLES.md.
+ *
+ *  Como el resto de `bibliografia`, no debe matchear /no\s+especificad/i:
+ *  planeacionInglesF32.js la descartaría al filtrar `bibValida`. */
+const NOTA_ANTOLOGIA =
+  "Antología: elaborada por el docente. Cada ejercicio, imagen o texto lleva " +
+  "cita; se utiliza menos del 10% de cada obra; la primera página incluye la " +
+  "leyenda institucional de uso académico (Pedagogía y Formación, 3 de " +
+  "agosto de 2026).";
+
 /** Objetivo general por nivel, redactado desde la dosificación. NO puede quedar
  *  vacío: alimenta {objetivoGeneral} del F-32 y, vía el `unidadBloques` de
  *  planeacionInglesF32.js, el {objetivoEspecifico} del primer bloque. */
@@ -265,7 +277,7 @@ const entrada = (
   },
   secuenciaSemanal,
   recursos: [],
-  bibliografia: bibliografiaStartUp(Number(nivel)),
+  bibliografia: [...bibliografiaStartUp(Number(nivel)), NOTA_ANTOLOGIA],
   evaluacion: EVALUACION,
 });
 

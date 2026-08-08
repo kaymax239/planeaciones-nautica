@@ -154,12 +154,20 @@ function avisar(mensaje) {
 /**
  * Bibliografía institucional del libro iDiscover para el nivel dado.
  *
- * @deprecated Para el F-32 usa `bibliografiaDeNivel(nivel)`: esta función NO
- * discrimina nivel y le devuelve iDiscover a cualquiera, incluidos 1/2/3, que
- * son de StartUp (Pearson). Se conserva porque la importan
- * `app/api/planeacion-ingles/route.ts` y `app/api/presentacion-ingles/route.ts`,
- * donde solo alimenta el prompt del camino de históricas (niveles 4-8) —
- * legítimo ahí, porque ese corpus sí es de iDiscover.
+ * @deprecated Usa `bibliografiaDeNivel(nivel)`. Esta función NO discrimina
+ * nivel: le devuelve iDiscover a cualquiera, incluidos 1/2/3, que son de
+ * StartUp (Pearson), y sin nivel devuelve la referencia SIN número — el fallo
+ * silencioso que documenta D1.
+ *
+ * Ya no la consume nada de `app/`. Las dos rutas que la importaban
+ * (`planeacion-ingles` y `presentacion-ingles`) pasaron a `bibliografiaDeNivel`
+ * en `61a5f9e`; para los niveles 4-8 el resultado es idéntico, así que el
+ * cambio no alteró su prompt. Hoy sus únicos consumidores son
+ * `tests/libro-por-nivel.test.ts` y el verificador, que fijan su texto para que
+ * un borrado accidental no pase inadvertido.
+ *
+ * Se conserva por eso, y porque es la referencia contra la que se compara el
+ * comportamiento histórico. Si se elimina, caen esas comprobaciones a propósito.
  */
 export function bibliografiaIDiscover(nivel) {
   return refIDiscover(String(nivel || "").trim());

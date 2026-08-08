@@ -24,12 +24,24 @@ import {
   metaF32DesdeAlmacenada,
   planeacionDesdeAlmacenada,
 } from "../app/data/inglesMaritimo";
+import type { EntradaIndiceIngles } from "../app/lib/bibliotecaIngles";
 import { TEMARIO_OFICIAL, temarioOficialTexto } from "../app/data/temarioInglesOficial";
 import { renderEstricto, textoDocx } from "./ayudas/docx";
 import { META_FORMULARIO, planeacionGeneradaFalsa } from "./ayudas/fixtures";
 
 const STARTUP = /startup|pearson/i;
-const IDISCOVER = /i\s?discover|express publishing/i;
+const IDISCOVER = /i\s?discover|express publishing|marlin'?s/i;
+
+/** La nota de derechos de autor de la antología, CUARTA y última entrada de
+ *  `bibliografia` en los tres niveles almacenados (ficha D12). El literal se
+ *  duplica aquí a propósito, igual que las referencias de StartUp en el bloque
+ *  B1 de verificar-no-regresion-ingles.mjs: es lo que hace que la guarda cache
+ *  una edición accidental del texto, y no solo su ausencia. */
+const NOTA_ANTOLOGIA_ESPERADA =
+  "Antología: elaborada por el docente. Cada ejercicio, imagen o texto lleva " +
+  "cita; se utiliza menos del 10% de cada obra; la primera página incluye la " +
+  "leyenda institucional de uso académico (Pedagogía y Formación, 3 de " +
+  "agosto de 2026).";
 
 const ALMACENADOS = ["1", "2", "3"];
 const GENERADOS = ["4", "5", "6", "7", "8"];
@@ -48,13 +60,26 @@ describe("Niveles 1/2/3 — el libro es StartUp (Pearson), nunca iDiscover", () 
   for (const nivel of ALMACENADOS) {
     it(`nivel ${nivel}: la bibliografía almacenada es de StartUp ${nivel}`, () => {
       const { bibliografia } = planeacionDesdeAlmacenada(nivel, {})!;
-      expect(bibliografia.length).toBeGreaterThanOrEqual(1);
-      for (const ref of bibliografia) {
+
+      // EXACTAMENTE cuatro: 3 referencias de StartUp + la nota de antología.
+      // Ni más (una cuarta referencia colada) ni menos (la nota borrada).
+      expect(bibliografia).toHaveLength(4);
+
+      // Las TRES PRIMERAS son las referencias del libro, en ese orden.
+      for (const ref of bibliografia.slice(0, 3)) {
         expect(ref.trim().length).toBeGreaterThan(0);
         expect(ref).toMatch(STARTUP);
-        expect(ref).not.toMatch(IDISCOVER);
         // Que no herede el libro de OTRO nivel: la referencia nombra su nivel.
         expect(ref).toMatch(new RegExp(`StartUp Level ${nivel}\\b`));
+      }
+
+      // La CUARTA es la nota de antología, carácter por carácter (D12).
+      expect(bibliografia[3]).toBe(NOTA_ANTOLOGIA_ESPERADA);
+
+      // Ninguna de las cuatro puede colar el libro abandonado.
+      for (const ref of bibliografia) {
+        expect(ref.trim().length).toBeGreaterThan(0);
+        expect(ref).not.toMatch(IDISCOVER);
       }
     });
 
@@ -62,6 +87,17 @@ describe("Niveles 1/2/3 — el libro es StartUp (Pearson), nunca iDiscover", () 
       const fuentes = fuentesDeNivelAlmacenado(nivel);
       expect(fuentes).toMatch(/pearson/i);
       expect(fuentes).not.toMatch(IDISCOVER);
+    });
+
+    it(`nivel ${nivel}: la nota de antología llega ÍNTEGRA a la celda FUENTES`, () => {
+      const fuentes = fuentesDeNivelAlmacenado(nivel);
+      // Aquí es donde murió `creditos` y donde muere `observaciones` (D12):
+      // el dato existe pero no llega al documento. Se comprueba el texto
+      // completo, no un fragmento, y que sea el ÚLTIMO de los cuatro renglones.
+      expect(fuentes).toContain(NOTA_ANTOLOGIA_ESPERADA);
+      const renglones = fuentes.split("\n");
+      expect(renglones).toHaveLength(4);
+      expect(renglones[3]).toBe(NOTA_ANTOLOGIA_ESPERADA);
     });
 
     it(`nivel ${nivel}: el .docx generado dice Pearson y NO Express Publishing`, () => {
@@ -89,6 +125,17 @@ describe("Niveles 1/2/3 — el libro es StartUp (Pearson), nunca iDiscover", () 
       expect(PLANEACIONES_INGLES_ALMACENADAS[nivel].libro).toBe(`StartUp ${nivel}`);
     });
   }
+
+  it("la nota de antología es IDÉNTICA en los tres niveles", () => {
+    // Los tres documentos oficiales tienen que declarar lo mismo sobre los
+    // derechos de la antología. Tres redacciones distintas serían un defecto,
+    // no una variante, así que se comparan entre sí y contra el literal.
+    const notas = ALMACENADOS.map(
+      (n) => planeacionDesdeAlmacenada(n, {})!.bibliografia[3],
+    );
+    expect(new Set(notas).size).toBe(1);
+    for (const nota of notas) expect(nota).toBe(NOTA_ANTOLOGIA_ESPERADA);
+  });
 });
 
 describe("Niveles 4-8 — el libro sigue siendo iDiscover (Express Publishing)", () => {
@@ -199,4 +246,62 @@ describe("D1 — el fallback del libro no puede alcanzar al nivel equivocado", (
     ) as { unidadBloques: Array<{ estrategia: string }> };
     expect(datos.unidadBloques[0].estrategia).not.toMatch(IDISCOVER);
   });
+});
+
+describe("El prompt de presentaciones lleva el libro de SU nivel", () => {
+  // Esto sustituye al ancla C4 del verificador, que comprobaba
+  // `codigoPres.includes("bibliografiaIDiscover(nivel)")` — el NOMBRE de la
+  // función que produce la referencia, no su efecto. En 61a5f9e esa llamada
+  // pasó a `bibliografiaDeNivel(nivel)`, idéntica para los niveles 4-8, y el
+  // ancla empezó a fallar sin que nada se hubiera roto (ficha D9).
+  //
+  // Aquí se comprueba el TEXTO DEL PROMPT: da igual qué función lo produzca.
+
+  /** Referencia histórica mínima, con la forma que consume el constructor. */
+  const TEXTO_HISTORICA = "Contenido histórico de ejemplo para la referencia.";
+  const referencia = (nivel: string): EntradaIndiceIngles => ({
+    id: `hist-${nivel}`,
+    nombre: `INGLES MARITIMO Lvl.${nivel}.docx`,
+    rutaRelativa: `ingles/lvl${nivel}.docx`,
+    origen: "docente",
+    nivel,
+    palabras: TEXTO_HISTORICA.split(/\s+/).length,
+    texto: TEXTO_HISTORICA,
+  });
+
+  for (const nivel of GENERADOS) {
+    it(`nivel ${nivel}: el prompt de históricas nombra el libro iDiscover`, async () => {
+      const { construirMensajeUsuario } = await import(
+        "../app/api/presentacion-ingles/route"
+      );
+      const prompt = construirMensajeUsuario(nivel, "", [referencia(nivel)]);
+      expect(prompt).toMatch(IDISCOVER);
+      // Y es la referencia de SU nivel, no la de otro.
+      expect(prompt).toContain(`I Discover ${nivel} `);
+      for (const otro of GENERADOS.filter((o) => o !== nivel)) {
+        expect(prompt).not.toContain(`I Discover ${otro} `);
+      }
+    });
+  }
+
+  for (const nivel of ALMACENADOS) {
+    it(`nivel ${nivel}: el prompt almacenado NO nombra el libro abandonado`, async () => {
+      const { construirMensajeAlmacenado } = await import(
+        "../app/api/presentacion-ingles/route"
+      );
+      const prompt = construirMensajeAlmacenado(
+        nivel,
+        "",
+        PLANEACIONES_INGLES_ALMACENADAS[nivel],
+      );
+      // El prompt almacenado SÍ contiene una prohibición explícita de nombrar
+      // iDiscover, así que la palabra aparece a propósito. Lo que no puede
+      // aparecer es la REFERENCIA BIBLIOGRÁFICA del libro abandonado.
+      expect(prompt).not.toMatch(/I Discover \d/i);
+      expect(prompt).not.toMatch(/Evans, Dooley/i);
+      // Y sí lleva la suya, la de StartUp.
+      expect(prompt).toMatch(/StartUp Level \d/);
+      expect(prompt).toContain(`StartUp Level ${nivel} `);
+    });
+  }
 });

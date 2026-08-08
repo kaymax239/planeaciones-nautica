@@ -206,7 +206,12 @@ ${REGLAS_COMUNES_PROMPT}`;
  *
  *  Sin `opciones` (niveles 4-7: histórica propia y sin temario configurado) el
  *  texto resultante es EL MISMO de siempre, byte a byte. */
-function construirMensajeUsuario(
+//  Exportada SOLO para poder verificarla: tests/libro-por-nivel.test.ts
+//  comprueba que el prompt de históricas lleva de verdad la referencia del
+//  libro. Antes eso se vigilaba con un regex sobre este fuente (C4 del
+//  verificador), que fijaba el NOMBRE de la función que producía la referencia
+//  en vez de su efecto, y se volvió un falso positivo al cambiar esa función.
+export function construirMensajeUsuario(
   nivel: string,
   tema: string,
   referencias: EntradaIndiceIngles[],
@@ -280,7 +285,10 @@ const esSemanaPendiente = (s: { contenido: string }) =>
  *  coincide con el contenido de una semana (así la manda la UI, que arma las
  *  casillas con `secuenciaSemanal[].contenido`), esa semana va primero y el
  *  resto queda como contexto. */
-function construirMensajeAlmacenado(
+//  Exportada por el mismo motivo que `construirMensajeUsuario`: el contrapunto
+//  de la comprobación es que ESTE prompt —el de los niveles almacenados— NO
+//  lleve nunca la referencia del libro abandonado.
+export function construirMensajeAlmacenado(
   nivel: string,
   tema: string,
   e: PlaneacionInglesAlmacenada,

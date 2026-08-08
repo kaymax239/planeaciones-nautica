@@ -64,6 +64,61 @@ function comprobarQue(nombre, condicion, detalle = "") {
   }
 }
 
+/* -------------------------------------------------- carga en runtime del .ts */
+//
+// Las anclas de texto de este script fijan CÓMO está escrito el código, no qué
+// hace, y por eso dan falsos positivos al refactorizar (ver la nota de arriba y
+// la ficha D9). Donde se pueda, es mejor evaluar el módulo de verdad.
+//
+// `app/data/inglesMaritimo.ts` no se puede importar con node a secas: es
+// TypeScript —lo resuelve el type stripping nativo de Node ≥22.6— pero importa
+// `../config/calendario` SIN extensión, y el resolutor de ESM no completa ".ts".
+// El hook de abajo solo interviene cuando la resolución normal ya falló, así que
+// no altera ninguna otra importación. Sin dependencias: `jiti` y `tsx` existen
+// en node_modules, pero solo como TRANSITIVAS (eslint/vitest/tailwind), y este
+// script no debe apoyarse en algo que un dedupe puede llevarse.
+
+async function cargarModuloTs(rel) {
+  const { registerHooks } = await import("node:module");
+  const { existsSync } = await import("node:fs");
+  const { pathToFileURL, fileURLToPath: aRuta } = await import("node:url");
+  if (typeof registerHooks !== "function") return null; // Node < 22.15
+
+  // El type stripping avisa de package.json sin "type": ruido, no un problema.
+  const silenciado = process.listeners("warning");
+  process.removeAllListeners("warning");
+  process.on("warning", (w) => {
+    if (!/MODULE_TYPELESS_PACKAGE_JSON/.test(w.message)) console.warn(w);
+  });
+
+  try {
+    registerHooks({
+      resolve(especificador, contexto, siguiente) {
+        try {
+          return siguiente(especificador, contexto);
+        } catch (err) {
+          if (!especificador.startsWith(".") || !contexto.parentURL) throw err;
+          const base = new URL(especificador, contexto.parentURL);
+          for (const ext of [".ts", ".tsx", "/index.ts"]) {
+            const candidato = new URL(base.href + ext);
+            if (existsSync(aRuta(candidato))) {
+              return { url: candidato.href, shortCircuit: true };
+            }
+          }
+          throw err;
+        }
+      },
+    });
+    return await import(pathToFileURL(path.join(RAIZ, rel)).href);
+  } catch (err) {
+    console.error(`  aviso: no se pudo cargar ${rel} en runtime (${err.code ?? err.message})`);
+    return null;
+  } finally {
+    process.removeAllListeners("warning");
+    for (const l of silenciado) process.on("warning", l);
+  }
+}
+
 /* ------------------------------------------------------------------ datos -- */
 
 const indice = JSON.parse(leer(".indice-ingles/indice.json"));
@@ -208,13 +263,38 @@ for (const n of ["4", "5", "6", "7"]) {
   );
 }
 
-// A6. Bibliografía iDiscover intacta (la usan 4-7 como respaldo).
+// A6. Bibliografía iDiscover intacta (la usan 4-8 como respaldo).
+//
+// EN RUNTIME. Antes esto buscaba el literal con `${n}` dentro del fuente, o sea
+// fijaba cómo está ESCRITA la plantilla, no qué devuelve. Pasaba en verde por
+// casualidad: seguía existiendo una plantilla con esa forma exacta. Reescribirla
+// con concatenación, o renombrar la variable de interpolación, la habría puesto
+// en rojo sin cambiar una coma de la salida — el mismo defecto que tenía C4.
+const modF32 = await cargarModuloTs("app/lib/planeacionInglesF32.js");
 comprobarQue(
-  "A6 texto de bibliografiaIDiscover",
-  srcF32.includes(
-    "I Discover ${n} Student book & Workbook (2013), Evans, Dooley. Express Publishing.",
-  ),
-  "cambió el literal de la bibliografía iDiscover",
+  "A6 planeacionInglesF32.js se evalúa en runtime",
+  Boolean(modF32?.bibliografiaDeNivel && modF32?.bibliografiaIDiscover),
+);
+
+for (const n of ["4", "5", "6", "7", "8"]) {
+  const esperado = `I Discover ${n} Student book & Workbook (2013), Evans, Dooley. Express Publishing.`;
+  comprobar(
+    `A6 nivel ${n}: bibliografiaDeNivel devuelve la referencia de iDiscover`,
+    modF32?.bibliografiaDeNivel(n) ?? null,
+    [esperado],
+  );
+  comprobar(
+    `A6 nivel ${n}: bibliografiaIDiscover conserva su texto`,
+    modF32?.bibliografiaIDiscover(n) ?? null,
+    esperado,
+  );
+}
+
+// El caso que cerró 61a5f9e: sin nivel no se puede inventar una referencia.
+comprobar(
+  "A6 sin nivel, bibliografiaDeNivel no inventa libro",
+  modF32?.bibliografiaDeNivel("") ?? null,
+  [],
 );
 comprobarQue(
   "A6 libro del nivel 8 intacto",
@@ -258,41 +338,71 @@ comprobar("A9 niveles almacenados", clavesAlmacenadas.sort(), ["1", "2", "3"]);
 console.log("\nB) Niveles 1/2/3 — contenido almacenado (StartUp)\n");
 
 // B1. Bibliografía poblada: la comprobación que previene D1.
+//
+// EN RUNTIME, no por ancla de texto. Antes esto era un regex contra el fuente
+// (`/bibliografia:\s*bibliografiaStartUp\(Number\(nivel\)\)/`) que dejó de
+// matchear en cuanto la línea pasó a un spread para añadir la nota de antología
+// — sin que nada se hubiera roto. Es el falso positivo que describe D9. Ahora se
+// llama a `planeacionDesdeAlmacenada` y se mira el arreglo que de verdad sale.
 const RE_NO_ESPECIFICADA = /no\s+especificad/i;
+const RE_LIBRO_ABANDONADO = /i\s?discover|express publishing|marlin'?s/i;
 
-// Se extraen las plantillas REALES del módulo y se expanden para los tres
-// niveles, en vez de dar por buena una cadena escrita a mano en este script.
-const plantillas = [
-  ...srcIngles.matchAll(
-    /`(Pearson Education\. \(2019\)\. StartUp Level \$\{nivelLibro\}[^`]*)`/g,
-  ),
-].map((m) => m[1]);
+// La nota de antología (D12) es la CUARTA entrada, idéntica en los tres niveles.
+const NOTA_ESPERADA =
+  "Antología: elaborada por el docente. Cada ejercicio, imagen o texto lleva " +
+  "cita; se utiliza menos del 10% de cada obra; la primera página incluye la " +
+  "leyenda institucional de uso académico (Pedagogía y Formación, 3 de " +
+  "agosto de 2026).";
 
-comprobar("B1 plantillas de bibliografía encontradas", plantillas.length, 3);
+const modIngles = await cargarModuloTs("app/data/inglesMaritimo.ts");
 comprobarQue(
-  "B1 entrada() conecta la bibliografía del nivel",
-  /bibliografia:\s*bibliografiaStartUp\(Number\(nivel\)\)/.test(srcIngles),
+  "B1 inglesMaritimo.ts se evalúa en runtime (no por ancla de texto)",
+  Boolean(modIngles?.planeacionDesdeAlmacenada),
+  "sin esto B1 no puede comprobar comportamiento; revisa la versión de Node",
 );
 
+/** Bibliografía REAL del nivel, tal como la recibe el generador del F-32. */
+const bibliografiaReal = (n) =>
+  modIngles?.planeacionDesdeAlmacenada(n, {})?.bibliografia ?? null;
+
+const notas = [];
+
 for (const n of ["1", "2", "3"]) {
-  const generadas = plantillas.map((p) =>
-    p.replace("${nivelLibro}", n),
-  );
-  comprobar(`B1 nivel ${n}: 3 referencias`, generadas.length, 3);
+  const generadas = bibliografiaReal(n);
+  comprobarQue(`B1 nivel ${n}: planeacionDesdeAlmacenada devuelve bibliografía`, Array.isArray(generadas));
+  if (!Array.isArray(generadas)) continue;
+  notas.push(generadas[3]);
+
+  comprobar(`B1 nivel ${n}: 4 entradas (3 referencias + nota)`, generadas.length, 4);
   comprobar(`B1 nivel ${n}: bibliografía generada`, generadas, [
     `Pearson Education. (2019). StartUp Level ${n} Student Book. Pearson Education.`,
     `Pearson Education. (2019). StartUp Level ${n} Teacher's Edition. Pearson Education.`,
     `Pearson Education. (2019). StartUp Level ${n} Workbook. Pearson Education.`,
+    NOTA_ESPERADA,
   ]);
+  comprobar(`B1 nivel ${n}: la 4a entrada es la nota de antología`, generadas[3], NOTA_ESPERADA);
   comprobarQue(
     `B1 nivel ${n}: ninguna referencia vacía`,
-    generadas.every((s) => s.trim().length > 0),
+    generadas.every((s) => typeof s === "string" && s.trim().length > 0),
   );
   comprobarQue(
     `B1 nivel ${n}: ninguna matchea /no especificad/i`,
     generadas.every((s) => !RE_NO_ESPECIFICADA.test(s)),
   );
+  comprobarQue(
+    `B1 nivel ${n}: ninguna nombra el libro abandonado`,
+    generadas.every((s) => !RE_LIBRO_ABANDONADO.test(s)),
+  );
 }
+
+// Los tres documentos oficiales tienen que declarar LO MISMO sobre los derechos
+// de la antología: tres redacciones distintas serían un defecto, no una variante.
+comprobar("B1 la nota se leyó en los tres niveles", notas.length, 3);
+comprobarQue(
+  "B1 la nota de antología es idéntica en los tres niveles",
+  notas.length === 3 && new Set(notas).size === 1,
+  `variantes distintas: ${new Set(notas).size}`,
+);
 
 // B2. Enfoque no vacío: previene el OTRO fallback de iDiscover (F32:134).
 comprobarQue(
@@ -465,10 +575,23 @@ comprobarQue(
   "C4 el mensaje almacenado usa la bibliografía de la entrada",
   cuerpoAlmacenado.includes("e.bibliografia"),
 );
-comprobarQue(
-  "C4 el camino de históricas conserva bibliografiaIDiscover",
-  codigoPres.includes("bibliografiaIDiscover(nivel)"),
-);
+// La tercera comprobación de C4 —"el camino de históricas conserva
+// bibliografiaIDiscover", que buscaba `bibliografiaIDiscover(nivel)` en este
+// fuente— YA NO VIVE AQUÍ, y no por indulgencia: fijaba el NOMBRE de la función
+// que produce la referencia del libro, no el hecho de que la referencia salga.
+// En 61a5f9e esa llamada pasó a `bibliografiaDeNivel(nivel)` —idéntica para los
+// niveles 4-8, y además arregla 1/2/3 y el caso sin nivel— y el ancla llevaba
+// desde entonces en rojo sin que nada estuviera roto.
+//
+// El comportamiento se comprueba ahora donde SÍ se puede ejecutar el prompt,
+// en tests/libro-por-nivel.test.ts:
+//   "El prompt de presentaciones lleva el libro de SU nivel"
+//     · niveles 4-8: el prompt de históricas nombra I Discover N, y no el de
+//       otro nivel;
+//     · niveles 1-3: el prompt almacenado no lleva la referencia del libro
+//       abandonado y sí la de StartUp.
+// Este script no puede hacerlo: importar el route arrastra dependencias con
+// sintaxis que el type stripping de Node no soporta (parameter properties).
 
 // C5. Las semanas PENDIENTE (14 y 15 del nivel 3) no entran al prompt.
 comprobarQue(
