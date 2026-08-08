@@ -271,18 +271,52 @@ const plantillas = [
 comprobar("B1 plantillas de bibliografía encontradas", plantillas.length, 3);
 comprobarQue(
   "B1 entrada() conecta la bibliografía del nivel",
-  /bibliografia:\s*bibliografiaStartUp\(Number\(nivel\)\)/.test(srcIngles),
+  /bibliografia:\s*\[\s*\.\.\.bibliografiaStartUp\(Number\(nivel\)\),\s*NOTA_ANTOLOGIA,?\s*\]/.test(
+    srcIngles,
+  ),
+);
+
+// B1-bis. La nota de antología (D12) es la CUARTA entrada. Se extrae del módulo
+// —no se escribe a mano aquí— concatenando los literales de la constante.
+const NOTA_ESPERADA =
+  "Antología: elaborada por el docente. Cada ejercicio, imagen o texto lleva " +
+  "cita; se utiliza menos del 10% de cada obra; la primera página incluye la " +
+  "leyenda institucional de uso académico (Pedagogía y Formación, 3 de " +
+  "agosto de 2026).";
+const RE_LIBRO_ABANDONADO = /i\s?discover|express publishing|marlin'?s/i;
+
+// El `;\r?\n` final delimita el fin de la sentencia: el texto de la nota lleva
+// `;` dentro ("…lleva cita; se utiliza…"), pero nunca seguido de salto de línea.
+const bloqueNota = srcIngles.match(/const NOTA_ANTOLOGIA =([\s\S]*?);\r?\n/);
+comprobarQue("B1 existe la constante NOTA_ANTOLOGIA", Boolean(bloqueNota));
+const nota = bloqueNota
+  ? [...bloqueNota[1].matchAll(/"((?:[^"\\]|\\.)*)"/g)]
+      .map((m) => m[1])
+      .join("")
+  : "";
+
+comprobar("B1 texto de la nota de antología", nota, NOTA_ESPERADA);
+comprobarQue("B1 la nota no está vacía", nota.trim().length > 0);
+comprobarQue(
+  "B1 la nota no matchea /no especificad/i (la descartaría bibValida)",
+  !RE_NO_ESPECIFICADA.test(nota),
+);
+comprobarQue(
+  "B1 la nota no nombra el libro abandonado",
+  !RE_LIBRO_ABANDONADO.test(nota),
 );
 
 for (const n of ["1", "2", "3"]) {
-  const generadas = plantillas.map((p) =>
-    p.replace("${nivelLibro}", n),
-  );
-  comprobar(`B1 nivel ${n}: 3 referencias`, generadas.length, 3);
+  const generadas = [
+    ...plantillas.map((p) => p.replace("${nivelLibro}", n)),
+    nota,
+  ];
+  comprobar(`B1 nivel ${n}: 4 entradas (3 referencias + nota)`, generadas.length, 4);
   comprobar(`B1 nivel ${n}: bibliografía generada`, generadas, [
     `Pearson Education. (2019). StartUp Level ${n} Student Book. Pearson Education.`,
     `Pearson Education. (2019). StartUp Level ${n} Teacher's Edition. Pearson Education.`,
     `Pearson Education. (2019). StartUp Level ${n} Workbook. Pearson Education.`,
+    NOTA_ESPERADA,
   ]);
   comprobarQue(
     `B1 nivel ${n}: ninguna referencia vacía`,
@@ -291,6 +325,10 @@ for (const n of ["1", "2", "3"]) {
   comprobarQue(
     `B1 nivel ${n}: ninguna matchea /no especificad/i`,
     generadas.every((s) => !RE_NO_ESPECIFICADA.test(s)),
+  );
+  comprobarQue(
+    `B1 nivel ${n}: ninguna nombra el libro abandonado`,
+    generadas.every((s) => !RE_LIBRO_ABANDONADO.test(s)),
   );
 }
 

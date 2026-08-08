@@ -31,6 +31,7 @@ no generado, y se desvía antes de tocar el índice histórico.
 | D9 | Cero pruebas automatizadas | Baja / riesgo alto | **Suite en vitest** (90 pruebas); PN/MN y `.pptx` sin cubrir |
 | D11 | Desbordamiento silencioso de diapositivas en el `.pptx` | Alta | **Cerrado** (paginación real) |
 | D10 | Dos proyectos de Vercel enlazados en el mismo repo | Media / riesgo alto | Solo documentado |
+| D12 | `observaciones` no existe como campo y no llega al F-32 | Media | Solo documentado — la nota de antología va en `bibliografia` |
 
 ---
 
@@ -555,3 +556,71 @@ bloques/diapositivas sin contenido real que llegaban como cajas vacías.
 medir la fuente. Un texto muy largo puede aún desbordar *su caja* y solaparse
 con el bloque siguiente — no salirse de la diapositiva, que era lo grave.
 Medirlo bien exige una API de medición de texto que `pptxgenjs` no ofrece.
+
+---
+
+## D12 — `observaciones` no existe como campo y nunca llega al F-32
+
+**Severidad: media.** Detectado 2026-08-08, **abierto — solo documentado**.
+
+Al recibir las indicaciones oficiales de derechos de autor de la antología
+(Pedagogía y Formación, 3 de agosto de 2026) se intentó alojarlas en
+`observaciones`, que es donde semánticamente van. No se pudo: **ese campo no
+existe en los datos**, y la cadena está rota en cuatro eslabones a la vez.
+
+| Eslabón | Estado |
+|---|---|
+| Campo en `PlaneacionInglesAlmacenada` (`app/data/inglesMaritimo.ts:77-117`) | **no declarado** |
+| `planeacionDesdeAlmacenada` (`inglesMaritimo.ts:1310`) | lee `datos.observaciones` —el formulario— nunca la entrada |
+| `construirDatosF32DesdeIngles` (`app/lib/planeacionInglesF32.js:291-347`) | **no emite** la clave |
+| `public/templates/F-32.docx` | **sin placeholder** `{observaciones}` |
+
+`observaciones` es en realidad un input de la UI
+(`app/components/SeccionIngles.tsx:160`, textarea *"Indicaciones adicionales
+para la planeación…"*) cuyo único efecto es condicionar el prompt del modelo.
+Para los niveles 1/2/3, que se desvían antes de la IA, **no tiene ningún
+efecto observable**: se escribe, se envía y se descarta en silencio.
+
+**El detalle que lo vuelve una trampa:** la plantilla **sí trae el rótulo**
+`OBSERVACIONES` —texto literal, justo después de `{/unidadBloques}` y antes de
+`PLAN DE EVALUACIÓN`— con la celda de contenido **vacía**. Quien abra el F-32
+ve la sección rotulada y asume que se llena sola. Es exactamente el patrón de
+`creditos` (ficha D7 y commit `0f90ba3`), con la diferencia de que `creditos`
+ya se cerró y hoy imprime.
+
+Los 32 placeholders reales de la plantilla, verificados concatenando **todos**
+los runs `<w:t>` antes de buscar (sin concatenar, varios salen partidos —
+`{ / escuelaNautica / }`, `{ / horasTotales / }`, `{ / objetivoGeneral / }`— y
+se concluye por error que no existen):
+
+```
+periodo asignatura clave escuelaNautica cadetes docente horasTotales
+horasTeoricas horasPracticas horasIndependientes horasSemana creditos grupo
+objetivoGeneral fuentes | #unidadBloques objetivoEspecifico estrategia
+#semanas semana tema secuencia recursos producto evaluacion /semanas
+/unidadBloques | fechaParcial1 fechaParcial2 pctActividades pctParticipacion
+pctConocimiento
+```
+
+**Decisión: no se arregla; la nota se aloja en `bibliografia`.** Repararlo
+exige cuatro cambios, uno de ellos **binario sobre la plantilla que comparten
+los ocho niveles** — desproporcionado frente a añadir una cadena al arreglo que
+ya viaja por una ruta viva y probada (`inglesMaritimo.ts:268 →
+planeacionDesdeAlmacenada:1309 → planeacionInglesF32.js:212-218 → {fuentes}`).
+La nota sale como cuarto renglón bajo *FUENTES DE INFORMACIÓN DE REFERENCIA Y
+CONSULTA DE LA ASIGNATURA*, que es un sitio defendible para una nota sobre la
+antología y sus derechos.
+
+**`recursos` se evaluó y se descartó**, pese a ser el candidato intuitivo. El
+`recursos` de primer nivel está muerto por triplicado: vale `[]`
+(`inglesMaritimo.ts:267`), el constructor nunca lo lee, y no tiene placeholder
+de primer nivel. El `{recursos}` que sí imprime vive **dentro del loop
+`{#semanas}`**: la nota se repetiría 18 veces por documento, intercalada entre
+"StartUp 1 Workbook" y los audios.
+
+**Riesgo que queda vivo:** cualquiera que en el futuro escriba en el textarea
+de observaciones esperando verlo en el F-32 no lo verá, y no habrá ninguna
+señal. Es el mismo fallo de clase que D1 y D11 — el documento sale mal, o
+incompleto, sin avisar. El arreglo completo sería: declarar el campo en el
+tipo, leerlo de la entrada en `:1310`, emitirlo en el constructor, e insertar
+`{observaciones}` en la celda huérfana de la plantilla.
