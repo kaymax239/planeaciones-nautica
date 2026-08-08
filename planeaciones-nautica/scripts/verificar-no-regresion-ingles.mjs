@@ -263,13 +263,38 @@ for (const n of ["4", "5", "6", "7"]) {
   );
 }
 
-// A6. Bibliografía iDiscover intacta (la usan 4-7 como respaldo).
+// A6. Bibliografía iDiscover intacta (la usan 4-8 como respaldo).
+//
+// EN RUNTIME. Antes esto buscaba el literal con `${n}` dentro del fuente, o sea
+// fijaba cómo está ESCRITA la plantilla, no qué devuelve. Pasaba en verde por
+// casualidad: seguía existiendo una plantilla con esa forma exacta. Reescribirla
+// con concatenación, o renombrar la variable de interpolación, la habría puesto
+// en rojo sin cambiar una coma de la salida — el mismo defecto que tenía C4.
+const modF32 = await cargarModuloTs("app/lib/planeacionInglesF32.js");
 comprobarQue(
-  "A6 texto de bibliografiaIDiscover",
-  srcF32.includes(
-    "I Discover ${n} Student book & Workbook (2013), Evans, Dooley. Express Publishing.",
-  ),
-  "cambió el literal de la bibliografía iDiscover",
+  "A6 planeacionInglesF32.js se evalúa en runtime",
+  Boolean(modF32?.bibliografiaDeNivel && modF32?.bibliografiaIDiscover),
+);
+
+for (const n of ["4", "5", "6", "7", "8"]) {
+  const esperado = `I Discover ${n} Student book & Workbook (2013), Evans, Dooley. Express Publishing.`;
+  comprobar(
+    `A6 nivel ${n}: bibliografiaDeNivel devuelve la referencia de iDiscover`,
+    modF32?.bibliografiaDeNivel(n) ?? null,
+    [esperado],
+  );
+  comprobar(
+    `A6 nivel ${n}: bibliografiaIDiscover conserva su texto`,
+    modF32?.bibliografiaIDiscover(n) ?? null,
+    esperado,
+  );
+}
+
+// El caso que cerró 61a5f9e: sin nivel no se puede inventar una referencia.
+comprobar(
+  "A6 sin nivel, bibliografiaDeNivel no inventa libro",
+  modF32?.bibliografiaDeNivel("") ?? null,
+  [],
 );
 comprobarQue(
   "A6 libro del nivel 8 intacto",
@@ -550,10 +575,23 @@ comprobarQue(
   "C4 el mensaje almacenado usa la bibliografía de la entrada",
   cuerpoAlmacenado.includes("e.bibliografia"),
 );
-comprobarQue(
-  "C4 el camino de históricas conserva bibliografiaIDiscover",
-  codigoPres.includes("bibliografiaIDiscover(nivel)"),
-);
+// La tercera comprobación de C4 —"el camino de históricas conserva
+// bibliografiaIDiscover", que buscaba `bibliografiaIDiscover(nivel)` en este
+// fuente— YA NO VIVE AQUÍ, y no por indulgencia: fijaba el NOMBRE de la función
+// que produce la referencia del libro, no el hecho de que la referencia salga.
+// En 61a5f9e esa llamada pasó a `bibliografiaDeNivel(nivel)` —idéntica para los
+// niveles 4-8, y además arregla 1/2/3 y el caso sin nivel— y el ancla llevaba
+// desde entonces en rojo sin que nada estuviera roto.
+//
+// El comportamiento se comprueba ahora donde SÍ se puede ejecutar el prompt,
+// en tests/libro-por-nivel.test.ts:
+//   "El prompt de presentaciones lleva el libro de SU nivel"
+//     · niveles 4-8: el prompt de históricas nombra I Discover N, y no el de
+//       otro nivel;
+//     · niveles 1-3: el prompt almacenado no lleva la referencia del libro
+//       abandonado y sí la de StartUp.
+// Este script no puede hacerlo: importar el route arrastra dependencias con
+// sintaxis que el type stripping de Node no soporta (parameter properties).
 
 // C5. Las semanas PENDIENTE (14 y 15 del nivel 3) no entran al prompt.
 comprobarQue(

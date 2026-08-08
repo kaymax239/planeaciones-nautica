@@ -24,6 +24,7 @@ import {
   metaF32DesdeAlmacenada,
   planeacionDesdeAlmacenada,
 } from "../app/data/inglesMaritimo";
+import type { EntradaIndiceIngles } from "../app/lib/bibliotecaIngles";
 import { TEMARIO_OFICIAL, temarioOficialTexto } from "../app/data/temarioInglesOficial";
 import { renderEstricto, textoDocx } from "./ayudas/docx";
 import { META_FORMULARIO, planeacionGeneradaFalsa } from "./ayudas/fixtures";
@@ -245,4 +246,62 @@ describe("D1 — el fallback del libro no puede alcanzar al nivel equivocado", (
     ) as { unidadBloques: Array<{ estrategia: string }> };
     expect(datos.unidadBloques[0].estrategia).not.toMatch(IDISCOVER);
   });
+});
+
+describe("El prompt de presentaciones lleva el libro de SU nivel", () => {
+  // Esto sustituye al ancla C4 del verificador, que comprobaba
+  // `codigoPres.includes("bibliografiaIDiscover(nivel)")` — el NOMBRE de la
+  // función que produce la referencia, no su efecto. En 61a5f9e esa llamada
+  // pasó a `bibliografiaDeNivel(nivel)`, idéntica para los niveles 4-8, y el
+  // ancla empezó a fallar sin que nada se hubiera roto (ficha D9).
+  //
+  // Aquí se comprueba el TEXTO DEL PROMPT: da igual qué función lo produzca.
+
+  /** Referencia histórica mínima, con la forma que consume el constructor. */
+  const TEXTO_HISTORICA = "Contenido histórico de ejemplo para la referencia.";
+  const referencia = (nivel: string): EntradaIndiceIngles => ({
+    id: `hist-${nivel}`,
+    nombre: `INGLES MARITIMO Lvl.${nivel}.docx`,
+    rutaRelativa: `ingles/lvl${nivel}.docx`,
+    origen: "docente",
+    nivel,
+    palabras: TEXTO_HISTORICA.split(/\s+/).length,
+    texto: TEXTO_HISTORICA,
+  });
+
+  for (const nivel of GENERADOS) {
+    it(`nivel ${nivel}: el prompt de históricas nombra el libro iDiscover`, async () => {
+      const { construirMensajeUsuario } = await import(
+        "../app/api/presentacion-ingles/route"
+      );
+      const prompt = construirMensajeUsuario(nivel, "", [referencia(nivel)]);
+      expect(prompt).toMatch(IDISCOVER);
+      // Y es la referencia de SU nivel, no la de otro.
+      expect(prompt).toContain(`I Discover ${nivel} `);
+      for (const otro of GENERADOS.filter((o) => o !== nivel)) {
+        expect(prompt).not.toContain(`I Discover ${otro} `);
+      }
+    });
+  }
+
+  for (const nivel of ALMACENADOS) {
+    it(`nivel ${nivel}: el prompt almacenado NO nombra el libro abandonado`, async () => {
+      const { construirMensajeAlmacenado } = await import(
+        "../app/api/presentacion-ingles/route"
+      );
+      const prompt = construirMensajeAlmacenado(
+        nivel,
+        "",
+        PLANEACIONES_INGLES_ALMACENADAS[nivel],
+      );
+      // El prompt almacenado SÍ contiene una prohibición explícita de nombrar
+      // iDiscover, así que la palabra aparece a propósito. Lo que no puede
+      // aparecer es la REFERENCIA BIBLIOGRÁFICA del libro abandonado.
+      expect(prompt).not.toMatch(/I Discover \d/i);
+      expect(prompt).not.toMatch(/Evans, Dooley/i);
+      // Y sí lleva la suya, la de StartUp.
+      expect(prompt).toMatch(/StartUp Level \d/);
+      expect(prompt).toContain(`StartUp Level ${nivel} `);
+    });
+  }
 });
