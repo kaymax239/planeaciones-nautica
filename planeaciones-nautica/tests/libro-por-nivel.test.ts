@@ -2,6 +2,12 @@
 //
 //   Niveles 1, 2 y 3 → StartUp (Pearson Education)
 //   Niveles 4 a 8    → iDiscover (Express Publishing)
+//   VII (Maritime English 1) → Career Paths: Merchant Navy 1 + Marlins Study Pack 1
+//
+// VII es la excepción de los almacenados: NO es StartUp y NO es iDiscover. Su
+// editorial sí es Express Publishing (Career Paths lo es), así que la regex
+// IDISCOVER de este archivo —que incluye "express publishing" y "marlin's"— no
+// le aplica: para VII se compara contra el título del libro abandonado.
 //
 // Modo de fallo real (ficha D1 de DEUDA-TECNICA-INGLES.md): el
 // F32_INGLES_NIVEL3_VERIF.docx salió firmado con
@@ -45,6 +51,18 @@ const NOTA_ANTOLOGIA_ESPERADA =
 
 const ALMACENADOS = ["1", "2", "3"];
 const GENERADOS = ["4", "5", "6", "7", "8"];
+
+/** Bibliografía oficial de VII, carácter por carácter (misma razón que la nota
+ *  de antología: la guarda tiene que cazar una EDICIÓN, no solo un borrado). */
+const BIBLIOGRAFIA_VII_ESPERADA = [
+  "Evans, V., & Dooley, J. Career Paths: Merchant Navy, Book 1. Express Publishing.",
+  "Nisbet, A., Whitcher, A., & Logie, C. (1997). Marlins English for Seafarers " +
+    "Study Pack 1. Marlins, Edinburgh, UK.",
+];
+
+/** El TÍTULO del libro abandonado. Para VII no sirve la regex IDISCOVER: su
+ *  editorial (Express Publishing) y Marlins son legítimos en esta asignatura. */
+const TITULO_IDISCOVER = /i\s?discover/i;
 
 /** Texto que acaba en la celda FUENTES del F-32 de un nivel almacenado. */
 function fuentesDeNivelAlmacenado(nivel: string): string {
@@ -135,6 +153,67 @@ describe("Niveles 1/2/3 — el libro es StartUp (Pearson), nunca iDiscover", () 
     );
     expect(new Set(notas).size).toBe(1);
     for (const nota of notas) expect(nota).toBe(NOTA_ANTOLOGIA_ESPERADA);
+  });
+});
+
+describe("VII — el libro es Career Paths: Merchant Navy 1, ni StartUp ni iDiscover", () => {
+  it("la entrada declara su libro propio", () => {
+    const libro = PLANEACIONES_INGLES_ALMACENADAS["VII"].libro;
+    expect(libro).toBe("Career Paths: Merchant Navy 1");
+    expect(libro).not.toMatch(STARTUP);
+    expect(libro).not.toMatch(TITULO_IDISCOVER);
+  });
+
+  it("la bibliografía almacenada es la de Merchant Navy + Marlins, íntegra", () => {
+    const { bibliografia } = planeacionDesdeAlmacenada("VII", {})!;
+    // EXACTAMENTE dos, en ese orden y con ese texto: ni una referencia colada
+    // ni una borrada ni una editada.
+    expect(bibliografia).toEqual(BIBLIOGRAFIA_VII_ESPERADA);
+    for (const ref of bibliografia) {
+      expect(ref.trim().length).toBeGreaterThan(0);
+      // planeacionInglesF32.js DESCARTA cualquier referencia que matchee esto y
+      // caería al fallback por nivel — que para VII no existe (D1).
+      expect(ref).not.toMatch(/no\s+especificad/i);
+      expect(ref).not.toMatch(STARTUP);
+      expect(ref).not.toMatch(TITULO_IDISCOVER);
+    }
+    // No hereda la nota de antología de los niveles 1-3.
+    expect(bibliografia).not.toContain(NOTA_ANTOLOGIA_ESPERADA);
+  });
+
+  it("la celda FUENTES del F-32 lleva las dos referencias y nada de StartUp", () => {
+    const fuentes = fuentesDeNivelAlmacenado("VII");
+    const renglones = fuentes.split("\n");
+    expect(renglones).toEqual(BIBLIOGRAFIA_VII_ESPERADA);
+    expect(fuentes).not.toMatch(STARTUP);
+    expect(fuentes).not.toMatch(TITULO_IDISCOVER);
+    // El aviso de "sin bibliografía": si la lista se vaciara, VII no está en
+    // LIBRO_POR_NIVEL y la celda saldría marcada como pendiente.
+    expect(fuentes).not.toMatch(/pendiente/i);
+  });
+
+  it("el .docx generado dice Merchant Navy y NO Pearson ni I Discover", () => {
+    const meta = metaF32DesdeAlmacenada("VII");
+    const texto = textoDocx(
+      renderEstricto(
+        "F-32.docx",
+        construirDatosF32DesdeIngles(planeacionDesdeAlmacenada("VII", {})!, {
+          ...META_FORMULARIO,
+          ...meta,
+          nivel: "VII",
+        }),
+      ),
+    );
+    expect(texto).toMatch(/Merchant Navy/i);
+    expect(texto).not.toMatch(STARTUP);
+    expect(texto).not.toMatch(TITULO_IDISCOVER);
+  });
+
+  it("no se cuela la bibliografía de ningún nivel de StartUp", () => {
+    const fuentes = fuentesDeNivelAlmacenado("VII");
+    for (const otro of ALMACENADOS) {
+      expect(fuentes).not.toMatch(new RegExp(`StartUp Level ${otro}\\b`));
+    }
   });
 });
 
@@ -304,4 +383,21 @@ describe("El prompt de presentaciones lleva el libro de SU nivel", () => {
       expect(prompt).toContain(`StartUp Level ${nivel} `);
     });
   }
+
+  it("VII: el prompt almacenado lleva SU libro, no el de los niveles de StartUp", async () => {
+    const { construirMensajeAlmacenado } = await import(
+      "../app/api/presentacion-ingles/route"
+    );
+    const prompt = construirMensajeAlmacenado(
+      "VII",
+      "",
+      PLANEACIONES_INGLES_ALMACENADAS["VII"],
+    );
+    expect(prompt).toContain("Career Paths: Merchant Navy 1");
+    for (const ref of BIBLIOGRAFIA_VII_ESPERADA) expect(prompt).toContain(ref);
+    // Ni el libro abandonado ni el de los niveles 1-3.
+    expect(prompt).not.toMatch(/I Discover \d/i);
+    expect(prompt).not.toMatch(/StartUp/i);
+    expect(prompt).not.toMatch(/Pearson/i);
+  });
 });

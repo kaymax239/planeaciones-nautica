@@ -19,6 +19,11 @@ export async function pedirPreguntasExamenIA(params: {
   temas: string[];
   /** Valor total del examen en puntos (para el puntaje por sección). */
   total?: number;
+  /** Solo Inglés: nivel del que sale el LIBRO del examen. Si no se manda, el
+   *  servidor lo deduce de `materia` con /nivel\s*0*(\d+)/i, que solo captura
+   *  dígitos: un nivel no numerado como VII quedaría sin libro y el examen
+   *  caería al prompt genérico (iDiscover). Mandarlo evita esa deducción. */
+  nivel?: string;
 }): Promise<PreguntasExamen | undefined> {
   // Sin temas no hay nada que pedir: fallback directo al determinista.
   if (!params.materia || params.temas.length === 0) return undefined;

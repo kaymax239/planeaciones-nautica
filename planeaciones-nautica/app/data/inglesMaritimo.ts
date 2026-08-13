@@ -145,6 +145,40 @@ const ENFOQUE =
   "(listening, reading, writing, speaking) y práctica de gramática y " +
   "vocabulario aplicada al contexto marítimo.";
 
+/* ------------------------- VII — Maritime English 1 ------------------------ */
+//
+// VII es la EXCEPCIÓN entre los niveles almacenados: no es un nivel numerado de
+// StartUp de primer semestre, sino la asignatura de séptimo semestre. No lleva
+// las 112/7/9 de los niveles 1-3; lleva 90/5/7.5. Ver F-32 de VII B PN.
+
+const CLAVE_VII = "ING746";
+const SEMESTRE_VII = 7;
+
+const HORAS_VII: HorasIngles = {
+  total: 90,
+  teoricas: 20,
+  practicas: 70,
+  independientes: 30,
+  porSemana: 5,
+  creditos: 7.5,
+};
+
+/** Enfoque de VII. No menciona StartUp: el libro es Career Paths: Merchant
+ *  Navy 1, con Marlins Study Pack 1 como material de apoyo en las primeras
+ *  semanas. */
+const ENFOQUE_VII =
+  "Enfoque comunicativo y técnico de la serie Career Paths: Merchant Navy " +
+  "(Express Publishing): vocabulario específico del buque mercante, práctica " +
+  "de las cuatro habilidades sobre situaciones operativas reales y refuerzo " +
+  "inicial con Marlins English for Seafarers Study Pack 1.";
+
+/** Bibliografía oficial de VII. Igual que el resto, ninguna entrada debe
+ *  matchear /no\s+especificad/i: planeacionInglesF32.js las descartaría. */
+const BIBLIOGRAFIA_VII: string[] = [
+  "Evans, V., & Dooley, J. Career Paths: Merchant Navy, Book 1. Express Publishing.",
+  "Nisbet, A., Whitcher, A., & Logie, C. (1997). Marlins English for Seafarers Study Pack 1. Marlins, Edinburgh, UK.",
+];
+
 const HABILIDADES_PARCIAL: HabilidadExamen[] = [
   { habilidad: "Listening", puntos: 17 },
   { habilidad: "Reading", puntos: 17 },
@@ -234,7 +268,7 @@ const NOTA_ANTOLOGIA =
 /** Objetivo general por nivel, redactado desde la dosificación. NO puede quedar
  *  vacío: alimenta {objetivoGeneral} del F-32 y, vía el `unidadBloques` de
  *  planeacionInglesF32.js, el {objetivoEspecifico} del primer bloque. */
-const OBJETIVO_GENERAL: Record<"1" | "2" | "3", string> = {
+const OBJETIVO_GENERAL: Record<string, string> = {
   "1":
     "Desarrollar en el estudiante habilidades comunicativas para el dominio " +
     "del idioma inglés que le permitan solventar situaciones de su " +
@@ -249,37 +283,81 @@ const OBJETIVO_GENERAL: Record<"1" | "2" | "3", string> = {
     "descripción de experiencias, la expresión de opiniones y el reporte de " +
     "situaciones operativas, incorporando vocabulario técnico del entorno " +
     "marítimo portuario.",
+  // Transcrito literal del F-32 de VII (Marsili, VII B PN). Se respeta la
+  // puntuación del original, que es el documento oficial de la asignatura.
+  VII:
+    "Comunica con suficiente claridad sus ideas, utilizando un léxico, " +
+    "cotidiano y marítimo, a través de la expresión oral y escrita, en " +
+    "enunciados diálogos y prácticas para establecer conversaciones, " +
+    "incorporando sus respectivas estructuras gramaticales intermedias y " +
+    "complejas para funcionar en un ambiente laboral multicultural.",
+};
+
+/** Lo que un nivel puede tener distinto del molde de StartUp (niveles 1-3).
+ *  Todo es opcional: omitido, cae al valor común y la entrada sale idéntica a
+ *  como salía antes de que este parámetro existiera. VII lo usa entero porque
+ *  no es un nivel numerado de StartUp, sino Maritime English 1 (Merchant Navy)
+ *  de séptimo semestre, con clave, horas y bibliografía propias. */
+type ExtrasEntrada = {
+  libro?: string;
+  clave?: string;
+  semestre?: number;
+  docente?: string;
+  horas?: HorasIngles;
+  enfoque?: string;
+  bibliografia?: string[];
 };
 
 const entrada = (
-  nivel: "1" | "2" | "3",
+  nivel: string,
   nombre: string,
   secuenciaSemanal: SemanaSecuencia[],
-): PlaneacionInglesAlmacenada => ({
-  id: `ingles-maritimo-n${nivel}-sem1-2026b`,
-  nivel,
-  nombre,
-  libro: `StartUp ${nivel}`,
-  programa: PROGRAMA,
-  semestre: SEMESTRE,
-  periodo: PERIODO,
-  clave: CLAVE,
-  docente: DOCENTE,
-  formato: FORMATO,
-  escuela: ESCUELA,
-  horas: HORAS,
-  enfoque: ENFOQUE,
-  objetivoGeneral: OBJETIVO_GENERAL[nivel],
-  objetivosEspecificos: [],
-  competencias: {
-    disciplinares: [],
-    genericas: { instrumentales: [], interpersonales: [], sistemicas: [] },
-  },
-  secuenciaSemanal,
-  recursos: [],
-  bibliografia: [...bibliografiaStartUp(Number(nivel)), NOTA_ANTOLOGIA],
-  evaluacion: EVALUACION,
-});
+  extras: ExtrasEntrada = {},
+): PlaneacionInglesAlmacenada => {
+  // `objetivoGeneral` no puede quedar vacío: alimenta {objetivoGeneral} del
+  // F-32 y el {objetivoEspecifico} del primer bloque. Con el mapa ya indexado
+  // por string, una clave mal escrita daría `undefined` en silencio y el F-32
+  // saldría con la celda vacía. Que reviente al cargar el módulo.
+  const objetivoGeneral = OBJETIVO_GENERAL[nivel];
+  if (!objetivoGeneral) {
+    throw new Error(
+      `inglesMaritimo: el nivel "${nivel}" no tiene objetivoGeneral en OBJETIVO_GENERAL`,
+    );
+  }
+
+  return {
+    id: `ingles-maritimo-n${nivel}-sem1-2026b`,
+    nivel,
+    nombre,
+    // El libro NO se deriva del nivel: VII es Merchant Navy, no "StartUp VII".
+    libro: extras.libro ?? `StartUp ${nivel}`,
+    programa: PROGRAMA,
+    semestre: extras.semestre ?? SEMESTRE,
+    periodo: PERIODO,
+    clave: extras.clave ?? CLAVE,
+    docente: extras.docente ?? DOCENTE,
+    formato: FORMATO,
+    escuela: ESCUELA,
+    horas: extras.horas ?? HORAS,
+    enfoque: extras.enfoque ?? ENFOQUE,
+    objetivoGeneral,
+    objetivosEspecificos: [],
+    competencias: {
+      disciplinares: [],
+      genericas: { instrumentales: [], interpersonales: [], sistemicas: [] },
+    },
+    secuenciaSemanal,
+    recursos: [],
+    // bibliografiaStartUp(Number(nivel)) solo se llama para los numerados:
+    // Number("VII") sería NaN e imprimiría "StartUp Level NaN" en FUENTES.
+    bibliografia:
+      extras.bibliografia ?? [
+        ...bibliografiaStartUp(Number(nivel)),
+        NOTA_ANTOLOGIA,
+      ],
+    evaluacion: EVALUACION,
+  };
+};
 
 /* ------------------------------ dosificación ------------------------------ */
 //
@@ -1250,6 +1328,382 @@ const SECUENCIA_NIVEL_3: SemanaSecuencia[] = [
   },
 ];
 
+// VII — Maritime English 1 · Career Paths: Merchant Navy 1 (Express Publishing)
+//
+// Dosificado desde el F-32 de VII B PN, que trae 21 filas. Dos de ellas son los
+// exámenes parciales, que en este repositorio NO son semanas de contenido: van
+// en los huecos del calendario institucional, entre la 10 y la 11 y entre la 16
+// y la 17 (ver calendario.ts). Quedan 19 unidades para 16 huecos, así que hay
+// tres integraciones, ninguna de las cuales pierde unidad del temario:
+//
+//   - semana  2: Marlins Unit 1 + Unit 2 (base gramatical, repaso en séptimo)
+//   - semana  4: Merchant Navy Unit 2 + Marlins Unit 3 (mismos espacios a bordo)
+//   - semana  9: Merchant Navy Unit 7 + Unit 8 (las banderas SON comunicación
+//                visual; el libro las separa artificialmente)
+//
+// Consecuencia: el 1er parcial (semanas 1-10) cubre hasta la Unit 9 y no hasta
+// la Unit 6 como en el documento fuente. Comprimir el segundo bloque habría
+// exigido fusionar The Crew con Chiefs and Officers y Canvas Work con Painting,
+// que son las unidades densas del libro y se dan por separado.
+//
+// Asuetos en semana de clase (5, 7, 13 y 15; la 15 pierde dos días) marcados
+// como viñeta en `actividades`, igual que en los niveles 1-3.
+//
+// Actividades del 15% en `evidencias`: quiz sem 2 y 11, escrita sem 6 y 14,
+// oral sem 9 y 15 — mismas semanas que los niveles 1-3, porque el reparto de
+// parciales del calendario es el mismo.
+const SECUENCIA_NIVEL_VII: SemanaSecuencia[] = [
+  {
+    semana: 1,
+    contenido:
+      "Encuadre de la asignatura: contenidos, criterios de evaluación, porcentajes y fechas de parciales. Diagnóstico de las cuatro habilidades.",
+    actividades: [
+      "Inicio: bienvenida al grupo y actividad de presentación.",
+      "Desarrollo: encuadre — contenidos del curso, criterios de evaluación, porcentajes y fechas de los dos parciales y del ordinario.",
+      "Desarrollo: diagnóstico breve de comprensión auditiva y expresión oral para ubicar el nivel real del grupo.",
+      "Cierre: resolución de dudas y acuerdos de trabajo del semestre.",
+    ],
+    evidencias: "Cuestionario diagnóstico resuelto",
+    recursos: [
+      "Programa de trabajo de la asignatura",
+      "Diapositivas de encuadre",
+      "Laptop, proyector y bocinas",
+      "Listas de asistencia y evaluación",
+    ],
+  },
+  {
+    semana: 2,
+    contenido:
+      "Marlins Study Pack 1, Units 1-2 (The Seafarer · The Job): verbo to be y have, datos personales, países y nacionalidades; puestos a bordo, números ordinales, fechas, la hora en tierra y en el mar, rutinas y present simple.",
+    actividades: [
+      "Inicio: audio de presentación personal; los cadetes contestan preguntas sobre sí mismos.",
+      "Desarrollo: repaso de to be y have en afirmativo, negativo e interrogativo; países, nacionalidades y banderas.",
+      "Desarrollo: organigrama de los puestos a bordo a partir de un reporte de radio con rangos de tripulantes.",
+      "Desarrollo: números ordinales, meses y escritura de fechas; la hora en tierra frente a la hora a bordo.",
+      "Desarrollo: rutinas diarias con present simple en negativo e interrogativo.",
+      "Cierre: llenado del formulario de datos personales de un seaman y práctica en parejas con tarjetas de tripulante.",
+    ],
+    evidencias:
+      "Formulario de datos personales de seaman y organigrama de puestos a bordo · Quiz de gramática y vocabulario (15%)",
+    recursos: [
+      "Marlins English for Seafarers Study Pack 1, Units 1-2",
+      "Audios de Marlins Study Pack 1",
+      "Tarjetas de tripulante",
+      "Laptop, proyector y bocinas",
+    ],
+  },
+  {
+    semana: 3,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 1 — Parts of a ship: Exterior. Vocabulario de los elementos exteriores del buque.",
+    actividades: [
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante — ¿qué partes de una embarcación conozco? — para activar conocimientos previos.",
+      "Desarrollo: ejercicios de vocabulario en la plataforma Express Digibooks.",
+      "Desarrollo: lectura y análisis del párrafo de la unidad; comprensión lectora y relación de términos con definiciones.",
+      "Desarrollo: práctica auditiva de diálogos con vocabulario marítimo y completado del diálogo.",
+      "Cierre: práctica comunicativa oral, autoevaluación y ejercicio de escritura del libro.",
+    ],
+    evidencias:
+      "Actividades de la Unit 1 contestadas en el libro Merchant Navy",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 1",
+      "Plataforma Express Digibooks",
+      "Programa de trabajo",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 4,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 2 — Parts of a ship: Interior (bulkhead, compartment, deck, hatch, head, ladder, overhead, partition, passageway, watertight door), integrada con Marlins Unit 3 (The Vessel): there is / there are, a / the y descripción de posiciones a bordo.",
+    actividades: [
+      "Inicio: audio de presentación de la unidad y ubicación de los espacios a bordo sobre un diagrama del buque.",
+      "Desarrollo: vocabulario de compartimentos interiores en la plataforma Express Digibooks.",
+      "Desarrollo: estructura there is / there are y uso de a / the para describir espacios del buque.",
+      "Desarrollo: lectura del texto en que el capitán describe el MV Transitor en detalle e identificación del vocabulario.",
+      "Desarrollo: redacción de oraciones describiendo la posición de cada espacio a bordo.",
+      "Cierre: los cadetes preguntan a sus compañeros por la distribución interior de su embarcación.",
+    ],
+    evidencias:
+      "Diagrama de los espacios interiores del buque descrito con there is / there are",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 2",
+      "Marlins English for Seafarers Study Pack 1, Unit 3",
+      "Plataforma Express Digibooks",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 5,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 3 — Ship Systems: air, drainage, electrical, fuel, mooring, potable water, propulsion, saltwater, steering y ventilation system.",
+    actividades: [
+      "Semana con asueto: 2 de septiembre (Aniversario de la ENM de Tampico).",
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante sobre los sistemas que mantienen operando al buque.",
+      "Desarrollo: ejercicios de vocabulario en Express Digibooks y relación de términos con definiciones.",
+      "Desarrollo: lectura y comprensión del texto de la unidad; completado de oraciones.",
+      "Cierre: práctica comunicativa oral, autoevaluación y ejercicio de escritura del libro.",
+    ],
+    evidencias:
+      "Actividades de la Unit 3 contestadas en el libro Merchant Navy",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 3",
+      "Plataforma Express Digibooks",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 6,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 4 — Ship Stability: antiroll tank, athwartship, bilge keel, center of buoyancy, center of gravity, displacement, draft, longitudinal y transverse stability, stabilizer wings, trim.",
+    actividades: [
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante sobre qué mantiene estable a un buque cargado.",
+      "Desarrollo: ejercicios de vocabulario en Express Digibooks; lectura y análisis del párrafo de la unidad.",
+      "Desarrollo: comprensión de un texto previamente leído y escuchado; completado de oraciones.",
+      "Cierre: redacción de un párrafo describiendo las condiciones de estabilidad de un buque.",
+    ],
+    evidencias:
+      "Actividades de la Unit 4 contestadas en el libro Merchant Navy · Expresión escrita (15%)",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 4",
+      "Plataforma Express Digibooks",
+      "Rúbrica de expresión escrita",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 7,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 5 — Nautical directions: abaft, aft, astern, below, bow, forward, inboard, outboard, starboard, stern, topside.",
+    actividades: [
+      "Semana con asueto: 16 de septiembre (Día de la Independencia de México).",
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante sobre cómo se indica una posición a bordo sin usar izquierda y derecha.",
+      "Desarrollo: ejercicios de vocabulario en Express Digibooks y aplicación sobre un plano del buque.",
+      "Desarrollo: práctica auditiva de diálogos con indicaciones de dirección a bordo.",
+      "Cierre: práctica comunicativa oral dando y siguiendo indicaciones de posición.",
+    ],
+    evidencias:
+      "Actividades de la Unit 5 contestadas en el libro Merchant Navy",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 5",
+      "Plataforma Express Digibooks",
+      "Plano del buque para ubicar direcciones",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 8,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 6 — Communications: Audio. Prowords y alfabeto fonético: affirmative, negative, out, over, roger, say again, spell.",
+    actividades: [
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante sobre por qué la radio marítima usa palabras convenidas.",
+      "Desarrollo: ejercicios de vocabulario en Express Digibooks; práctica del alfabeto fonético para deletrear nombres y distintivos.",
+      "Desarrollo: práctica auditiva de comunicaciones por radio y completado del diálogo.",
+      "Cierre: simulación por parejas de una comunicación radiofónica breve usando prowords.",
+    ],
+    evidencias:
+      "Actividades de la Unit 6 contestadas en el libro Merchant Navy",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 6",
+      "Plataforma Express Digibooks",
+      "Tabla del alfabeto fonético internacional",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 9,
+    contenido:
+      "Career Paths: Merchant Navy 1, Units 7-8 — Communications: Visual y Signal Flags. Métodos direccional y no direccional, flashing light, código Morse, semáforo, signal lamp; halyard, ICS, tackline, señales de una, dos y tres letras.",
+    actividades: [
+      "Inicio: presentación conjunta de ambas unidades mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante sobre cómo comunicarse con otro buque en silencio de radio.",
+      "Desarrollo: ejercicios de vocabulario de las dos unidades en Express Digibooks.",
+      "Desarrollo: métodos direccional y no direccional; lectura de mensajes en código Morse con lámpara de señales.",
+      "Desarrollo: banderas del Código Internacional de Señales y composición de señales de una, dos y tres letras.",
+      "Cierre: práctica comunicativa oral transmitiendo y descifrando un mensaje por banderas.",
+    ],
+    evidencias:
+      "Actividades de las Units 7 y 8 contestadas en el libro Merchant Navy · Expresión oral (15%)",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Units 7-8",
+      "Plataforma Express Digibooks",
+      "Tabla de banderas del Código Internacional de Señales",
+      "Rúbrica de expresión oral",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 10,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 9 — Nautical Measurements: cable, depth, distance, fathom, foot, gross ton, knot, nautical mile.",
+    actividades: [
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante — ¿cómo se miden las distancias en el mar?",
+      "Desarrollo: ejercicios de vocabulario en Express Digibooks y conversión entre unidades náuticas.",
+      "Desarrollo: lectura y comprensión del texto de la unidad; completado de oraciones con la unidad correcta.",
+      "Cierre: práctica comunicativa oral, autoevaluación y ejercicio de escritura del libro.",
+    ],
+    evidencias:
+      "Actividades de la Unit 9 contestadas en el libro Merchant Navy",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 9",
+      "Plataforma Express Digibooks",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 11,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 10 — The Crew: AB, boatswain, chief cook, chief steward, maintenance, OS, steward, watchstander, wiper.",
+    actividades: [
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante sobre quién hace qué a bordo durante una guardia.",
+      "Desarrollo: ejercicios de vocabulario en Express Digibooks; relación de cada puesto con sus funciones.",
+      "Desarrollo: lectura y comprensión del texto de la unidad; completado de oraciones.",
+      "Cierre: práctica comunicativa oral describiendo las tareas de un tripulante.",
+    ],
+    evidencias:
+      "Actividades de la Unit 10 contestadas en el libro Merchant Navy · Quiz de gramática y vocabulario (15%)",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 10",
+      "Plataforma Express Digibooks",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 12,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 11 — Chiefs and Officers: captain, master, mate, chief engineer, chief officer, second engineer, second officer, deck department, engineering department.",
+    actividades: [
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante sobre la cadena de mando a bordo.",
+      "Desarrollo: ejercicios de vocabulario en Express Digibooks; organigrama de oficiales por departamento.",
+      "Desarrollo: lectura y comprensión del texto de la unidad; práctica auditiva de diálogos entre oficiales.",
+      "Cierre: práctica comunicativa oral explicando quién reporta a quién.",
+    ],
+    evidencias:
+      "Actividades de la Unit 11 contestadas en el libro Merchant Navy",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 11",
+      "Plataforma Express Digibooks",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 13,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 12 — Canvas Work: bolt, canvas, sew, stitch, warps, waterproof.",
+    actividades: [
+      "Semana con asueto: 2 de noviembre (Día de Muertos).",
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante sobre para qué se usa la lona a bordo.",
+      "Desarrollo: ejercicios de vocabulario en Express Digibooks y relación de términos con definiciones.",
+      "Desarrollo: lectura y comprensión del texto de la unidad; completado de oraciones.",
+      "Cierre: redacción de instrucciones breves para una reparación de lona.",
+    ],
+    evidencias:
+      "Actividades de la Unit 12 contestadas en el libro Merchant Navy",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 12",
+      "Plataforma Express Digibooks",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 14,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 13 — Painting: boot topping paint, bottom paint, topside paint, brush, roller, grinder, primer, rust, scraper.",
+    actividades: [
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante sobre por qué se pinta un buque por franjas distintas.",
+      "Desarrollo: ejercicios de vocabulario en Express Digibooks; identificación de herramientas y tipos de pintura.",
+      "Desarrollo: lectura y comprensión del texto de la unidad; completado de oraciones.",
+      "Cierre: redacción del procedimiento para preparar y pintar una superficie con óxido.",
+    ],
+    evidencias:
+      "Actividades de la Unit 13 contestadas en el libro Merchant Navy · Expresión escrita (15%)",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 13",
+      "Plataforma Express Digibooks",
+      "Rúbrica de expresión escrita",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 15,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 14 — Ground Tackle: anchor, cable, chain, devil's claw, ground tackle, scope, shackle, shot, wildcat, windlass.",
+    actividades: [
+      "Semana con dos asuetos: 16 de noviembre (Aniversario de la Revolución Mexicana) y 20 de noviembre (desfile).",
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante sobre qué se necesita para fondear con seguridad.",
+      "Desarrollo: ejercicios de vocabulario en Express Digibooks; identificación de los elementos del equipo de fondeo.",
+      "Desarrollo: práctica auditiva de diálogos de maniobra de fondeo.",
+      "Cierre: práctica comunicativa oral describiendo una maniobra de fondeo paso a paso.",
+    ],
+    evidencias:
+      "Actividades de la Unit 14 contestadas en el libro Merchant Navy · Expresión oral (15%)",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 14",
+      "Plataforma Express Digibooks",
+      "Rúbrica de expresión oral",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 16,
+    contenido:
+      "Career Paths: Merchant Navy 1, Unit 15 — Steering Gear: bow thruster, gyropilot, have the conn, Iron Mike, pilot house, rudder, steering gear, wheel.",
+    actividades: [
+      "Inicio: presentación de la unidad mediante una actividad de comprensión auditiva.",
+      "Desarrollo: pregunta detonante sobre qué elementos permiten gobernar el buque.",
+      "Desarrollo: ejercicios de vocabulario en Express Digibooks y relación de términos con definiciones.",
+      "Desarrollo: lectura y comprensión del texto de la unidad; práctica auditiva de órdenes al timón.",
+      "Cierre: práctica comunicativa oral transfiriendo el gobierno del buque (have the conn).",
+    ],
+    evidencias:
+      "Actividades de la Unit 15 contestadas en el libro Merchant Navy",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Unit 15",
+      "Plataforma Express Digibooks",
+      "Laptop, proyector, bocinas e internet",
+    ],
+  },
+  {
+    semana: 17,
+    contenido:
+      "Repaso general de Marlins Units 1-3 y Merchant Navy Units 1-15. Preparación para la evaluación semestral.",
+    actividades: [
+      "Semana de tres días (7 al 9 de diciembre).",
+      "Inicio: repaso integrado del vocabulario técnico del semestre.",
+      "Desarrollo: práctica de las cinco habilidades en formato de evaluación semestral.",
+      "Cierre: resolución de dudas finales.",
+    ],
+    evidencias: "Guía de repaso semestral resuelta",
+    recursos: [
+      "Career Paths: Merchant Navy 1, Units 1-15",
+      "Marlins English for Seafarers Study Pack 1, Units 1-3",
+      "Guía de repaso semestral",
+    ],
+  },
+  {
+    semana: 18,
+    contenido:
+      "Evaluación semestral. Listening, Reading, Writing, Speaking y Grammar & Vocabulary, 20 puntos cada habilidad.",
+    actividades: [
+      "Aplicación de la evaluación semestral en sus cinco secciones.",
+      "Registro de resultados y entrega de retroalimentación.",
+    ],
+    evidencias: "Examen semestral aplicado",
+    recursos: ["Examen semestral institucional"],
+  },
+];
+
 /* -------------------------------- entradas -------------------------------- */
 
 export const PLANEACIONES_INGLES_ALMACENADAS: Record<
@@ -1259,6 +1713,24 @@ export const PLANEACIONES_INGLES_ALMACENADAS: Record<
   "1": entrada("1", "Inglés Marítimo I — Nivel 1", SECUENCIA_NIVEL_1),
   "2": entrada("2", "Inglés Marítimo I — Nivel 2", SECUENCIA_NIVEL_2),
   "3": entrada("3", "Inglés Marítimo I — Nivel 3", SECUENCIA_NIVEL_3),
+  // VII no es un nivel numerado: es la asignatura de séptimo semestre. Clave,
+  // semestre, horas, libro y bibliografía propios; nada de StartUp ni de las
+  // 112/7/9 de los niveles 1-3.
+  "VII": entrada(
+    "VII",
+    "INGLÉS MARÍTIMO VII — Maritime English 1",
+    SECUENCIA_NIVEL_VII,
+    {
+      libro: "Career Paths: Merchant Navy 1",
+      clave: CLAVE_VII,
+      semestre: SEMESTRE_VII,
+      // El docente lo pone cada grupo: esta entrada sirve a todos los de VII.
+      docente: "",
+      horas: HORAS_VII,
+      enfoque: ENFOQUE_VII,
+      bibliografia: BIBLIOGRAFIA_VII,
+    },
+  ),
 };
 
 /** Niveles servidos desde contenido almacenado (no se generan con IA). */

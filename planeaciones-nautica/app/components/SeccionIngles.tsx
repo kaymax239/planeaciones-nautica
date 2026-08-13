@@ -54,7 +54,16 @@ const labelClass =
 // Niveles de Inglés de respaldo si la API no responde. La lista REAL se carga
 // del índice (los niveles con planeaciones históricas) en un useEffect: así, al
 // subir nuevos niveles y reindexar, aparecen solos sin tocar el código.
-const NIVELES_FALLBACK = ["1", "2", "3", "4", "5", "6", "7", "8"];
+const NIVELES_FALLBACK = ["1", "2", "3", "4", "5", "6", "7", "8", "VII"];
+
+// Etiqueta visible de la tarjeta. Los numerados caen al respaldo `Nivel {n}` y
+// se pintan igual que siempre. VII no es un nivel numerado sino la asignatura
+// de séptimo semestre, así que se nombra por su denominación, no por la clave
+// interna: el valor que viaja al servidor sigue siendo "VII" a secas.
+const ETIQUETA_NIVEL: Record<string, string> = {
+  VII: "VII — Maritime English 1",
+};
+const etiquetaNivel = (n: string) => ETIQUETA_NIVEL[n] ?? `Nivel ${n}`;
 
 const MENSAJE_BIBLIOTECA_NO_DISPONIBLE =
   "La biblioteca académica de este nivel aún no está disponible.";
@@ -541,6 +550,10 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
         tipo,
         temas: temasExamen,
         total: totalExamen,
+        // El nivel va explícito: el servidor ya lo prioriza sobre deducirlo de
+        // `materia`. Para 1-8 el resultado es el mismo que hoy; para VII es la
+        // diferencia entre el libro correcto y el prompt genérico.
+        nivel,
       });
 
       doc.render(
@@ -749,7 +762,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
                 onClick={() => seleccionarNivel(n)}
                 className="rounded-2xl border border-[#c8a45d]/40 bg-white px-5 py-6 text-lg font-black text-[#071a33] shadow-sm transition hover:-translate-y-0.5 hover:border-[#c8a45d] hover:bg-[#071a33] hover:text-white hover:shadow-xl"
               >
-                Nivel {n}
+                {etiquetaNivel(n)}
                 <span className="mt-2 block text-xs font-bold uppercase tracking-[0.2em] text-[#c8a45d]">
                   Inglés
                 </span>

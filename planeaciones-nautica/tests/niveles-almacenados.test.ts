@@ -1,5 +1,5 @@
-// PRIORIDAD 3 — Los desvíos de contenido almacenado (1/2/3) y el espejo del
-// nivel 8 siguen en su sitio.
+// PRIORIDAD 3 — Los desvíos de contenido almacenado (1/2/3 y VII) y el espejo
+// del nivel 8 siguen en su sitio.
 //
 // Modo de fallo real (commit 04d3f56): los niveles 1 y 3 generaban diapositivas
 // del libro abandonado, sin error visible. Tienen históricas de iDiscover en el
@@ -27,8 +27,95 @@ import {
 } from "../app/data/temarioInglesOficial";
 import { claveCache } from "../app/lib/cachePresentacionIngles";
 
-const ALMACENADOS = ["1", "2", "3"];
+/** Los niveles numerados de StartUp (primer semestre, molde común). */
+const STARTUP = ["1", "2", "3"];
+/** VII — Maritime English 1 (séptimo semestre). NO comparte el molde. */
+const VII = "VII";
+/** TODOS los niveles servidos desde contenido almacenado. */
+const ALMACENADOS = [...STARTUP, VII];
 const ESPEJEADOS = ["4", "5", "6", "7", "8"];
+
+// ---------------------------------------------------------------------------
+// Ficha oficial POR NIVEL. Cada nivel se comprueba contra SUS cifras, con la
+// misma dureza (igualdad exacta) con la que antes se comprobaban las de los
+// niveles 1-3. VII no es una excepción a la que se le baje el listón: es una
+// fila más de la tabla, con sus propios valores exigidos al carácter.
+//
+//   1/2/3 → ING 208, semestre 1, StartUp N, 112 = 32 + 80, 32 indep., 7/sem, 9 cr.
+//   VII   → ING746,  semestre 7, Career Paths: Merchant Navy 1,
+//           90 = 20 + 70, 30 indep., 5/sem, 7.5 cr.
+//
+// Los literales se duplican aquí a propósito (misma razón que la nota de
+// antología en libro-por-nivel.test.ts): si la prueba importara las constantes
+// del módulo, una edición de esas constantes se auto-aprobaría.
+// ---------------------------------------------------------------------------
+type FichaOficial = {
+  horas: {
+    total: number;
+    teoricas: number;
+    practicas: number;
+    independientes: number;
+    porSemana: number;
+    creditos: number;
+  };
+  clave: string;
+  semestre: number;
+  libro: string;
+  /** Exacto, no "no vacío": VII lo deja en blanco a propósito (lo pone el grupo). */
+  docente: string;
+  id: string;
+};
+
+const HORAS_STARTUP = {
+  total: 112,
+  teoricas: 32,
+  practicas: 80,
+  independientes: 32,
+  porSemana: 7,
+  creditos: 9,
+};
+
+const OFICIAL: Record<string, FichaOficial> = {
+  "1": {
+    horas: HORAS_STARTUP,
+    clave: "ING 208",
+    semestre: 1,
+    libro: "StartUp 1",
+    docente: "Víctor Cadena",
+    id: "ingles-maritimo-n1-sem1-2026b",
+  },
+  "2": {
+    horas: HORAS_STARTUP,
+    clave: "ING 208",
+    semestre: 1,
+    libro: "StartUp 2",
+    docente: "Víctor Cadena",
+    id: "ingles-maritimo-n2-sem1-2026b",
+  },
+  "3": {
+    horas: HORAS_STARTUP,
+    clave: "ING 208",
+    semestre: 1,
+    libro: "StartUp 3",
+    docente: "Víctor Cadena",
+    id: "ingles-maritimo-n3-sem1-2026b",
+  },
+  VII: {
+    horas: {
+      total: 90,
+      teoricas: 20,
+      practicas: 70,
+      independientes: 30,
+      porSemana: 5,
+      creditos: 7.5,
+    },
+    clave: "ING746",
+    semestre: 7,
+    libro: "Career Paths: Merchant Navy 1",
+    docente: "",
+    id: "ingles-maritimo-nVII-sem1-2026b",
+  },
+};
 
 // Contrato del JSON `planeacion` que declara el SYSTEM_PROMPT del generador.
 // El camino almacenado tiene que devolver LO MISMO para que ni el cliente ni
@@ -39,20 +126,29 @@ const CLAVES_PLANEACION = [
   "recursos", "bibliografia", "observaciones",
 ];
 
-describe("El desvío cubre exactamente los niveles 1, 2 y 3", () => {
-  it("NIVELES_ALMACENADOS son 1, 2 y 3", () => {
-    expect([...NIVELES_ALMACENADOS].sort()).toEqual(ALMACENADOS);
+describe("El desvío cubre exactamente los niveles 1, 2, 3 y VII", () => {
+  it("NIVELES_ALMACENADOS son 1, 2, 3 y VII", () => {
+    expect([...NIVELES_ALMACENADOS].sort()).toEqual([...ALMACENADOS].sort());
+  });
+
+  it("cada nivel almacenado tiene ficha oficial declarada en la prueba", () => {
+    // Si alguien da de alta un quinto nivel almacenado sin decir sus horas,
+    // clave y semestre, esta prueba falla ANTES que las de abajo: la tabla
+    // OFICIAL no puede quedarse atrás del módulo en silencio.
+    expect([...NIVELES_ALMACENADOS].sort()).toEqual(Object.keys(OFICIAL).sort());
   });
 
   it("tienePlaneacionAlmacenada acierta en los dos sentidos", () => {
     for (const n of ALMACENADOS) expect(tienePlaneacionAlmacenada(n), n).toBe(true);
-    // Un nivel espejeado que cayera en el desvío dejaría de generarse.
+    // Un nivel espejeado que cayera en el desvío dejaría de generarse. Ojo con
+    // el 7: VII (romano) es otra asignatura, el nivel "7" sigue espejeando.
     for (const n of ESPEJEADOS) expect(tienePlaneacionAlmacenada(n), n).toBe(false);
     for (const n of ["", " ", "0", "10", "uno", "1.0"]) {
       expect(tienePlaneacionAlmacenada(n), JSON.stringify(n)).toBe(false);
     }
     // El endpoint pasa el nivel ya en string, pero con espacios de sobra.
     expect(tienePlaneacionAlmacenada(" 2 ")).toBe(true);
+    expect(tienePlaneacionAlmacenada(" VII ")).toBe(true);
   });
 
   it("planeacionDesdeAlmacenada devuelve null para un nivel que no es suyo", () => {
@@ -126,27 +222,43 @@ describe("Dosificación almacenada — 18 semanas completas y propias del nivel"
 
 describe("Datos institucionales del F-32 de los niveles almacenados", () => {
   for (const nivel of ALMACENADOS) {
+    const ficha = OFICIAL[nivel];
+
     it(`nivel ${nivel}: horas oficiales y metadatos de portada`, () => {
       const e = PLANEACIONES_INGLES_ALMACENADAS[nivel];
-      expect(e.horas).toEqual({
-        total: 112,
-        teoricas: 32,
-        practicas: 80,
-        independientes: 32,
-        porSemana: 7,
-        creditos: 9,
-      });
-      // 112 no es 7×18: el total oficial no se recalcula desde las horas/semana.
+      // Igualdad EXACTA contra la fila del nivel. Las cifras de 1/2/3 siguen
+      // siendo las mismas de siempre (112/32/80/32/7/9); VII se exige con la
+      // misma dureza contra las suyas (90/20/70/30/5/7.5).
+      expect(e.horas).toEqual(ficha.horas);
+      // El total oficial es la descomposición teóricas+prácticas, no un
+      // producto horas/semana × 18: en los niveles 1-3, 7×18 = 126 ≠ 112.
       expect(e.horas.teoricas + e.horas.practicas).toBe(e.horas.total);
 
+      expect(e.id).toBe(ficha.id);
+      expect(e.nivel).toBe(nivel);
+      expect(e.clave).toBe(ficha.clave);
+      expect(e.semestre).toBe(ficha.semestre);
+      expect(e.libro).toBe(ficha.libro);
+      expect(e.docente).toBe(ficha.docente);
+      expect(e.nombre.trim()).not.toBe("");
+      expect(e.enfoque.trim()).not.toBe("");
+      // Alimenta {objetivoGeneral} y el {objetivoEspecifico} del primer bloque.
+      expect(e.objetivoGeneral.trim().length).toBeGreaterThan(20);
+      // Ninguna referencia vacía, y la lista nunca vacía (D1).
+      expect(e.bibliografia.length).toBeGreaterThan(0);
+      for (const ref of e.bibliografia) expect(ref.trim()).not.toBe("");
+
       const meta = metaF32DesdeAlmacenada(nivel)!;
-      expect(meta.clave).toBe("ING 208");
-      expect(meta.docente.trim()).not.toBe("");
+      expect(meta.clave).toBe(ficha.clave);
+      // Exacto, no "no vacío": el docente de 1/2/3 es el titular y el de VII va
+      // en blanco a propósito (la entrada sirve a todos los grupos de VII).
+      expect(meta.docente).toBe(ficha.docente);
       expect(meta.periodo.trim()).not.toBe("");
       expect(meta.fechaParcial1.trim()).not.toBe("");
       expect(meta.fechaParcial2.trim()).not.toBe("");
       expect(meta.escuelaNautica).toMatch(/Escuela Náutica Mercante/);
       expect(meta.horas).toEqual(e.horas);
+      expect(meta.horas).toEqual(ficha.horas);
     });
 
     it(`nivel ${nivel}: esquema de evaluación de Inglés (mínima 7, 15% = 3+6+6)`, () => {
@@ -172,6 +284,55 @@ describe("Datos institucionales del F-32 de los niveles almacenados", () => {
       ).toBe(evaluacion.ordinario.total);
     });
   }
+
+  it("los niveles 1/2/3 comparten el molde de StartUp: 112/7/9, ING 208, semestre 1", () => {
+    // La contrapartida de tabular: que la tabla no se haya podido "arreglar"
+    // relajando la fila de los niveles 1-3. Aquí se exige que los tres sigan
+    // siendo IDÉNTICOS entre sí y valgan exactamente lo de siempre.
+    for (const nivel of STARTUP) {
+      const e = PLANEACIONES_INGLES_ALMACENADAS[nivel];
+      expect(e.horas, `nivel ${nivel}`).toEqual({
+        total: 112,
+        teoricas: 32,
+        practicas: 80,
+        independientes: 32,
+        porSemana: 7,
+        creditos: 9,
+      });
+      expect(e.clave, `nivel ${nivel}`).toBe("ING 208");
+      expect(e.semestre, `nivel ${nivel}`).toBe(1);
+      expect(e.libro, `nivel ${nivel}`).toBe(`StartUp ${nivel}`);
+    }
+  });
+
+  it("VII NO hereda nada del molde de StartUp: 90/5/7.5, ING746, semestre 7", () => {
+    const e = PLANEACIONES_INGLES_ALMACENADAS[VII];
+    const n1 = PLANEACIONES_INGLES_ALMACENADAS["1"];
+    expect(e.horas).toEqual({
+      total: 90,
+      teoricas: 20,
+      practicas: 70,
+      independientes: 30,
+      porSemana: 5,
+      creditos: 7.5,
+    });
+    // Y, campo por campo, distinto de lo que traen los niveles 1-3: un `??`
+    // que dejara de tomar el override caería aquí aunque la tabla de arriba
+    // se hubiera editado a la vez.
+    expect(e.horas).not.toEqual(n1.horas);
+    expect(e.clave).toBe("ING746");
+    expect(e.clave).not.toBe(n1.clave);
+    expect(e.semestre).toBe(7);
+    expect(e.semestre).not.toBe(n1.semestre);
+    expect(e.libro).toBe("Career Paths: Merchant Navy 1");
+    expect(e.libro).not.toMatch(/startup/i);
+    expect(e.libro).not.toMatch(/i\s?discover/i);
+    // "StartUp VII" es lo que saldría si el libro se derivara del nivel.
+    expect(e.libro).not.toBe(`StartUp ${VII}`);
+    // Y el enfoque tampoco es el de StartUp (alimenta la celda ESTRATEGIA).
+    expect(e.enfoque).not.toBe(n1.enfoque);
+    expect(e.enfoque).not.toMatch(/startup/i);
+  });
 });
 
 describe("Cache de presentaciones — el origen forma parte de la clave", () => {

@@ -28,8 +28,47 @@ import {
 } from "./ayudas/docx";
 import { META_FORMULARIO, planeacionGeneradaFalsa } from "./ayudas/fixtures";
 
-const NIVELES_ALMACENADOS = ["1", "2", "3"];
+// VII (Maritime English 1) también se sirve almacenado, con horas propias
+// (90/20/70/30/5/7.5). Entra en las mismas pruebas: sus cifras pasan por el
+// mismo `hStr()` que mató a los créditos en 6e9c412, y 7.5 no es entero.
+const NIVELES_ALMACENADOS = ["1", "2", "3", "VII"];
 const NIVELES_GENERADOS = ["4", "5", "6", "7", "8"];
+
+/** Cifras que la plantilla F-32 tiene que imprimir, POR NIVEL, ya en texto. */
+const CIFRAS_IMPRESAS: Record<string, Record<string, string>> = {
+  "1": {
+    creditos: "9",
+    horasTotales: "112",
+    horasTeoricas: "32",
+    horasPracticas: "80",
+    horasIndependientes: "32",
+    horasPorSemana: "7",
+  },
+  "2": {
+    creditos: "9",
+    horasTotales: "112",
+    horasTeoricas: "32",
+    horasPracticas: "80",
+    horasIndependientes: "32",
+    horasPorSemana: "7",
+  },
+  "3": {
+    creditos: "9",
+    horasTotales: "112",
+    horasTeoricas: "32",
+    horasPracticas: "80",
+    horasIndependientes: "32",
+    horasPorSemana: "7",
+  },
+  VII: {
+    creditos: "7.5",
+    horasTotales: "90",
+    horasTeoricas: "20",
+    horasPracticas: "70",
+    horasIndependientes: "30",
+    horasPorSemana: "5",
+  },
+};
 
 function f32DeNivelAlmacenado(nivel: string) {
   const planeacion = planeacionDesdeAlmacenada(nivel, {
@@ -128,18 +167,25 @@ describe("F-32 — el constructor cubre TODOS los placeholders de la plantilla",
     }
   });
 
-  it("los créditos del nivel almacenado salen con su cifra oficial, no vacíos", () => {
-    // Regresión directa del commit 6e9c412: `creditos` existía en la plantilla y
-    // no en los datos. Aquí se exige además que valga 9, la cifra del oficio.
-    const datos = f32DeNivelAlmacenado("2") as unknown as Record<string, string>;
-    expect(datos.creditos).toBe("9");
-    expect(datos.horasTotales).toBe("112");
-    expect(datos.horasTeoricas).toBe("32");
-    expect(datos.horasPracticas).toBe("80");
-    expect(datos.horasIndependientes).toBe("32");
-    const texto = textoDocx(renderEstricto("F-32.docx", datos));
-    expect(texto).toContain("112");
-  });
+  // Regresión directa del commit 6e9c412: `creditos` existía en la plantilla y
+  // no en los datos. Se exige además la CIFRA de cada nivel, no solo que haya
+  // algo: 9/112 en los niveles 1-3 y 7.5/90 en VII, con la misma dureza.
+  for (const nivel of NIVELES_ALMACENADOS) {
+    it(`nivel ${nivel}: créditos y horas salen con su cifra oficial, no vacíos`, () => {
+      const esperado = CIFRAS_IMPRESAS[nivel];
+      const datos = f32DeNivelAlmacenado(nivel) as unknown as Record<string, string>;
+      for (const [campo, valor] of Object.entries(esperado)) {
+        expect(datos[campo], `${campo} del nivel ${nivel}`).toBe(valor);
+      }
+      const texto = textoDocx(renderEstricto("F-32.docx", datos));
+      expect(texto).toContain(esperado.horasTotales);
+      expect(texto).toContain(esperado.creditos);
+      // Y NO la cifra del otro molde: un F-32 de VII con 112 horas, o uno del
+      // nivel 1 con 90, sería el encabezado de la asignatura equivocada.
+      const ajeno = nivel === "VII" ? "112" : "90";
+      expect(datos.horasTotales).not.toBe(ajeno);
+    });
+  }
 });
 
 describe("Avance programático F-51 — mismo modo de fallo, misma prueba", () => {

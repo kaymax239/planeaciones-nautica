@@ -6,6 +6,7 @@
 
 import { BibliotecaIngles } from "../../lib/bibliotecaIngles";
 import { NIVELES_CON_TEMARIO } from "../../data/temarioInglesOficial";
+import { NIVELES_ALMACENADOS } from "../../data/inglesMaritimo";
 import { verificarAuth } from "../../lib/server/auth";
 
 export const runtime = "nodejs";
@@ -28,9 +29,27 @@ export async function GET(request: Request) {
     // Niveles nuevos con temario oficial pero sin históricas propias (p. ej. el
     // 8): se generan espejando otro nivel, así que también deben aparecer.
     for (const n of NIVELES_CON_TEMARIO) set.add(n);
-    const nivelesDisponibles = [...set].sort((a, b) =>
-      a.localeCompare(b, undefined, { numeric: true }),
-    );
+    // Niveles con planeación almacenada. Sin esto, un nivel que solo existe en
+    // PLANEACIONES_INGLES_ALMACENADAS jamás aparecería en el selector: es el
+    // caso de VII, que no tiene históricas indexadas ni temario oficial. Para
+    // 1/2/3 es no-op, ya entran por las otras dos fuentes; el Set deduplica.
+    for (const n of NIVELES_ALMACENADOS) set.add(n);
+
+    // Orden explícito: primero los numerados por VALOR (1..8), después los no
+    // numéricos (VII) alfabéticamente. Antes se ordenaba con localeCompare
+    // numérico y locale del host: daba el mismo resultado, pero por un detalle
+    // de la collation ICU (los dígitos van antes que las letras), no porque el
+    // código lo dijera. Con locale fijo el orden tampoco depende de la máquina.
+    const esNumerico = (s: string) =>
+      s.trim() !== "" && Number.isFinite(Number(s));
+    const nivelesDisponibles = [...set].sort((a, b) => {
+      const an = esNumerico(a);
+      const bn = esNumerico(b);
+      if (an && bn) return Number(a) - Number(b);
+      if (an) return -1;
+      if (bn) return 1;
+      return a.localeCompare(b, "es");
+    });
     return Response.json({ ...resumen, nivelesDisponibles });
   } catch (error) {
     const mensaje =

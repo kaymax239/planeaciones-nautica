@@ -81,7 +81,20 @@ describe("/api/planeacion-ingles — contrato de salida", () => {
     expect(typeof datos.mensaje).toBe("string");
   });
 
-  for (const nivel of ["1", "2", "3"]) {
+  // El libro que tiene que salir en la bibliografía servida, POR NIVEL. VII no
+  // es StartUp: es Career Paths: Merchant Navy 1, cuya editorial SÍ es Express
+  // Publishing, así que su prohibición es el TÍTULO del libro abandonado.
+  const LIBRO_SERVIDO: Record<string, { debe: RegExp; noDebe: RegExp }> = {
+    "1": { debe: /StartUp Level 1 /, noDebe: /i\s?discover|express publishing/i },
+    "2": { debe: /StartUp Level 2 /, noDebe: /i\s?discover|express publishing/i },
+    "3": { debe: /StartUp Level 3 /, noDebe: /i\s?discover|express publishing/i },
+    VII: {
+      debe: /Career Paths: Merchant Navy, Book 1/,
+      noDebe: /i\s?discover|startup|pearson/i,
+    },
+  };
+
+  for (const nivel of ["1", "2", "3", "VII"]) {
     it(`nivel ${nivel} → 200 servido desde contenido almacenado, sin tocar el corpus`, async () => {
       const { POST } = await import("../app/api/planeacion-ingles/route");
       const res = await POST(peticion({ nivel, grupo: "I A PN" }));
@@ -99,11 +112,10 @@ describe("/api/planeacion-ingles — contrato de salida", () => {
       expect(datos.referenciasUsadas).toEqual([]);
       expect(datos.planeacion.nivel).toBe(nivel);
       expect(datos.planeacion.secuenciaSemanal).toHaveLength(18);
-      // El libro correcto: StartUp, no el corpus histórico de iDiscover.
-      expect(JSON.stringify(datos.planeacion.bibliografia)).toMatch(/StartUp/);
-      expect(JSON.stringify(datos.planeacion.bibliografia)).not.toMatch(
-        /i\s?discover|express publishing/i,
-      );
+      // El libro correcto, el de SU nivel, nunca el corpus de iDiscover.
+      const bib = JSON.stringify(datos.planeacion.bibliografia);
+      expect(bib).toMatch(LIBRO_SERVIDO[nivel].debe);
+      expect(bib).not.toMatch(LIBRO_SERVIDO[nivel].noDebe);
 
       // La comprobación que fija el desvío: no se leyó el índice histórico.
       expect((await leerIndiceMock()).mock.calls.length).toBe(0);
@@ -152,7 +164,7 @@ describe("/api/presentacion-ingles — contrato de salida", () => {
     await expect(res.json()).resolves.toMatchObject({ error: "json_invalido" });
   });
 
-  for (const nivel of ["1", "2", "3"]) {
+  for (const nivel of ["1", "2", "3", "VII"]) {
     it(`nivel ${nivel}: la presentación tampoco lee el corpus de iDiscover`, async () => {
       // D2/04d3f56: sin este desvío el nivel 2 daba 404 y los niveles 1 y 3
       // generaban diapositivas del libro abandonado, sin error visible.

@@ -54,6 +54,26 @@ function comprobar(nombre, real, esperado) {
   }
 }
 
+/** Igual que `comprobar`, pero el ORDEN de las propiedades de un objeto no
+ *  cuenta. `comprobar` compara JSON.stringify, que sí distingue
+ *  {total,teoricas} de {teoricas,total}: reordenar campos dentro de un objeto
+ *  es un refactor puro y no puede poner el verificador en rojo. Los ARREGLOS
+ *  siguen comparándose en orden, que ahí sí es dato (la bibliografía). */
+const ordenarClaves = (v) =>
+  Array.isArray(v)
+    ? v.map(ordenarClaves)
+    : v && typeof v === "object"
+      ? Object.fromEntries(
+          Object.keys(v)
+            .sort()
+            .map((k) => [k, ordenarClaves(v[k])]),
+        )
+      : v;
+
+function comprobarObjeto(nombre, real, esperado) {
+  comprobar(nombre, ordenarClaves(real), ordenarClaves(esperado));
+}
+
 function comprobarQue(nombre, condicion, detalle = "") {
   if (condicion) {
     pasadas++;
@@ -327,15 +347,29 @@ comprobarQue(
   `desvío en ${posDesvio}, leerIndice en ${posIndice}`,
 );
 
-// A9. El desvío solo captura 1/2/3: nunca puede alcanzar a 4-8.
+// A9. El desvío captura 1/2/3 y VII, y NUNCA puede alcanzar a 4-8.
+//
+// La versión anterior enumeraba con `"(\d+)"`, o sea SOLO claves numéricas.
+// Con VII dada de alta eso dejaba de ser "la lista de niveles almacenados" y
+// pasaba a ser "los numerados", en silencio: la entrada nueva no aparecía ni
+// para bien ni para mal. Ahora se enumeran TODAS las claves y se compara la
+// lista completa.
 const clavesAlmacenadas = [
-  ...srcIngles.matchAll(/^\s{2}"(\d+)":\s*entrada\(/gm),
+  ...srcIngles.matchAll(/^\s{2}"([^"]+)":\s*entrada\(/gm),
 ].map((m) => m[1]);
-comprobar("A9 niveles almacenados", clavesAlmacenadas.sort(), ["1", "2", "3"]);
+comprobar("A9 niveles almacenados", clavesAlmacenadas.sort(), ["1", "2", "3", "VII"]);
+for (const n of ["4", "5", "6", "7", "8"]) {
+  comprobarQue(
+    `A9 el nivel ${n} NO está almacenado (sigue espejeando históricas)`,
+    !clavesAlmacenadas.includes(n),
+  );
+}
 
-/* ------------------------------- B) niveles 1/2/3: especificación -------- */
+/* --------------------------- B) niveles almacenados: especificación ------ */
 
-console.log("\nB) Niveles 1/2/3 — contenido almacenado (StartUp)\n");
+console.log(
+  "\nB) Niveles almacenados — 1/2/3 (StartUp) y VII (Merchant Navy)\n",
+);
 
 // B1. Bibliografía poblada: la comprobación que previene D1.
 //
@@ -404,6 +438,49 @@ comprobarQue(
   `variantes distintas: ${new Set(notas).size}`,
 );
 
+// B1-VII. Misma comprobación, con las referencias que le tocan a VII. No es un
+// caso especial exento: es otra fila con sus propios literales exigidos enteros.
+// Ojo: la editorial de VII SÍ es Express Publishing (Career Paths lo es) y sí
+// cita a Marlins, así que RE_LIBRO_ABANDONADO no le aplica; lo que no puede
+// aparecer es el TÍTULO del libro abandonado ni nada de StartUp/Pearson.
+const RE_TITULO_IDISCOVER = /i\s?discover/i;
+const RE_STARTUP = /startup|pearson/i;
+
+const BIBLIOGRAFIA_VII_ESPERADA = [
+  "Evans, V., & Dooley, J. Career Paths: Merchant Navy, Book 1. Express Publishing.",
+  "Nisbet, A., Whitcher, A., & Logie, C. (1997). Marlins English for Seafarers " +
+    "Study Pack 1. Marlins, Edinburgh, UK.",
+];
+
+const bibVII = bibliografiaReal("VII");
+comprobarQue(
+  "B1 VII: planeacionDesdeAlmacenada devuelve bibliografía",
+  Array.isArray(bibVII),
+);
+comprobar("B1 VII: 2 entradas (Merchant Navy + Marlins)", bibVII?.length ?? null, 2);
+comprobar("B1 VII: bibliografía íntegra", bibVII ?? null, BIBLIOGRAFIA_VII_ESPERADA);
+comprobarQue(
+  "B1 VII: ninguna referencia vacía",
+  Array.isArray(bibVII) &&
+    bibVII.every((s) => typeof s === "string" && s.trim().length > 0),
+);
+comprobarQue(
+  "B1 VII: ninguna matchea /no especificad/i",
+  Array.isArray(bibVII) && bibVII.every((s) => !RE_NO_ESPECIFICADA.test(s)),
+);
+comprobarQue(
+  "B1 VII: ninguna nombra el título del libro abandonado",
+  Array.isArray(bibVII) && bibVII.every((s) => !RE_TITULO_IDISCOVER.test(s)),
+);
+comprobarQue(
+  "B1 VII: ninguna nombra StartUp / Pearson",
+  Array.isArray(bibVII) && bibVII.every((s) => !RE_STARTUP.test(s)),
+);
+comprobarQue(
+  "B1 VII: no hereda la nota de antología de los niveles 1-3",
+  Array.isArray(bibVII) && !bibVII.includes(NOTA_ESPERADA),
+);
+
 // B2. Enfoque no vacío: previene el OTRO fallback de iDiscover (F32:134).
 comprobarQue(
   "B2 enfoque poblado (evita 'Enfoque iDiscover' en el F-32)",
@@ -422,16 +499,26 @@ comprobarQue(
   /puntos:\s*3,/.test(srcIngles) &&
     (srcIngles.match(/puntos:\s*6,/g) ?? []).length === 2,
 );
+// Lo que esta comprobación protege es el DESGLOSE del 15%: el molde de ING853
+// repartía esos puntos entre workbook y Marlin's, y aquí se sustituyó por
+// 3/6/6. Se comprobaba sobre el archivo entero, lo cual funcionaba mientras
+// todos los niveles almacenados fueran StartUp. VII es Marlins English for
+// Seafarers Study Pack 1: la palabra aparece legítimamente en su bibliografía,
+// su enfoque y su dosificación. Se acota al bloque del desglose, que es lo que
+// de verdad se quería vigilar. Si el bloque no aparece, falla.
+const bloqueDesglose = (codigoIngles.match(
+  /const DESGLOSE_PARTICIPACION[^=]*=\s*\[[\s\S]*?\n\];/,
+) ?? [""])[0];
 comprobarQue(
   "B3 el desglose no referencia a Marlin's",
-  !/marlin/i.test(codigoIngles),
+  bloqueDesglose !== "" && !/marlin/i.test(bloqueDesglose),
 );
 comprobarQue(
   "B3 el desglose suma los 15 puntos de participación",
   /puntos:\s*15,/.test(srcIngles),
 );
 
-// B4. Datos comunes de la especificación.
+// B4. Datos comunes de la especificación (molde de StartUp, niveles 1-3).
 for (const [nombre, aguja] of [
   ["clave ING 208", 'const CLAVE = "ING 208"'],
   ["docente Víctor Cadena", 'const DOCENTE = "Víctor Cadena"'],
@@ -449,6 +536,72 @@ for (const [nombre, aguja] of [
   comprobarQue(`B4 ${nombre}`, srcIngles.includes(aguja));
 }
 
+// B4-bis. Las anclas de arriba miran el FUENTE: dicen que en algún sitio del
+// archivo existe `total: 112`, no que el nivel 1 tenga 112 horas. Mientras
+// todos los almacenados compartían el molde eso alcanzaba; con VII ya no, y
+// además `total: 90` existe ahora en el mismo archivo sin que ninguna
+// comprobación lo ate a ningún nivel.
+//
+// Aquí se evalúa el módulo y se compara la FICHA COMPLETA de cada nivel contra
+// su fila. Nada de listas de exclusión: VII se exige igual de fuerte que 1/2/3,
+// contra sus propias cifras.
+const FICHA_OFICIAL = {
+  "1": { clave: "ING 208", semestre: 1, libro: "StartUp 1", docente: "Víctor Cadena",
+    horas: { total: 112, teoricas: 32, practicas: 80, independientes: 32, porSemana: 7, creditos: 9 } },
+  "2": { clave: "ING 208", semestre: 1, libro: "StartUp 2", docente: "Víctor Cadena",
+    horas: { total: 112, teoricas: 32, practicas: 80, independientes: 32, porSemana: 7, creditos: 9 } },
+  "3": { clave: "ING 208", semestre: 1, libro: "StartUp 3", docente: "Víctor Cadena",
+    horas: { total: 112, teoricas: 32, practicas: 80, independientes: 32, porSemana: 7, creditos: 9 } },
+  VII: { clave: "ING746", semestre: 7, libro: "Career Paths: Merchant Navy 1", docente: "",
+    horas: { total: 90, teoricas: 20, practicas: 70, independientes: 30, porSemana: 5, creditos: 7.5 } },
+};
+
+const entradas = modIngles?.PLANEACIONES_INGLES_ALMACENADAS ?? null;
+comprobarQue("B4 PLANEACIONES_INGLES_ALMACENADAS accesible en runtime", !!entradas);
+comprobar(
+  "B4 los niveles almacenados en runtime son 1, 2, 3 y VII",
+  entradas ? Object.keys(entradas).sort() : null,
+  ["1", "2", "3", "VII"],
+);
+
+for (const [n, ficha] of Object.entries(FICHA_OFICIAL)) {
+  const e = entradas?.[n] ?? null;
+  comprobarQue(`B4 nivel ${n}: la entrada existe`, !!e);
+  if (!e) continue;
+  // Igualdad EXACTA de las seis cifras, en bloque: cambiar una sola falla, y
+  // sobrar o faltar un campo también. Solo el orden de las propiedades da igual.
+  comprobarObjeto(`B4 nivel ${n}: horas oficiales`, e.horas, ficha.horas);
+  comprobar(`B4 nivel ${n}: clave`, e.clave, ficha.clave);
+  comprobar(`B4 nivel ${n}: semestre`, e.semestre, ficha.semestre);
+  comprobar(`B4 nivel ${n}: libro`, e.libro, ficha.libro);
+  comprobar(`B4 nivel ${n}: docente`, e.docente, ficha.docente);
+  comprobarQue(
+    `B4 nivel ${n}: total = teóricas + prácticas`,
+    e.horas.teoricas + e.horas.practicas === e.horas.total,
+    `${e.horas.teoricas} + ${e.horas.practicas} ≠ ${e.horas.total}`,
+  );
+  comprobarQue(
+    `B4 nivel ${n}: objetivo general poblado`,
+    typeof e.objetivoGeneral === "string" && e.objetivoGeneral.trim().length > 20,
+  );
+  comprobarQue(
+    `B4 nivel ${n}: enfoque poblado`,
+    typeof e.enfoque === "string" && e.enfoque.trim().length > 0,
+  );
+}
+
+// Y que las dos fichas no se hayan fundido en una: si un `??` dejara de tomar
+// el override de VII, la entrada saldría con las cifras de los niveles 1-3.
+comprobarQue(
+  "B4 VII no hereda el molde de StartUp (horas, clave, semestre y libro propios)",
+  !!entradas &&
+    JSON.stringify(ordenarClaves(entradas.VII?.horas)) !==
+      JSON.stringify(ordenarClaves(entradas["1"]?.horas)) &&
+    entradas.VII?.clave !== entradas["1"]?.clave &&
+    entradas.VII?.semestre !== entradas["1"]?.semestre &&
+    !/startup/i.test(entradas.VII?.libro ?? "startup"),
+);
+
 // B5. Dosificación: 18 semanas correlativas y completas en los tres niveles.
 // (Sustituye a la comprobación de "secuenciaSemanal vacío" del commit anterior.)
 const bloqueSecuencia = (n) => {
@@ -459,7 +612,7 @@ const bloqueSecuencia = (n) => {
 };
 
 const CORRELATIVO = Array.from({ length: 18 }, (_, i) => i + 1).join(",");
-const resumenSecuencias = ["1", "2", "3"].map((n) => {
+const resumenSecuencias = ["1", "2", "3", "VII"].map((n) => {
   const b = bloqueSecuencia(n);
   const semanas = [...b.matchAll(/^ {4}semana:\s*(\d+),$/gm)].map((m) => Number(m[1]));
   const campos = ["contenido", "actividades", "evidencias", "recursos"].every(
@@ -473,19 +626,55 @@ const resumenSecuencias = ["1", "2", "3"].map((n) => {
   ].join(":");
 });
 comprobar(
-  "B5 dosificación: 18 semanas correlativas con sus 5 campos en los 3 niveles",
+  "B5 dosificación: 18 semanas correlativas con sus 5 campos en los 4 niveles",
   resumenSecuencias,
-  ["n1:18:1-18:campos-ok", "n2:18:1-18:campos-ok", "n3:18:1-18:campos-ok"],
+  [
+    "n1:18:1-18:campos-ok",
+    "n2:18:1-18:campos-ok",
+    "n3:18:1-18:campos-ok",
+    "nVII:18:1-18:campos-ok",
+  ],
 );
 
-// B6. ids de las tres entradas.
-for (const n of ["1", "2", "3"]) {
+// B5-bis. Lo de arriba cuenta líneas del FUENTE. En runtime se comprueba lo que
+// de verdad recibe el generador del F-32: 18 semanas correlativas, con los cinco
+// campos poblados, en los CUATRO niveles.
+for (const n of ["1", "2", "3", "VII"]) {
+  const sem = modIngles?.planeacionDesdeAlmacenada(n, {})?.secuenciaSemanal ?? null;
+  comprobar(`B5 nivel ${n}: 18 semanas en runtime`, sem?.length ?? null, 18);
+  comprobar(
+    `B5 nivel ${n}: numeradas 1..18 sin huecos`,
+    (sem ?? []).map((s) => s.semana).join(","),
+    CORRELATIVO,
+  );
   comprobarQue(
-    `B6 id del nivel ${n}`,
-    srcIngles.includes("`ingles-maritimo-n${nivel}-sem1-2026b`") ||
-      srcIngles.includes(`ingles-maritimo-n${n}-sem1-2026b`),
+    `B5 nivel ${n}: las 18 semanas traen sus cinco campos poblados`,
+    Array.isArray(sem) &&
+      sem.every(
+        (s) =>
+          typeof s.contenido === "string" && s.contenido.trim() !== "" &&
+          typeof s.evidencias === "string" && s.evidencias.trim() !== "" &&
+          Array.isArray(s.actividades) && s.actividades.length > 0 &&
+          Array.isArray(s.recursos) && s.recursos.length > 0,
+      ),
   );
 }
+
+// B6. ids de las cuatro entradas. El literal es una plantilla con `${nivel}`, así
+// que se comprueba el id REAL de cada entrada, no que el archivo la contenga.
+const ID_ESPERADO = {
+  "1": "ingles-maritimo-n1-sem1-2026b",
+  "2": "ingles-maritimo-n2-sem1-2026b",
+  "3": "ingles-maritimo-n3-sem1-2026b",
+  VII: "ingles-maritimo-nVII-sem1-2026b",
+};
+for (const [n, id] of Object.entries(ID_ESPERADO)) {
+  comprobar(`B6 id del nivel ${n}`, entradas?.[n]?.id ?? null, id);
+}
+comprobarQue(
+  "B6 los ids son distintos entre sí (ninguna entrada pisa a otra)",
+  new Set(Object.values(ID_ESPERADO)).size === Object.keys(ID_ESPERADO).length,
+);
 
 /* ---------------------------------------------- C) presentacion-ingles ----- */
 //
@@ -636,12 +825,22 @@ comprobarQue(
     /almacenada\s*\?\s*"almacenado"/.test(codigoPres),
 );
 
-// C8. Los tres niveles almacenados quedan cubiertos por el desvío.
+// C8. Los cuatro niveles almacenados quedan cubiertos por el desvío.
 comprobarQue(
-  "C8 el desvío cubre los niveles 1, 2 y 3",
-  ["1", "2", "3"].every((n) =>
-    codigoIngles.includes(`"${n}": entrada("${n}"`),
+  "C8 el desvío cubre los niveles 1, 2, 3 y VII",
+  // La entrada de VII está formateada en varias líneas (lleva `extras`), así
+  // que el ancla tolera el salto de línea — pero sigue exigiendo que la clave
+  // del mapa y el nivel que se le pasa a `entrada()` sean EL MISMO.
+  ["1", "2", "3", "VII"].every((n) =>
+    new RegExp(`"${n}":\\s*entrada\\(\\s*"${n}"`).test(codigoIngles),
   ),
+);
+comprobarQue(
+  "C8 tienePlaneacionAlmacenada acierta en los cuatro niveles y falla en 4-8",
+  ["1", "2", "3", "VII"].every((n) => modIngles?.tienePlaneacionAlmacenada(n)) &&
+    ["4", "5", "6", "7", "8"].every(
+      (n) => !modIngles?.tienePlaneacionAlmacenada(n),
+    ),
 );
 
 /* ------------------------------------------------------------- resultado -- */
