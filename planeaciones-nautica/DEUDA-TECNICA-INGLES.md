@@ -32,6 +32,8 @@ no generado, y se desvía antes de tocar el índice histórico.
 | D11 | Desbordamiento silencioso de diapositivas en el `.pptx` | Alta | **Cerrado** (paginación real) |
 | D10 | Dos proyectos de Vercel enlazados en el mismo repo | Media / riesgo alto | Solo documentado |
 | D12 | `observaciones` no existe como campo y no llega al F-32 | Media | Solo documentado — la nota de antología va en `bibliografia` |
+| D13 | El selector nunca leía `NIVELES_ALMACENADOS` | Alta | **Cerrado en el alta de VII** |
+| D14 | El nivel del examen se deducía con una regex de dígitos | Alta | **Cerrado en el alta de VII** |
 
 ---
 
@@ -624,3 +626,124 @@ señal. Es el mismo fallo de clase que D1 y D11 — el documento sale mal, o
 incompleto, sin avisar. El arreglo completo sería: declarar el campo en el
 tipo, leerlo de la entrada en `:1310`, emitirlo en el constructor, e insertar
 `{observaciones}` en la celda huérfana de la plantilla.
+
+---
+
+## D13 — El selector se alimentaba de todo menos de los niveles almacenados
+
+**Severidad: alta.** `app/api/biblioteca-ingles/route.ts:24-33`
+
+Levantado durante el alta de VII (Maritime English 1) en la rama
+`feat/ingles-vii-maritime-english-1`.
+
+La lista de niveles que pinta el selector se construía uniendo **dos** fuentes,
+y ninguna de las dos era la lista de niveles con planeación almacenada:
+
+```ts
+const set = new Set<string>();
+for (const d of indice?.documentos ?? []) if (d.nivel) set.add(d.nivel);  // históricas
+for (const n of NIVELES_CON_TEMARIO) set.add(n);                          // TEMARIO_OFICIAL
+```
+
+Es decir: **`PLANEACIONES_INGLES_ALMACENADAS` no participaba**. Un nivel podía
+existir, estar completo, tener sus 18 semanas y su bibliografía, y aun así no
+aparecer jamás en la interfaz — porque el criterio para mostrarlo era «tiene
+`.docx` históricos indexados» o «tiene temario oficial», nunca «tiene contenido
+almacenado».
+
+### Por qué el nivel 2 aparecía, y por qué eso escondía el fallo
+
+Los niveles 1 y 3 tienen históricas indexadas (`.indice-ingles/indice.json`:
+`'1'` ×1, `'3'` ×8), así que entraban por la primera fuente. El **nivel 2 no
+tiene ni una sola histórica**: entraba únicamente por la segunda, gracias a una
+entrada en `TEMARIO_OFICIAL` (`app/data/temarioInglesOficial.ts:61-63`) con
+`modulos: []`. El propio archivo lo admite en su comentario de cabecera
+(`:53-59`): esas entradas están ahí «por un solo motivo: `NIVELES_CON_TEMARIO`
+alimenta el selector».
+
+O sea que el nivel 2 llevaba desde su alta visible **por un efecto secundario de
+una entrada vacía puesta a propósito para engañar al selector**, no porque el
+sistema supiera que tenía contenido. Mientras todos los niveles almacenados
+tuvieran ese parche, el acoplamiento era invisible. VII lo destapó: es el primer
+nivel almacenado sin históricas **y** sin temario oficial, así que habría
+quedado inalcanzable desde la UI pese a estar correctamente dado de alta.
+
+El acoplamiento real que había debajo: **«estar almacenado» dependía de «tener
+temario»**, dos conceptos que no tienen por qué coincidir.
+
+### Cierre en código (alta de VII)
+
+Se añadió la tercera fuente, que es la que expresa la intención de verdad:
+
+```ts
+for (const n of NIVELES_ALMACENADOS) set.add(n);
+```
+
+Es no-op para 1/2/3 —ya entraban por las otras dos— y el `Set` deduplica: hoy
+`"1"` y `"3"` llegan por las tres fuentes a la vez y la unión sale con 9
+elementos, no con 11.
+
+De paso se hizo **explícito el orden**, que antes era correcto por accidente. Se
+ordenaba con `localeCompare(a, b, undefined, { numeric: true })`, que devolvía
+`1…8, VII` en todas las locales probadas (`es`, `en-US`, `sv`, y una collation
+alternativa alemana) — pero por un detalle de la collation ICU (los dígitos van
+antes que las letras) y con el locale del host, no porque el código lo dijera.
+Ahora los numerados se ordenan por valor y los no numéricos van después con
+locale fijo `"es"`.
+
+**Pendiente relacionado:** las entradas postizas de 1/2/3 en `TEMARIO_OFICIAL`
+siguen ahí. Ya no son necesarias para que el selector los muestre, pero
+retirarlas toca el flujo de esos tres niveles y quedó fuera del alcance. VII
+**no** tiene entrada en `TEMARIO_OFICIAL`, así que `temarioOficialTexto("VII")`
+devuelve `null`.
+
+---
+
+## D14 — El nivel del examen se deducía con una regex que solo captura dígitos
+
+**Severidad: alta.** `app/api/examen/route.ts:142-148`
+
+Levantado durante el alta de VII, en la misma rama.
+
+El cliente no mandaba el nivel en el cuerpo de `/api/examen`: el servidor lo
+reconstruía parseando la cadena de la materia, que la UI arma como
+`` `Inglés Nivel ${nivel}` `` (`app/components/SeccionIngles.tsx:489`):
+
+```ts
+const m = materia.match(/nivel\s*0*(\d+)/i);
+return m ? m[1] : "";
+```
+
+Con `"Inglés Nivel VII"`, `\d+` no captura nada → `nivel = ""` →
+`tienePlaneacionAlmacenada("")` es `false` → `systemPrompt` cae al
+`SYSTEM_PROMPT_INGLES` genérico, que es **el de iDiscover**. Un examen oficial
+de VII se habría generado a partir del libro equivocado, sin ningún síntoma
+visible: el documento sale, con preguntas de aspecto razonable, del libro de
+otra asignatura. Es la reincidencia exacta de D1 y D3.
+
+El fallo no era la regex en sí, sino **deducir un dato que el cliente ya tiene**
+a partir de una cadena pensada para leerse, no para parsearse.
+
+### Cierre en código (alta de VII)
+
+El campo `Cuerpo.nivel` ya existía en la ruta y ya tenía prioridad sobre la
+deducción (`route.ts:143-144`); simplemente nadie lo mandaba. Se añadió `nivel`
+al tipo de `pedirPreguntasExamenIA` (`app/lib/pedirPreguntasExamen.ts`) y se
+pasa desde `SeccionIngles.tsx`, donde el nivel está en el estado del componente.
+
+Se arregló la causa, no el síntoma: **no** se amplió la regex a números romanos.
+Para los niveles 1-8 el resultado es idéntico al de antes —siguen mandando su
+dígito— y la rama de deducción queda como respaldo para llamadores antiguos.
+
+**Pendiente relacionado, y más grave:** el prompt de sistema de las
+presentaciones tiene el mismo problema sin resolver.
+`app/api/presentacion-ingles/route.ts:190-196` afirma, para **todos** los
+niveles almacenados, que el libro es «StartUp (Pearson)» y que está «PROHIBIDO
+mencionar iDiscover o Express Publishing». Para VII las dos frases son falsas:
+su libro es Career Paths: Merchant Navy 1, **de Express Publishing**. El mensaje
+de usuario sí le pasa el libro correcto, así que el modelo recibe instrucciones
+contradictorias más una prohibición explícita de nombrar a su propia editorial.
+Arreglarlo exige parametrizar el prompt de sistema por libro, lo que cambia el
+flujo de los niveles 1-3 y rompe las anclas C2 del verificador; quedó fuera del
+alcance del alta de VII. **Las presentaciones de VII salen mal hasta que se
+corrija.**
