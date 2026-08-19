@@ -15,7 +15,11 @@ import type * as z from "zod/v4";
 export const MODELO_CLAUDE = process.env.ANTHROPIC_MODEL || "claude-opus-5";
 
 /** Tareas con presupuesto/latencia distintos; cada una puede fijar su modelo. */
-export type TareaClaude = "presentaciones" | "planeaciones" | "examenes";
+export type TareaClaude =
+  | "presentaciones"
+  | "planeaciones"
+  | "examenes"
+  | "worksheets";
 
 // Espejo del patrón que ya usaba Gemini (GEMINI_MODEL_EXAMENES || GEMINI_MODEL
 // || defecto). Si la variable por tarea no está puesta, se usa MODELO_CLAUDE.
@@ -23,6 +27,7 @@ const ENV_POR_TAREA: Record<TareaClaude, string | undefined> = {
   presentaciones: process.env.ANTHROPIC_MODEL_PRESENTACIONES,
   planeaciones: process.env.ANTHROPIC_MODEL_PLANEACIONES,
   examenes: process.env.ANTHROPIC_MODEL_EXAMENES,
+  worksheets: process.env.ANTHROPIC_MODEL_WORKSHEETS,
 };
 
 /** Modelo efectivo de una tarea (también es lo que entra en la clave de cache). */

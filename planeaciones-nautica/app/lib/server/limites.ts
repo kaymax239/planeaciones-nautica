@@ -2,7 +2,7 @@
 // validados EN EL SERVIDOR. La cuenta administradora no tiene límite.
 //
 // Modelo de datos — colección "usage", un documento por usuario (id = uid):
-//   { uid, email, nombre, meses: { "YYYY-MM": { presentaciones, examenes, planeaciones } } }
+//   { uid, email, nombre, meses: { "YYYY-MM": { presentaciones, examenes, planeaciones, worksheets } } }
 //
 // El reinicio es por mes calendario (zona horaria de México): al cambiar de mes
 // se escribe en una clave de mes distinta, de modo que los contadores del mes
@@ -62,6 +62,9 @@ function contadoresDe(datos: unknown, mes: string): Contadores {
     presentaciones: m.presentaciones ?? 0,
     examenes: m.examenes ?? 0,
     planeaciones: m.planeaciones ?? 0,
+    // Categoría añadida después: los documentos de "usage" escritos antes de
+    // existir no la traen, de ahí el 0 por defecto (igual que las demás).
+    worksheets: m.worksheets ?? 0,
   };
 }
 

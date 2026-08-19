@@ -14,7 +14,12 @@ type UsoDocente = {
   uid: string;
   email: string;
   nombre: string;
-  uso: { presentaciones: number; examenes: number; planeaciones: number };
+  uso: {
+    presentaciones: number;
+    examenes: number;
+    planeaciones: number;
+    worksheets: number;
+  };
 };
 
 const MESES = [
@@ -131,7 +136,8 @@ export default function AdminPage() {
           </h1>
           <p className="text-xs text-slate-500">
             Límites: Presentaciones {LIMITES.presentaciones} · Exámenes{" "}
-            {LIMITES.examenes} · Planeaciones {LIMITES.planeaciones}
+            {LIMITES.examenes} · Planeaciones {LIMITES.planeaciones} ·
+            Worksheets {LIMITES.worksheets}
           </p>
         </div>
 
@@ -153,13 +159,14 @@ export default function AdminPage() {
 
         {datos && datos.docentes.length > 0 && (
           <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
-            <table className="w-full min-w-[36rem] text-sm">
+            <table className="w-full min-w-[44rem] text-sm">
               <thead>
                 <tr className="border-b border-slate-200 bg-[#f8fafc] text-left text-xs font-bold uppercase tracking-[0.12em] text-[#c8a45d]">
                   <th className="px-4 py-3">Docente</th>
                   <th className="px-4 py-3 text-center">Presentaciones</th>
                   <th className="px-4 py-3 text-center">Exámenes</th>
                   <th className="px-4 py-3 text-center">Planeaciones</th>
+                  <th className="px-4 py-3 text-center">Worksheets</th>
                 </tr>
               </thead>
               <tbody>
@@ -177,6 +184,7 @@ export default function AdminPage() {
                     />
                     <Celda n={d.uso.examenes} max={LIMITES.examenes} />
                     <Celda n={d.uso.planeaciones} max={LIMITES.planeaciones} />
+                    <Celda n={d.uso.worksheets} max={LIMITES.worksheets} />
                   </tr>
                 ))}
               </tbody>

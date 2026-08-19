@@ -45,6 +45,12 @@ import { lanzarSiLimite, LimiteError } from "./lib/limiteCliente";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
 import { pedirPreguntasExamenIA } from "./lib/pedirPreguntasExamen";
+import { pedirWorksheetIA, WorksheetError } from "./lib/pedirWorksheet";
+import { worksheetADocx } from "./lib/worksheetDocx";
+import {
+  construirZipPresentaciones,
+  trozoNombreSeguro,
+} from "./lib/zipPresentaciones";
 import { totalExamenDesdeEsquema, resolverPuntaje } from "./lib/puntajeExamen";
 
 type SemanaMateria = {
@@ -65,6 +71,10 @@ type RangoSemanas = {
   inicio: number;
   fin: number;
 };
+
+/** Mime-type de Word, para el Blob de las hojas de trabajo generadas con `docx`. */
+const MIME_DOCX =
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
 const limpiarTema = (tema: string) => tema.trim().replace(/\.$/, "");
 
@@ -223,10 +233,19 @@ export default function Home() {
     texto: string;
   } | null>(null);
   const [generandoExamen, setGenerandoExamen] = useState(false);
+  // Worksheets: selección propia de unidades, independiente de la de
+  // presentaciones (marcar unidades en una pestaña no debe arrastrar la otra).
+  const [unidadesWorksheet, setUnidadesWorksheet] = useState<number[]>([]);
+  const [incluirRespuestas, setIncluirRespuestas] = useState(true);
+  const [generandoWorksheet, setGenerandoWorksheet] = useState(false);
+  const [mensajeWorksheet, setMensajeWorksheet] = useState<{
+    tipo: "exito" | "error";
+    texto: string;
+  } | null>(null);
   // Pestaña activa dentro de la materia seleccionada. El formulario de datos
   // generales queda arriba y es común a todas las pestañas.
   const [tabMateria, setTabMateria] = useState<
-    "f32" | "f51" | "examenes" | "presentaciones"
+    "f32" | "f51" | "examenes" | "presentaciones" | "worksheets"
   >("f32");
 
   // Periodo de impartición para los documentos: derivado del periodo escolar
@@ -300,7 +319,8 @@ export default function Home() {
       usuario &&
       !generandoPlaneacion &&
       !generandoPresOficial &&
-      !generandoExamen
+      !generandoExamen &&
+      !generandoWorksheet
     ) {
       refrescarUso();
     }
@@ -309,6 +329,7 @@ export default function Home() {
     generandoPlaneacion,
     generandoPresOficial,
     generandoExamen,
+    generandoWorksheet,
     refrescarUso,
   ]);
 
@@ -317,6 +338,8 @@ export default function Home() {
   useEffect(() => {
     setUnidadesSeleccionadas([]);
     setMensajePresOficial(null);
+    setUnidadesWorksheet([]);
+    setMensajeWorksheet(null);
     setAvancePaso("no");
     setSemanasAvance([]);
     setTabMateria("f32");
@@ -485,6 +508,138 @@ export default function Home() {
       setGenerandoPresOficial(false);
     }
   };
+  // Alterna una unidad en la selección de worksheets (multi-selección propia).
+  const alternarUnidadWorksheet = (n: number) => {
+    setUnidadesWorksheet((prev) =>
+      prev.includes(n) ? prev.filter((x) => x !== n) : [...prev, n],
+    );
+  };
+
+  // Genera la hoja de trabajo de UNA unidad y devuelve sus bytes + nombre. Los
+  // bytes se devuelven (en vez de descargarse aquí) para poder empaquetar varias
+  // unidades en un ZIP sin disparar N descargas sueltas.
+  const generarUnWorksheet = async (
+    unidadNumero: number,
+  ): Promise<{ nombre: string; datos: ArrayBuffer }> => {
+    const unidad = esProgramaOficial(programaMateria)
+      ? programaMateria.unidades.find((u) => u.numero === unidadNumero)
+      : undefined;
+
+    const worksheet = await pedirWorksheetIA({
+      carrera,
+      materia: materiaSeleccionada,
+      semestre: semestreBonito,
+      unidadNumero,
+      unidadTema: unidad?.tema ?? `Unidad ${unidadNumero}`,
+      subtemas: unidad?.subtemas ?? [],
+    });
+
+    const datos = await worksheetADocx(
+      worksheet,
+      {
+        escuela: escuelaNautica,
+        materia: materiaSeleccionada,
+        licenciatura,
+        semestre: semestreBonito,
+        unidadNumero,
+        unidadTema: unidad?.tema ?? `Unidad ${unidadNumero}`,
+        docente,
+        grupo,
+        periodo,
+      },
+      { incluirRespuestas },
+    );
+
+    const nombre = `Worksheet_${trozoNombreSeguro(
+      materiaSeleccionada,
+    )}_U${unidadNumero}.docx`;
+    return { nombre, datos };
+  };
+
+  // Genera un .docx por cada unidad MARCADA. Una sola unidad se descarga tal
+  // cual; varias van en un ZIP (mismo criterio que el generador masivo de
+  // presentaciones) para no soltar N descargas seguidas.
+  const generarWorksheets = async () => {
+    if (unidadesWorksheet.length === 0) return;
+    setGenerandoWorksheet(true);
+    setMensajeWorksheet(null);
+
+    const unidades = [...unidadesWorksheet].sort((a, b) => a - b);
+    const generados: { nombre: string; datos: ArrayBuffer }[] = [];
+    const fallidas: { numero: number; motivo: string }[] = [];
+
+    try {
+      for (const n of unidades) {
+        try {
+          generados.push(await generarUnWorksheet(n));
+        } catch (error) {
+          // El límite mensual corta TODO el lote: seguir intentando las demás
+          // unidades solo produciría el mismo 429 una y otra vez.
+          if (error instanceof LimiteError) throw error;
+          console.error("Error generando worksheet de la unidad", n, error);
+          fallidas.push({
+            numero: n,
+            motivo:
+              error instanceof WorksheetError ? error.message : "error inesperado",
+          });
+        }
+      }
+
+      if (generados.length === 0) {
+        setMensajeWorksheet({
+          tipo: "error",
+          texto:
+            fallidas[0]?.motivo ??
+            "No se pudo generar la hoja de trabajo en este momento. Intenta de nuevo.",
+        });
+        return;
+      }
+
+      if (generados.length === 1) {
+        saveAs(new Blob([generados[0].datos], { type: MIME_DOCX }), generados[0].nombre);
+      } else {
+        const resumen = [
+          `Hojas de trabajo — ${materiaSeleccionada}`,
+          `${licenciatura} · ${semestreBonito} · ${periodo}`,
+          "",
+          `Unidades solicitadas: ${unidades.join(", ")}`,
+          `Generadas: ${generados.length}`,
+          ...(fallidas.length > 0
+            ? [
+                `No generadas: ${fallidas.map((f) => f.numero).join(", ")}`,
+                ...fallidas.map((f) => `  · Unidad ${f.numero}: ${f.motivo}`),
+              ]
+            : []),
+        ].join("\n");
+
+        saveAs(
+          construirZipPresentaciones(generados, resumen),
+          `Worksheets_${trozoNombreSeguro(materiaSeleccionada)}.zip`,
+        );
+      }
+
+      const base =
+        generados.length === 1
+          ? `Hoja de trabajo generada y descargada: ${generados[0].nombre}`
+          : `${generados.length} hojas de trabajo generadas y descargadas en un ZIP.`;
+      const aviso =
+        fallidas.length > 0
+          ? ` No se pudieron generar las unidades: ${fallidas
+              .map((f) => f.numero)
+              .join(", ")}.`
+          : "";
+      setMensajeWorksheet({ tipo: "exito", texto: base + aviso });
+    } catch (error) {
+      if (error instanceof LimiteError) {
+        setMensajeWorksheet({ tipo: "error", texto: error.message });
+        return;
+      }
+      throw error;
+    } finally {
+      setGenerandoWorksheet(false);
+    }
+  };
+
   const inputClass =
     "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-[#c8a45d] focus:ring-2 focus:ring-[#c8a45d]/30";
   const readOnlyClass =
@@ -956,7 +1111,10 @@ export default function Home() {
   // Verdadero mientras cualquier generación está en curso: se usa para
   // deshabilitar los demás botones y evitar solicitudes simultáneas.
   const ocupado =
-    generandoPlaneacion || generandoPresOficial || generandoExamen;
+    generandoPlaneacion ||
+    generandoPresOficial ||
+    generandoExamen ||
+    generandoWorksheet;
 
   // Pasos del stepper del flujo general (PN/MN): Carrera → Semestre → Materia →
   // Documentos. El estado se deriva de la selección actual; los pasos ya
@@ -1318,6 +1476,7 @@ export default function Home() {
                       ["f51", "Avance F-51"],
                       ["examenes", "Exámenes"],
                       ["presentaciones", "Presentaciones"],
+                      ["worksheets", "Worksheets"],
                     ] as const
                   ).map(([id, etiqueta]) => (
                     <button
@@ -1776,6 +1935,119 @@ export default function Home() {
                               }`}
                             >
                               {mensajePresOficial.texto}
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <div className="mt-4 w-full rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-4 text-center text-sm font-semibold text-slate-500">
+                          Selecciona una materia con programa oficial
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* ── Pestaña: Worksheets ──────────────────────────────── */}
+                  {tabMateria === "worksheets" && (
+                    <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+                      <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
+                        Worksheets
+                      </p>
+                      <p className="mt-2 text-sm text-slate-600">
+                        Genera una hoja de trabajo en Word con ejercicios
+                        elaborados por IA (Claude Opus) a partir de los subtemas
+                        oficiales de la unidad: opción múltiple, completar,
+                        relacionar columnas y problemas para resolver a mano.
+                      </p>
+
+                      <label className="mt-4 block text-xs font-bold uppercase tracking-[0.16em] text-slate-500">
+                        Unidades a generar
+                      </label>
+                      <div className="mt-2 space-y-2">
+                        {unidadesMateria.map((u) => {
+                          const marcada = unidadesWorksheet.includes(u.numero);
+                          return (
+                            <label
+                              key={u.numero}
+                              className={`flex cursor-pointer items-start gap-3 rounded-xl border p-3 text-sm transition ${
+                                marcada
+                                  ? "border-[#c8a45d] bg-[#fffaf0]"
+                                  : "border-slate-200 bg-white hover:border-[#c8a45d]"
+                              }`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={marcada}
+                                onChange={() =>
+                                  alternarUnidadWorksheet(u.numero)
+                                }
+                                className="mt-0.5 h-4 w-4 accent-[#c8a45d]"
+                              />
+                              <span className="font-semibold text-[#071a33]">
+                                {`Unidad ${u.numero} — ${u.tema}`}
+                              </span>
+                            </label>
+                          );
+                        })}
+                      </div>
+
+                      {materiaTienePrograma ? (
+                        <>
+                          <label className="mt-4 flex cursor-pointer items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm transition hover:border-[#c8a45d]">
+                            <input
+                              type="checkbox"
+                              checked={incluirRespuestas}
+                              onChange={() =>
+                                setIncluirRespuestas((v) => !v)
+                              }
+                              className="mt-0.5 h-4 w-4 accent-[#c8a45d]"
+                            />
+                            <span className="text-[#071a33]">
+                              <span className="font-semibold">
+                                Incluir hoja de respuestas
+                              </span>
+                              <span className="block text-xs text-slate-500">
+                                Se agrega al final, en página aparte, marcada
+                                como uso exclusivo del docente.
+                              </span>
+                            </span>
+                          </label>
+
+                          <button
+                            type="button"
+                            onClick={generarWorksheets}
+                            disabled={
+                              ocupado || unidadesWorksheet.length === 0
+                            }
+                            className="mt-4 w-full rounded-2xl bg-[#c8a45d] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-lg shadow-[#c8a45d]/30 transition hover:bg-[#d7bd7a] disabled:cursor-not-allowed disabled:opacity-60"
+                          >
+                            {generandoWorksheet
+                              ? "Generando worksheet..."
+                              : unidadesWorksheet.length > 1
+                                ? `Generar ${unidadesWorksheet.length} worksheets (ZIP)`
+                                : "Generar Worksheet"}
+                          </button>
+                          {unidadesWorksheet.length === 0 &&
+                            !generandoWorksheet && (
+                              <p className="mt-2 text-xs font-semibold text-slate-500">
+                                Selecciona al menos una unidad.
+                              </p>
+                            )}
+                          {generandoWorksheet && (
+                            <LoadingIA
+                              className="mt-3"
+                              nota="Cada unidad puede tardar ~1 minuto. No cierres la página."
+                            />
+                          )}
+                          {mensajeWorksheet && (
+                            <div
+                              role="alert"
+                              className={`mt-3 rounded-2xl border px-4 py-3 text-sm font-semibold ${
+                                mensajeWorksheet.tipo === "exito"
+                                  ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                                  : "border-red-200 bg-red-50 text-red-800"
+                              }`}
+                            >
+                              {mensajeWorksheet.texto}
                             </div>
                           )}
                         </>

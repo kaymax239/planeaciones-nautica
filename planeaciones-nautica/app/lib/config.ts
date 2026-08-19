@@ -15,6 +15,7 @@ export const LIMITES = {
   presentaciones: 10,
   examenes: 25,
   planeaciones: 25,
+  worksheets: 25,
 } as const;
 
 export type CategoriaUso = keyof typeof LIMITES;
@@ -24,6 +25,7 @@ export const ETIQUETA_CATEGORIA: Record<CategoriaUso, string> = {
   presentaciones: "presentaciones",
   examenes: "exámenes",
   planeaciones: "planeaciones",
+  worksheets: "worksheets",
 };
 
 /** ¿El correo pertenece al dominio institucional permitido? */

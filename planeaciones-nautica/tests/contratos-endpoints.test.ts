@@ -219,3 +219,44 @@ describe("/api/examen — degradación silenciosa, nunca un 500", () => {
     if (datos.preguntas === null) expect(typeof datos.motivo).toBe("string");
   });
 });
+
+describe("/api/worksheet — falla en voz alta, nunca una hoja vacía", () => {
+  // Contrato DELIBERADAMENTE OPUESTO al de /api/examen: aquí no hay generador
+  // determinista de respaldo, así que degradar en silencio (200 con null) le
+  // descargaría al docente un Word sin un solo ejercicio. Cuando algo falla, la
+  // ruta responde 4xx/5xx con `mensaje` y la pestaña lo muestra tal cual.
+  it("cuerpo no-JSON → 400 json_invalido", async () => {
+    const { POST } = await import("../app/api/worksheet/route");
+    const res = await POST(peticion("nada"));
+    expect(res.status).toBe(400);
+    const datos = await res.json();
+    expect(datos.error).toBe("json_invalido");
+    expect(typeof datos.mensaje).toBe("string");
+  });
+
+  it("sin materia ni tema de unidad → 400 sin_tema", async () => {
+    const { POST } = await import("../app/api/worksheet/route");
+    const res = await POST(peticion({ carrera: "PN" }));
+    expect(res.status).toBe(400);
+    expect((await res.json()).error).toBe("sin_tema");
+  });
+
+  it("con tema pero sin API key → 503 sin_api_key, no una excepción", async () => {
+    const { POST } = await import("../app/api/worksheet/route");
+    const res = await POST(
+      peticion({
+        carrera: "PN",
+        materia: "Transporte Marítimo",
+        semestre: "I Semestre",
+        unidadNumero: 2,
+        unidadTema: "Tipos de buques",
+        subtemas: ["2.1 Buques tanque", "2.2 Graneleros"],
+      }),
+    );
+    expect(res.status).toBe(503);
+    const datos = await res.json();
+    expect(datos.error).toBe("sin_api_key");
+    // Nunca debe colarse un worksheet a medias en una respuesta de error.
+    expect(datos.worksheet).toBeUndefined();
+  });
+});
