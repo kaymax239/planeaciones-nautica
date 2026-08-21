@@ -680,6 +680,94 @@ export const contenidosMN7: Record<string, ProgramaOficial> = {
     ],
     "fuente": "PPE_LMN_FIDENA_2022-_07SEM_LMN_S7.2_LMA745_-_.pdf"
   },
+  "Refrigeración II": {
+    "clave": "REF746",
+    "nombre": "Refrigeración II",
+    "tipo": "Teórico-práctica",
+    "horas": {
+      "semanas": 18,
+      "porSemana": 6,
+      "teoricas": 72,
+      "practicas": 36,
+      "independientes": 12,
+      "total": 120
+    },
+    "objetivoGeneral": "Comprender que la conservación de un sistema de refrigeración se realiza manteniendo en buen estado sus elementos y respetando las normas de seguridad, para que el buque proporcione un buen servicio.",
+    "unidades": [
+      {
+        "numero": 1,
+        "tema": "Controles del ciclo básico de refrigeración",
+        "objetivoEspecifico": "Conocer y manejar los diferentes controles de operaciones del ciclo básico de refrigeración, siguiendo y aplicando los principios de su funcionamiento para una adecuada utilización.",
+        "subtemas": [
+          "1.1 Definición de controles del ciclo de refrigeración.",
+          "1.2 Categoría de los controles.",
+          "1.3 Tipos de controles.",
+          "1.4 Controles de operación.",
+          "1.5 Controles de seguridad.",
+          "1.6 Principios de funcionamiento.",
+          "1.7 Utilización."
+        ],
+        "transversal": false
+      },
+      {
+        "numero": 2,
+        "tema": "Tuberías y accesorios de refrigeración",
+        "objetivoEspecifico": "Determinar el refrigerante adecuado, considerando el tipo de material utilizado en los accesorios y tuberías de un sistema de refrigeración, para un funcionamiento óptimo.",
+        "subtemas": [
+          "2.1 Materiales utilizados en las tuberías y accesorios de acuerdo al refrigerante usado."
+        ],
+        "transversal": false
+      },
+      {
+        "numero": 3,
+        "tema": "Accesorios del sistema",
+        "objetivoEspecifico": "Identificar los accesorios utilizados en un sistema de refrigeración y aire acondicionado, usando esquemas y explicando su función para darle mantenimiento y seguridad al equipo de refrigeración.",
+        "subtemas": [
+          "3.1 Separador de aceite.",
+          "3.2 Filtros.",
+          "3.3 Secador.",
+          "3.4 Visores.",
+          "3.5 Válvulas de servicio y seguridad."
+        ],
+        "transversal": false
+      },
+      {
+        "numero": 4,
+        "tema": "Procedimiento para carga de gas refrigerante en el sistema",
+        "objetivoEspecifico": "Proceder a efectuar carga de gas refrigerante a un sistema de refrigeración y aire acondicionado, aplicando los procedimientos adecuados para prevenir accidentes.",
+        "subtemas": [
+          "4.1 Carga por lado de alta.",
+          "4.2 Carga por lado de baja.",
+          "4.3 Forma de efectuar vacío al sistema."
+        ],
+        "transversal": false
+      },
+      {
+        "numero": 5,
+        "tema": "Operación y funcionamiento de un sistema de refrigeración y aire acondicionado",
+        "objetivoEspecifico": "Operar con seguridad y dar mantenimiento a un sistema de refrigeración usando los conocimientos adquiridos, para el buen funcionamiento.",
+        "subtemas": [
+          "5.1 Puesta en servicio y fuera de servicio.",
+          "5.2 Mantenimiento preventivo de un sistema de refrigeración.",
+          "5.3 Mantenimiento correctivo de un sistema de refrigeración."
+        ],
+        "transversal": false
+      },
+      {
+        "numero": 6,
+        "tema": "Contenidos de actualidad en el sector marítimo portuario",
+        "objetivoEspecifico": "Unidad transversal: el docente incorpora contenidos o temas de actualidad del sector marítimo portuario (selección a cargo del profesor).",
+        "subtemas": [],
+        "transversal": true
+      }
+    ],
+    "bibliografia": [
+      "Manual de refrigeración. FRANCO LIJÓ, Juan M. Reverte 2006",
+      "Manuales prácticos de refrigeración. BUQUÉ, Francesc. Trillas 2003",
+      "Tratado práctico de refrigeración automática. ALARCÓN CREUS. Marcombo 2000"
+    ],
+    "fuente": "PPE_LMN_FIDENA_2022-_07SEM_LMN_S7.3_REF746.pdf"
+  },
   "Convenios de la Organización Marítima Internacional": {
     "clave": "OMI749",
     "nombre": "Convenios de la Organización Marítima Internacional",

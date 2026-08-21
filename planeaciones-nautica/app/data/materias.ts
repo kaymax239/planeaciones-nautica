@@ -96,8 +96,7 @@ export const materiasPorSemestre = {
   ],
 };
 
-// Maquinista / Mecánico Naval (MN). Refrigeración II (REF746) pendiente: su PDF
-// usa subtemas sin numeración (estructura no estándar) — revisar manualmente.
+// Maquinista / Mecánico Naval (MN).
 export const materiasPorSemestreMN = {
   "I SEMESTRE": [
     "Transporte Marítimo",
@@ -136,6 +135,7 @@ export const materiasPorSemestreMN = {
   "VII SEMESTRE": [
     "Automática",
     "Laboratorio de Máquinas",
+    "Refrigeración II",
     "Estabilidad del Buque",
     "Convenios de la Organización Marítima Internacional",
     "Taller VI",
