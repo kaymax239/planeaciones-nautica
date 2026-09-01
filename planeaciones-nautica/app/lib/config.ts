@@ -37,3 +37,17 @@ export function esDominioPermitido(email: string | null | undefined): boolean {
 export function esAdminEmail(email: string | null | undefined): boolean {
   return !!email && email.toLowerCase() === ADMIN_EMAIL.toLowerCase();
 }
+
+/** Docentes externos autorizados por la Coordinación, correo por correo. No es
+ *  un dominio: cada dirección se aprueba de forma individual. Un invitado entra
+ *  como docente (mismos LIMITES) y NUNCA como administrador. */
+export const CORREOS_INVITADOS = [
+  "kasoriano@hotmail.com",
+] as const;
+
+/** ¿El correo está en la lista blanca de docentes invitados? */
+export function esInvitado(email?: string | null) {
+  return !!email && CORREOS_INVITADOS.includes(
+    email.toLowerCase() as (typeof CORREOS_INVITADOS)[number]
+  );
+}

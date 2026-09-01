@@ -64,8 +64,10 @@ export function LoginScreen() {
         </button>
 
         <p className="mt-6 text-sm leading-relaxed text-slate-500">
-          Usa tu correo institucional que termina en{" "}
-          <span className="font-bold text-[#071a33]">@fidena.edu.mx</span>.
+          Usa tu correo institucional{" "}
+          <span className="font-bold text-[#071a33]">@fidena.edu.mx</span>. Si
+          eres docente invitado, entra con el correo que la Coordinación
+          registró.
         </p>
       </div>
     </main>

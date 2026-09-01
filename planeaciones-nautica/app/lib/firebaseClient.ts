@@ -31,6 +31,7 @@ if (firebaseConfigurado) {
 /** Instancia de Auth del cliente, o null si Firebase no está configurado. */
 export const auth = authInstance;
 
-/** Proveedor de Google preconfigurado; el parámetro `hd` (hosted domain) se
- *  añade en el momento del login para sugerir el dominio institucional. */
+/** Proveedor de Google preconfigurado. A propósito SIN el parámetro `hd`
+ *  (hosted domain): filtraría el selector de cuentas y dejaría fuera a los
+ *  docentes invitados. Quién puede entrar lo deciden authContext y el servidor. */
 export const googleProvider = new GoogleAuthProvider();

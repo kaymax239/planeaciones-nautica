@@ -3,9 +3,9 @@
 // Contexto de autenticación (cliente). Expone el usuario actual, el estado de
 // carga, un posible mensaje de error y las acciones de entrar/salir.
 //
-// Restricción de dominio en el CLIENTE (primera capa): el login sugiere el
-// dominio institucional con `hd` y, si aun así entra un correo de otro dominio,
-// se cierra la sesión de inmediato y se muestra un mensaje claro en español. La
+// Restricción de acceso en el CLIENTE (primera capa): pasan el dominio
+// institucional y los docentes invitados de la lista blanca; cualquier otro
+// correo cierra sesión de inmediato con un mensaje claro en español. La
 // verificación REAL e infalsificable ocurre en el servidor (segunda capa).
 
 import {
@@ -24,9 +24,19 @@ import {
   type User,
 } from "firebase/auth";
 import { auth, googleProvider, firebaseConfigurado } from "./firebaseClient";
-import { DOMINIO_PERMITIDO, esAdminEmail, esDominioPermitido } from "./config";
+import {
+  DOMINIO_PERMITIDO,
+  esAdminEmail,
+  esDominioPermitido,
+  esInvitado,
+} from "./config";
 
-const MENSAJE_DOMINIO = `Debes usar tu correo institucional de FIDENA (@${DOMINIO_PERMITIDO}).`;
+const MENSAJE_DOMINIO = `Debes usar tu correo institucional de FIDENA (@${DOMINIO_PERMITIDO}) o el correo de docente invitado que registró la Coordinación.`;
+
+/** ¿Este correo tiene permitido entrar? Dominio institucional o lista blanca. */
+function accesoPermitido(email: string | null | undefined): boolean {
+  return esDominioPermitido(email) || esInvitado(email);
+}
 
 const MENSAJE_FALLO_GENERICO = "No se pudo iniciar sesión. Inténtalo de nuevo.";
 
@@ -77,8 +87,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setPersistence(auth, browserLocalPersistence).catch(() => {});
 
     const unsub = onAuthStateChanged(auth, (u) => {
-      if (u && !esDominioPermitido(u.email)) {
-        // Correo de otro dominio: rechazar (segunda capa la aplica el servidor).
+      if (u && !accesoPermitido(u.email)) {
+        // Correo sin acceso: rechazar (segunda capa la aplica el servidor).
         setError(MENSAJE_DOMINIO);
         setUsuario(null);
         signOut(auth!).catch(() => {});
@@ -100,14 +110,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     setError(null);
     try {
-      // `hd` sugiere el dominio institucional en el selector de Google.
+      // Sin `hd`: ese parámetro FILTRA el selector de cuentas de Google y le
+      // escondería su propia cuenta a un docente invitado. El filtro real vive
+      // en las dos capas que sí validan (abajo y en el servidor).
       googleProvider.setCustomParameters({
-        hd: DOMINIO_PERMITIDO,
         prompt: "select_account",
       });
       await setPersistence(auth, browserLocalPersistence);
       const cred = await signInWithPopup(auth, googleProvider);
-      if (!esDominioPermitido(cred.user.email)) {
+      if (!accesoPermitido(cred.user.email)) {
         setError(MENSAJE_DOMINIO);
         await signOut(auth);
       }

@@ -1,10 +1,16 @@
 // Verificación de sesión en el SERVIDOR (segunda capa, infalsificable). Cada
 // ruta de /api la usa antes de procesar: exige un ID token de Firebase válido en
 // el header Authorization y comprueba SIEMPRE que el correo pertenezca al
-// dominio institucional. La restricción del cliente se puede burlar; esta no.
+// dominio institucional o a la lista blanca de docentes invitados. La
+// restricción del cliente se puede burlar; esta no.
 
 import { adminAuth, adminConfigurado } from "./firebaseAdmin";
-import { DOMINIO_PERMITIDO, esAdminEmail, esDominioPermitido } from "../config";
+import {
+  DOMINIO_PERMITIDO,
+  esAdminEmail,
+  esDominioPermitido,
+  esInvitado,
+} from "../config";
 
 export type Sesion = {
   uid: string;
@@ -62,12 +68,12 @@ export async function verificarAuth(request: Request): Promise<ResultadoAuth> {
   }
 
   const email = (decoded.email || "").toLowerCase();
-  if (!esDominioPermitido(email)) {
+  if (!esDominioPermitido(email) && !esInvitado(email)) {
     return {
       ok: false,
       respuesta: json(
         "dominio_no_permitido",
-        `Debes usar tu correo institucional de FIDENA (@${DOMINIO_PERMITIDO}).`,
+        `Debes usar tu correo institucional de FIDENA (@${DOMINIO_PERMITIDO}) o un correo de docente invitado registrado por la Coordinación.`,
         403,
       ),
     };
