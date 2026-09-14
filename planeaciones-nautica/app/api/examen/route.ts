@@ -62,6 +62,8 @@ type Cuerpo = {
   /** Solo Inglés: nivel del que sale el LIBRO del examen. Opcional — si el
    *  cliente no lo manda, se deduce de `materia` ("Inglés Nivel N"). */
   nivel?: string | number;
+  /** Solo Inglés: habilidad del examen (Gram/Vocab, Listening, …). */
+  habilidad?: string;
   forzar?: boolean;
 };
 
@@ -101,6 +103,8 @@ REGLAS:
 
 CANTIDAD OBJETIVO: hasta 10 de opción múltiple, 8 de verdadero/falso, 6 pares para relacionar y 5 preguntas abiertas. Si hay pocos temas, genera menos, pero cada reactivo debe corresponder a un tema real de la lista.
 
+- El campo "introduccion" va SIEMPRE como cadena vacía.
+
 SALIDA: responde SOLO con el objeto JSON del esquema, sin markdown ni texto adicional.`;
 
 // Reglas comunes a los dos moldes de Inglés. Se extrajeron TAL CUAL del prompt
@@ -114,6 +118,7 @@ const REGLAS_COMUNES_INGLES = `RULES:
 - True/False: unambiguous statements; alternate true and false.
 - Matching columns: concept ↔ meaning/use pairs from the same field.
 - Open questions: require producing or using English (explain, describe, respond), not rote definitions.
+- "introduccion": text printed BEFORE the items (reading passage, listening script or exam instructions) ONLY when the SKILL block asks for it; otherwise an empty string.
 
 TARGET COUNTS: up to 10 multiple choice, 8 true/false, 6 matching pairs, 5 open questions. Fewer if there are few topics, but each item must map to a real topic from the list.
 
@@ -155,16 +160,50 @@ function systemPrompt(ambito: Ambito, nivel: string): string {
   return SYSTEM_PROMPT_INGLES;
 }
 
+type HabilidadIngles =
+  | "Gram/Vocab"
+  | "Listening"
+  | "Speaking"
+  | "Reading"
+  | "Writing";
+
+const HABILIDADES: HabilidadIngles[] = [
+  "Gram/Vocab",
+  "Listening",
+  "Speaking",
+  "Reading",
+  "Writing",
+];
+
+function normalizarHabilidad(v: unknown): HabilidadIngles | undefined {
+  const s = (v ?? "").toString().trim();
+  return HABILIDADES.find((h) => h.toLowerCase() === s.toLowerCase());
+}
+
+// Cómo se adapta cada habilidad a las 4 secciones fijas de la plantilla Word
+// (opción múltiple · V/F · relacionar · abiertas). La plantilla no cambia.
+const INSTRUCCIONES_HABILIDAD: Record<HabilidadIngles, string> = {
+  "Gram/Vocab": `SKILL: GRAMMAR & VOCABULARY. Items test the grammar structures and vocabulary of the topics. "introduccion" must be an empty string.`,
+  Reading: `SKILL: READING. Write in "introduccion" an ORIGINAL reading passage (150-220 words, level-appropriate, with a title, related to the topics; daily-life or nautical context). EVERY item (multiple choice, true/false, matching, open questions) must be answerable ONLY by reading that passage: main idea, details, inference, vocabulary in context, reference words.`,
+  Listening: `SKILL: LISTENING. Write in "introduccion" a listening script headed "LISTENING SCRIPT (teacher reads aloud twice - do not print for students)": an ORIGINAL dialogue or monologue of 120-180 words, level-appropriate, related to the topics. EVERY item must be answerable only by listening to that script (gist, specific details, numbers, names, speaker attitude). Do NOT quote long parts of the script inside the items.`,
+  Speaking: `SKILL: SPEAKING. "introduccion" = short instructions for the oral exam (individual interview, time per cadet, assessed: fluency, pronunciation, grammar, vocabulary, interaction). Multiple choice: choose the most appropriate spoken response in a short conversation. True/False: whether a given spoken response is appropriate/correct for the situation. Matching: question or situation <-> appropriate spoken reply/expression. Open questions: SPEAKING PROMPTS the cadet answers orally (describe, role-play, give an opinion, narrate); the teacher marks them with the points shown.`,
+  Writing: `SKILL: WRITING. "introduccion" = short instructions for the writing exam (assessed: task completion, organization, grammar, vocabulary, spelling/punctuation). Multiple choice: choose the correct sentence, connector, punctuation or word order. True/False: whether a written sentence is correct/appropriate for the task. Matching: linking word or expression <-> its function or the sentence it completes. Open questions: WRITING TASKS with a required length in words (40-60 words for basic levels, 80-120 for higher) and a clear purpose (email, message, description, short paragraph).`,
+};
+
 function construirMensajeUsuario(
   ambito: Ambito,
   materia: string,
   tipo: string,
   temas: string[],
+  habilidad?: HabilidadIngles,
 ): string {
   const lista = temas.map((t, i) => `${i + 1}. ${t}`).join("\n");
   if (ambito === "INGLES") {
+    const bloqueHabilidad = habilidad
+      ? `\n${INSTRUCCIONES_HABILIDAD[habilidad]}\n`
+      : "";
     return `Generate the questions for "${tipo}" of the subject "${materia}".
-
+${bloqueHabilidad}
 Topics to assess (base every item on these, in English):
 ${lista}
 
@@ -206,6 +245,11 @@ export async function POST(request: Request) {
       ? cuerpo.total
       : undefined;
 
+  const habilidad =
+    ambito === "INGLES" ? normalizarHabilidad(cuerpo.habilidad) : undefined;
+  // La clave de caché distingue habilidad aunque `tipo` no la traiga.
+  const tipoCache = habilidad ? `${tipo} · ${habilidad}` : tipo;
+
   // Sin temas o sin materia no hay nada que generar → fallback determinista.
   if (!materia || temas.length === 0) {
     return respuesta(null, { motivo: "sin_temas" });
@@ -214,7 +258,7 @@ export async function POST(request: Request) {
   // Cache: mismo alcance (mismos temas) + mismo total = mismo examen. `materia`
   // ya incluye el nivel de Inglés ("Inglés Nivel N"), así que dos niveles con
   // libros distintos nunca comparten entrada.
-  const clave = claveCache({ modelo: MODELO, ambito, materia, tipo, temas, total });
+  const clave = claveCache({ modelo: MODELO, ambito, materia, tipo: tipoCache, temas, total });
   if (!cuerpo.forzar) {
     const cacheado = await leerCache(clave);
     if (cacheado) {
@@ -228,7 +272,7 @@ export async function POST(request: Request) {
   }
 
   const system = systemPrompt(ambito, nivelIngles(cuerpo, materia));
-  const mensaje = construirMensajeUsuario(ambito, materia, tipo, temas);
+  const mensaje = construirMensajeUsuario(ambito, materia, tipo, temas, habilidad);
 
   // Hasta 2 intentos: timeout + reintento. El JSON lo fuerza Claude con el
   // esquema (structured outputs) y se revalida con el MISMO esquema Zod.

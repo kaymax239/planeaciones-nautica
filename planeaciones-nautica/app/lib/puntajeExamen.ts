@@ -158,13 +158,17 @@ export function totalExamenIngles(tipo: string): number {
     : INGLES_EVALUACION.puntosPorHabilidad.parcial;
 }
 
+export type HabilidadIngles =
+  (typeof INGLES_EVALUACION.habilidades)[number];
+
 /**
- * Texto del esquema COMPLETO de Inglés por habilidades, para mostrarlo junto a
- * la ponderación y que se vea dónde encaja este examen (Gram/Vocab):
- *  parcial:   "Gram/Vocab 17 · … · Writing 17 = 85 Conocimiento + 15 Participación y Libro = 100."
- *  ordinario: "Gram/Vocab 20 · … · Writing 20 = 100."
+ * Texto del esquema COMPLETO de Inglés por habilidades. `habilidad` indica
+ * cuál de las 5 es este Word (antes siempre era Gram/Vocab).
  */
-export function esquemaInglesTexto(tipo: string): string {
+export function esquemaInglesTexto(
+  tipo: string,
+  habilidad: HabilidadIngles = "Gram/Vocab",
+): string {
   const ord = esOrdinario(tipo);
   const p = ord
     ? INGLES_EVALUACION.puntosPorHabilidad.ordinario
@@ -174,10 +178,10 @@ export function esquemaInglesTexto(tipo: string): string {
     .join(" · ");
   const conocimiento = p * INGLES_EVALUACION.habilidades.length;
   if (ord) {
-    return `Esquema de evaluación de Inglés (Ordinario, por habilidades): ${habilidades} = ${conocimiento}. Este examen es Gram/Vocab (${p} pts).`;
+    return `Esquema de evaluación de Inglés (Ordinario, por habilidades): ${habilidades} = ${conocimiento}. Este examen es ${habilidad} (${p} pts).`;
   }
   const totalCien = conocimiento + INGLES_EVALUACION.participacionYLibro;
-  return `Esquema de evaluación de Inglés (por habilidades): ${habilidades} = ${conocimiento} Conocimiento + ${INGLES_EVALUACION.participacionYLibro} Participación y Libro = ${totalCien}. Este examen es Gram/Vocab (${p} pts).`;
+  return `Esquema de evaluación de Inglés (por habilidades): ${habilidades} = ${conocimiento} Conocimiento + ${INGLES_EVALUACION.participacionYLibro} Participación y Libro = ${totalCien}. Este examen es ${habilidad} (${p} pts).`;
 }
 
 /* ========================= Reparto por sección ========================= */

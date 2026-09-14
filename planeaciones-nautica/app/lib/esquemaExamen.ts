@@ -40,6 +40,9 @@ const parRelacion = z.object({
 });
 
 export const examenIASchema = z.object({
+  // Texto que va ANTES de los reactivos: pasaje de Reading, guion de
+  // Listening o instrucciones de Speaking/Writing. Cadena vacía si no aplica.
+  introduccion: z.string(),
   opcionMultiple: z.array(reactivoOpcionMultiple),
   verdaderoFalso: z.array(reactivoVerdaderoFalso),
   relacionarColumnas: z.array(parRelacion),
@@ -86,5 +89,8 @@ export function formatearPreguntasIA(
     preguntasAbiertas: [...datos.preguntasAbiertas],
   };
 
-  return componerPreguntasExamen(crudas, puntaje);
+  const res = componerPreguntasExamen(crudas, puntaje);
+  const intro = datos.introduccion?.trim();
+  if (intro) res.opcionMultiple = `${intro}\n\n${res.opcionMultiple}`;
+  return res;
 }

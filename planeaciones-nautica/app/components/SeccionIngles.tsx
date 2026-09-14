@@ -26,9 +26,11 @@ import {
 } from "../lib/examen";
 import { pedirPreguntasExamenIA } from "../lib/pedirPreguntasExamen";
 import {
+  INGLES_EVALUACION,
   totalExamenIngles,
   esquemaInglesTexto,
   resolverPuntaje,
+  type HabilidadIngles,
 } from "../lib/puntajeExamen";
 import { metaF32DesdeAlmacenada } from "../data/inglesMaritimo";
 import type { PresentacionV2 } from "../data/presentaciones/tiposV2";
@@ -162,6 +164,10 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
   // Estado de la generación.
   const [generando, setGenerando] = useState(false);
   const [generandoExamen, setGenerandoExamen] = useState(false);
+  const [habilidadEnCurso, setHabilidadEnCurso] = useState<{
+    nombre: HabilidadIngles;
+    indice: number;
+  } | null>(null);
   const [mensaje, setMensaje] = useState<{
     tipo: "exito" | "error";
     texto: string;
@@ -439,12 +445,10 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
     }
   };
 
-  // Genera un EXAMEN (Parcial 1, Parcial 2 u Ordinario) para el nivel usando el
-  // MISMO motor de la FASE 1 (construirDatosExamen), alimentado con el índice
-  // académico de Inglés del nivel: la secuencia semanal espejada de las
-  // planeaciones históricas (igual fuente que el Avance y la Presentación).
-  // Ponderación por defecto: teórica + nuevo ingreso (uno de los 4 esquemas de
-  // puntaje de la FASE 1); Inglés es una materia teórica.
+  // Genera el EXAMEN del nivel en las 5 HABILIDADES (Gram/Vocab, Listening,
+  // Speaking, Reading, Writing): un Word por habilidad, cada uno con el total
+  // oficial (17 pts en parcial, 20 en ordinario), empaquetados en un ZIP.
+  // Fuente de temas: la secuencia semanal espejada de las históricas.
   const generarExamenIngles = async (
     tipo: string,
     templatePath: string,
@@ -452,9 +456,10 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
   ) => {
     if (!nivel) return;
     setGenerandoExamen(true);
+    setHabilidadEnCurso(null);
     setMensaje(null);
     try {
-      // 1. Índice académico del nivel (temario espejado de las históricas).
+      // 1. Índice académico del nivel.
       const res = await authFetch("/api/planeacion-ingles", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -491,21 +496,17 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
         typeof data.planeacion.objetivoGeneral === "string"
           ? data.planeacion.objetivoGeneral
           : "";
-      // Esquema oficial de Inglés por habilidades (muestra dónde encaja este
-      // examen de Gram/Vocab: 17 pts en parcial / 20 en ordinario, dentro de las
-      // 5 habilidades). Ver lib/puntajeExamen.ts → INGLES_EVALUACION.
-      const ponderacion = esquemaInglesTexto(tipo);
 
-      // 2. Cargar la plantilla del examen. Red de seguridad: si la elegida no
-      // tiene placeholders (caso del ordinario), usa la de parcial.
+      // 2. Plantilla (se lee una vez y se clona por habilidad). Red de
+      // seguridad: si la elegida no tiene placeholders, usa la de parcial.
       let response = await fetch(templatePath);
       if (!response.ok) {
         setMensaje({ tipo: "error", texto: MENSAJE_ERROR_GENERICO });
         return;
       }
       let content = await response.arrayBuffer();
-      let zip = new PizZip(content);
-      const documentXml = zip.file("word/document.xml")?.asText() || "";
+      const documentXml =
+        new PizZip(content).file("word/document.xml")?.asText() || "";
       if (!/\{[^{}]+\}/.test(documentXml)) {
         response = await fetch("/templates/examen-parcial.docx");
         if (!response.ok) {
@@ -513,18 +514,9 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
           return;
         }
         content = await response.arrayBuffer();
-        zip = new PizZip(content);
       }
 
-      const doc = new Docxtemplater(zip, {
-        ...OPCIONES_DOCX,
-      });
-
-      // Preguntas REALES por tema con IA (Gemini), en inglés (ámbito INGLES).
-      // Se acotan al mismo rango que usa el motor; si la IA no está
-      // disponible/falla, `preguntasIA` es undefined y se cae al banco
-      // determinista. Formato Word idéntico en ambos casos.
-      // Total oficial del examen Gram/Vocab: 17 (parcial) / 20 (ordinario).
+      // 3. Puntaje oficial por habilidad (17 parcial / 20 ordinario) y temas.
       const totalExamen = totalExamenIngles(tipo);
       const puntajeExamen = resolverPuntaje({
         total: totalExamen,
@@ -535,46 +527,66 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
         .slice(rango.inicio, rango.fin)
         .map((s) => limpiarTema(s.tema))
         .filter((t) => t.length > 0);
-      const preguntasIA = await pedirPreguntasExamenIA({
-        ambito: "INGLES",
-        materia,
-        tipo,
-        temas: temasExamen,
-        total: totalExamen,
-      });
 
-      doc.render(
-        construirDatosExamen({
-          tipo,
+      // 4. Un Word por habilidad, todos dentro de un ZIP (una sola descarga).
+      const paquete = new PizZip();
+      const sinIA: string[] = [];
+      const habilidades = INGLES_EVALUACION.habilidades;
+      for (let i = 0; i < habilidades.length; i++) {
+        const habilidad = habilidades[i];
+        setHabilidadEnCurso({ nombre: habilidad, indice: i + 1 });
+        const tipoHabilidad = `${tipo} · ${habilidad}`;
+
+        const preguntasIA = await pedirPreguntasExamenIA({
+          ambito: "INGLES",
           materia,
-          datosMateria: {
-            semanas: semanasExamen,
-            objetivoGeneral,
-            unidad: "I",
-          },
-          docente: "",
-          grupo,
-          semestre: `Nivel ${nivel}`,
-          fecha: "",
-          periodoEscolar: "Julio-Diciembre 2026",
-          rango,
-          ponderacion,
-          preguntas: preguntasIA,
-          puntaje: puntajeExamen,
-        }),
-      );
+          tipo: tipoHabilidad,
+          habilidad,
+          temas: temasExamen,
+          total: totalExamen,
+        });
+        if (!preguntasIA) sinIA.push(habilidad);
 
-      const blob = doc.getZip().generate({
-        type: "blob",
-        mimeType:
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      });
-      const nombreArchivo = `${nombreArchivoSeguro(tipo)}_ingles_nivel${nivel}.docx`;
+        const doc = new Docxtemplater(new PizZip(content), {
+          ...OPCIONES_DOCX,
+        });
+        doc.render(
+          construirDatosExamen({
+            tipo: tipoHabilidad,
+            materia,
+            datosMateria: {
+              semanas: semanasExamen,
+              objetivoGeneral,
+              unidad: "I",
+            },
+            docente: "",
+            grupo,
+            semestre: `Nivel ${nivel}`,
+            fecha: "",
+            periodoEscolar: "Julio-Diciembre 2026",
+            rango,
+            ponderacion: esquemaInglesTexto(tipo, habilidad),
+            preguntas: preguntasIA,
+            puntaje: puntajeExamen,
+          }),
+        );
+        const bytes = doc.getZip().generate({ type: "arraybuffer" });
+        paquete.file(
+          `${String(i + 1).padStart(2, "0")}_${nombreArchivoSeguro(habilidad)}_${nombreArchivoSeguro(tipo)}_nivel${nivel}.docx`,
+          bytes,
+        );
+      }
+
+      const blob = paquete.generate({ type: "blob", mimeType: "application/zip" });
+      const nombreArchivo = `${nombreArchivoSeguro(tipo)}_ingles_nivel${nivel}_5-habilidades.zip`;
       saveAs(blob, nombreArchivo);
 
+      const base = `${tipo} generado y descargado: ${nombreArchivo} (5 exámenes, ${totalExamen} pts c/u).`;
       setMensaje({
         tipo: "exito",
-        texto: `${tipo} generado y descargado: ${nombreArchivo}`,
+        texto: sinIA.length
+          ? `${base} Sin reactivos de IA (banco genérico): ${sinIA.join(", ")}.`
+          : base,
       });
     } catch (e) {
       if (e instanceof LimiteError) {
@@ -584,6 +596,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
       setMensaje({ tipo: "error", texto: MENSAJE_ERROR_GENERICO });
     } finally {
       setGenerandoExamen(false);
+      setHabilidadEnCurso(null);
       onUsoActualizado?.();
     }
   };
@@ -1216,8 +1229,10 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
               Exámenes
             </p>
             <p className="mt-2 text-sm text-slate-600">
-              Genera los exámenes del nivel (Parcial 1, Parcial 2 y Ordinario)
-              con las plantillas institucionales.
+              Cada botón genera 5 exámenes del nivel —Grammar &amp; Vocabulary,
+              Listening, Speaking, Reading y Writing— con las plantillas
+              institucionales, en un solo ZIP. Parcial: 17 pts cada uno (85 +
+              15 de Participación y Libro). Ordinario: 20 pts cada uno.
             </p>
             <div className="mt-4 grid gap-3">
               <button
@@ -1266,7 +1281,11 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
             {generandoExamen && (
               <LoadingIA
                 className="mt-4"
-                nota="Puede tardar hasta ~1 minuto. No cierres la página."
+                nota={
+                  habilidadEnCurso
+                    ? `Generando ${habilidadEnCurso.nombre} (${habilidadEnCurso.indice}/5)… ~1 minuto por examen. No cierres la página.`
+                    : "Preparando los 5 exámenes… No cierres la página."
+                }
               />
             )}
           </div>

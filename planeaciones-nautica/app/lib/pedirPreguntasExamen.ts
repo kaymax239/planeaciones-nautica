@@ -19,6 +19,8 @@ export async function pedirPreguntasExamenIA(params: {
   temas: string[];
   /** Valor total del examen en puntos (para el puntaje por sección). */
   total?: number;
+  /** Solo Inglés: habilidad del examen (Gram/Vocab, Listening, …). */
+  habilidad?: string;
 }): Promise<PreguntasExamen | undefined> {
   // Sin temas no hay nada que pedir: fallback directo al determinista.
   if (!params.materia || params.temas.length === 0) return undefined;
