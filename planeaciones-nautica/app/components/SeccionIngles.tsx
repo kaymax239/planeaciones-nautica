@@ -25,6 +25,7 @@ import {
   type SemanaMateria,
 } from "../lib/examen";
 import { pedirPreguntasExamenIA } from "../lib/pedirPreguntasExamen";
+import { rubricaHabilidad } from "../lib/rubricasIngles";
 import {
   INGLES_EVALUACION,
   totalExamenIngles,
@@ -550,8 +551,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
         const doc = new Docxtemplater(new PizZip(content), {
           ...OPCIONES_DOCX,
         });
-        doc.render(
-          construirDatosExamen({
+        const datosExamen = construirDatosExamen({
             tipo: tipoHabilidad,
             materia,
             datosMateria: {
@@ -568,8 +568,13 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
             ponderacion: esquemaInglesTexto(tipo, habilidad),
             preguntas: preguntasIA,
             puntaje: puntajeExamen,
-          }),
-        );
+        });
+        // Speaking y Writing llevan rúbrica al final de los prompts/tareas.
+        const rubrica = rubricaHabilidad(habilidad);
+        if (rubrica) {
+          datosExamen.preguntasAbiertas = `${datosExamen.preguntasAbiertas}\n\n${rubrica}`;
+        }
+        doc.render(datosExamen);
         const bytes = doc.getZip().generate({ type: "arraybuffer" });
         paquete.file(
           `${String(i + 1).padStart(2, "0")}_${nombreArchivoSeguro(habilidad)}_${nombreArchivoSeguro(tipo)}_nivel${nivel}.docx`,

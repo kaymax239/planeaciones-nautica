@@ -22,7 +22,7 @@ const CACHE_DIR = process.env.VERCEL
   : path.join(process.cwd(), ".examenes-cache");
 
 // Súbela si cambias el prompt o el esquema: invalida entradas anteriores.
-export const CACHE_VERSION = "v1";
+export const CACHE_VERSION = "v2"; // v2: 5 habilidades + contexto cotidiano (no náutico)
 
 export interface DatosClaveExamen {
   modelo: string;
