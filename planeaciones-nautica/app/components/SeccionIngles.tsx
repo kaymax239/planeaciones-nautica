@@ -17,6 +17,9 @@ import { OPCIONES_DOCX } from "../lib/opcionesDocx";
 import { saveAs } from "file-saver";
 import { construirDatosF32DesdeIngles } from "../lib/planeacionInglesF32.js";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "../lib/avanceF51";
+import { PanelRegularizacion } from "./PanelRegularizacion";
+import { FIRMANTES_REGULARIZACION } from "../lib/regularizacion";
+import { calendarioDe } from "../config/calendario";
 import { generarPresentacionOficialV2 } from "../lib/pptxOficialV2";
 import {
   construirDatosExamen,
@@ -188,6 +191,11 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
     asignatura: string;
     objetivoGeneral: string;
   }>({ asignatura: "", objetivoGeneral: "" });
+  // Regularización (F-05 + F-04): reutiliza el mismo pool de semanas del avance.
+  const [regularizacionAbierta, setRegularizacionAbierta] = useState(false);
+  const [destinoPool, setDestinoPool] = useState<"avance" | "regularizacion">(
+    "avance",
+  );
 
   // Flujo de Presentación de Inglés (en pasos): "no" oculto; "temas" muestra las
   // casillas de temas/semanas del nivel. Cada tema marcado se genera como un PPTX
@@ -213,6 +221,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
     setPresentacionPaso("no");
     setTemasPres([]);
     setPoolTemasPres([]);
+    setRegularizacionAbierta(false);
   };
 
   const regresarANiveles = () => {
@@ -225,6 +234,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
     setPresentacionPaso("no");
     setTemasPres([]);
     setPoolTemasPres([]);
+    setRegularizacionAbierta(false);
   };
 
   const cerrarAvance = () => {
@@ -258,9 +268,12 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
   // Abre el flujo del avance: obtiene la secuencia semanal del nivel (espejo de
   // las históricas) para ofrecer las semanas/temas a elegir. Sin JSON ni errores
   // técnicos a la vista.
-  const abrirAvance = async () => {
+  const abrirAvance = async (
+    destino: "avance" | "regularizacion" = "avance",
+  ) => {
     if (!nivel) return;
     setMensaje(null);
+    setDestinoPool(destino);
     setCargandoAvance(true);
     try {
       const res = await authFetch("/api/planeacion-ingles", {
@@ -307,7 +320,8 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
             ? data.planeacion.objetivoGeneral
             : "",
       });
-      setAvancePaso("semanas");
+      if (destino === "regularizacion") setRegularizacionAbierta(true);
+      else setAvancePaso("semanas");
     } catch (e) {
       if (e instanceof LimiteError) {
         setMensaje({ tipo: "error", texto: e.message });
@@ -787,6 +801,57 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
     );
   }
 
+  // ── Pantalla de Regularización (F-05 + F-04) ───────────────────────────────
+  if (regularizacionAbierta) {
+    const asignatura = metaAvance.asignatura || `Inglés Nivel ${nivel}`;
+    return (
+      <div className="px-6 py-8 sm:px-10">
+        <Stepper pasos={pasosIngles} />
+        <div className="mb-6 flex flex-col gap-4 rounded-3xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#c8a45d]">
+              Regularización académica · Inglés
+            </p>
+            <h2 className="mt-2 text-2xl font-black text-[#071a33]">
+              Nivel {nivel}
+            </h2>
+            <p className="mt-1 text-sm text-slate-600">
+              Los temas de cada semana se toman de las planeaciones históricas
+              del nivel (los mismos del F-32 y el F-51).
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setRegularizacionAbierta(false)}
+            className="shrink-0 rounded-2xl border border-[#071a33] px-4 py-3 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] transition hover:bg-[#071a33] hover:text-white"
+          >
+            Regresar
+          </button>
+        </div>
+        <PanelRegularizacion
+          key={`ingles-${nivel}`}
+          semanas={poolSemanas.map((s) => ({
+            numero: s.numero,
+            etiqueta: calendarioDe("ago-dic").etiquetaSemana(s.numero),
+            tema: s.tema,
+          }))}
+          asignatura={asignatura}
+          docente=""
+          grupo={grupo || `Nivel ${nivel}`}
+          objetivoGeneral={metaAvance.objetivoGeneral}
+          jefeCarreraInicial={FIRMANTES_REGULARIZACION.PN.jefeCarrera}
+          subdirectorInicial={FIRMANTES_REGULARIZACION.subdirector}
+          nombreArchivo={
+            [`Ingles_Nivel_${nivel}`, grupo]
+              .map((x) => (x || "").replace(/[^\p{L}\p{N}_-]+/gu, "_"))
+              .filter(Boolean)
+              .join("_")
+          }
+        />
+      </div>
+    );
+  }
+
   // ── Pantalla de Avance Programático (en pasos) ─────────────────────────────
   if (avancePaso !== "no") {
     const seleccionadas = poolSemanas
@@ -1204,11 +1269,11 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
             </button>
             <button
               type="button"
-              onClick={abrirAvance}
+              onClick={() => abrirAvance()}
               disabled={ocupado}
               className="rounded-2xl bg-[#071a33] px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-white shadow-lg shadow-slate-300/70 transition hover:bg-[#0b2a52] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {cargandoAvance
+              {cargandoAvance && destinoPool === "avance"
                 ? "Preparando avance…"
                 : "Generar Avance Programático"}
             </button>
@@ -1225,6 +1290,17 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
             {cargandoPresPool
               ? "Preparando presentación…"
               : "Generar Presentación (PowerPoint)"}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => abrirAvance("regularizacion")}
+            disabled={ocupado}
+            className="rounded-2xl border-2 border-[#071a33] bg-white px-6 py-4 text-sm font-black uppercase tracking-[0.16em] text-[#071a33] shadow-sm transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {cargandoAvance && destinoPool === "regularizacion"
+              ? "Preparando regularización…"
+              : "Regularización (F-05 y F-04)"}
           </button>
 
           {/* Exámenes — mismo motor de la FASE 1 (Parcial 1, Parcial 2 y

@@ -37,6 +37,8 @@ import { SeccionIngles } from "./components/SeccionIngles";
 import { Monograma } from "./components/Monograma";
 import { Stepper, type PasoStepper } from "./components/Stepper";
 import { LoadingIA } from "./components/LoadingIA";
+import { PanelRegularizacion } from "./components/PanelRegularizacion";
+import { FIRMANTES_REGULARIZACION } from "./lib/regularizacion";
 import { LoginScreen } from "./components/LoginScreen";
 import { useAuth } from "./lib/authContext";
 import { authFetch } from "./lib/authFetch";
@@ -245,7 +247,7 @@ export default function Home() {
   // Pestaña activa dentro de la materia seleccionada. El formulario de datos
   // generales queda arriba y es común a todas las pestañas.
   const [tabMateria, setTabMateria] = useState<
-    "f32" | "f51" | "examenes" | "presentaciones" | "worksheets"
+    "f32" | "f51" | "examenes" | "presentaciones" | "worksheets" | "regularizacion"
   >("f32");
 
   // Periodo de impartición para los documentos: derivado del periodo escolar
@@ -298,6 +300,23 @@ export default function Home() {
           etiqueta: s.semana,
           tema: s.tema,
         }))
+    : [];
+
+  // Semanas de la planeación para la pestaña Regularización: mismas semanas y
+  // temas que el F-32, más el objetivo específico de su unidad (va al F-05).
+  const semanasRegularizacion = esProgramaOficial(programaMateria)
+    ? distribuirPrograma(
+        programaMateria,
+        "",
+        calendarioActivo.etiquetaSemana,
+      ).flatMap((bloque) =>
+        bloque.semanas.map((s) => ({
+          etiqueta: s.semana,
+          tema: s.tema,
+          objetivoUnidad: bloque.objetivoEspecifico,
+        })),
+      )
+        .map((s, i) => ({ ...s, numero: i + 1 }))
     : [];
 
   // Consumo del mes del docente (para "Presentaciones: 3 de 10").
@@ -1477,6 +1496,7 @@ export default function Home() {
                       ["examenes", "Exámenes"],
                       ["presentaciones", "Presentaciones"],
                       ["worksheets", "Worksheets"],
+                      ["regularizacion", "Regularización"],
                     ] as const
                   ).map(([id, etiqueta]) => (
                     <button
@@ -1945,6 +1965,38 @@ export default function Home() {
                       )}
                     </div>
                   )}
+
+                  {/* ── Pestaña: Regularización (F-05 + F-04) ─────────────── */}
+                  {tabMateria === "regularizacion" &&
+                    (esProgramaOficial(programaMateria) ? (
+                      <PanelRegularizacion
+                        key={`${carrera}-${materiaSeleccionada}`}
+                        semanas={semanasRegularizacion}
+                        asignatura={programaMateria.nombre}
+                        docente={docente}
+                        grupo={grupo || semestreBonito}
+                        objetivoGeneral={programaMateria.objetivoGeneral}
+                        ponderacion={textoPonderacionEvaluacion(
+                          tipoMateriaDesdePrograma(programaMateria),
+                          generacionPorSemestre(semestreSeleccionado),
+                        )}
+                        jefeCarreraInicial={
+                          FIRMANTES_REGULARIZACION[carrera].jefeCarrera
+                        }
+                        subdirectorInicial={FIRMANTES_REGULARIZACION.subdirector}
+                        nombreArchivo={
+                          [materiaSeleccionada, grupo]
+                            .map((x) => nombreArchivoSeguro(x || ""))
+                            .filter(Boolean)
+                            .join("_") || "materia"
+                        }
+                      />
+                    ) : (
+                      <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-6 py-6 text-center text-sm font-semibold text-slate-500">
+                        La regularización solo está disponible para materias con
+                        programa oficial.
+                      </div>
+                    ))}
 
                   {/* ── Pestaña: Worksheets ──────────────────────────────── */}
                   {tabMateria === "worksheets" && (
