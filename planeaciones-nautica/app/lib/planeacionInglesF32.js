@@ -59,7 +59,18 @@ const LIBRO_POR_NIVEL = {
   "6": "idiscover",
   "7": "idiscover",
   "8": "idiscover",
+  // VII semestre (Inglés Marítimo VII / Maritime English 1). Guía institucional:
+  // planeación de Lic. Lorenzo F. Marsili, Ago–Dic 2026, igual para todos los VII.
+  MN1: "merchantnavy",
 };
+
+/** Referencias del VII semestre (tal como las usa la planeación guía). */
+function refsMerchantNavy() {
+  return [
+    "Nisbet, A., Whitcher, A. & Logie, C. (1997). Marlins English for Seafarers Study Pack 1. Marlins. Edinburgh, UK.",
+    "Evans, V., & Dooley, J. (2015). Career Paths: Merchant Navy (Book 1). Express Publishing.",
+  ];
+}
 
 /** Referencia iDiscover del nivel. `n` ya viene normalizado (string, trim). */
 function refIDiscover(n) {
@@ -96,6 +107,7 @@ export function bibliografiaDeNivel(nivel) {
   const n = String(nivel == null ? "" : nivel).trim();
   const libro = LIBRO_POR_NIVEL[n];
   if (!libro) return [];
+  if (libro === "merchantnavy") return refsMerchantNavy();
   return libro === "startup" ? refsStartUp(n) : [refIDiscover(n)];
 }
 
@@ -112,6 +124,9 @@ function enfoquePorDefectoDeNivel(nivel) {
   const libro = LIBRO_POR_NIVEL[String(nivel == null ? "" : nivel).trim()];
   if (libro === "idiscover") {
     return "Enfoque iDiscover; aprendizaje activo y contextualizado del inglés.";
+  }
+  if (libro === "merchantnavy") {
+    return "Enfoque de inglés marítimo (Marlins / Career Paths Merchant Navy); aprendizaje activo y situado a bordo.";
   }
   if (libro === "startup") {
     return "Enfoque StartUp (Pearson); aprendizaje activo y contextualizado del inglés.";

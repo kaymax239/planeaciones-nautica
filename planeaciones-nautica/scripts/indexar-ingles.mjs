@@ -75,6 +75,11 @@ function contarPalabras(texto) {
  */
 function inferirNivel(nombre) {
   const base = sinAcentos(nombre).toLowerCase();
+  // VII semestre — Inglés Marítimo VII / Maritime English 1 (Marlins Study Pack 1
+  // + Career Paths Merchant Navy). Nivel propio "MN1": NO es iDiscover. Solo
+  // matchea "merchantnavy1" / "maritime english 1" explícitos en el nombre; los
+  // "merchantnavy2" (VIII sem, ING 853) siguen sin nivel a propósito.
+  if (/merchant\s*navy\s*1(?!\d)|maritime\s*english\s*1(?!\d)/.test(base)) return "MN1";
   const m = base.match(/(?:lvl|lv|level|nivel)\s*\.?\s*([1-9]\d?)/);
   return m ? m[1] : null;
 }
