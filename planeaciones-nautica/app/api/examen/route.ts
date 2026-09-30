@@ -35,6 +35,15 @@ import {
   tienePlaneacionAlmacenada,
   type PlaneacionInglesAlmacenada,
 } from "../../data/inglesMaritimo";
+import {
+  esHabilidadProduccion,
+  metaWriting,
+  textoSpeaking,
+  textoWriting,
+  type HabilidadProduccion,
+} from "../../lib/examenProduccion";
+import { totalExamenIngles } from "../../lib/puntajeExamen";
+import * as z from "zod/v4";
 import { verificarAuth } from "../../lib/server/auth";
 import { verificarLimite, contarUso } from "../../lib/server/limites";
 
@@ -191,17 +200,104 @@ const INSTRUCCIONES_HABILIDAD: Record<HabilidadIngles, string> = {
   Writing: `SKILL: WRITING. "introduccion" = short instructions for the writing exam (assessed: task completion, organization, grammar, vocabulary, spelling/punctuation). Multiple choice: choose the correct sentence, connector, punctuation or word order. True/False: whether a written sentence is correct/appropriate for the task. Matching: linking word or expression <-> its function or the sentence it completes. Open questions: WRITING TASKS with a required length in words (40-60 words for basic levels, 80-120 for higher) and a clear purpose (email, message, description, short paragraph).`,
 };
 
+/* ===================== Speaking / Writing (producción) ===================== */
+// Sin reactivos: una entrevista oral de 3 min o UN párrafo, calificados con la
+// rúbrica fija de app/lib/rubricasIngles.ts. Devuelven el texto de la tarea en
+// `opcionMultiple`; las otras 3 secciones van vacías.
+
+const speakingIASchema = z.object({
+  parte1: z.array(z.string().min(1)).min(1),
+  parte2: z
+    .array(
+      z.object({
+        tema: z.string().min(1),
+        indicaciones: z.array(z.string().min(1)).min(1),
+      }),
+    )
+    .min(1),
+  parte3: z.array(z.string().min(1)).min(1),
+});
+
+const writingIASchema = z.object({
+  titulo: z.string().min(1),
+  situacion: z.string().min(1),
+  puntos: z.array(z.string().min(1)).min(1),
+});
+
+function instruccionProduccion(
+  habilidad: HabilidadProduccion,
+  nivel: string,
+): string {
+  if (habilidad === "Speaking") {
+    return `SKILL: SPEAKING — individual oral interview, 3 MINUTES MAXIMUM in total. No written items.
+Return:
+- "parte1": 6 short personal questions (warm-up, about 45 seconds; the teacher asks 3), each one practising a different topic of the list.
+- "parte2": 3 cue cards (one per cadet, about 1 min 15 s of continuous speaking). "tema" starts with "Talk about…" or "Describe…"; "indicaciones" = 3 short guiding points.
+- "parte3": 4 follow-up questions (about 1 minute; the teacher asks 2) that make the cadet give reasons, compare or talk about plans.
+Questions must be answerable in a few sentences at this level and must use the grammar and vocabulary of the topics.`;
+  }
+  const m = metaWriting(nivel);
+  return `SKILL: WRITING — ONE paragraph of ${m.minPalabras}-${m.maxPalabras} words (CEFR ${m.cefr}), the writing standard required at the end of Semester I for this level: ${m.estructura}; connectors ${m.conectores}; grammar: ${m.gramatica}. No other items.
+Return:
+- "titulo": the topic of the paragraph (short).
+- "situacion": 1-2 sentences that give the cadet a real purpose and reader (e.g. a paragraph for a new classmate, an application, a message to a friend).
+- "puntos": 4 content points the paragraph must include, each one practising a different topic/structure of the list.
+The task must be doable in ${m.minPalabras}-${m.maxPalabras} words.`;
+}
+
+async function generarProduccion(
+  habilidad: HabilidadProduccion,
+  system: string,
+  mensaje: string,
+  nivel: string,
+  total: number,
+): Promise<PreguntasExamen> {
+  const opciones = { modelo: MODELO, maxTokens: MAX_TOKENS, esfuerzo: "medium" as const };
+  const texto =
+    habilidad === "Speaking"
+      ? textoSpeaking(
+          (
+            await conTimeout(
+              generarJSONEstructuradoClaude(system, mensaje, speakingIASchema, opciones),
+              TIMEOUT_MS,
+            )
+          ).datos,
+          total,
+        )
+      : textoWriting(
+          (
+            await conTimeout(
+              generarJSONEstructuradoClaude(system, mensaje, writingIASchema, opciones),
+              TIMEOUT_MS,
+            )
+          ).datos,
+          nivel,
+          total,
+        );
+  return {
+    opcionMultiple: texto,
+    verdaderoFalso: "",
+    relacionarColumnas: "",
+    preguntasAbiertas: "",
+  };
+}
+
 function construirMensajeUsuario(
   ambito: Ambito,
   materia: string,
   tipo: string,
   temas: string[],
   habilidad?: HabilidadIngles,
+  nivel = "",
 ): string {
   const lista = temas.map((t, i) => `${i + 1}. ${t}`).join("\n");
   if (ambito === "INGLES") {
     const bloqueHabilidad = habilidad
-      ? `\n${INSTRUCCIONES_HABILIDAD[habilidad]}\n`
+      ? `\n${
+          esHabilidadProduccion(habilidad)
+            ? instruccionProduccion(habilidad, nivel)
+            : INSTRUCCIONES_HABILIDAD[habilidad]
+        }\n`
       : "";
     return `Generate the questions for "${tipo}" of the subject "${materia}".
 ${bloqueHabilidad}
@@ -248,8 +344,13 @@ export async function POST(request: Request) {
 
   const habilidad =
     ambito === "INGLES" ? normalizarHabilidad(cuerpo.habilidad) : undefined;
+  const produccion = esHabilidadProduccion(habilidad);
   // La clave de caché distingue habilidad aunque `tipo` no la traiga.
-  const tipoCache = habilidad ? `${tipo} · ${habilidad}` : tipo;
+  // Speaking/Writing: formato nuevo (entrevista 3 min / párrafo) → sufijo
+  // propio para no servir los exámenes viejos de reactivos del caché v2.
+  const tipoCache = habilidad
+    ? `${tipo} · ${habilidad}${produccion ? " · produccion-v1" : ""}`
+    : tipo;
 
   // Sin temas o sin materia no hay nada que generar → fallback determinista.
   if (!materia || temas.length === 0) {
@@ -272,8 +373,32 @@ export async function POST(request: Request) {
     return respuesta(null, { motivo: "sin_api_key" });
   }
 
-  const system = systemPrompt(ambito, nivelIngles(cuerpo, materia));
-  const mensaje = construirMensajeUsuario(ambito, materia, tipo, temas, habilidad);
+  const nivel = nivelIngles(cuerpo, materia);
+  const system = systemPrompt(ambito, nivel);
+  const mensaje = construirMensajeUsuario(ambito, materia, tipo, temas, habilidad, nivel);
+
+  if (produccion) {
+    const totalProd = total ?? totalExamenIngles(tipo);
+    let prod: PreguntasExamen | null = null;
+    let motivoProd = "fallo_ia";
+    for (let intento = 1; intento <= 2 && !prod; intento++) {
+      try {
+        prod = await generarProduccion(habilidad, system, mensaje, nivel, totalProd);
+      } catch (e) {
+        motivoProd =
+          e instanceof ErrorJSONClaude
+            ? e.motivo
+            : e instanceof Error && e.message === "timeout"
+              ? "timeout"
+              : "fallo_ia";
+        console.error(`examen ${habilidad} intento ${intento}:`, e);
+      }
+    }
+    if (!prod) return respuesta(null, { motivo: motivoProd });
+    await escribirCache(clave, prod);
+    await contarUso(sesionAuth.sesion, "examenes");
+    return respuesta(prod, { cacheado: false, modelo: MODELO });
+  }
 
   // Hasta 2 intentos: timeout + reintento. El JSON lo fuerza Claude con el
   // esquema (structured outputs) y se revalida con el MISMO esquema Zod.

@@ -28,7 +28,17 @@ import {
   type SemanaMateria,
 } from "../lib/examen";
 import { pedirPreguntasExamenIA } from "../lib/pedirPreguntasExamen";
-import { rubricaHabilidad } from "../lib/rubricasIngles";
+import {
+  adaptarPlantillaIngles,
+  bloqueProduccionXml,
+} from "../lib/rubricasIngles";
+import {
+  esHabilidadProduccion,
+  respaldoSpeaking,
+  respaldoWriting,
+  textoSpeaking,
+  textoWriting,
+} from "../lib/examenProduccion";
 import {
   INGLES_EVALUACION,
   totalExamenIngles,
@@ -61,6 +71,19 @@ const labelClass =
 // del índice (los niveles con planeaciones históricas) en un useEffect: así, al
 // subir nuevos niveles y reindexar, aparecen solos sin tocar el código.
 const NIVELES_FALLBACK = ["1", "2", "3", "4", "5", "6", "7", "8"];
+
+// Niveles que no son "Nivel N" de iDiscover/StartUp. MN1 = VII semestre
+// (Inglés Marítimo VII / Maritime English 1, Marlins + Career Paths Merchant
+// Navy); su guía es la planeación de Marsili, igual para todos los VII.
+const ETIQUETAS_NIVEL: Record<string, { etiqueta: string; asignatura: string }> = {
+  MN1: {
+    etiqueta: "Merchant Navy · VII sem",
+    asignatura: "Inglés Marítimo VII (Maritime English 1)",
+  },
+};
+const etiquetaNivel = (n: string) => ETIQUETAS_NIVEL[n]?.etiqueta ?? `Nivel ${n}`;
+const asignaturaNivel = (n: string) =>
+  ETIQUETAS_NIVEL[n]?.asignatura ?? `Inglés Nivel ${n}`;
 
 const MENSAJE_BIBLIOTECA_NO_DISPONIBLE =
   "La biblioteca académica de este nivel aún no está disponible.";
@@ -314,7 +337,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
         asignatura:
           typeof data.planeacion.asignatura === "string"
             ? data.planeacion.asignatura
-            : `Inglés Nivel ${nivel}`,
+            : asignaturaNivel(nivel),
         objetivoGeneral:
           typeof data.planeacion.objetivoGeneral === "string"
             ? data.planeacion.objetivoGeneral
@@ -355,9 +378,9 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
       });
       doc.render(
         construirDatosAvanceF51(seleccionadas, {
-          asignatura: metaAvance.asignatura || `Inglés Nivel ${nivel}`,
+          asignatura: metaAvance.asignatura || asignaturaNivel(nivel),
           licenciatura: "Inglés",
-          semestre: `Nivel ${nivel}`,
+          semestre: etiquetaNivel(nivel),
           docente: "",
           grupo,
           objetivosCompetencias: metaAvance.objetivoGeneral,
@@ -506,7 +529,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
         return;
       }
 
-      const materia = `Inglés Nivel ${nivel}`;
+      const materia = asignaturaNivel(nivel);
       const objetivoGeneral =
         typeof data.planeacion.objetivoGeneral === "string"
           ? data.planeacion.objetivoGeneral
@@ -552,17 +575,43 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
         setHabilidadEnCurso({ nombre: habilidad, indice: i + 1 });
         const tipoHabilidad = `${tipo} · ${habilidad}`;
 
-        const preguntasIA = await pedirPreguntasExamenIA({
+        let preguntasIA = await pedirPreguntasExamenIA({
           ambito: "INGLES",
           materia,
           tipo: tipoHabilidad,
           habilidad,
           temas: temasExamen,
           total: totalExamen,
+          nivel,
         });
         if (!preguntasIA) sinIA.push(habilidad);
 
-        const doc = new Docxtemplater(new PizZip(content), {
+        // Speaking/Writing: tarea única (entrevista de 3 min / un párrafo) con
+        // rúbrica. Sin IA, respaldo determinista con la misma forma.
+        const produccion = esHabilidadProduccion(habilidad);
+        if (produccion && !preguntasIA) {
+          preguntasIA = {
+            opcionMultiple:
+              habilidad === "Speaking"
+                ? textoSpeaking(respaldoSpeaking(temasExamen), totalExamen)
+                : textoWriting(respaldoWriting(temasExamen), nivel, totalExamen),
+            verdaderoFalso: "",
+            relacionarColumnas: "",
+            preguntasAbiertas: "",
+          };
+        }
+
+        // Plantilla adaptada: sin "TEMAS EVALUADOS"; Speaking/Writing con una
+        // sola sección (tarea + rúbrica).
+        const zipHabilidad = new PizZip(content);
+        const xmlBase = zipHabilidad.file("word/document.xml")?.asText();
+        if (xmlBase) {
+          zipHabilidad.file(
+            "word/document.xml",
+            adaptarPlantillaIngles(xmlBase, habilidad, totalExamen),
+          );
+        }
+        const doc = new Docxtemplater(zipHabilidad, {
           ...OPCIONES_DOCX,
         });
         const datosExamen = construirDatosExamen({
@@ -575,7 +624,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
             },
             docente: "",
             grupo,
-            semestre: `Nivel ${nivel}`,
+            semestre: etiquetaNivel(nivel),
             fecha: "",
             periodoEscolar: "Julio-Diciembre 2026",
             rango,
@@ -583,12 +632,12 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
             preguntas: preguntasIA,
             puntaje: puntajeExamen,
         });
-        // Speaking y Writing llevan rúbrica al final de los prompts/tareas.
-        const rubrica = rubricaHabilidad(habilidad);
-        if (rubrica) {
-          datosExamen.preguntasAbiertas = `${datosExamen.preguntasAbiertas}\n\n${rubrica}`;
-        }
-        doc.render(datosExamen);
+        doc.render({
+          ...datosExamen,
+          bloqueProduccion: produccion
+            ? bloqueProduccionXml(habilidad, totalExamen)
+            : "",
+        });
         const bytes = doc.getZip().generate({ type: "arraybuffer" });
         paquete.file(
           `${String(i + 1).padStart(2, "0")}_${nombreArchivoSeguro(habilidad)}_${nombreArchivoSeguro(tipo)}_nivel${nivel}.docx`,
@@ -781,7 +830,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
                 onClick={() => seleccionarNivel(n)}
                 className="rounded-2xl border border-[#c8a45d]/40 bg-white px-5 py-6 text-lg font-black text-[#071a33] shadow-sm transition hover:-translate-y-0.5 hover:border-[#c8a45d] hover:bg-[#071a33] hover:text-white hover:shadow-xl"
               >
-                Nivel {n}
+                {etiquetaNivel(n)}
                 <span className="mt-2 block text-xs font-bold uppercase tracking-[0.2em] text-[#c8a45d]">
                   Inglés
                 </span>
@@ -803,7 +852,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
 
   // ── Pantalla de Regularización (F-05 + F-04) ───────────────────────────────
   if (regularizacionAbierta) {
-    const asignatura = metaAvance.asignatura || `Inglés Nivel ${nivel}`;
+    const asignatura = metaAvance.asignatura || asignaturaNivel(nivel);
     return (
       <div className="px-6 py-8 sm:px-10">
         <Stepper pasos={pasosIngles} />
@@ -813,7 +862,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
               Regularización académica · Inglés
             </p>
             <h2 className="mt-2 text-2xl font-black text-[#071a33]">
-              Nivel {nivel}
+              {etiquetaNivel(nivel)}
             </h2>
             <p className="mt-1 text-sm text-slate-600">
               Los temas de cada semana se toman de las planeaciones históricas
@@ -837,7 +886,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
           }))}
           asignatura={asignatura}
           docente=""
-          grupo={grupo || `Nivel ${nivel}`}
+          grupo={grupo || etiquetaNivel(nivel)}
           objetivoGeneral={metaAvance.objetivoGeneral}
           jefeCarreraInicial={FIRMANTES_REGULARIZACION.PN.jefeCarrera}
           subdirectorInicial={FIRMANTES_REGULARIZACION.subdirector}
@@ -866,7 +915,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
               Avance Programático F-51 · Inglés
             </p>
             <h2 className="mt-2 text-2xl font-black text-[#071a33]">
-              Nivel {nivel}
+              {etiquetaNivel(nivel)}
             </h2>
             <p className="mt-1 text-sm text-slate-600">
               {avancePaso === "semanas"
@@ -971,12 +1020,12 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
                   <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
                     <span className="text-slate-300">Asignatura</span>
                     <span className="text-right font-bold">
-                      {metaAvance.asignatura || `Inglés Nivel ${nivel}`}
+                      {metaAvance.asignatura || asignaturaNivel(nivel)}
                     </span>
                   </div>
                   <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
                     <span className="text-slate-300">Nivel</span>
-                    <span className="font-bold">Nivel {nivel}</span>
+                    <span className="font-bold">{etiquetaNivel(nivel)}</span>
                   </div>
                   <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
                     <span className="text-slate-300">Grupo</span>
@@ -1039,7 +1088,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
               Presentación (PowerPoint) · Inglés
             </p>
             <h2 className="mt-2 text-2xl font-black text-[#071a33]">
-              Nivel {nivel}
+              {etiquetaNivel(nivel)}
             </h2>
             <p className="mt-1 text-sm text-slate-600">
               Marca los temas a generar. Cada tema se descarga como una
@@ -1161,11 +1210,11 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
             Inglés
           </p>
           <h2 className="mt-2 text-2xl font-black text-[#071a33]">
-            Planeación de Inglés · Nivel {nivel}
+            Planeación de Inglés · {etiquetaNivel(nivel)}
           </h2>
         </div>
         <div className="hidden rounded-2xl bg-[#071a33] px-4 py-3 text-right text-xs font-bold uppercase tracking-[0.16em] text-white sm:block">
-          Nivel {nivel}
+          {etiquetaNivel(nivel)}
         </div>
       </div>
 
@@ -1182,7 +1231,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
           <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
             <label>
               <span className={labelClass}>Nivel</span>
-              <input className={readOnlyClass} value={`Nivel ${nivel}`} readOnly />
+              <input className={readOnlyClass} value={etiquetaNivel(nivel)} readOnly />
             </label>
             <label>
               <span className={labelClass}>Grupo</span>
@@ -1234,7 +1283,7 @@ export function SeccionIngles({ onVolver, onUsoActualizado }: Props) {
               Vista institucional
             </p>
             <h3 className="mt-3 text-2xl font-black leading-tight">
-              Inglés · Nivel {nivel}
+              Inglés · {etiquetaNivel(nivel)}
             </h3>
             <div className="mt-6 space-y-4 rounded-2xl border border-white/15 bg-white/10 p-5">
               <div className="flex justify-between gap-4 border-b border-white/10 pb-3 text-sm">
