@@ -47,6 +47,11 @@ import { lanzarSiLimite, LimiteError } from "./lib/limiteCliente";
 import { construirDatosAvanceF51, periodoDesdeSemanas } from "./lib/avanceF51";
 import { construirDatosExamen, semanasDesdePrograma } from "./lib/examen";
 import { pedirPreguntasExamenIA } from "./lib/pedirPreguntasExamen";
+import {
+  construirPreguntasES,
+  datosMachoteES,
+  plantillaExamenES,
+} from "./lib/examenEspanol";
 import { pedirWorksheetIA, WorksheetError } from "./lib/pedirWorksheet";
 import { worksheetADocx } from "./lib/worksheetDocx";
 import {
@@ -991,9 +996,12 @@ export default function Home() {
 
   const generarExamen = async (
     tipo: string,
-    templatePath: string,
+    _plantillaAnterior: string,
     rango: RangoSemanas,
   ) => {
+    // Machote oficial PN/MN (07-oct-2026) para parciales y ordinario. Inglés
+    // no pasa por aquí (SeccionIngles.tsx) y conserva sus plantillas.
+    const templatePath = plantillaExamenES(carrera);
     setMensajeExamen(null);
     setGenerandoExamen(true);
     try {
@@ -1078,8 +1086,13 @@ export default function Home() {
         total: totalExamen,
       });
 
-      doc.render(
-        construirDatosExamen({
+      // Sin IA: 10 preguntas genéricas con el mismo formato del machote.
+      const preguntasES =
+        preguntasIA ??
+        construirPreguntasES(materiaSeleccionada, temasExamen, totalExamen);
+
+      doc.render({
+        ...construirDatosExamen({
           tipo,
           materia: materiaSeleccionada,
           datosMateria,
@@ -1090,10 +1103,18 @@ export default function Home() {
           periodoEscolar: periodo,
           rango,
           ponderacion: ponderacionExamen,
-          preguntas: preguntasIA,
+          preguntas: preguntasES,
           puntaje: puntajeExamen,
         }),
-      );
+        ...datosMachoteES({
+          tipo,
+          materia: materiaSeleccionada,
+          grupo,
+          carrera,
+          total: totalExamen,
+          preguntas: preguntasES,
+        }),
+      });
 
       const blob = doc.getZip().generate({
         type: "blob",

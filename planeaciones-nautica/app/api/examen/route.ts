@@ -43,6 +43,7 @@ import {
   type HabilidadProduccion,
 } from "../../lib/examenProduccion";
 import { totalExamenIngles } from "../../lib/puntajeExamen";
+import { formatearExamenES, MACHOTE_ES } from "../../lib/examenEspanol";
 import * as z from "zod/v4";
 import { verificarAuth } from "../../lib/server/auth";
 import { verificarLimite, contarUso } from "../../lib/server/limites";
@@ -104,13 +105,12 @@ const SYSTEM_PROMPT_ES = `Eres un docente de una escuela náutica mercante mexic
 REGLAS:
 - Cada reactivo se basa ESTRICTAMENTE en los temas que se te entregan. No inventes temas fuera de esa lista ni evalúes contenidos ajenos a la materia.
 - Cubre los temas de forma balanceada: reparte las preguntas entre los distintos temas de la lista, no te concentres en uno solo.
-- Opción múltiple: 1 sola opción correcta y 3 distractores plausibles (que un estudiante desprevenido podría elegir), no absurdos. Marca la correcta con su índice (0=A, 1=B, 2=C, 3=D).
-- Verdadero/Falso: afirmaciones inequívocas (ni tramposas ni triviales); alterna verdaderas y falsas.
-- Relacionar columnas: pares concepto ↔ definición/aplicación, todos del mismo campo para que exija comprensión.
-- Preguntas abiertas: exigen explicar, aplicar o analizar (no memorizar una definición).
+- Opción múltiple: 1 sola opción correcta y 3 distractores plausibles (que un estudiante desprevenido podría elegir), no absurdos. Marca la correcta con su índice (0=A, 1=B, 2=C, 3=D). Varía la posición de la respuesta correcta; no sigas un patrón (A-B-C-D…).
+- Preguntas de desarrollo ("preguntasAbiertas"): exigen explicar, aplicar, analizar o resolver un problema/cálculo cuando la materia lo permita (no memorizar una definición). Cada una se contesta en pocos renglones, en el espacio del examen.
+- "verdaderoFalso" y "relacionarColumnas" van SIEMPRE como arreglos vacíos: el formato institucional no los usa.
 - Redacción en ESPAÑOL, terminología náutica/técnica correcta.
 
-CANTIDAD OBJETIVO: hasta 10 de opción múltiple, 8 de verdadero/falso, 6 pares para relacionar y 5 preguntas abiertas. Si hay pocos temas, genera menos, pero cada reactivo debe corresponder a un tema real de la lista.
+CANTIDAD EXACTA: el examen lleva ${MACHOTE_ES.numPreguntas} preguntas del mismo valor: ${MACHOTE_ES.opcionMultiple} de opción múltiple y ${MACHOTE_ES.desarrollo} de desarrollo. Si hay pocos temas, repite temas con enfoques distintos, pero cada reactivo debe corresponder a un tema real de la lista.
 
 - El campo "introduccion" va SIEMPRE como cadena vacía.
 
@@ -348,9 +348,13 @@ export async function POST(request: Request) {
   // La clave de caché distingue habilidad aunque `tipo` no la traiga.
   // Speaking/Writing: formato nuevo (entrevista 3 min / párrafo) → sufijo
   // propio para no servir los exámenes viejos de reactivos del caché v2.
+  // PN/MN: machote oficial de 10 preguntas (07-oct-2026) → sufijo propio para
+  // no servir los exámenes viejos de 4 secciones guardados en caché.
   const tipoCache = habilidad
     ? `${tipo} · ${habilidad}${produccion ? " · produccion-v1" : ""}`
-    : tipo;
+    : ambito === "INGLES"
+      ? tipo
+      : `${tipo} · machote-es-v1`;
 
   // Sin temas o sin materia no hay nada que generar → fallback determinista.
   if (!materia || temas.length === 0) {
@@ -422,8 +426,14 @@ export async function POST(request: Request) {
       // ámbito+tipo (Inglés usa su esquema por habilidades; PN/MN 40/20/20/20).
       // Si fuera inválido (p. ej. IA devolvió una sección vacía), lanza → se
       // reintenta/cae a fallback determinista, que sí completa las 4 secciones.
-      const puntaje = resolverPuntaje({ total, ambito, tipo });
-      preguntas = formatearPreguntasIA(datos, puntaje);
+      if (ambito === "INGLES") {
+        const puntaje = resolverPuntaje({ total, ambito, tipo });
+        preguntas = formatearPreguntasIA(datos, puntaje);
+      } else {
+        // Machote PN/MN: 10 preguntas del mismo valor. Lanza si vienen < 10
+        // → reintento / respaldo determinista.
+        preguntas = formatearExamenES(datos, total);
+      }
     } catch (e) {
       if (e instanceof ErrorJSONClaude) {
         // "respuesta_vacia" | "json_invalido" — mismos motivos que antes.
